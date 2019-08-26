@@ -22,7 +22,8 @@ export default class NeonNerdlet extends React.Component {
 
     this.state = {
       accounts: [],
-      account: []
+      account: [],
+      accountId: null
     }
   }
 
@@ -40,17 +41,21 @@ export default class NeonNerdlet extends React.Component {
   }
 
   accountChange(account) {
-    console.log('selected...', account)
-    this.setState({account: account})
+    const { accounts } = this.state
+    const accountId = accounts.filter(a => a.value === account[0]).shift().id
+    this.setState({
+      account: account,
+      accountId: accountId
+    })
   }
 
   render() {
-    const { accounts, account, boards, board } = this.state
-    
+    const { accounts, account, accountId, boards, board } = this.state
+
     return (
       <div className="container">
         <Select label="Account" placeholder="Select an account" values={account} options={accounts} onChange={this.accountChange} />
-        {!account.length && <BoxSpinner />}
+        {!accountId && <BoxSpinner />}
       </div>
     )
   }
