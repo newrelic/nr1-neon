@@ -1,0 +1,27 @@
+{
+    "private": true,
+    "name": "nr1-neon-nerdpack",
+    "description": "Nerdpack nr1-neon-nerdpack",
+    "version": "0.1.0",
+    "scripts": {
+        "start": "nr1 nerdpack:serve",
+        "test": "exit 0"
+    },
+    "nr1": {
+        "uuid": "3fb4eb0a-83c3-4b57-92d8-41f8418cc537",
+        "sdkVersion": 2
+    },
+    "bugs": {
+      "email": "opensource@newrelic.com"
+    },
+    "dependencies": {
+        "prop-types": "^15.6.2",
+        "react": "^16.6.3",
+        "react-dom": "^16.6.3"
+    },
+    "browserslist": [
+        "last 2 versions",
+        "not ie < 11",
+        "not dead"
+    ]
+}

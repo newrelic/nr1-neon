@@ -1,0 +1,8 @@
+{
+    "schemaType": "LAUNCHER",
+    "id": "neon-launcher",
+    "displayName": "Neon",
+    "description": "Status Board for Alerts",
+    "icon": "interface_placeholders_icon-placeholder",
+    "rootNerdletId": "3fb4eb0a-83c3-4b57-92d8-41f8418cc537.neon-nerdlet"
+}
