@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:100,400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:100,400,500,700&display=swap');
 
 @import 'etc';
 
 body {
   background: white;
-	font-family: "Poppins", sans-serif;
+	font-family: 'Fira Sans', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6{
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Fira Sans', sans-serif;
 	line-height: 1.5;
 }
 
@@ -64,7 +64,7 @@ h1, h2, h3, h4, h5, h6{
 		}
 
 		.hr-text {
-			font-family: "Poppins", sans-serif;
+			font-family: 'Fira Sans', sans-serif;
 		  padding: 0 15px;
 		}
 	}
@@ -94,7 +94,7 @@ h1, h2, h3, h4, h5, h6{
 
 	width: 100%;
 	max-width: 64rem;
-	margin: 0 auto;
+	margin: 4em auto 0;
 }
 
 .board_card {
@@ -116,6 +116,10 @@ h1, h2, h3, h4, h5, h6{
 		color: #180839;
 		text-decoration: none;
     @include transition(color .5s, background-color .5s, transform .5s);
+
+    h2 {
+      font: 700 40px/48px 'Fira Sans', sans-serif;
+    }
 
 		&:before {
 			position: absolute;
@@ -172,6 +176,123 @@ h1, h2, h3, h4, h5, h6{
 	}
 }
 // /boards
+
+// board
+.board-title {
+  text-align: center;
+  margin: 1em auto;
+
+  h2 {
+    font: 700 40px/48px 'Fira Sans', sans-serif;
+  }
+}
+
+.board-table {
+  border-collapse: collapse;
+  margin: 1em auto 4em;
+
+  td {
+    min-width: 3em;
+    // font: 500 1.5em/2.25em 'Fira Sans', sans-serif;
+    height: 3em;
+    text-align: center;
+    padding: 1em 1.5em;
+    border: 1px solid #ccc;
+    border-top-width: 0;
+
+    span {
+      display: block;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .text {
+      font: 500 1.5em 'Fira Sans', sans-serif;
+      border-radius: 1em;
+      padding: 0 .3em;
+
+      &.ok {
+        background: #F2FCF3;
+        border: 1px solid #77D375;
+        color: #1B7B19;
+      }
+
+      &.warn {
+        background: #FCF9F2;
+        border: 1px solid #FFC368;
+        color: #BB7408;
+      }
+
+      &.alert {
+        background: #FCF5F6;
+        border: 1px solid #FF7060;
+        color: #CA3F30;
+      }
+    }
+
+    .circle {
+      display: block;
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+
+      &.unknown {
+        border: 2px solid #AEAEAE;
+      }
+
+      &.ok {
+        background: #77D375;
+        box-shadow: 0 0 0 .75em rgba(119,211,117, 0.1);
+      }
+
+      &.alert {
+        background: #FF7060;
+        animation: pulse 1s infinite;
+      }
+    }
+
+    @keyframes pulse
+    {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 112, 96, 0.3);
+      }
+      100% {
+        box-shadow: 0 0 0 2em rgba(255, 112, 96, 0);
+      }
+    }
+  }
+
+  th.rotate {
+    height: 8em;
+    white-space: nowrap;
+    font: 500 1.5em/2.25em 'Fira Sans', sans-serif;
+
+    & > div {
+      -webkit-transform: translate(25px, 51px) rotate(315deg);
+              transform: translate(25px, 51px) rotate(315deg);
+      width: 3em;
+
+      & > span {
+        // border-bottom: 1px solid #ccc;
+        // padding: 5px 10px;
+      }
+    }
+  }
+
+  th.row-header {
+    padding: 0 1em;
+    border-bottom: 1px solid #ccc;
+    font: 500 1.5em/2.25em 'Fira Sans', sans-serif;
+  }
+}
+
+
+.control-bar {
+  text-align: center;
+  font: 100 1em 'Fira Sans', sans-serif;
+}
+
+// /board
 
 
 // box spinner
@@ -281,9 +402,6 @@ $body: #081f2c;
 }
 
 .select .label {
-  // display: block;
-  // margin-bottom: 6px;
-  // font-weight: 600;
   display: block;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -291,10 +409,18 @@ $body: #081f2c;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #2a3434;
-  font-weight: 600;
-  font-size: inherit;
-  line-height: inherit;
+  // color: #2a3434;
+  // font-weight: 600;
+  // font-size: inherit;
+  // line-height: inherit;
+
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: .2px;
+  // padding-top: 3px;
+  // padding-bottom: 5px;
+  text-transform: uppercase;
+  color: #8e9494;
 }
 
 .select .selection {
