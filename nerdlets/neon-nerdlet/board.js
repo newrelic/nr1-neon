@@ -33,6 +33,7 @@ export default class Board extends React.Component {
       alerts: {},
       board:  ((props || {}).board || {}).name || '',
       event: ((props || {}).board || {}).event,
+      timeoutId: null,
       modalHidden: true
     }
 
@@ -46,6 +47,7 @@ export default class Board extends React.Component {
     this.persistData = this.persistData.bind(this)
     this.fetchAlertStatuses = this.fetchAlertStatuses.bind(this)
     this.parseAlertStatuses = this.parseAlertStatuses.bind(this)
+    this.humanizeNumber = this.humanizeNumber.bind(this)
     this.getCellContent = this.getCellContent.bind(this)
 
     // nerdlet.setUrlState({
@@ -54,6 +56,18 @@ export default class Board extends React.Component {
   }
 
   componentDidMount() {
+    this.getBoard()
+  }
+
+  componentDidUpdate(prevProps) {
+    const { timeRange } = this.props
+    const prevTimeRange = prevProps.timeRange
+
+    if (!timeRange || !prevTimeRange) return
+    if (Object.keys(timeRange).every(t => prevTimeRange.hasOwnProperty(t) && timeRange[t] === prevTimeRange[t])) return
+
+    const { timeoutId } = this.state
+    if (timeoutId) clearTimeout(timeoutId)
     this.getBoard()
   }
 
@@ -168,7 +182,7 @@ export default class Board extends React.Component {
 
   fetchAlertStatuses(cells) {
     if (!cells) cells = this.state.cells
-    const { fetching } = this.state
+    const { fetching, event } = this.state
     if (fetching) return
     const { board, accountId, timeRange } = this.props
 
@@ -178,9 +192,9 @@ export default class Board extends React.Component {
       return a
     }, {policies: [], attributes: []})
 
-    const timePeriod = 'SINCE ' + (timeRange && timeRange.duration ? timeRange.duration : timeRange.begin_time + ' UNTIL ' + timeRange.end_time)
+    const timePeriod = 'SINCE ' + (timeRange && timeRange.duration ? ((timeRange.duration/1000) + ' SECONDS AGO') : timeRange.begin_time + ' UNTIL ' + timeRange.end_time)
     const alertsQuery = (policies.length) ? `alerts: nrql(query: "SELECT latest(current_state) AS 'AlertStatus', latest(incident_id) AS 'IncidentId' FROM ${board.event} WHERE policy_name IN (${policies.join(',')}) FACET policy_name, condition_name ${timePeriod} LIMIT MAX") { results }` : ''
-    const valuesQuery = (attributes.length) ? `values: nrql(query: "SELECT ${attributes.join(', ')} FROM ${board.event} ${timePeriod} LIMIT 1") { results }` : ''
+    const valuesQuery = (attributes.length) ? `values: nrql(query: "SELECT ${attributes.join(', ')} FROM ${board.event} ${timePeriod}") { results }` : ''
 
     const gql = `{
       actor {
@@ -200,7 +214,10 @@ export default class Board extends React.Component {
         fetching: false
       })
     }).finally(() => {
-      setTimeout(this.fetchAlertStatuses, 60000)
+      const timeoutId = setTimeout(this.fetchAlertStatuses, 60000)
+      this.setState({
+        timeoutId: timeoutId
+      })
     })
   }
 
@@ -217,7 +234,7 @@ export default class Board extends React.Component {
     if (valuesResults && 'timestamp' in valuesResults) delete valuesResults.timestamp
 
     const data = Object.keys(valuesResults).reduce((a, c) => {
-      a[c] = parseFloat(valuesResults[c])
+      a[c] = valuesResults[c]
       return a
     }, {})
 
@@ -226,6 +243,17 @@ export default class Board extends React.Component {
       alerts: alerts,
       fetching: false
     })
+  }
+
+  humanizeNumber(value, style) {
+    if (!value && value != 0) return ''
+    value = Number(value)
+    if (Number.isNaN(value)) return ''
+    const formatter = new Intl.NumberFormat({style: style || 'decimal', maximumFractionDigits: 2})
+    if (value < 1000) return formatter.format(value)
+    let suffixes = ['', 'k', 'm', 'b', 't']
+    const thousands = 0 === value ? value : Math.floor(Math.log(value) / Math.log(1000))
+    return formatter.format(parseFloat((value / Math.pow(1000, thousands)).toFixed(2))) + suffixes[thousands]
   }
 
   getCellContent(row, col) {
@@ -238,7 +266,14 @@ export default class Board extends React.Component {
     if (match.policy) {
       return <span className={'circle ' + ((match.policy in alerts) ? 'alert' : 'ok')} />
     } else if (match.details) {
-      return <span className={'text '}>{data[match.details.name]}</span>
+      const num = data[match.details.name]
+      const status = {class: ''}
+      if (match.details.is && match.details.value) {
+        const { is, value } = match.details
+        const comparator = `${num} ${(is === 'more') ? '>' : (is === 'less') ? '<' : '='} ${value}`
+        status.class = eval(comparator) ? 'alert' : 'ok'
+      }
+      return <span className={'text ' + status.class}>{this.humanizeNumber(num)}</span>
     }
 
   }
