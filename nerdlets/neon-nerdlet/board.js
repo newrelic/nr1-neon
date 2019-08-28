@@ -217,7 +217,7 @@ export default class Board extends React.Component {
     if (valuesResults && 'timestamp' in valuesResults) delete valuesResults.timestamp
 
     const data = Object.keys(valuesResults).reduce((a, c) => {
-      a[c] = valuesResults[c]
+      a[c] = parseFloat(valuesResults[c])
       return a
     }, {})
 
