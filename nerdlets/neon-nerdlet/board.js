@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { launcher, nerdlet, AccountStorageQuery, AccountStorageMutation, NerdGraphQuery, Icon, Modal, Tabs, TabsItem, TextField, Button } from 'nr1'
+import { nerdlet, AccountStorageQuery, AccountStorageMutation, NerdGraphQuery, Icon, Modal } from 'nr1'
 
 import BoardAdmin from './board-admin'
 
@@ -99,8 +99,8 @@ export default class Board extends React.Component {
     }, {policies: [], attributes: []})
 
     const timePeriod = 'SINCE ' + (timeRange && timeRange.duration ? ((timeRange.duration/1000) + ' SECONDS AGO') : timeRange.begin_time + ' UNTIL ' + timeRange.end_time)
-    const alertsQuery = (policies.length) ? `alerts: nrql(query: "SELECT latest(current_state) AS 'AlertStatus', latest(incident_id) AS 'IncidentId' FROM ${board.event} WHERE policy_name IN (${policies.join(',')}) FACET policy_name, condition_name ${timePeriod} LIMIT MAX") { results }` : ''
-    const valuesQuery = (attributes.length) ? `values: nrql(query: "SELECT ${attributes.join(', ')} FROM ${board.event} ${timePeriod}") { results }` : ''
+    const alertsQuery = (policies.length) ? `alerts: nrql(query: "SELECT latest(current_state) AS 'AlertStatus', latest(incident_id) AS 'IncidentId' FROM ${event} WHERE policy_name IN (${policies.join(',')}) FACET policy_name, condition_name ${timePeriod} LIMIT MAX") { results }` : ''
+    const valuesQuery = (attributes.length) ? `values: nrql(query: "SELECT ${attributes.join(', ')} FROM ${event} ${timePeriod}") { results }` : ''
 
     const gql = `{
       actor {
@@ -190,9 +190,9 @@ export default class Board extends React.Component {
     } else if (match.details) {
       const num = data[match.details.name]
       const status = {class: ''}
-      if (match.details.is && match.details.value) {
+      if (num && (match.details.is && match.details.value)) {
         const { is, value } = match.details
-        const comparator = `${num} ${(is === 'more') ? '>' : (is === 'less') ? '<' : '='} ${value}`
+        const comparator = `${num} ${(is === 'more') ? '>' : (is === 'less') ? '<' : '=='} ${value}`
         status.class = eval(comparator) ? 'alert' : 'ok'
       }
       return <span className={'text ' + status.class}>{this.humanizeNumber(num)}</span>

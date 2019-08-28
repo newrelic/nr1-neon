@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Icon, Modal, Tabs, TabsItem, TextField, Button } from 'nr1'
 
 import Select from './select'
+import SegmentedControl from './segmented-control'
 
 export default class BoardAdmin extends React.Component {
   static propTypes = {
@@ -89,7 +90,7 @@ export default class BoardAdmin extends React.Component {
           deets.func = (attrParts.length === 2) ? attrParts[0].replace(/[^\w]/gi, '') : 'latest'
         }
         if (!('name' in deets)) deets.name = deets.func + '_' + deets.key
-        deets.str = deets.func + '(' + deets.key + ')' + ' AS ' + deets.name
+        deets.str = deets.func + '(`' + deets.key + '`)' + ' AS ' + deets.name
         deets.is = isType
         deets.value = valueName
         cells.push({row: rowForCell[0], col: colForCell[0], attribute: attributeName, details: deets})
@@ -136,35 +137,20 @@ export default class BoardAdmin extends React.Component {
             <div style={{display: 'grid', gridTemplateColumns: '1fr', gridGap: '1em', marginTop: '2em'}}>
               <Select label="Row" placeholder="" values={rowForCell || []} options={rows.map(r => ({value: r}))} onChange={(val) => this.cellSelect(val, 'row')} />
               <Select label="Column" placeholder="" values={colForCell || []} options={cols.map(c => ({value: c}))} onChange={(val) => this.cellSelect(val, 'col')} />
-              <ul class="segmented-control">
-                  <li class="segmented-control__item">
-                      <input class="segmented-control__input" type="radio" name="cell-alert" value="alert" checked={cellType === 'alert'} />
-                      <label class="segmented-control__label" for="cell-alert"  onClick={(e) => this.optionChange('alert', 'cell')}>NR Alert</label>
-                  </li>
-                  <li class="segmented-control__item">
-                      <input class="segmented-control__input" type="radio" name="cell-data" value="data" checked={cellType === 'data'} />
-                      <label class="segmented-control__label" for="cell-data" onClick={(e) => this.optionChange('data', 'cell')}>NR Data</label>
-                  </li>
-              </ul>
+              <SegmentedControl title="cell" selected="" onChange={this.optionChange} options={[
+                {name: 'alert', value: 'NR Alert'},
+                {name: 'data', value: 'NR Data'}
+              ]} />
               {cellType === 'alert' && <TextField label="Alert Policy" placeholder="" onChange={(e) => this.textUpdated(e, 'policy')} value={policyName} />}
               {cellType === 'data' && (
                 <div>
                   <TextField label="Attribute Name" placeholder="" onChange={(e) => this.textUpdated(e, 'attribute')} value={attributeName} />
                   <div style={{display: 'grid', gridTemplateColumns: '3fr 1fr', gridGap: '.5em', alignItems: 'center'}}>
-                    <ul class="segmented-control">
-                        <li class="segmented-control__item">
-                            <input class="segmented-control__input" type="radio" name="is-less" value="alert" checked={isType === 'less'} />
-                            <label class="segmented-control__label" for="is-more"  onClick={(e) => this.optionChange('less', 'is')}>less than</label>
-                        </li>
-                        <li class="segmented-control__item">
-                            <input class="segmented-control__input" type="radio" name="is-equal" value="equal" checked={isType === 'equal'} />
-                            <label class="segmented-control__label" for="is-equal" onClick={(e) => this.optionChange('equal', 'is')}>equals</label>
-                        </li>
-                        <li class="segmented-control__item">
-                            <input class="segmented-control__input" type="radio" name="is-more" value="alert" checked={isType === 'more'} />
-                            <label class="segmented-control__label" for="is-more"  onClick={(e) => this.optionChange('more', 'is')}>greater than</label>
-                        </li>
-                    </ul>
+                    <SegmentedControl title="is" selected="" onChange={this.optionChange} options={[
+                      {name: 'less', value: 'less than'},
+                      {name: 'equal', value: 'equals'},
+                      {name: 'more', value: 'greater than'}
+                    ]} />
                     <TextField label="Value" placeholder="" onChange={(e) => this.textUpdated(e, 'value')} value={valueName} style={{marginBottom: '.75em'}} />
                   </div>
                 </div>
