@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "nr1-neon-nerdpack",
-    "description": "Nerdpack nr1-neon-nerdpack",
+    "description": "Neon Nerdpack",
     "version": "0.1.0",
     "scripts": {
         "start": "nr1 nerdpack:serve",
@@ -14,6 +14,7 @@
     "bugs": {
         "email": "opensource@newrelic.com"
     },
+    "license" : "Apache-2.0",
     "dependencies": {
         "prop-types": "^15.6.2",
         "react": "^16.6.3",
