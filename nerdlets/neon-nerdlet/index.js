@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { nerdlet, AccountsQuery, AccountStorageQuery, UserStorageQuery, UserStorageMutation } from 'nr1'
+import { nerdlet, Toast, AccountsQuery, AccountStorageQuery, AccountStorageMutation, UserStorageQuery, UserStorageMutation, NerdGraphQuery } from 'nr1'
 
 import BoxSpinner from './box-spinner.js'
 import MotherBoard from './mother-board.js'
@@ -29,16 +29,30 @@ export default class NeonNerdlet extends React.Component {
       accounts: [],
       account: [],
       accountId: null,
+      currentUser: {},
       boards: {},
       board: null
     }
   }
 
   componentDidMount() {
-    AccountsQuery.query().then(this.parseAccounts)
-    UserStorageQuery.query({ collection: 'neondb', documentId: 'lastAccount' }).then(res => (
-      console.log(((((res || {}).data || {}).actor || {}).nerdStorage || {}).document)
-    ))
+    AccountsQuery.query().then(this.parseAccounts).then(() => {
+      return UserStorageQuery.query({ collection: 'neondb', documentId: 'lastAccount' })
+    }).then(res => {
+      const lastAccount = ((((res || {}).data || {}).actor || {}).nerdStorage || {}).document
+      if (lastAccount) this.accountChange(lastAccount)
+
+      const gql = `{ actor { user { email id name } } }`
+      return NerdGraphQuery.query({query: gql})
+    }).then(res => {
+      const user = (((res || {}).data || {}).actor || {}).user
+      if (user) this.setState({
+        currentUser: (user) ? {
+          email: ('email' in user) ? user.email : null,
+          id: ('id' in user) ? user.id : null,
+          name: ('name' in user) ? user.name : null} : {}
+      })
+    })
   }
 
   parseAccounts(res) {
@@ -80,7 +94,7 @@ export default class NeonNerdlet extends React.Component {
         })
       })
     }).catch(err => {
-      console.error(err)
+      Toast.showToast('Unable to fetch data', {description: err.message || '', type: Toast.TYPE.CRITICAL})
     })
   }
 
@@ -96,7 +110,7 @@ export default class NeonNerdlet extends React.Component {
   }
 
   render() {
-    const { accounts, account, accountId, boards, board } = this.state
+    const { accounts, account, accountId, boards, board, currentUser } = this.state
     const { launcherUrlState } = this.props
 
     return (
@@ -104,7 +118,7 @@ export default class NeonNerdlet extends React.Component {
         <Select label="Account" placeholder="Select an account" values={account} options={accounts} onChange={this.accountChange} />
         {!accountId && <BoxSpinner />}
         {accountId && !board && <MotherBoard boards={boards || {}} accountId={accountId} onClicked={this.displayBoard} />}
-        {accountId && board && <Board board={board} accountId={accountId} timeRange={launcherUrlState.timeRange} onClose={this.closeBoard} />}
+        {accountId && board && <Board board={board} accountId={accountId} currentUser={currentUser} timeRange={launcherUrlState.timeRange} onClose={this.closeBoard} />}
       </div>
     )
   }

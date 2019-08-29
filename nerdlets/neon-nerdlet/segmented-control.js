@@ -33,11 +33,11 @@ export default class SegmentedControl extends React.Component {
     const { title, options } = this.props
 
     return (
-      <ul class="segmented-control">
+      <ul className="segmented-control">
           {options.map(o => (
-            <li class="segmented-control__item" key={o.name}>
-              <input class="segmented-control__input" type="radio" name={title} id={'option-' + o.name} value={o.name} checked={selectedOption === o.name} />
-              <label class="segmented-control__label" for={'option-' + o.name}  onClick={(e) => this.optionChange(o.name)}>{o.value}</label>
+            <li className="segmented-control__item" key={o.name}>
+              <input className="segmented-control__input" type="radio" name={title} id={'option-' + o.name} value={o.name} checked={selectedOption === o.name} onChange={() => {}} />
+              <label className="segmented-control__label" htmlFor={'option-' + o.name}  onClick={(e) => this.optionChange(o.name)}>{o.value}</label>
             </li>
           ))}
       </ul>

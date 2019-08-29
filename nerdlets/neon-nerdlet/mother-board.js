@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Icon, Modal, TextField, Button, AccountStorageMutation } from 'nr1'
+import { Icon, Modal, TextField, Button, Toast, AccountStorageMutation } from 'nr1'
 
 export default class MotherBoard extends React.Component {
   static propTypes = {
@@ -78,7 +78,9 @@ export default class MotherBoard extends React.Component {
             documentId: 'data',
             document: {}})
         })
-        .catch(err => console.error('write fail', err))
+        .catch(err => {
+          Toast.showToast('Unable to save board', {description: err.message || '', type: Toast.TYPE.CRITICAL})
+        })
         .finally(() => this.setState({ modalHidden: true }))
     }
   }

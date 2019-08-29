@@ -294,6 +294,122 @@ h1, h2, h3, h4, h5, h6{
 
 // /board
 
+// timeline
+.timeline {
+
+  ul {
+    padding: 1em 0 0 2em;
+    margin: 0;
+    list-style: none;
+    position: relative;
+
+    &::before {
+      content: ' ';
+      height: 100%;
+      width: 1px;
+      background-color: #AEAEAE;
+      position: absolute;
+      top: 0;
+      left: 2.5em;
+      z-index: -1;
+    }
+  }
+
+  li div{
+    display: inline-block;
+    margin: 1em 0;
+    vertical-align: top;
+  }
+
+  .bullet {
+    width: 1em;
+    height: 1em;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: #FFF;
+    z-index: 1;
+    margin-right: 1em;
+
+    &.unknown {
+      border: 2px solid #AEAEAE;
+    }
+
+    &.ok {
+      background: #77D375;
+      box-shadow: 0 0 0 .75em rgba(119,211,117, 0.1);
+    }
+
+    &.alert {
+      background: #FF7060;
+      box-shadow: 0 0 0 .75em rgba(255, 112, 96, 0.1);
+      //animation: pulse 1s infinite;
+    }
+  }
+
+  .desc {
+    width: 90%;
+  }
+
+  .comment {
+    width: 90%;
+    margin-left: 2em;
+
+    .message {
+      padding: 1em .75em;
+      border-radius: .5em;
+      width: 90%;
+      position: relative;
+      background-color: rgba(174, 174, 174, .1);
+
+      &:after {
+        bottom: 100%;
+        left: 10%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-bottom-color: rgba(174, 174, 174, .1);
+        border-width: 1em;
+        margin-left: -1em;
+      }
+    }
+  }
+
+  h5 {
+    font: 400 1em 'Fira Sans', sans-serif;
+    margin: 0;
+  }
+
+  .details, .options {
+    font: 100 1em 'Fira Sans', sans-serif;
+    display: block;
+    margin: 0
+  }
+
+  .options {
+    color: #ccc;
+  }
+
+  input.textarea {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 90%;
+    height: 1em;
+    z-index: 99;
+    background: #fafafa;
+    border: none;
+    outline: none;
+    padding: 2em;
+    color: #666;
+    font: 400 1em/1.1em 'Fira Sans', sans-serif;
+}
+
+}
+// /timeline
 
 // box spinner
 .spinner{

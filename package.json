@@ -12,7 +12,7 @@
         "sdkVersion": 2
     },
     "bugs": {
-      "email": "opensource@newrelic.com"
+        "email": "opensource@newrelic.com"
     },
     "dependencies": {
         "prop-types": "^15.6.2",
