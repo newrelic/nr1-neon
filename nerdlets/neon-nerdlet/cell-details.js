@@ -16,7 +16,9 @@ export default class CellDetails extends React.Component {
 
     this.state = {
       timeline: {},
-      comment: ''
+      comment: '',
+      comments: {},
+      fetching: false
     }
 
     this.saveComment = this.saveComment.bind(this)
@@ -28,28 +30,36 @@ export default class CellDetails extends React.Component {
     this.getCellDetails()
   }
 
-  componentDidUpdate(prevProps) {
-    const { cell } = this.props
-    const prevCell = (this.prevProps || {}).cell
-  }
-
   saveComment() {
-    const { timeline, comment } = this.state
-    const { boardId, accountId, currentUser } = this.props
+    const { timeline, comment, comments } = this.state
+    const { board, accountId, currentUser } = this.props
 
     const timestamp = (new Date()).getTime()
+    const commentObject = {comment: comment, timestamp: timestamp, user: currentUser}
 
-    timeline[timestamp] = {comment: comment, timestamp: timestamp, user: currentUser}
+    timeline[timestamp] = {comment: commentObject}
+    comments[timestamp] = commentObject
 
-    this.setState({
-      timeline: timeline,
-      comment: ''
+    AccountStorageMutation.mutate({
+      actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+      collection: 'neondb-' + board.id,
+      accountId: accountId,
+      documentId: 'comments',
+      document: comments
+    }).then(() => {
+      this.setState({
+        timeline: timeline,
+        comments: comments,
+        comment: ''
+      })
     })
   }
 
   getCellDetails() {
-    const { timeline } = this.state
+    const { timeline, fetching } = this.state
     const { board, accountId, cell } = this.props
+
+    if (fetching) return
 
     const data = {}
     if (cell.policy) data.query = `SELECT condition_name, current_state, details, duration, incident_url, violation_chart_url FROM ${board.event} WHERE policy_name = '${cell.policy}' SINCE 30 days ago LIMIT MAX`
@@ -65,24 +75,40 @@ export default class CellDetails extends React.Component {
       }
     }`
 
+    this.setState({
+      fetching: true
+    })
+
     NerdGraphQuery.query({query: gql}).then(res => {
       const results = (((((res || {}).data || {}).actor || {}).account || {}).nrql || {}).results || []
       this.setState({
+        fetching: false,
         timeline: results.reduce((a, c) => {
           a[c.timestamp] = {event: c}
           return a
         }, timeline)
       }, () => this.fetchComments())
+    }).catch(err => {
+      this.setState({
+        fetching: false
+      })
     })
   }
 
   fetchComments() {
-    const { timeline } = this.state
+    const { timeline, comments } = this.state
     const { board, accountId } = this.props
 
     AccountStorageQuery.query({collection: 'neondb-' + board.id, accountId: accountId, documentId: 'comments'}).then(res => {
       const results = (((((res || {}).data || {}).actor || {}).account || {}).nerdStorage || {}).document
-      // TODO: load comments from nerdstore
+
+      if (results) this.setState({
+        comments: {...comments, ...results},
+        timeline: Object.keys(results).reduce((a, c) => {
+          a[results[c].timestamp] = {comment: results[c]}
+          return a
+        }, timeline)
+      })
     })
   }
 
@@ -112,9 +138,9 @@ export default class CellDetails extends React.Component {
                 )}
                 {'comment' in timeline[t] && (
                   <div className="comment">
-                    {'user' in timeline[t] && 'name' in timeline[t].user && <span className="details">{timeline[t].user.name}</span>}
-                    <span className="options">{new Intl.DateTimeFormat('en-US', {dateStyle: 'full', timeStyle: 'long'}).format(new Date(timeline[t].timestamp))}</span>
-                    <div className="message">{timeline[t].comment}</div>
+                    {'user' in timeline[t].comment && 'name' in timeline[t].comment.user && <span className="details">{timeline[t].comment.user.name}</span>}
+                    <span className="options">{new Intl.DateTimeFormat('en-US', {dateStyle: 'full', timeStyle: 'long'}).format(new Date(timeline[t].comment.timestamp))}</span>
+                    <div className="message">{timeline[t].comment.comment}</div>
                   </div>
                 )}
               </li>

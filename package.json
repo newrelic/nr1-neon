@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "nr1-neon-nerdpack",
+    "name": "nr1-neon",
     "description": "Neon Nerdpack",
     "version": "0.1.0",
     "scripts": {
