@@ -16,6 +16,8 @@ This project is distributed under the [Apache 2 license](blob/master/LICENSE).
 
 In order to view status of New Relic alerts, you'll need to set up a webhook notification channel for the alert policies.
 
+See [Managing Notification Channels](https://docs.newrelic.com/docs/alerts/new-relic-alerts/managing-notification-channels) on [New Relic Documentation](https://docs.newrelic.com/).
+
 ## Getting started
 
 Clone this repository and run the following scripts:
