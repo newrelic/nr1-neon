@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default class BoxSpinner extends React.Component {
   render() {
@@ -9,6 +9,6 @@ export default class BoxSpinner extends React.Component {
         <div className="side right"></div>
         <div className="side bottom"></div>
       </div>
-    )
+    );
   }
 }
