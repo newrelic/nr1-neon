@@ -750,60 +750,6 @@ $body: #081f2c;
     color: #333;
     // font: 400 1em 'Fira Sans', sans-serif;
 }
-// /segmented control
-
-
-// .rotate span {
-//   display: inline-block;
-//   border-bottom: 1px solid lightgrey;
-//   height: 50px;
-//   padding: 7px 0 7px;
-//   text-indent: 1px;
-//   position: relative;
-//   left: 14px;
-//   top: 7px;
-//   min-width: 210px;
-//   background-color: #edeeee;
-// }
-
-// .rotate span:before {
-//   content: "";
-//   display: inline-block;
-//   width: 100%;
-//   height: 100%;
-//   position: absolute;
-//   left: -55px;
-//   top: -1px;
-//   background-color: #edeeee;
-//   z-index: -9;
-// }
-
-// .rotate span:after {
-//   content: "";
-//   display: inline-block;
-//   width: 100%;
-//   height: 74%;
-//   position: absolute;
-//   left: 100px;
-//   /* opacity: .5; */
-//   top: 5px;
-//   background-color: #f7f7f8;
-//   z-index: 1;
-//   transform: rotate(45deg);
-// }
-
-// .rotate:nth-child(2) span:before {
-//   border-top: 1px solid lightgrey;
-// }
-
-// th.row-header {
-//   background-color: #edeeee;
-//   position: relative;
-// }
-
-// th.row-header:first-child {
-//   border-top: 1px solid lightgrey;
-// }
 
 tbody tr:first-child td {
   box-shadow: inset 0 1px 0 lightgrey;
@@ -826,9 +772,3 @@ tr:nth-child(2n) > td {
 tbody {
   box-shadow: 3px 3px 3px rgba(0,0,0, .025);
 }
-
-// table.board-table {
-//   margin-top: 2em;
-//   position: relative;
-//   z-index: 0;
-// }
