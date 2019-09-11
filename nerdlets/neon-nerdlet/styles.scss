@@ -189,7 +189,9 @@ h1, h2, h3, h4, h5, h6{
 
 .board-table {
   border-collapse: collapse;
-  margin: 1em auto 4em;
+  margin: 2em auto 4em;
+  position: relative;
+  z-index: 0;
 
   td {
     min-width: 3em;
@@ -262,20 +264,63 @@ h1, h2, h3, h4, h5, h6{
     }
   }
 
+  th {
+    background-color: transparent;
+  }
+
   th.rotate {
     height: 8em;
     white-space: nowrap;
+    overflow: visible;
     font: 500 1.5em/2.25em 'Fira Sans', sans-serif;
 
     & > div {
       -webkit-transform: translate(25px, 51px) rotate(315deg);
               transform: translate(25px, 51px) rotate(315deg);
       width: 3em;
+    }
 
-      & > span {
-        // border-bottom: 1px solid #ccc;
-        // padding: 5px 10px;
+    &:nth-child(2) span:before {
+      border-top: 1px solid lightgrey;
+    }
+
+    span {
+      display: inline-block;
+      border-bottom: 1px solid lightgrey;
+      height: 50px;
+      padding: 7px 0 7px;
+      text-indent: 1px;
+      position: relative;
+      left: 14px;
+      top: 7px;
+      min-width: 210px;
+      background-color: #edeeee;
+
+      &:before {
+        content: "";
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: -55px;
+        top: -1px;
+        background-color: #edeeee;
+        z-index: -9;
       }
+
+      &:after {
+        content: "";
+        display: inline-block;
+        width: 100%;
+        height: 74%;
+        position: absolute;
+        left: 100px;
+        top: 5px;
+        background-color: #f7f7f8;
+        z-index: 1;
+        transform: rotate(45deg);
+      }
+
     }
   }
 
@@ -283,6 +328,12 @@ h1, h2, h3, h4, h5, h6{
     padding: 0 1em;
     border-bottom: 1px solid #ccc;
     font: 500 1.5em/2.25em 'Fira Sans', sans-serif;
+    background-color: #edeeee;
+    position: relative;
+
+    &:first-child {
+      border-top: 1px solid lightgrey;
+    }
   }
 }
 
@@ -699,4 +750,25 @@ $body: #081f2c;
     color: #333;
     // font: 400 1em 'Fira Sans', sans-serif;
 }
-// /segmented control
+
+tbody tr:first-child td {
+  box-shadow: inset 0 1px 0 lightgrey;
+}
+
+tbody tr {
+  position:relative;
+  z-index: 10000;
+}
+
+tbody td {
+  position:relative;
+  z-index: 10000;
+}
+
+tr:nth-child(2n) > td {
+  background-color: #ffffff;
+}
+
+tbody {
+  box-shadow: 3px 3px 3px rgba(0,0,0, .025);
+}
