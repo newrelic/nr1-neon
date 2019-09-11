@@ -15,7 +15,7 @@ import {
 import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
 import Board from './board.js';
-import Select from './select.js';
+import AccountPicker from './account-picker.js';
 
 export default class NeonNerdlet extends React.Component {
   static propTypes = {
@@ -36,7 +36,7 @@ export default class NeonNerdlet extends React.Component {
 
     this.state = {
       accounts: [],
-      account: [],
+      account: { name: '' },
       accountId: null,
       currentUser: {},
       boards: {},
@@ -57,6 +57,7 @@ export default class NeonNerdlet extends React.Component {
         const lastAccount = (
           (((res || {}).data || {}).actor || {}).nerdStorage || {}
         ).document;
+
         if (lastAccount) this.accountChange(lastAccount);
 
         const gql = `{ actor { user { email id name } } }`;
@@ -79,19 +80,24 @@ export default class NeonNerdlet extends React.Component {
 
   parseAccounts(res) {
     if ('data' in res && 'actor' in res.data && 'accounts' in res.data.actor) {
-      const accounts = res.data.actor.accounts.map(a => ({
-        id: a.id,
-        value: a.name,
-      }));
-      this.setState({
-        accounts: accounts,
-      });
+      const accounts = res.data.actor.accounts;
+      const firstAccount = accounts[0];
+
+      this.setState(
+        {
+          accounts: accounts,
+        },
+        () => {
+          this.accountChange(firstAccount.name);
+        }
+      );
     }
   }
 
-  accountChange(account) {
+  accountChange(accountName) {
     const { accounts } = this.state;
-    const accountId = accounts.filter(a => a.value === account[0]).shift().id;
+    const account = accounts.find(a => a.name === accountName);
+    const accountId = account.id;
 
     this.setState(
       {
@@ -106,11 +112,13 @@ export default class NeonNerdlet extends React.Component {
 
   getBoards() {
     const { account, accountId } = this.state;
+    const accountName = account.name;
+
     UserStorageMutation.mutate({
       actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'neondb',
       documentId: 'lastAccount',
-      document: account,
+      document: accountName,
     })
       .then(() => {
         AccountStorageQuery.query({
@@ -159,12 +167,10 @@ export default class NeonNerdlet extends React.Component {
 
     return (
       <div className="container">
-        <Select
-          label="Account"
-          placeholder="Select an account"
-          values={account}
-          options={accounts}
-          onChange={this.accountChange}
+        <AccountPicker
+          account={account}
+          accounts={accounts}
+          setAccount={this.accountChange}
         />
         {!accountId && <BoxSpinner />}
         {accountId && !board && (
