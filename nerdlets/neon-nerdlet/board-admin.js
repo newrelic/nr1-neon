@@ -167,7 +167,7 @@ export default class BoardAdmin extends React.Component {
       <div>
         <h3>Board Details</h3>
         <Tabs>
-          <TabsItem itemKey="tab-rows" label="Rows">
+          <TabsItem value="tab-rows" label="Rows">
             <div
               style={{
                 display: 'grid',
@@ -190,7 +190,7 @@ export default class BoardAdmin extends React.Component {
               </Button>
             </div>
           </TabsItem>
-          <TabsItem itemKey="tab-cols" label="Columns">
+          <TabsItem value="tab-cols" label="Columns">
             <div
               style={{
                 display: 'grid',
@@ -213,7 +213,7 @@ export default class BoardAdmin extends React.Component {
               </Button>
             </div>
           </TabsItem>
-          <TabsItem itemKey="tab-cells" label="Cells">
+          <TabsItem value="tab-cells" label="Cells">
             <div
               style={{
                 display: 'grid',

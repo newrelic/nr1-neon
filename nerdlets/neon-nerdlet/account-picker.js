@@ -16,9 +16,9 @@ export default class AccountPicker extends React.PureComponent {
     return (
       <Dropdown
         title={account.name}
-        filterable
+        search={filter}
         label="Account"
-        onChangeFilter={event => this.setState({ filter: event.target.value })}
+        onSearch={event => this.setState({ filter: event.target.value })}
       >
         {accounts.map(a => {
           return (
