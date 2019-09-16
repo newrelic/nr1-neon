@@ -43,7 +43,6 @@ export default class NeonNerdlet extends React.Component {
   }
 
   componentDidMount() {
-    console.debug('Hi');
     AccountsQuery.query()
       .then(this.parseAccounts)
       .then(() => {
