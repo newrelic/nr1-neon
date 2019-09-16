@@ -53,14 +53,10 @@ export default class NeonNerdlet extends React.Component {
         });
       })
       .then(res => {
-        console.debug(res);
         const lastAccountName = (res || {}).data || {};
-
-        console.debug(lastAccountName);
         const lastAccount = this.state.accounts.find(
           a => a.name === lastAccountName
         );
-        console.debug(lastAccount);
         if (lastAccount) this.accountChange(lastAccount);
 
         const gql = `{ actor { user { email id name } } }`;
@@ -133,11 +129,7 @@ export default class NeonNerdlet extends React.Component {
           documentId: 'boards',
         }).then(res => {
           this.setState({
-            boards:
-              (
-                ((((res || {}).data || {}).actor || {}).account || {})
-                  .nerdStorage || {}
-              ).document || {},
+            boards: (res || {}).data || {},
           });
         });
       })

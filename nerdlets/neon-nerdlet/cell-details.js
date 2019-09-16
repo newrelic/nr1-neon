@@ -120,9 +120,7 @@ export default class CellDetails extends React.Component {
       accountId: accountId,
       documentId: 'comments',
     }).then(res => {
-      const results = (
-        ((((res || {}).data || {}).actor || {}).account || {}).nerdStorage || {}
-      ).document;
+      const results = (res || {}).data || {};
 
       if (results)
         this.setState({
