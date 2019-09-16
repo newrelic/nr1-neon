@@ -94,7 +94,8 @@ export default class MotherBoard extends React.Component {
           });
         })
         .catch(err => {
-          Toast.showToast('Unable to save board', {
+          Toast.showToast({
+            title: 'Unable to save board',
             description: err.message || '',
             type: Toast.TYPE.CRITICAL,
           });
