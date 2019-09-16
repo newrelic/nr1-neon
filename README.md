@@ -2,7 +2,7 @@
 
 ## Usage
 
-Neon allows you to create status boards to display alerting status of New Relic Alerts and values from New Relic events.
+Create a single dashboard to track the heatlh of entire business units or regions. Neon lets you create a status board based on New Relic alert status, or the values from New Relic events.
 
 ![Home Page](screenshots/home.png)
 
