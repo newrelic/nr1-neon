@@ -17,8 +17,8 @@ import AccountPicker from './account-picker.js';
 
 export default class NeonNerdlet extends React.Component {
   static propTypes = {
-    nerdletUrlState: PropTypes.object,
     launcherUrlState: PropTypes.object,
+    nerdletUrlState: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
   };
@@ -115,7 +115,7 @@ export default class NeonNerdlet extends React.Component {
     const { account, accountId } = this.state;
     const accountName = account.name;
 
-    UserStorageMutation.mutate({
+    return UserStorageMutation.mutate({
       actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'neondb',
       documentId: 'lastAccount',
