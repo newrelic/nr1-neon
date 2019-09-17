@@ -8,7 +8,10 @@ import {
   Button,
   Toast,
   AccountStorageMutation,
+  NerdGraphQuery,
 } from 'nr1';
+
+import ComboBox from './combo-box.js';
 
 export default class MotherBoard extends React.Component {
   static propTypes = {
@@ -28,7 +31,19 @@ export default class MotherBoard extends React.Component {
 
     this.state = {
       modalHidden: true,
+      events: [],
     };
+  }
+
+  componentDidMount() {
+    const { accountId } = this.props;
+    const gql = `{ actor { account(id: ${accountId}) { nrql(query: "SHOW EVENT TYPES") { results } } } }`;
+    NerdGraphQuery.query({query: gql}).then(res => {
+      const results = (((((res || {}).data || {}).actor || {}).account || {}).nrql || {}).results || []
+      this.setState({
+        events: results.map(r => r.eventType),
+      })
+    });
   }
 
   boardClicked(e, id) {
@@ -57,6 +72,12 @@ export default class MotherBoard extends React.Component {
     this.setState(o);
   }
 
+  eventUpdated(value) {
+    this.setState({
+      eventName: value ,
+    });
+  }
+
   addBoard() {
     const { boardName, eventName } = this.state;
     const { boards, accountId } = this.props;
@@ -64,15 +85,15 @@ export default class MotherBoard extends React.Component {
     if (
       boardName &&
       eventName &&
-      boardName.trim !== '' &&
+      boardName.trim() !== '' &&
       eventName.trim() !== ''
     ) {
       const id = this.generateUUID();
 
       boards[id] = {
         id: id,
-        name: boardName,
-        event: eventName,
+        name: boardName.trim(),
+        event: eventName.trim(),
         tags: [],
         team: '',
       };
@@ -94,7 +115,8 @@ export default class MotherBoard extends React.Component {
           });
         })
         .catch(err => {
-          Toast.showToast('Unable to save board', {
+          Toast.showToast({
+            title: 'Unable to save board',
             description: err.message || '',
             type: Toast.TYPE.CRITICAL,
           });
@@ -117,7 +139,7 @@ export default class MotherBoard extends React.Component {
   }
 
   render() {
-    const { modalHidden, boardName, eventName } = this.state;
+    const { modalHidden, boardName, eventName, events } = this.state;
     const { boards } = this.props;
 
     return (
@@ -154,13 +176,14 @@ export default class MotherBoard extends React.Component {
               label="Board Name"
               placeholder=""
               onChange={e => this.textUpdated(e, 'board')}
-              value={boardName}
+              value={boardName || ''}
             />
-            <TextField
-              label="Event Name"
-              placeholder=""
-              onChange={e => this.textUpdated(e, 'event')}
-              value={eventName}
+            <ComboBox
+              title="Event"
+              placeholder="event to monitor"
+              value={eventName || ''}
+              options={events}
+              onChange={(val) => this.eventUpdated(val)}
             />
             <Button
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__PLUS}

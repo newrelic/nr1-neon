@@ -89,11 +89,7 @@ export default class Board extends React.Component {
       accountId: accountId,
       documentId: 'data',
     }).then(res => {
-      const data =
-        (
-          ((((res || {}).data || {}).actor || {}).account || {}).nerdStorage ||
-          {}
-        ).document || {};
+      const data = (res || {}).data || {};
       this.setState(
         {
           cells: data && 'cells' in data ? data.cells : [],

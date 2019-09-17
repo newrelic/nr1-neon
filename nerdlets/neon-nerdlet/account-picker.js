@@ -14,20 +14,22 @@ export default class AccountPicker extends React.PureComponent {
     }
 
     return (
-      <Dropdown
-        title={account.name}
-        search={filter}
-        label="Account"
-        onSearch={event => this.setState({ filter: event.target.value })}
-      >
-        {accounts.map(a => {
-          return (
-            <DropdownItem key={a.id} onClick={() => setAccount(a)}>
-              {a.name}
-            </DropdownItem>
-          );
-        })}
-      </Dropdown>
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Dropdown
+          title={account.name}
+          search={filter}
+          label=""
+          onSearch={event => this.setState({ filter: event.target.value })}
+        >
+          {accounts.map(a => {
+            return (
+              <DropdownItem key={a.id} onClick={() => setAccount(a)}>
+                {a.name}
+              </DropdownItem>
+            );
+          })}
+        </Dropdown>
+      </div>
     );
   }
 }
