@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 
 import { Icon, Modal, Tabs, TabsItem, TextField, Button } from 'nr1';
 
-import Select from './select';
-import SegmentedControl from './segmented-control';
-
 export default class BoardAdmin extends React.Component {
   static propTypes = {
     rows: PropTypes.array,
@@ -19,9 +16,9 @@ export default class BoardAdmin extends React.Component {
 
     this.state = {
       rowName: '',
-      rowForCell: [],
+      rowForCell: '',
       colName: '',
-      colForCell: [],
+      colForCell: '',
       cells: [],
       cellType: '',
       policyName: '',
@@ -30,22 +27,15 @@ export default class BoardAdmin extends React.Component {
       valueName: '',
     };
 
-    this.textUpdated = this.textUpdated.bind(this);
-    this.cellSelect = this.cellSelect.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
     this.optionChange = this.optionChange.bind(this);
     this.addData = this.addData.bind(this);
     this.persistData = this.persistData.bind(this);
   }
 
-  textUpdated(e, type) {
+  changeHandler(e, type) {
     const o = {};
-    o[type + 'Name'] = e.target.value;
-    this.setState(o);
-  }
-
-  cellSelect(val, type) {
-    const o = {};
-    o[type + 'ForCell'] = val;
+    o[type] = e.target.value;
     this.setState(o);
   }
 
@@ -92,7 +82,7 @@ export default class BoardAdmin extends React.Component {
     } else if (type === 'cell') {
       if (
         cells.reduce(
-          (a, c) => a || (c.row === rowForCell[0] && c.col === colForCell[0]),
+          (a, c) => a || (c.row === rowForCell && c.col === colForCell),
           false
         )
       )
@@ -100,8 +90,8 @@ export default class BoardAdmin extends React.Component {
       if (cellType === 'alert') {
         if (!policyName) return;
         cells.push({
-          row: rowForCell[0],
-          col: colForCell[0],
+          row: rowForCell,
+          col: colForCell,
           policy: policyName,
         });
       } else if (cellType === 'data') {
@@ -122,8 +112,8 @@ export default class BoardAdmin extends React.Component {
         deets.is = isType;
         deets.value = valueName;
         cells.push({
-          row: rowForCell[0],
-          col: colForCell[0],
+          row: rowForCell,
+          col: colForCell,
           attribute: attributeName,
           details: deets,
         });
@@ -131,8 +121,8 @@ export default class BoardAdmin extends React.Component {
       this.setState(
         {
           cells: cells,
-          rowForCell: [],
-          colForCell: [],
+          rowForCell: '',
+          colForCell: '',
           cellType: '',
           policyName: '',
           attributeName: '',
@@ -179,7 +169,7 @@ export default class BoardAdmin extends React.Component {
               <TextField
                 label="Title"
                 placeholder=""
-                onChange={e => this.textUpdated(e, 'row')}
+                onChange={e => this.changeHandler(e, 'rowName')}
                 value={rowName}
               />
               <Button
@@ -202,7 +192,7 @@ export default class BoardAdmin extends React.Component {
               <TextField
                 label="Title"
                 placeholder=""
-                onChange={e => this.textUpdated(e, 'col')}
+                onChange={e => this.changeHandler(e, 'colName')}
                 value={colName}
               />
               <Button
@@ -222,34 +212,41 @@ export default class BoardAdmin extends React.Component {
                 marginTop: '2em',
               }}
             >
-              <Select
-                label="Row"
-                placeholder=""
-                values={rowForCell || []}
-                options={rows.map(r => ({ value: r }))}
-                onChange={val => this.cellSelect(val, 'row')}
-              />
-              <Select
-                label="Column"
-                placeholder=""
-                values={colForCell || []}
-                options={cols.map(c => ({ value: c }))}
-                onChange={val => this.cellSelect(val, 'col')}
-              />
-              <SegmentedControl
-                title="cell"
-                selected=""
-                onChange={this.optionChange}
-                options={[
-                  { name: 'alert', value: 'NR Alert' },
-                  { name: 'data', value: 'NR Data' },
-                ]}
-              />
+              <select
+                value={rowForCell || ''}
+                onChange={e => this.changeHandler(e, 'rowForCell')}
+              >
+                <option value="">SELECT A ROW</option>
+                {rows.map((r, i) => (
+                  <option value={r} key={i}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={colForCell || ''}
+                onChange={e => this.changeHandler(e, 'colForCell')}
+              >
+                <option value="">SELECT A COLUMN</option>
+                {cols.map((c, i) => (
+                  <option value={c} key={i}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={cellType || ''}
+                onChange={e => this.changeHandler(e, 'cellType')}
+              >
+                <option value="">SELECT DATA TYPE</option>
+                <option value="alert">New Relic Alert</option>
+                <option value="data">New Relic Attribute</option>
+              </select>
               {cellType === 'alert' && (
                 <TextField
                   label="Alert Policy"
                   placeholder=""
-                  onChange={e => this.textUpdated(e, 'policy')}
+                  onChange={e => this.changeHandler(e, 'policyName')}
                   value={policyName}
                 />
               )}
@@ -258,7 +255,7 @@ export default class BoardAdmin extends React.Component {
                   <TextField
                     label="Attribute Name"
                     placeholder=""
-                    onChange={e => this.textUpdated(e, 'attribute')}
+                    onChange={e => this.changeHandler(e, 'attributeName')}
                     value={attributeName}
                   />
                   <div
@@ -266,25 +263,24 @@ export default class BoardAdmin extends React.Component {
                       display: 'grid',
                       gridTemplateColumns: '3fr 1fr',
                       gridGap: '.5em',
-                      alignItems: 'center',
+                      marginTop: '.75em',
                     }}
                   >
-                    <SegmentedControl
-                      title="is"
-                      selected=""
-                      onChange={this.optionChange}
-                      options={[
-                        { name: 'less', value: 'less than' },
-                        { name: 'equal', value: 'equals' },
-                        { name: 'more', value: 'greater than' },
-                      ]}
-                    />
+                    <select
+                      value={isType || ''}
+                      onChange={e => this.changeHandler(e, 'isType')}
+                      style={{alignSelf: 'end'}}
+                    >
+                      <option value="">COMPARISON</option>
+                      <option value="less">less than</option>
+                      <option value="equal">equals</option>
+                      <option value="more">greater than</option>
+                    </select>
                     <TextField
                       label="Value"
                       placeholder=""
-                      onChange={e => this.textUpdated(e, 'value')}
+                      onChange={e => this.changeHandler(e, 'valueName')}
                       value={valueName}
-                      style={{ marginBottom: '.75em' }}
                     />
                   </div>
                 </div>
