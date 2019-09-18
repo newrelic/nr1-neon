@@ -43,37 +43,22 @@ export default class NeonNerdlet extends React.Component {
   }
 
   componentDidMount() {
-    AccountsQuery.query()
-      .then(this.parseAccounts)
-      .then(() => {
-        return UserStorageQuery.query({
-          collection: 'neondb',
-          documentId: 'lastAccount',
-        });
-      })
-      .then(res => {
-        const lastAccountName = (res || {}).data || {};
-        const lastAccount = this.state.accounts.find(
-          a => a.name === lastAccountName
-        );
-        if (lastAccount) this.accountChange(lastAccount);
+    AccountsQuery.query().then(this.parseAccounts);
 
-        const gql = `{ actor { user { email id name } } }`;
-        return NerdGraphQuery.query({ query: gql });
-      })
-      .then(res => {
-        const user = (((res || {}).data || {}).actor || {}).user;
-        if (user)
-          this.setState({
-            currentUser: user
-              ? {
-                  email: 'email' in user ? user.email : null,
-                  id: 'id' in user ? user.id : null,
-                  name: 'name' in user ? user.name : null,
-                }
-              : {},
-          });
-      });
+    const gql = `{ actor { user { email id name } } }`;
+    NerdGraphQuery.query({ query: gql }).then(res => {
+      const user = (((res || {}).data || {}).actor || {}).user;
+      if (user)
+        this.setState({
+          currentUser: user
+            ? {
+                email: 'email' in user ? user.email : null,
+                id: 'id' in user ? user.id : null,
+                name: 'name' in user ? user.name : null,
+              }
+            : {},
+        });
+    });
   }
 
   parseAccounts(res) {
@@ -115,30 +100,23 @@ export default class NeonNerdlet extends React.Component {
     const { account, accountId } = this.state;
     const accountName = account.name;
 
-    return UserStorageMutation.mutate({
-      actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+    AccountStorageQuery.query({
       collection: 'neondb',
-      documentId: 'lastAccount',
-      document: accountName,
+      accountId: accountId,
+      documentId: 'boards',
     })
-      .then(() => {
-        AccountStorageQuery.query({
-          collection: 'neondb',
-          accountId: accountId,
-          documentId: 'boards',
-        }).then(res => {
-          this.setState({
-            boards: (res || {}).data || {},
-          });
-        });
-      })
-      .catch(err => {
-        Toast.showToast({
-          title: 'Unable to fetch data',
-          description: err.message || '',
-          type: Toast.TYPE.CRITICAL,
-        });
+    .then(res => {
+      this.setState({
+        boards: (res || {}).data || {},
       });
+    })
+    .catch(err => {
+      Toast.showToast({
+        title: 'Unable to fetch data',
+        description: err.message || '',
+        type: Toast.TYPE.CRITICAL,
+      });
+    });
   }
 
   displayBoard(board) {
