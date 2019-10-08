@@ -1,5 +1,7 @@
 # Neon
 
+![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-neon?include_prereleases) [![Snyk](https://snyk.io/test/github/newrelic/nr1-neon/badge.svg)](https://snyk.io/test/github/newrelic/nr1-neon)
+
 ## Usage
 
 Create a single dashboard to track the heatlh of entire business units or regions. Neon lets you create a status board based on New Relic alert status, or the values from New Relic events.
