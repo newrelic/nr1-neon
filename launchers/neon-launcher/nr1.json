@@ -3,5 +3,5 @@
     "id": "neon-launcher",
     "displayName": "Neon",
     "description": "Status Board for Alerts",
-    "rootNerdletId": "b7016cbc-7c21-4389-bc9f-6e31a6ef674e.neon-nerdlet"
+    "rootNerdletId": "neon-nerdlet"
 }
