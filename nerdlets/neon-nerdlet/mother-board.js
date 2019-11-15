@@ -38,11 +38,13 @@ export default class MotherBoard extends React.Component {
   componentDidMount() {
     const { accountId } = this.props;
     const gql = `{ actor { account(id: ${accountId}) { nrql(query: "SHOW EVENT TYPES") { results } } } }`;
-    NerdGraphQuery.query({query: gql}).then(res => {
-      const results = (((((res || {}).data || {}).actor || {}).account || {}).nrql || {}).results || []
+    NerdGraphQuery.query({ query: gql }).then(res => {
+      const results =
+        (((((res || {}).data || {}).actor || {}).account || {}).nrql || {})
+          .results || [];
       this.setState({
         events: results.map(r => r.eventType),
-      })
+      });
     });
   }
 
@@ -74,7 +76,7 @@ export default class MotherBoard extends React.Component {
 
   eventUpdated(value) {
     this.setState({
-      eventName: value ,
+      eventName: value,
     });
   }
 
@@ -82,6 +84,53 @@ export default class MotherBoard extends React.Component {
     const { boardName, eventName } = this.state;
     const { boards, accountId } = this.props;
 
+    if (
+      boardName &&
+      eventName &&
+      boardName.trim() !== '' &&
+      eventName.trim() !== ''
+    ) {
+      const id = this.generateUUID();
+
+      boards[id] = {
+        id: id,
+        name: boardName.trim(),
+        event: eventName.trim(),
+        tags: [],
+        team: '',
+      };
+
+      AccountStorageMutation.mutate({
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'neondb',
+        accountId: accountId,
+        documentId: 'boards',
+        document: boards,
+      })
+        .then(res => {
+          AccountStorageMutation.mutate({
+            actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+            collection: 'neondb-' + id,
+            accountId: accountId,
+            documentId: 'data',
+            document: {},
+          });
+        })
+        .catch(err => {
+          Toast.showToast({
+            title: 'Unable to save board',
+            description: err.message || '',
+            type: Toast.TYPE.CRITICAL,
+          });
+        })
+        .finally(() => this.setState({ modalHidden: true }));
+    }
+  }
+
+  deleteBoard() {
+    const { boardName, eventName } = this.state;
+    const { boards, accountId } = this.props;
+    //Do I need this??
     if (
       boardName &&
       eventName &&
@@ -160,6 +209,12 @@ export default class MotherBoard extends React.Component {
                 sizeType={Icon.SIZE_TYPE.LARGE}
                 style={{ transform: 'scale(6)' }}
               />
+              //GL
+              <Icon
+                type={Icon.TYPE.INTERFACE__SIGN__PLUS}
+                sizeType={Icon.SIZE_TYPE.SMALL}
+                style={{ transform: 'scale(1)' }}
+              />
             </a>
           </article>
         </section>
@@ -183,7 +238,7 @@ export default class MotherBoard extends React.Component {
               placeholder="event to monitor"
               value={eventName || ''}
               options={events}
-              onChange={(val) => this.eventUpdated(val)}
+              onChange={val => this.eventUpdated(val)}
             />
             <Button
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__PLUS}
