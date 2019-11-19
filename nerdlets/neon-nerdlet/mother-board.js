@@ -28,6 +28,7 @@ export default class MotherBoard extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.textUpdated = this.textUpdated.bind(this);
     this.addBoard = this.addBoard.bind(this);
+    this.deleteBoard = this.deleteBoard.bind(this);
     this.generateUUID = this.generateUUID.bind(this);
 
     this.state = {
@@ -128,6 +129,54 @@ export default class MotherBoard extends React.Component {
     }
   }
 
+  deleteBoard() {
+    console.log('clicked on board to remove');
+    // const { boardName, eventName } = this.state;
+    // const { boards, accountId } = this.props;
+    // //Do I need this??
+    // if (
+    //   boardName &&
+    //   eventName &&
+    //   boardName.trim() !== '' &&
+    //   eventName.trim() !== ''
+    // ) {
+    //   const id = this.generateUUID();
+
+    //   boards[id] = {
+    //     id: id,
+    //     name: boardName.trim(),
+    //     event: eventName.trim(),
+    //     tags: [],
+    //     team: '',
+    //   };
+
+    //   AccountStorageMutation.mutate({
+    //     actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+    //     collection: 'neondb',
+    //     accountId: accountId,
+    //     documentId: 'boards',
+    //     document: boards,
+    //   })
+    //     .then(res => {
+    //       AccountStorageMutation.mutate({
+    //         actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+    //         collection: 'neondb-' + id,
+    //         accountId: accountId,
+    //         documentId: 'data',
+    //         document: {},
+    //       });
+    //     })
+    //     .catch(err => {
+    //       Toast.showToast({
+    //         title: 'Unable to save board',
+    //         description: err.message || '',
+    //         type: Toast.TYPE.CRITICAL,
+    //       });
+    //     })
+    //     .finally(() => this.setState({ modalHidden: true }));
+    // }
+  }
+
   // From https://gist.github.com/LeverOne/1308368
   generateUUID(a, b) {
     for (
@@ -170,7 +219,8 @@ export default class MotherBoard extends React.Component {
           <article className="board_card">
             <a href="#" onClick={e => this.showAddBoardModal(e)}>
               <Icon
-                type={Icon.TYPE.INTERFACE__SIGN__PLUS}
+                type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__PLUGIN__S_OK}
+                // type={Icon.TYPE.INTERFACE__SIGN__PLUS}
                 sizeType={Icon.SIZE_TYPE.LARGE}
                 style={{ transform: 'scale(6)' }}
               />
