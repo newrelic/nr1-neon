@@ -130,7 +130,7 @@ export default class MotherBoard extends React.Component {
   }
 
   deleteBoard() {
-    console.log('clicked on board to remove');
+    console.log('delete this');
     // const { boardName, eventName } = this.state;
     // const { boards, accountId } = this.props;
     // //Do I need this??
@@ -204,10 +204,11 @@ export default class MotherBoard extends React.Component {
                 text="Delete this board"
                 placementType={Tooltip.PLACEMENT_TYPE.TOP}
               >
-                {/* GL icon */}
+                {/* Minus icon */}
                 <Icon
                   type={Icon.TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE}
                   sizeType={Icon.SIZE_TYPE.LARGE}
+                  onClick={() => this.deleteBoard}
                 />
               </Tooltip>
               <a href="#" onClick={e => this.boardClicked(e, boardId)}>
@@ -219,8 +220,7 @@ export default class MotherBoard extends React.Component {
           <article className="board_card">
             <a href="#" onClick={e => this.showAddBoardModal(e)}>
               <Icon
-                type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__PLUGIN__S_OK}
-                // type={Icon.TYPE.INTERFACE__SIGN__PLUS}
+                type={Icon.TYPE.INTERFACE__SIGN__PLUS}
                 sizeType={Icon.SIZE_TYPE.LARGE}
                 style={{ transform: 'scale(6)' }}
               />
