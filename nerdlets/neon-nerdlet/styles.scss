@@ -342,8 +342,11 @@ h6 {
   }
 }
 
-.board_minus_sign {
+.board_delete_icon {
   position: relative;
+  top: 49px;
+  left: 300px;
+  z-index: 10;
 }
 
 .control-bar {

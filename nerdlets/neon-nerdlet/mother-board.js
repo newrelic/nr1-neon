@@ -151,11 +151,12 @@ export default class MotherBoard extends React.Component {
           {Object.keys(boards).map(boardId => (
             <article className="board_card" key={boardId}>
               <Tooltip
+                className="board_delete_icon"
                 text="Delete this board"
                 placementType={Tooltip.PLACEMENT_TYPE.TOP}
               >
+                {/* GL icon */}
                 <Icon
-                  className="board_minus_sign"
                   type={Icon.TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE}
                   sizeType={Icon.SIZE_TYPE.LARGE}
                 />
