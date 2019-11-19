@@ -155,6 +155,7 @@ export default class MotherBoard extends React.Component {
                 placementType={Tooltip.PLACEMENT_TYPE.TOP}
               >
                 <Icon
+                  className="board_minus_sign"
                   type={Icon.TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE}
                   sizeType={Icon.SIZE_TYPE.LARGE}
                 />
