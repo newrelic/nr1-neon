@@ -151,7 +151,7 @@ export default class MotherBoard extends React.Component {
           {Object.keys(boards).map(boardId => (
             <article className="board_card" key={boardId}>
               <Tooltip
-                text="Delete Board"
+                text="Delete this board"
                 placementType={Tooltip.PLACEMENT_TYPE.TOP}
               >
                 <Icon
