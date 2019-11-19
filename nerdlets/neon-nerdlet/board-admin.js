@@ -269,7 +269,7 @@ export default class BoardAdmin extends React.Component {
                     <select
                       value={isType || ''}
                       onChange={e => this.changeHandler(e, 'isType')}
-                      style={{alignSelf: 'end'}}
+                      style={{ alignSelf: 'end' }}
                     >
                       <option value="">COMPARISON</option>
                       <option value="less">less than</option>

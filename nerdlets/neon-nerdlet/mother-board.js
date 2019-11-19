@@ -9,6 +9,7 @@ import {
   Toast,
   AccountStorageMutation,
   NerdGraphQuery,
+  Tooltip,
 } from 'nr1';
 
 import ComboBox from './combo-box.js';
@@ -38,11 +39,13 @@ export default class MotherBoard extends React.Component {
   componentDidMount() {
     const { accountId } = this.props;
     const gql = `{ actor { account(id: ${accountId}) { nrql(query: "SHOW EVENT TYPES") { results } } } }`;
-    NerdGraphQuery.query({query: gql}).then(res => {
-      const results = (((((res || {}).data || {}).actor || {}).account || {}).nrql || {}).results || []
+    NerdGraphQuery.query({ query: gql }).then(res => {
+      const results =
+        (((((res || {}).data || {}).actor || {}).account || {}).nrql || {})
+          .results || [];
       this.setState({
         events: results.map(r => r.eventType),
-      })
+      });
     });
   }
 
@@ -74,7 +77,7 @@ export default class MotherBoard extends React.Component {
 
   eventUpdated(value) {
     this.setState({
-      eventName: value ,
+      eventName: value,
     });
   }
 
@@ -147,6 +150,15 @@ export default class MotherBoard extends React.Component {
         <section className="board_list">
           {Object.keys(boards).map(boardId => (
             <article className="board_card" key={boardId}>
+              <Tooltip
+                text="Delete Board"
+                placementType={Tooltip.PLACEMENT_TYPE.TOP}
+              >
+                <Icon
+                  type={Icon.TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE}
+                  sizeType={Icon.SIZE_TYPE.LARGE}
+                />
+              </Tooltip>
               <a href="#" onClick={e => this.boardClicked(e, boardId)}>
                 <h2 className="board_name">{boards[boardId].name}</h2>
                 <span className="board_team">{boards[boardId].team || ''}</span>
@@ -183,7 +195,7 @@ export default class MotherBoard extends React.Component {
               placeholder="event to monitor"
               value={eventName || ''}
               options={events}
-              onChange={(val) => this.eventUpdated(val)}
+              onChange={val => this.eventUpdated(val)}
             />
             <Button
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__PLUS}
