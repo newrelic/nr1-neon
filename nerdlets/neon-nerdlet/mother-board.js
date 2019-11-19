@@ -205,11 +205,14 @@ export default class MotherBoard extends React.Component {
                 placementType={Tooltip.PLACEMENT_TYPE.TOP}
               >
                 {/* Minus icon */}
-                <Icon
+                <Button
+                  iconType={Button.TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE}
+                ></Button>
+                {/* <Icon
                   type={Icon.TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE}
                   sizeType={Icon.SIZE_TYPE.LARGE}
-                  onClick={() => this.deleteBoard}
-                />
+                  onClick={() => console.log('clicked delete board')}
+                /> */}
               </Tooltip>
               <a href="#" onClick={e => this.boardClicked(e, boardId)}>
                 <h2 className="board_name">{boards[boardId].name}</h2>
