@@ -199,20 +199,18 @@ export default class MotherBoard extends React.Component {
         <section className="board_list">
           {Object.keys(boards).map(boardId => (
             <article className="board_card" key={boardId}>
+              {/* Minus icon */}
               <Tooltip
-                className="board_delete_icon"
                 text="Delete this board"
                 placementType={Tooltip.PLACEMENT_TYPE.TOP}
               >
-                {/* Minus icon */}
                 <Button
-                  iconType={Button.TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE}
+                  className="board_delete_icon"
+                  iconType={
+                    Button.ICON_TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE
+                  }
+                  onClick={this.deleteBoard}
                 ></Button>
-                {/* <Icon
-                  type={Icon.TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE}
-                  sizeType={Icon.SIZE_TYPE.LARGE}
-                  onClick={() => console.log('clicked delete board')}
-                /> */}
               </Tooltip>
               <a href="#" onClick={e => this.boardClicked(e, boardId)}>
                 <h2 className="board_name">{boards[boardId].name}</h2>
