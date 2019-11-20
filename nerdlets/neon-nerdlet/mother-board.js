@@ -129,52 +129,34 @@ export default class MotherBoard extends React.Component {
     }
   }
 
-  deleteBoard() {
-    console.log('delete this');
-    // const { boardName, eventName } = this.state;
-    // const { boards, accountId } = this.props;
-    // //Do I need this??
-    // if (
-    //   boardName &&
-    //   eventName &&
-    //   boardName.trim() !== '' &&
-    //   eventName.trim() !== ''
-    // ) {
-    //   const id = this.generateUUID();
-
-    //   boards[id] = {
-    //     id: id,
-    //     name: boardName.trim(),
-    //     event: eventName.trim(),
-    //     tags: [],
-    //     team: '',
-    //   };
-
-    //   AccountStorageMutation.mutate({
-    //     actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-    //     collection: 'neondb',
-    //     accountId: accountId,
-    //     documentId: 'boards',
-    //     document: boards,
-    //   })
-    //     .then(res => {
-    //       AccountStorageMutation.mutate({
-    //         actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-    //         collection: 'neondb-' + id,
-    //         accountId: accountId,
-    //         documentId: 'data',
-    //         document: {},
-    //       });
-    //     })
-    //     .catch(err => {
-    //       Toast.showToast({
-    //         title: 'Unable to save board',
-    //         description: err.message || '',
-    //         type: Toast.TYPE.CRITICAL,
-    //       });
-    //     })
-    //     .finally(() => this.setState({ modalHidden: true }));
-    // }
+  deleteBoard(boardId) {
+    const { boardName, eventName } = this.state;
+    const { boards, accountId } = this.props;
+    console.log('boards', boards);
+    delete boards[boardId];
+    console.log('delete', boards);
+    AccountStorageMutation.mutate({
+      actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+      collection: 'neondb',
+      accountId: accountId,
+      documentId: 'boards',
+      document: boards,
+    })
+      .then(res => {
+        AccountStorageMutation.mutate({
+          actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
+          collection: 'neondb-' + boardId,
+          accountId: accountId,
+        });
+      })
+      .catch(err => {
+        Toast.showToast({
+          title: 'Unable to delete board',
+          description: err.message || '',
+          type: Toast.TYPE.CRITICAL,
+        });
+      })
+      .finally(() => this.setState({ boards: boards }));
   }
 
   // From https://gist.github.com/LeverOne/1308368
@@ -209,7 +191,7 @@ export default class MotherBoard extends React.Component {
                   iconType={
                     Button.ICON_TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE
                   }
-                  onClick={this.deleteBoard}
+                  onClick={() => this.deleteBoard(boardId)}
                 ></Button>
               </Tooltip>
               <a href="#" onClick={e => this.boardClicked(e, boardId)}>
