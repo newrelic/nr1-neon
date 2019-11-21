@@ -132,9 +132,7 @@ export default class MotherBoard extends React.Component {
   deleteBoard(boardId) {
     const { boardName, eventName } = this.state;
     const { boards, accountId } = this.props;
-    console.log('boards', boards);
     delete boards[boardId];
-    console.log('delete', boards);
     AccountStorageMutation.mutate({
       actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'neondb',
@@ -181,13 +179,13 @@ export default class MotherBoard extends React.Component {
         <section className="board_list">
           {Object.keys(boards).map(boardId => (
             <article className="board_card" key={boardId}>
-              {/* Minus icon */}
               <Tooltip
                 text="Delete this board"
                 placementType={Tooltip.PLACEMENT_TYPE.TOP}
+                className="delete_tooltip"
               >
                 <Button
-                  className="board_delete_icon"
+                  className="board_delete"
                   iconType={
                     Button.ICON_TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE
                   }

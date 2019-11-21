@@ -168,6 +168,14 @@ h6 {
   }
 }
 
+button.board_delete {
+  position: relative;
+  top: 45px;
+  left: 300px;
+  z-index: 10;
+  background: none;
+}
+
 @supports (display: grid) {
   .board_list {
     display: grid;
@@ -340,13 +348,6 @@ h6 {
       border-top: 1px solid lightgrey;
     }
   }
-}
-// GL CSS
-.board_delete_icon {
-  position: relative;
-  top: 45px;
-  left: 300px;
-  z-index: 10;
 }
 
 .control-bar {
