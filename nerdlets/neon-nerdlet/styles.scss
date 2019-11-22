@@ -168,12 +168,12 @@ h6 {
   }
 }
 
-button.board_delete {
+.board_delete {
   position: relative;
-  top: 45px;
-  left: 300px;
+  top: 60px;
+  left: 290px;
   z-index: 10;
-  background: none;
+  color: #180839;
 }
 
 @supports (display: grid) {
