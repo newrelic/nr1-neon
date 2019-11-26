@@ -94,7 +94,7 @@ h6 {
 .board_list {
   display: flex;
   flex-flow: row wrap;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   padding-left: -1rem;
   padding-right: -1rem;
