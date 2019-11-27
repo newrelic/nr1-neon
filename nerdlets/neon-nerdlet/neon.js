@@ -105,18 +105,18 @@ export default class NeonNerdlet extends React.Component {
       accountId: accountId,
       documentId: 'boards',
     })
-    .then(res => {
-      this.setState({
-        boards: (res || {}).data || {},
+      .then(res => {
+        this.setState({
+          boards: (res || {}).data || {},
+        });
+      })
+      .catch(err => {
+        Toast.showToast({
+          title: 'Unable to fetch data',
+          description: err.message || '',
+          type: Toast.TYPE.CRITICAL,
+        });
       });
-    })
-    .catch(err => {
-      Toast.showToast({
-        title: 'Unable to fetch data',
-        description: err.message || '',
-        type: Toast.TYPE.CRITICAL,
-      });
-    });
   }
 
   displayBoard(board) {
