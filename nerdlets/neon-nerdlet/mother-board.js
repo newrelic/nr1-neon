@@ -185,7 +185,7 @@ export default class MotherBoard extends React.Component {
                 <a href="#" onClick={() => this.deleteBoard(boardId)}>
                   <Icon
                     sizeType={Icon.SIZE_TYPE.LARGE}
-                    type={Icon.TYPE.INTERFACE__SIGN__MINUS__V_ALTERNATE}
+                    type={Icon.TYPE.INTERFACE__OPERATIONS__REMOVE__V_ALTERNATE}
                   />
                 </a>
               </Tooltip>
