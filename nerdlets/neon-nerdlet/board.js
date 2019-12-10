@@ -9,6 +9,7 @@ import {
   Icon,
   Modal,
   Button,
+  HeadingText,
 } from 'nr1';
 
 import BoardAdmin from './board-admin';
@@ -35,12 +36,14 @@ export default class Board extends React.Component {
       timeoutId: null,
       modalHidden: true,
       detailsForCell: null,
+      deleteModalHidden: true,
     };
 
     this.getBoard = this.getBoard.bind(this);
     this.openAdmin = this.openAdmin.bind(this);
     this.closeAdmin = this.closeAdmin.bind(this);
     this.openDeleteBoard = this.openDeleteBoard.bind(this);
+    this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
 
     this.persistData = this.persistData.bind(this);
     this.fetchAlertStatuses = this.fetchAlertStatuses.bind(this);
@@ -124,8 +127,13 @@ export default class Board extends React.Component {
 
   openDeleteBoard(e) {
     e.preventDefault();
-    this.setState({ modalHidden: false });
+    this.setState({ deleteModalHidden: false });
   }
+
+  closeDeleteBoard() {
+    this.setState({ deleteModalHidden: true });
+  }
+
   deleteBoard(e, boardId) {
     console.log('clicked', this.props.board.id);
     // const { boardName, eventName } = this.state;
@@ -329,7 +337,14 @@ export default class Board extends React.Component {
   }
 
   render() {
-    const { rows, cols, cells, modalHidden, detailsForCell } = this.state;
+    const {
+      rows,
+      cols,
+      cells,
+      modalHidden,
+      detailsForCell,
+      deleteModalHidden,
+    } = this.state;
     const { board, accountId, currentUser } = this.props;
 
     return (
@@ -401,26 +416,23 @@ export default class Board extends React.Component {
             />
           )}
         </Modal>
-        <Modal
-          hidden={modalHidden}
-          onClose={() => this.setState({ modalHidden: false })}
-        >
-          {/* <HeadingText type={HeadingText.TYPE.HEADING_2}> */}
-          {/* Are you sure you want to delete this service?
-          </HeadingText> */}
+        <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>
+          <HeadingText type={HeadingText.TYPE.HEADING_2}>
+            Are you sure you want to delete this board?
+          </HeadingText>
           <p>
             This cannot be undone. Please confirm whether or not you want to
-            delete this service from your status pages.
+            delete this board.
           </p>
           <Button
             type={Button.TYPE.PRIMARY}
-            onClick={() => this.setState({ modalHidden: false })}
+            onClick={() => this.setState({ deleteModalHidden: true })}
           >
             Cancel
           </Button>
           <Button
             type={Button.TYPE.DESTRUCTIVE}
-            onClick={this.deleteHostName}
+            // onClick={this.deleteHostName}
             iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
           >
             Delete
