@@ -159,6 +159,7 @@ export default class NeonNerdlet extends React.Component {
         {accountId && board && (
           <Board
             board={board}
+            boards={boards}
             accountId={accountId}
             currentUser={currentUser}
             timeRange={launcherUrlState.timeRange}

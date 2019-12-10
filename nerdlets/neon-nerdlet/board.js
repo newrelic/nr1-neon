@@ -136,10 +136,9 @@ export default class Board extends React.Component {
   }
 
   deleteBoard() {
-    console.log('clicked delete', this.props.board.id);
     // const { boardName, eventName } = this.state;
-    // const { boards, accountId } = this.props;
-    // console.log(boards[board.id]);
+    const { boards, accountId } = this.props;
+    console.log('clicked delete', boards[id]);
     // delete boards[board.id];
     // AccountStorageMutation.mutate({
     //   actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
