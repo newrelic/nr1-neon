@@ -136,10 +136,11 @@ export default class Board extends React.Component {
   }
 
   deleteBoard() {
-    const { boardName, eventName } = this.state;
-    const { boards, accountId, board } = this.props;
-    console.log('clicked', boards[board.id]);
-    // delete boards[boardId];
+    console.log('clicked delete', this.props.board.id);
+    // const { boardName, eventName } = this.state;
+    // const { boards, accountId } = this.props;
+    // console.log(boards[board.id]);
+    // delete boards[board.id];
     // AccountStorageMutation.mutate({
     //   actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
     //   collection: 'neondb',
@@ -150,7 +151,7 @@ export default class Board extends React.Component {
     //   .then(res => {
     //     AccountStorageMutation.mutate({
     //       actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
-    //       collection: 'neondb-' + boardId,
+    //       collection: 'neondb-' + board.id,
     //       accountId: accountId,
     //     });
     //   })
@@ -433,7 +434,7 @@ export default class Board extends React.Component {
           </Button>
           <Button
             type={Button.TYPE.DESTRUCTIVE}
-            onClick={e => this.deleteBoard(e, board.id)}
+            onClick={() => this.deleteBoard(board)}
             iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
           >
             Delete

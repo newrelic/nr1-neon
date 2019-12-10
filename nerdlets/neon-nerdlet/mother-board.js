@@ -150,14 +150,6 @@ export default class MotherBoard extends React.Component {
         <section className="board_list">
           {Object.keys(boards).map(boardId => (
             <article className="board_card" key={boardId}>
-              {/* <Tooltip className="board_delete" text="Delete this board">
-                <a href="#" onClick={() => this.deleteBoard(boardId)}>
-                  <Icon
-                    sizeType={Icon.SIZE_TYPE.LARGE}
-                    type={Icon.TYPE.INTERFACE__OPERATIONS__REMOVE__V_ALTERNATE}
-                  />
-                </a>
-              </Tooltip> */}
               <a href="#" onClick={e => this.boardClicked(e, boardId)}>
                 <h2 className="board_name">{boards[boardId].name}</h2>
                 <span className="board_team">{boards[boardId].team || ''}</span>
