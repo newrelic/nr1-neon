@@ -8,6 +8,7 @@ import {
   NerdGraphQuery,
   Icon,
   Modal,
+  Button,
 } from 'nr1';
 
 import BoardAdmin from './board-admin';
@@ -39,6 +40,7 @@ export default class Board extends React.Component {
     this.getBoard = this.getBoard.bind(this);
     this.openAdmin = this.openAdmin.bind(this);
     this.closeAdmin = this.closeAdmin.bind(this);
+    this.openDeleteBoard = this.openDeleteBoard.bind(this);
 
     this.persistData = this.persistData.bind(this);
     this.fetchAlertStatuses = this.fetchAlertStatuses.bind(this);
@@ -118,6 +120,39 @@ export default class Board extends React.Component {
     const { onClose } = this.props;
 
     if (onClose) onClose();
+  }
+
+  openDeleteBoard(e) {
+    e.preventDefault();
+    this.setState({ modalHidden: false });
+  }
+  deleteBoard(e, boardId) {
+    console.log('clicked', this.props.board.id);
+    // const { boardName, eventName } = this.state;
+    // const { boards, accountId } = this.props;
+    // delete boards[boardId];
+    // AccountStorageMutation.mutate({
+    //   actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+    //   collection: 'neondb',
+    //   accountId: accountId,
+    //   documentId: 'boards',
+    //   document: boards,
+    // })
+    //   .then(res => {
+    //     AccountStorageMutation.mutate({
+    //       actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
+    //       collection: 'neondb-' + boardId,
+    //       accountId: accountId,
+    //     });
+    //   })
+    //   .catch(err => {
+    //     Toast.showToast({
+    //       title: 'Unable to delete board',
+    //       description: err.message || '',
+    //       type: Toast.TYPE.CRITICAL,
+    //     });
+    //   })
+    //   .finally(() => this.setState({ boards: boards }));
   }
 
   fetchAlertStatuses(cells) {
@@ -339,6 +374,14 @@ export default class Board extends React.Component {
           <a href="#" className="default" onClick={e => this.closeBoard(e)}>
             boards
           </a>
+          &nbsp;|&nbsp;
+          <a
+            href="#"
+            className="default"
+            onClick={e => this.openDeleteBoard(e)}
+          >
+            delete board
+          </a>
         </div>
         <Modal hidden={modalHidden} onClose={this.closeAdmin}>
           {!detailsForCell && (
@@ -357,6 +400,31 @@ export default class Board extends React.Component {
               cell={detailsForCell}
             />
           )}
+        </Modal>
+        <Modal
+          hidden={modalHidden}
+          onClose={() => this.setState({ modalHidden: false })}
+        >
+          {/* <HeadingText type={HeadingText.TYPE.HEADING_2}> */}
+          {/* Are you sure you want to delete this service?
+          </HeadingText> */}
+          <p>
+            This cannot be undone. Please confirm whether or not you want to
+            delete this service from your status pages.
+          </p>
+          <Button
+            type={Button.TYPE.PRIMARY}
+            onClick={() => this.setState({ modalHidden: false })}
+          >
+            Cancel
+          </Button>
+          <Button
+            type={Button.TYPE.DESTRUCTIVE}
+            onClick={this.deleteHostName}
+            iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
+          >
+            Delete
+          </Button>
         </Modal>
       </div>
     );

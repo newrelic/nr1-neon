@@ -28,7 +28,6 @@ export default class MotherBoard extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.textUpdated = this.textUpdated.bind(this);
     this.addBoard = this.addBoard.bind(this);
-    this.deleteBoard = this.deleteBoard.bind(this);
     this.generateUUID = this.generateUUID.bind(this);
 
     this.state = {
@@ -129,36 +128,6 @@ export default class MotherBoard extends React.Component {
     }
   }
 
-  deleteBoard(boardId) {
-    const { boardName, eventName } = this.state;
-    const { boards, accountId } = this.props;
-
-    delete boards[boardId];
-
-    AccountStorageMutation.mutate({
-      actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-      collection: 'neondb',
-      accountId: accountId,
-      documentId: 'boards',
-      document: boards,
-    })
-      .then(res => {
-        AccountStorageMutation.mutate({
-          actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
-          collection: 'neondb-' + boardId,
-          accountId: accountId,
-        });
-      })
-      .catch(err => {
-        Toast.showToast({
-          title: 'Unable to delete board',
-          description: err.message || '',
-          type: Toast.TYPE.CRITICAL,
-        });
-      })
-      .finally(() => this.setState({ boards: boards }));
-  }
-
   // From https://gist.github.com/LeverOne/1308368
   generateUUID(a, b) {
     for (
@@ -181,14 +150,14 @@ export default class MotherBoard extends React.Component {
         <section className="board_list">
           {Object.keys(boards).map(boardId => (
             <article className="board_card" key={boardId}>
-              <Tooltip className="board_delete" text="Delete this board">
+              {/* <Tooltip className="board_delete" text="Delete this board">
                 <a href="#" onClick={() => this.deleteBoard(boardId)}>
                   <Icon
                     sizeType={Icon.SIZE_TYPE.LARGE}
                     type={Icon.TYPE.INTERFACE__OPERATIONS__REMOVE__V_ALTERNATE}
                   />
                 </a>
-              </Tooltip>
+              </Tooltip> */}
               <a href="#" onClick={e => this.boardClicked(e, boardId)}>
                 <h2 className="board_name">{boards[boardId].name}</h2>
                 <span className="board_team">{boards[boardId].team || ''}</span>
