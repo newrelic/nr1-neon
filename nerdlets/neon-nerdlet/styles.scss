@@ -168,15 +168,27 @@ h6 {
   }
 }
 
-.board_delete {
-  position: relative;
-  top: 60px;
-  left: 290px;
-  z-index: 10;
+// delete board modal
+[class*='InnerModal-content'] {
+  [class*='Text--type-heading'] {
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    color: #000d0d;
+  }
+
+  p {
+    margin-bottom: 16px;
+  }
+
+  button {
+    margin-right: 8px;
+  }
 }
-// minus icon color
-a:not(.u-unstyledLink) {
-  color: #180839;
+
+[class*='InnerModal'] {
+  background-color: #fff;
 }
 
 @supports (display: grid) {
