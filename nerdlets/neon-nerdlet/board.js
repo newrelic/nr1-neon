@@ -137,9 +137,10 @@ export default class Board extends React.Component {
 
   deleteBoard() {
     // const { boardName, eventName } = this.state;
-    const { boards, accountId } = this.props;
-    console.log('clicked delete', boards[id]);
-    // delete boards[board.id];
+    const { boards, accountId, board } = this.props;
+    console.log('clicked delete', boards[board.id]);
+    delete boards[board.id];
+    console.log('new boards obj', boards);
     // AccountStorageMutation.mutate({
     //   actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
     //   collection: 'neondb',
@@ -347,7 +348,6 @@ export default class Board extends React.Component {
       deleteModalHidden,
     } = this.state;
     const { board, accountId, currentUser } = this.props;
-
     return (
       <div>
         <div className="board-title">
