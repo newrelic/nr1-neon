@@ -31,6 +31,7 @@ export default class NeonNerdlet extends React.Component {
     this.getBoards = this.getBoards.bind(this);
     this.displayBoard = this.displayBoard.bind(this);
     this.closeBoard = this.closeBoard.bind(this);
+    this.deleteBoard = this.deleteBoard.bind(this);
 
     this.state = {
       accounts: [],
@@ -130,6 +131,36 @@ export default class NeonNerdlet extends React.Component {
     this.setState({ board: null });
   }
 
+  deleteBoard() {
+    console.log('clicked delete', this.props);
+    // const { boardName, eventName } = this.state;
+    // const { boards, accountId } = this.props;
+    // console.log(boards[board.id]);
+    // delete boards[board.id];
+    // AccountStorageMutation.mutate({
+    //   actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+    //   collection: 'neondb',
+    //   accountId: accountId,
+    //   documentId: 'boards',
+    //   document: boards,
+    // })
+    //   .then(res => {
+    //     AccountStorageMutation.mutate({
+    //       actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
+    //       collection: 'neondb-' + board.id,
+    //       accountId: accountId,
+    //     });
+    //   })
+    //   .catch(err => {
+    //     Toast.showToast({
+    //       title: 'Unable to delete board',
+    //       description: err.message || '',
+    //       type: Toast.TYPE.CRITICAL,
+    //     });
+    //   })
+    //   .finally(() => this.setState({ boards: boards }));
+  }
+
   render() {
     const {
       accounts,
@@ -139,7 +170,7 @@ export default class NeonNerdlet extends React.Component {
       board,
       currentUser,
     } = this.state;
-    const { launcherUrlState } = this.props;
+    const { launcherUrlState, onDelete } = this.props;
 
     return (
       <div className="container">
@@ -163,6 +194,7 @@ export default class NeonNerdlet extends React.Component {
             currentUser={currentUser}
             timeRange={launcherUrlState.timeRange}
             onClose={this.closeBoard}
+            onDelete={this.deleteBoard}
           />
         )}
       </div>

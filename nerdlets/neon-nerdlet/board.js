@@ -44,7 +44,7 @@ export default class Board extends React.Component {
     this.closeAdmin = this.closeAdmin.bind(this);
     this.openDeleteBoard = this.openDeleteBoard.bind(this);
     this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
-    this.deleteBoard = this.deleteBoard.bind(this);
+    this.handleDeleteBoard = this.handleDeleteBoard.bind(this);
 
     this.persistData = this.persistData.bind(this);
     this.fetchAlertStatuses = this.fetchAlertStatuses.bind(this);
@@ -135,34 +135,10 @@ export default class Board extends React.Component {
     this.setState({ deleteModalHidden: true });
   }
 
-  deleteBoard(board) {
-    // e.preventDefault();
-    // const { boardName, eventName } = this.state;
-    // const { boards, accountId } = this.props;
-    // console.log(boards[board.id]);
-    // delete boards[board.id];
-    // AccountStorageMutation.mutate({
-    //   actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-    //   collection: 'neondb',
-    //   accountId: accountId,
-    //   documentId: 'boards',
-    //   document: boards,
-    // })
-    //   .then(res => {
-    //     AccountStorageMutation.mutate({
-    //       actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
-    //       collection: 'neondb-' + board.id,
-    //       accountId: accountId,
-    //     });
-    //   })
-    //   .catch(err => {
-    //     Toast.showToast({
-    //       title: 'Unable to delete board',
-    //       description: err.message || '',
-    //       type: Toast.TYPE.CRITICAL,
-    //     });
-    //   })
-    //   .finally(() => this.setState({ boards: boards }));
+  handleDeleteBoard(e) {
+    e.preventDefault();
+    const { onDelete } = this.props;
+    if (onDelete) onDelete();
   }
 
   fetchAlertStatuses(cells) {
@@ -434,7 +410,7 @@ export default class Board extends React.Component {
           </Button>
           <Button
             type={Button.TYPE.DESTRUCTIVE}
-            onClick={() => this.deleteBoard(board)}
+            onClick={e => this.handleDeleteBoard(e, board)}
             iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
           >
             Delete
