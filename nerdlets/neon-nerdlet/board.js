@@ -44,6 +44,7 @@ export default class Board extends React.Component {
     this.closeAdmin = this.closeAdmin.bind(this);
     this.openDeleteBoard = this.openDeleteBoard.bind(this);
     this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
+    this.deleteBoard = this.deleteBoard.bind(this);
 
     this.persistData = this.persistData.bind(this);
     this.fetchAlertStatuses = this.fetchAlertStatuses.bind(this);
@@ -134,11 +135,12 @@ export default class Board extends React.Component {
     this.setState({ deleteModalHidden: true });
   }
 
-  deleteBoard(e, boardId) {
-    console.log('clicked', this.props.board.id);
+  deleteBoard(board) {
+    // e.preventDefault();
     // const { boardName, eventName } = this.state;
     // const { boards, accountId } = this.props;
-    // delete boards[boardId];
+    // console.log(boards[board.id]);
+    // delete boards[board.id];
     // AccountStorageMutation.mutate({
     //   actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
     //   collection: 'neondb',
@@ -149,7 +151,7 @@ export default class Board extends React.Component {
     //   .then(res => {
     //     AccountStorageMutation.mutate({
     //       actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
-    //       collection: 'neondb-' + boardId,
+    //       collection: 'neondb-' + board.id,
     //       accountId: accountId,
     //     });
     //   })
@@ -432,7 +434,7 @@ export default class Board extends React.Component {
           </Button>
           <Button
             type={Button.TYPE.DESTRUCTIVE}
-            // onClick={this.deleteHostName}
+            onClick={() => this.deleteBoard(board)}
             iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
           >
             Delete
