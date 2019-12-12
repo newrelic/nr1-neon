@@ -145,7 +145,7 @@ export default class NeonNerdlet extends React.Component {
       board,
       currentUser,
     } = this.state;
-    const { launcherUrlState, onDelete } = this.props;
+    const { launcherUrlState } = this.props;
 
     return (
       <div className="container">

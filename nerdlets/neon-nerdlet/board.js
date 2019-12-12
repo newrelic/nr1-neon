@@ -138,11 +138,8 @@ export default class Board extends React.Component {
   }
 
   deleteBoard() {
-    // const { boardName, eventName } = this.state;
     const { boards, accountId, board, onUpdate, onClose } = this.props;
-    console.log('boards', boards);
     delete boards[board.id];
-    console.log('deleted', boards);
     AccountStorageMutation.mutate({
       actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'neondb',
