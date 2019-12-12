@@ -31,6 +31,7 @@ export default class NeonNerdlet extends React.Component {
     this.getBoards = this.getBoards.bind(this);
     this.displayBoard = this.displayBoard.bind(this);
     this.closeBoard = this.closeBoard.bind(this);
+    this.updateBoards = this.updateBoards.bind(this);
 
     this.state = {
       accounts: [],
@@ -126,8 +127,13 @@ export default class NeonNerdlet extends React.Component {
     });
   }
 
-  closeBoard() {
-    this.setState({ board: null });
+  closeBoard(_boards) {
+    const { boards } = this.state;
+    this.setState({ board: null, boards: _boards ? _boards : boards });
+  }
+
+  updateBoards(boards) {
+    this.setState({ boards: boards });
   }
 
   render() {
@@ -164,6 +170,7 @@ export default class NeonNerdlet extends React.Component {
             currentUser={currentUser}
             timeRange={launcherUrlState.timeRange}
             onClose={this.closeBoard}
+            onUpdate={this.updateBoards}
           />
         )}
       </div>

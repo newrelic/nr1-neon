@@ -18,10 +18,12 @@ import CellDetails from './cell-details';
 export default class Board extends React.Component {
   static propTypes = {
     board: PropTypes.object,
+    boards: PropTypes.object,
     accountId: PropTypes.number,
     currentUser: PropTypes.object,
     timeRange: PropTypes.object,
     onClose: PropTypes.func,
+    onUpdate: PropTypes.func,
   };
 
   constructor(props) {
@@ -137,32 +139,32 @@ export default class Board extends React.Component {
 
   deleteBoard() {
     // const { boardName, eventName } = this.state;
-    const { boards, accountId, board } = this.props;
-    console.log('clicked delete', boards[board.id]);
+    const { boards, accountId, board, onUpdate, onClose } = this.props;
+    console.log('boards', boards);
     delete boards[board.id];
-    console.log('new boards obj', boards);
-    // AccountStorageMutation.mutate({
-    //   actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-    //   collection: 'neondb',
-    //   accountId: accountId,
-    //   documentId: 'boards',
-    //   document: boards,
-    // })
-    //   .then(res => {
-    //     AccountStorageMutation.mutate({
-    //       actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
-    //       collection: 'neondb-' + board.id,
-    //       accountId: accountId,
-    //     });
-    //   })
-    //   .catch(err => {
-    //     Toast.showToast({
-    //       title: 'Unable to delete board',
-    //       description: err.message || '',
-    //       type: Toast.TYPE.CRITICAL,
-    //     });
-    //   })
-    //   .finally(() => this.setState({ boards: boards }));
+    console.log('deleted', boards);
+    AccountStorageMutation.mutate({
+      actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+      collection: 'neondb',
+      accountId: accountId,
+      documentId: 'boards',
+      document: boards,
+    })
+      .then(res => {
+        AccountStorageMutation.mutate({
+          actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
+          collection: 'neondb-' + board.id,
+          accountId: accountId,
+        });
+      })
+      .catch(err => {
+        Toast.showToast({
+          title: 'Unable to delete board',
+          description: err.message || '',
+          type: Toast.TYPE.CRITICAL,
+        });
+      })
+      .finally(() => onClose(boards));
   }
 
   fetchAlertStatuses(cells) {
