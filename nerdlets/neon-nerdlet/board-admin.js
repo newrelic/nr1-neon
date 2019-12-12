@@ -286,6 +286,7 @@ export default class BoardAdmin extends React.Component {
                 </div>
               )}
               <Button
+                type={Button.TYPE.PRIMARY}
                 iconType={Button.ICON_TYPE.INTERFACE__SIGN__PLUS}
                 onClick={() => this.addData('cell')}
               >
