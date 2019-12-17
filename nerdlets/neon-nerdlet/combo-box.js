@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Dropdown,
-  DropdownItem,
-  TextField,
-} from 'nr1';
+import { Dropdown, DropdownItem, TextField } from 'nr1';
 
 export default class ComboBox extends React.Component {
   static propTypes = {
@@ -21,18 +17,21 @@ export default class ComboBox extends React.Component {
     this.valueChange = this.valueChange.bind(this);
 
     this.state = {
-      value: (props.value) ? props.value : ''
+      value: props.value ? props.value : '',
     };
   }
 
   valueChange(val) {
     const { onChange } = this.props;
 
-    this.setState({
-      value: val,
-    }, () => {
-      if (onChange) onChange(val);
-    });
+    this.setState(
+      {
+        value: val,
+      },
+      () => {
+        if (onChange) onChange(val);
+      }
+    );
   }
 
   render() {
@@ -41,28 +40,33 @@ export default class ComboBox extends React.Component {
 
     return (
       <div>
-        {title &&
-          <div style={{
-            fontSize: '11px',
-            lineHeight: '16px',
-            letterSpacing: '.2px',
-            paddingTop: '3px',
-            paddingBottom: '5px',
-            textTransform: 'uppercase',
-            color: '#8e9494'}}
+        {title && (
+          <div
+            style={{
+              fontSize: '11px',
+              lineHeight: '16px',
+              letterSpacing: '.2px',
+              paddingTop: '3px',
+              paddingBottom: '5px',
+              textTransform: 'uppercase',
+              color: '#8e9494',
+            }}
           >
             {title}
-          </div>}
-        <div style={(options) ? {display: 'grid', gridTemplateColumns: '1fr 9fr'} : {}}>
+          </div>
+        )}
+        <div
+          style={
+            options ? { display: 'grid', gridTemplateColumns: '1fr 9fr' } : {}
+          }
+        >
           {options && (
             <Dropdown
               title=""
-              style={{alignSelf: 'end', boxShadow: '0 1px 0 0 #e3e4e4'}}
+              style={{ alignSelf: 'end', boxShadow: '0 1px 0 0 #e3e4e4' }}
             >
               {options.map((o, i) => (
-                <DropdownItem
-                  onClick={(e) => this.valueChange(o)}
-                  key={i}>
+                <DropdownItem onClick={e => this.valueChange(o)} key={i}>
                   {o}
                 </DropdownItem>
               ))}
@@ -71,7 +75,7 @@ export default class ComboBox extends React.Component {
           <TextField
             placeholder={placeholder || ''}
             value={value || ''}
-            onChange={(e) => this.valueChange(e.target.value)}
+            onChange={e => this.valueChange(e.target.value)}
           />
         </div>
       </div>

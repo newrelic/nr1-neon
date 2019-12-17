@@ -14,7 +14,13 @@ export default class AccountPicker extends React.PureComponent {
     }
 
     return (
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <Dropdown
           title={account.name}
           search={filter}

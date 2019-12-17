@@ -8,6 +8,8 @@ import {
   NerdGraphQuery,
   Icon,
   Modal,
+  Button,
+  HeadingText,
 } from 'nr1';
 
 import BoardAdmin from './board-admin';
@@ -16,10 +18,12 @@ import CellDetails from './cell-details';
 export default class Board extends React.Component {
   static propTypes = {
     board: PropTypes.object,
+    boards: PropTypes.object,
     accountId: PropTypes.number,
     currentUser: PropTypes.object,
     timeRange: PropTypes.object,
     onClose: PropTypes.func,
+    onUpdate: PropTypes.func,
   };
 
   constructor(props) {
@@ -34,11 +38,15 @@ export default class Board extends React.Component {
       timeoutId: null,
       modalHidden: true,
       detailsForCell: null,
+      deleteModalHidden: true,
     };
 
     this.getBoard = this.getBoard.bind(this);
     this.openAdmin = this.openAdmin.bind(this);
     this.closeAdmin = this.closeAdmin.bind(this);
+    this.openDeleteBoard = this.openDeleteBoard.bind(this);
+    this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
+    this.deleteBoard = this.deleteBoard.bind(this);
 
     this.persistData = this.persistData.bind(this);
     this.fetchAlertStatuses = this.fetchAlertStatuses.bind(this);
@@ -118,6 +126,42 @@ export default class Board extends React.Component {
     const { onClose } = this.props;
 
     if (onClose) onClose();
+  }
+
+  openDeleteBoard(e) {
+    e.preventDefault();
+    this.setState({ deleteModalHidden: false });
+  }
+
+  closeDeleteBoard() {
+    this.setState({ deleteModalHidden: true });
+  }
+
+  deleteBoard() {
+    const { boards, accountId, board, onUpdate, onClose } = this.props;
+    delete boards[board.id];
+    AccountStorageMutation.mutate({
+      actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+      collection: 'neondb',
+      accountId: accountId,
+      documentId: 'boards',
+      document: boards,
+    })
+      .then(res => {
+        AccountStorageMutation.mutate({
+          actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
+          collection: 'neondb-' + board.id,
+          accountId: accountId,
+        });
+      })
+      .catch(err => {
+        Toast.showToast({
+          title: 'Unable to delete board',
+          description: err.message || '',
+          type: Toast.TYPE.CRITICAL,
+        });
+      })
+      .finally(() => onClose(boards));
   }
 
   fetchAlertStatuses(cells) {
@@ -294,9 +338,15 @@ export default class Board extends React.Component {
   }
 
   render() {
-    const { rows, cols, cells, modalHidden, detailsForCell } = this.state;
+    const {
+      rows,
+      cols,
+      cells,
+      modalHidden,
+      detailsForCell,
+      deleteModalHidden,
+    } = this.state;
     const { board, accountId, currentUser } = this.props;
-
     return (
       <div>
         <div className="board-title">
@@ -339,6 +389,14 @@ export default class Board extends React.Component {
           <a href="#" className="default" onClick={e => this.closeBoard(e)}>
             boards
           </a>
+          &nbsp;|&nbsp;
+          <a
+            href="#"
+            className="default"
+            onClick={e => this.openDeleteBoard(e)}
+          >
+            delete board
+          </a>
         </div>
         <Modal hidden={modalHidden} onClose={this.closeAdmin}>
           {!detailsForCell && (
@@ -357,6 +415,28 @@ export default class Board extends React.Component {
               cell={detailsForCell}
             />
           )}
+        </Modal>
+        <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>
+          <HeadingText type={HeadingText.TYPE.HEADING_2}>
+            Are you sure you want to delete this board?
+          </HeadingText>
+          <p>
+            This cannot be undone. Please confirm whether or not you want to
+            delete this board.
+          </p>
+          <Button
+            type={Button.TYPE.PRIMARY}
+            onClick={() => this.setState({ deleteModalHidden: true })}
+          >
+            Cancel
+          </Button>
+          <Button
+            type={Button.TYPE.DESTRUCTIVE}
+            onClick={() => this.deleteBoard(board)}
+            iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
+          >
+            Delete
+          </Button>
         </Modal>
       </div>
     );
