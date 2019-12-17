@@ -31,6 +31,7 @@ export default class NeonNerdlet extends React.Component {
     this.getBoards = this.getBoards.bind(this);
     this.displayBoard = this.displayBoard.bind(this);
     this.closeBoard = this.closeBoard.bind(this);
+    this.updateBoards = this.updateBoards.bind(this);
 
     this.state = {
       accounts: [],
@@ -105,18 +106,18 @@ export default class NeonNerdlet extends React.Component {
       accountId: accountId,
       documentId: 'boards',
     })
-    .then(res => {
-      this.setState({
-        boards: (res || {}).data || {},
+      .then(res => {
+        this.setState({
+          boards: (res || {}).data || {},
+        });
+      })
+      .catch(err => {
+        Toast.showToast({
+          title: 'Unable to fetch data',
+          description: err.message || '',
+          type: Toast.TYPE.CRITICAL,
+        });
       });
-    })
-    .catch(err => {
-      Toast.showToast({
-        title: 'Unable to fetch data',
-        description: err.message || '',
-        type: Toast.TYPE.CRITICAL,
-      });
-    });
   }
 
   displayBoard(board) {
@@ -126,8 +127,13 @@ export default class NeonNerdlet extends React.Component {
     });
   }
 
-  closeBoard() {
-    this.setState({ board: null });
+  closeBoard(_boards) {
+    const { boards } = this.state;
+    this.setState({ board: null, boards: _boards ? _boards : boards });
+  }
+
+  updateBoards(boards) {
+    this.setState({ boards: boards });
   }
 
   render() {
@@ -159,10 +165,12 @@ export default class NeonNerdlet extends React.Component {
         {accountId && board && (
           <Board
             board={board}
+            boards={boards}
             accountId={accountId}
             currentUser={currentUser}
             timeRange={launcherUrlState.timeRange}
             onClose={this.closeBoard}
+            onUpdate={this.updateBoards}
           />
         )}
       </div>

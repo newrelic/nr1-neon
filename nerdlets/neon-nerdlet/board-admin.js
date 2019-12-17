@@ -173,6 +173,7 @@ export default class BoardAdmin extends React.Component {
                 value={rowName}
               />
               <Button
+                type={Button.TYPE.PRIMARY}
                 iconType={Button.ICON_TYPE.INTERFACE__SIGN__PLUS}
                 onClick={() => this.addData('row')}
               >
@@ -196,6 +197,7 @@ export default class BoardAdmin extends React.Component {
                 value={colName}
               />
               <Button
+                type={Button.TYPE.PRIMARY}
                 iconType={Button.ICON_TYPE.INTERFACE__SIGN__PLUS}
                 onClick={() => this.addData('col')}
               >
@@ -269,7 +271,7 @@ export default class BoardAdmin extends React.Component {
                     <select
                       value={isType || ''}
                       onChange={e => this.changeHandler(e, 'isType')}
-                      style={{alignSelf: 'end'}}
+                      style={{ alignSelf: 'end' }}
                     >
                       <option value="">COMPARISON</option>
                       <option value="less">less than</option>
@@ -286,6 +288,7 @@ export default class BoardAdmin extends React.Component {
                 </div>
               )}
               <Button
+                type={Button.TYPE.PRIMARY}
                 iconType={Button.ICON_TYPE.INTERFACE__SIGN__PLUS}
                 onClick={() => this.addData('cell')}
               >
