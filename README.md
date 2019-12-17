@@ -4,7 +4,7 @@
 
 ## Usage
 
-Create a single dashboard to track the heatlh of entire business units or regions. Neon lets you create a status board based on New Relic alert status, or the values from New Relic events.
+Create a single dashboard to track the health of entire business units or regions. Neon lets you create a status board based on New Relic alert status, or the values from New Relic events.
 
 ![Home Page](screenshots/home.png)
 
@@ -66,7 +66,7 @@ _Please do not report issues with this software to New Relic Global Technical Su
 
 New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
 
-[https://discuss.newrelic.com/c/build-on-new-relic/nr1-neon-nerdpack](https://discuss.newrelic.com/c/build-on-new-relic/nr1-neon-nerdpack)
+[https://discuss.newrelic.com/t/neon-alerting-nerdpack/83272](https://discuss.newrelic.com/t/neon-alerting-nerdpack/83272)
 *(Note: URL subject to change before GA)*
 
 ### Issues / Enhancement Requests
