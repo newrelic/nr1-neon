@@ -140,6 +140,10 @@ export default class Board extends React.Component {
     this.setState({ deleteModalHidden: true });
   }
 
+  editBoard() {
+    console.log('clicked edit board');
+  }
+
   openDeleteBoard(e) {
     e.preventDefault();
     this.setState({ deleteModalHidden: false });
@@ -436,12 +440,8 @@ export default class Board extends React.Component {
         {/* Edit Board Start Delete Later */}
         <Modal hidden={editModalHidden} onClose={this.closeEditBoard}>
           <HeadingText type={HeadingText.TYPE.HEADING_2}>
-            Add titles here with edit, update, delete
+            Click on edit, update, or delete icons to make changes to the titles
           </HeadingText>
-          <p>
-            This cannot be undone. Please confirm whether or not you want to
-            delete this board.
-          </p>
           <Button
             type={Button.TYPE.PRIMARY}
             onClick={() => this.setState({ editModalHidden: true })}
