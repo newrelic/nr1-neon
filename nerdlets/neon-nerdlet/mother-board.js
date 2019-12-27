@@ -9,7 +9,6 @@ import {
   Toast,
   AccountStorageMutation,
   NerdGraphQuery,
-  Tooltip,
 } from 'nr1';
 
 import ComboBox from './combo-box.js';

@@ -38,12 +38,15 @@ export default class Board extends React.Component {
       timeoutId: null,
       modalHidden: true,
       detailsForCell: null,
+      editModalHidden: true,
       deleteModalHidden: true,
     };
 
     this.getBoard = this.getBoard.bind(this);
     this.openAdmin = this.openAdmin.bind(this);
     this.closeAdmin = this.closeAdmin.bind(this);
+    this.openEditBoard = this.openEditBoard.bind(this);
+    this.closeEditBoard = this.closeEditBoard.bind(this);
     this.openDeleteBoard = this.openDeleteBoard.bind(this);
     this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
     this.deleteBoard = this.deleteBoard.bind(this);
@@ -126,6 +129,15 @@ export default class Board extends React.Component {
     const { onClose } = this.props;
 
     if (onClose) onClose();
+  }
+  //GL working, delete
+  openEditBoard(e) {
+    e.preventDefault();
+    this.setState({ deleteModalHidden: false });
+  }
+
+  closeEditBoard() {
+    this.setState({ deleteModalHidden: true });
   }
 
   openDeleteBoard(e) {
@@ -344,6 +356,7 @@ export default class Board extends React.Component {
       cells,
       modalHidden,
       detailsForCell,
+      editModalHidden,
       deleteModalHidden,
     } = this.state;
     const { board, accountId, currentUser } = this.props;
@@ -390,6 +403,10 @@ export default class Board extends React.Component {
             boards
           </a>
           &nbsp;|&nbsp;
+          <a href="#" className="default" onClick={e => this.openEditBoard(e)}>
+            edit board
+          </a>
+          &nbsp;|&nbsp;
           <a
             href="#"
             className="default"
@@ -416,6 +433,23 @@ export default class Board extends React.Component {
             />
           )}
         </Modal>
+        {/* Edit Board Start Delete Later */}
+        <Modal hidden={editModalHidden} onClose={this.closeEditBoard}>
+          <HeadingText type={HeadingText.TYPE.HEADING_2}>
+            Add titles here with edit, update, delete
+          </HeadingText>
+          <p>
+            This cannot be undone. Please confirm whether or not you want to
+            delete this board.
+          </p>
+          <Button
+            type={Button.TYPE.PRIMARY}
+            onClick={() => this.setState({ editModalHidden: true })}
+          >
+            Cancel
+          </Button>
+        </Modal>
+        {/* Edit board end delete later */}
         <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>
           <HeadingText type={HeadingText.TYPE.HEADING_2}>
             Are you sure you want to delete this board?
