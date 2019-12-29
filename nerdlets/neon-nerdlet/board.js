@@ -134,6 +134,19 @@ export default class Board extends React.Component {
 
     if (onClose) onClose();
   }
+  //GL working, delete
+  openEditBoard(e) {
+    e.preventDefault();
+    this.setState({ deleteModalHidden: false });
+  }
+
+  closeEditBoard() {
+    this.setState({ deleteModalHidden: true });
+  }
+
+  editBoard() {
+    console.log('clicked edit board');
+  }
 
   openEditBoard(e) {
     e.preventDefault();
