@@ -10,6 +10,8 @@ import {
   Modal,
   Button,
   HeadingText,
+  Tabs,
+  TabsItem,
 } from 'nr1';
 
 import BoardAdmin from './board-admin';
@@ -31,19 +33,24 @@ export default class Board extends React.Component {
 
     this.state = {
       rows: [],
+      rowName: '',
       cols: [],
+      colName: '',
       cells: [],
       data: {},
       alerts: {},
       timeoutId: null,
       modalHidden: true,
       detailsForCell: null,
+      editModalHidden: true,
       deleteModalHidden: true,
     };
 
     this.getBoard = this.getBoard.bind(this);
     this.openAdmin = this.openAdmin.bind(this);
     this.closeAdmin = this.closeAdmin.bind(this);
+    this.openEditBoard = this.openEditBoard.bind(this);
+    this.closeEditBoard = this.closeEditBoard.bind(this);
     this.openDeleteBoard = this.openDeleteBoard.bind(this);
     this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
     this.deleteBoard = this.deleteBoard.bind(this);
@@ -126,6 +133,15 @@ export default class Board extends React.Component {
     const { onClose } = this.props;
 
     if (onClose) onClose();
+  }
+
+  openEditBoard(e) {
+    e.preventDefault();
+    this.setState({ editModalHidden: false });
+  }
+
+  closeEditBoard() {
+    this.setState({ editModalHidden: true });
   }
 
   openDeleteBoard(e) {
@@ -340,10 +356,13 @@ export default class Board extends React.Component {
   render() {
     const {
       rows,
+      rowName,
       cols,
+      colName,
       cells,
       modalHidden,
       detailsForCell,
+      editModalHidden,
       deleteModalHidden,
     } = this.state;
     const { board, accountId, currentUser } = this.props;
@@ -390,6 +409,10 @@ export default class Board extends React.Component {
             boards
           </a>
           &nbsp;|&nbsp;
+          <a href="#" className="default" onClick={e => this.openEditBoard(e)}>
+            edit board
+          </a>
+          &nbsp;|&nbsp;
           <a
             href="#"
             className="default"
@@ -415,6 +438,17 @@ export default class Board extends React.Component {
               cell={detailsForCell}
             />
           )}
+        </Modal>
+        <Modal hidden={editModalHidden} onClose={this.closeEditBoard}>
+          <h3>Update or Delete Titles</h3>
+          <Tabs>
+            <TabsItem value="tab-rows" label="Rows">
+              <h3>TITLE</h3>
+            </TabsItem>
+            <TabsItem value="tab-cols" label="Columns">
+              <h3>TITLE</h3>
+            </TabsItem>
+          </Tabs>
         </Modal>
         <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>
           <HeadingText type={HeadingText.TYPE.HEADING_2}>
