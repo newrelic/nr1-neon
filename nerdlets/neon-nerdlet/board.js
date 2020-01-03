@@ -16,6 +16,7 @@ import {
 
 import BoardAdmin from './board-admin';
 import CellDetails from './cell-details';
+import EditBoard from './edit-board';
 
 export default class Board extends React.Component {
   static propTypes = {
@@ -134,7 +135,7 @@ export default class Board extends React.Component {
 
     if (onClose) onClose();
   }
-  //GL working, delete
+
   openEditBoard(e) {
     e.preventDefault();
     this.setState({ deleteModalHidden: false });
@@ -453,15 +454,7 @@ export default class Board extends React.Component {
           )}
         </Modal>
         <Modal hidden={editModalHidden} onClose={this.closeEditBoard}>
-          <h3>Update or Delete Titles</h3>
-          <Tabs>
-            <TabsItem value="tab-rows" label="Rows">
-              <h3>TITLE</h3>
-            </TabsItem>
-            <TabsItem value="tab-cols" label="Columns">
-              <h3>TITLE</h3>
-            </TabsItem>
-          </Tabs>
+          <EditBoard />
         </Modal>
         <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>
           <HeadingText type={HeadingText.TYPE.HEADING_2}>
