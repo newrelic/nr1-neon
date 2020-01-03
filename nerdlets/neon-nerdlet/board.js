@@ -50,7 +50,6 @@ export default class Board extends React.Component {
     this.getBoard = this.getBoard.bind(this);
     this.openAdmin = this.openAdmin.bind(this);
     this.closeAdmin = this.closeAdmin.bind(this);
-    this.openEditBoard = this.openEditBoard.bind(this);
     this.closeEditBoard = this.closeEditBoard.bind(this);
     this.openDeleteBoard = this.openDeleteBoard.bind(this);
     this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
