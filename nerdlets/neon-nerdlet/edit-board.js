@@ -32,22 +32,22 @@ export default class EditBoard extends React.Component {
       policyName: '',
       attributeName: '',
       isType: '',
-      valueName: '',
       editMode: false,
       editIndex: -1,
+      value: '',
     };
 
-    // this.changeHandler = this.changeHandler.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
+    this.updateData = this.updateData.bind(this);
     // this.optionChange = this.optionChange.bind(this);
-    this.editData = this.editData.bind(this);
-    // this.persistData = this.persistData.bind(this);
+    this.persistData = this.persistData.bind(this);
   }
 
-  // changeHandler(e, type) {
-  //   const o = {};
-  //   o[type] = e.target.value;
-  //   this.setState(o);
-  // }
+  changeHandler(e, type) {
+    const o = {};
+    o[type] = e.target.value;
+    this.setState(o);
+  }
 
   // optionChange(val, type) {
   //   const o = {};
@@ -55,16 +55,16 @@ export default class EditBoard extends React.Component {
   //   this.setState(o);
   // }
 
-  editData(e, type, i) {
+  updateData(e, type, i) {
     e.preventDefault();
     const { rowName, colName } = this.state;
     const { rows, cols, cells } = this.props;
     if (type === 'row') {
       this.setState({
         rows: rows,
-        rowName: '',
+        rowName: rows[i],
         editIndex: i,
-        editMode: true,
+        // editMode: true,
       });
     }
   }
@@ -105,20 +105,22 @@ export default class EditBoard extends React.Component {
                 {rows.map((row, i) => (
                   <Grid key={i}>
                     <GridItem columnSpan={4}>
-                      <TextField defaultValue={row}></TextField>
+                      <TextField
+                        placeholder={row[i]}
+                        value={rowName}
+                        onChange={e => this.changeHandler(e, 'rowName')}
+                      />
                     </GridItem>
                     <GridItem columnSpan={4}>
                       <Button
                         iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
-                        onClick={e => this.editData(e, 'row', i)}
+                        onClick={e => this.updateData(e, 'row', i)}
                       >
-                        Edit
+                        Update
                       </Button>
                     </GridItem>
                     <GridItem columnSpan={4}>
-                      <Button onClick={e => this.saveEdit(e, 'row', i)}>
-                        Done
-                      </Button>
+                      <Button>Cancel</Button>
                     </GridItem>
                   </Grid>
                 ))}
@@ -143,7 +145,7 @@ export default class EditBoard extends React.Component {
                     <GridItem columnSpan={4}>
                       <Button
                         iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
-                        onClick={e => this.editData(e, 'col', i)}
+                        onClick={e => this.updateData(e, 'col', i)}
                       >
                         Edit
                       </Button>
