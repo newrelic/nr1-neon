@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon, Modal, Tabs, TabsItem, TextField, Button } from 'nr1';
+import { Icon, Tabs, TabsItem, TextField, Button } from 'nr1';
 
 export default class BoardAdmin extends React.Component {
   static propTypes = {

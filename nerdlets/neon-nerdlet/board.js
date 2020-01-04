@@ -453,7 +453,7 @@ export default class Board extends React.Component {
           )}
         </Modal>
         <Modal hidden={editModalHidden} onClose={this.closeEditBoard}>
-          <EditBoard />
+          <EditBoard rows={rows} cols={cols} cells={cells} />
         </Modal>
         <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>
           <HeadingText type={HeadingText.TYPE.HEADING_2}>
