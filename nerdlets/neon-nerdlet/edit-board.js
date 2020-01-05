@@ -7,7 +7,7 @@ export default class EditBoard extends React.Component {
   static propTypes = {
     rows: PropTypes.array,
     cols: PropTypes.array,
-    // onSave: PropTypes.func,
+    onSave: PropTypes.func,
   };
 
   constructor(props) {
@@ -23,23 +23,24 @@ export default class EditBoard extends React.Component {
       policyName: '',
       attributeName: '',
       isType: '',
-      editMode: false,
       editIndex: -1,
       value: '',
     };
 
-    // this.changeHandler = this.changeHandler.bind(this);
-    // this.updateData = this.updateData.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
+    this.updateData = this.updateData.bind(this);
+    // this.cancelUpdate = this.cancelUpdate.bind(this);
     this.deleteData = this.deleteData.bind(this);
     // this.optionChange = this.optionChange.bind(this);
     this.persistData = this.persistData.bind(this);
   }
 
-  // changeHandler(e, type) {
-  //   const o = {};
-  //   o[type] = e.target.value;
-  //   this.setState(o);
-  // }
+  changeHandler(e) {
+    // const o = {};
+    // o[type] = e.target.value;
+    // this.setState(o);
+    this.setState({ value: e.target.value });
+  }
 
   // optionChange(val, type) {
   //   const o = {};
@@ -52,21 +53,28 @@ export default class EditBoard extends React.Component {
     if (onSave) onSave(rows, cols, cells);
   }
 
-  // updateData(e, type, i) {
+  updateData(e, type, i) {
+    e.preventDefault();
+    console.log(type, i);
+    const { rowName, colName } = this.state;
+    const { rows, cols, cells } = this.props;
+    if (type === 'row') {
+      this.setState(
+        {
+          rows: rows,
+          rowName: rows[i],
+          editIndex: i,
+        },
+        this.persistData(rows, cols, cells)
+      );
+    }
+  }
+
+  // cancelUpdate(e, type, i) {
   //   e.preventDefault();
-  //   const { rowName, colName } = this.state;
-  //   const { rows, cols, cells } = this.props;
-  //   if (type === 'row') {
-  //     this.setState(
-  //       {
-  //         rows: rows,
-  //         rowName: rows[i],
-  //         editIndex: i,
-  //         // editMode: true,
-  //       },
-  //       this.persistData(rows, cols, cells)
-  //     );
-  //   }
+  //   const { rows, rowName, cols, colName } = this.state;
+  //   this.setState({ rowName: rows[i] });
+  //   console.log('clicked cancel', rowName);
   // }
 
   deleteData(e, type, i) {
@@ -98,7 +106,7 @@ export default class EditBoard extends React.Component {
       policyName,
       attributeName,
       isType,
-      valueName,
+      value,
     } = this.state;
     const { rows, cols, cells } = this.props;
 
@@ -117,28 +125,34 @@ export default class EditBoard extends React.Component {
             >
               <div>
                 {rows.map((row, i) => (
-                  <Grid key={i}>
-                    <GridItem columnSpan={4}>
-                      <TextField placeholder={row} value={rowName} />
-                    </GridItem>
-                    <GridItem columnSpan={4}>
-                      <Button
-                        iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
-                        // onClick={e => this.updateData(e, 'row', i)}
-                      >
-                        Update
-                      </Button>
-                    </GridItem>
-                    <GridItem columnSpan={4}>
-                      <Button
-                        type={Button.TYPE.DESTRUCTIVE}
-                        iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
-                        onClick={e => this.deleteData(e, 'row', i)}
-                      >
-                        Delete
-                      </Button>
-                    </GridItem>
-                  </Grid>
+                  <div key={i}>
+                    <TextField
+                      label="Title"
+                      placeholder={rowName}
+                      onChange={this.changeHandler}
+                      value={value}
+                    />
+                    <Button
+                      iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
+                      onClick={e => this.updateData(e, 'row', i)}
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      type={Button.TYPE.DESTRUCTIVE}
+                      iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
+                      // onClick={e => this.cancelUpdate(e, 'row', i)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type={Button.TYPE.DESTRUCTIVE}
+                      iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
+                      onClick={e => this.deleteData(e, 'row', i)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 ))}
               </div>
             </div>
