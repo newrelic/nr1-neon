@@ -1,22 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Icon,
-  Tabs,
-  TabsItem,
-  TextField,
-  Button,
-  Grid,
-  GridItem,
-  Tooltip,
-} from 'nr1';
+import { Tabs, TabsItem, TextField, Button, Grid, GridItem } from 'nr1';
 
 export default class EditBoard extends React.Component {
   static propTypes = {
     rows: PropTypes.array,
     cols: PropTypes.array,
-    onSave: PropTypes.func,
+    // onSave: PropTypes.func,
   };
 
   constructor(props) {
@@ -37,17 +28,18 @@ export default class EditBoard extends React.Component {
       value: '',
     };
 
-    this.changeHandler = this.changeHandler.bind(this);
-    this.updateData = this.updateData.bind(this);
+    // this.changeHandler = this.changeHandler.bind(this);
+    // this.updateData = this.updateData.bind(this);
+    this.deleteData = this.deleteData.bind(this);
     // this.optionChange = this.optionChange.bind(this);
     this.persistData = this.persistData.bind(this);
   }
 
-  changeHandler(e, type) {
-    const o = {};
-    o[type] = e.target.value;
-    this.setState(o);
-  }
+  // changeHandler(e, type) {
+  //   const o = {};
+  //   o[type] = e.target.value;
+  //   this.setState(o);
+  // }
 
   // optionChange(val, type) {
   //   const o = {};
@@ -55,23 +47,45 @@ export default class EditBoard extends React.Component {
   //   this.setState(o);
   // }
 
-  updateData(e, type, i) {
-    e.preventDefault();
-    const { rowName, colName } = this.state;
-    const { rows, cols, cells } = this.props;
-    if (type === 'row') {
-      this.setState({
-        rows: rows,
-        rowName: rows[i],
-        editIndex: i,
-        // editMode: true,
-      });
-    }
-  }
-
   persistData(rows, cols, cells) {
     const { onSave } = this.props;
     if (onSave) onSave(rows, cols, cells);
+  }
+
+  // updateData(e, type, i) {
+  //   e.preventDefault();
+  //   const { rowName, colName } = this.state;
+  //   const { rows, cols, cells } = this.props;
+  //   if (type === 'row') {
+  //     this.setState(
+  //       {
+  //         rows: rows,
+  //         rowName: rows[i],
+  //         editIndex: i,
+  //         // editMode: true,
+  //       },
+  //       this.persistData(rows, cols, cells)
+  //     );
+  //   }
+  // }
+
+  deleteData(e, type, i) {
+    e.preventDefault();
+    const { rows, cols, cells } = this.props;
+    if (type === 'row') {
+      rows.splice(i, 1);
+    } else {
+      cols.splice(i, 1);
+    }
+    this.setState(
+      {
+        rows: rows,
+        rowName: '',
+        cols: cols,
+        colName: '',
+      },
+      this.persistData(rows, cols, cells)
+    );
   }
 
   render() {
@@ -105,22 +119,24 @@ export default class EditBoard extends React.Component {
                 {rows.map((row, i) => (
                   <Grid key={i}>
                     <GridItem columnSpan={4}>
-                      <TextField
-                        placeholder={row[i]}
-                        value={rowName}
-                        onChange={e => this.changeHandler(e, 'rowName')}
-                      />
+                      <TextField placeholder={row} value={rowName} />
                     </GridItem>
                     <GridItem columnSpan={4}>
                       <Button
                         iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
-                        onClick={e => this.updateData(e, 'row', i)}
+                        // onClick={e => this.updateData(e, 'row', i)}
                       >
                         Update
                       </Button>
                     </GridItem>
                     <GridItem columnSpan={4}>
-                      <Button>Cancel</Button>
+                      <Button
+                        type={Button.TYPE.DESTRUCTIVE}
+                        iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
+                        onClick={e => this.deleteData(e, 'row', i)}
+                      >
+                        Delete
+                      </Button>
                     </GridItem>
                   </Grid>
                 ))}
@@ -145,7 +161,7 @@ export default class EditBoard extends React.Component {
                     <GridItem columnSpan={4}>
                       <Button
                         iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
-                        onClick={e => this.updateData(e, 'col', i)}
+                        // onClick={e => this.updateData(e, 'col', i)}
                       >
                         Edit
                       </Button>
@@ -153,7 +169,7 @@ export default class EditBoard extends React.Component {
                     <GridItem columnSpan={4}>
                       <Button
                         iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
-                        onClick={e => this.saveEdit(e, 'col', i)}
+                        // onClick={e => this.saveEdit(e, 'col', i)}
                       >
                         Save
                       </Button>
