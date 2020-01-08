@@ -25,22 +25,23 @@ export default class EditBoard extends React.Component {
       isType: '',
       editIndex: -1,
       value: '',
+      editMode: false,
     };
 
-    this.changeHandler = this.changeHandler.bind(this);
-    this.updateData = this.updateData.bind(this);
+    // this.changeHandler = this.changeHandler.bind(this);
+    // this.updateData = this.updateData.bind(this);
     // this.cancelUpdate = this.cancelUpdate.bind(this);
-    this.deleteData = this.deleteData.bind(this);
+    // this.deleteData = this.deleteData.bind(this);
     // this.optionChange = this.optionChange.bind(this);
     this.persistData = this.persistData.bind(this);
   }
 
-  changeHandler(e) {
-    // const o = {};
-    // o[type] = e.target.value;
-    // this.setState(o);
-    this.setState({ value: e.target.value });
-  }
+  // changeHandler(e) {
+  //   // const o = {};
+  //   // o[type] = e.target.value;
+  //   // this.setState(o);
+  //   this.setState({ value: e.target.value });
+  // }
 
   // optionChange(val, type) {
   //   const o = {};
@@ -53,22 +54,22 @@ export default class EditBoard extends React.Component {
     if (onSave) onSave(rows, cols, cells);
   }
 
-  updateData(e, type, i) {
-    e.preventDefault();
-    console.log(type, i);
-    const { rowName, colName } = this.state;
-    const { rows, cols, cells } = this.props;
-    if (type === 'row') {
-      this.setState(
-        {
-          rows: rows,
-          rowName: rows[i],
-          editIndex: i,
-        },
-        this.persistData(rows, cols, cells)
-      );
-    }
-  }
+  // updateData(e, type, i) {
+  //   e.preventDefault();
+  //   console.log(type, i);
+  //   const { rowName, colName } = this.state;
+  //   const { rows, cols, cells } = this.props;
+  //   if (type === 'row') {
+  //     this.setState(
+  //       {
+  //         rows: rows,
+  //         rowName: rows[i],
+  //         editIndex: i,
+  //       },
+  //       this.persistData(rows, cols, cells)
+  //     );
+  //   }
+  // }
 
   // cancelUpdate(e, type, i) {
   //   e.preventDefault();
@@ -77,24 +78,24 @@ export default class EditBoard extends React.Component {
   //   console.log('clicked cancel', rowName);
   // }
 
-  deleteData(e, type, i) {
-    e.preventDefault();
-    const { rows, cols, cells } = this.props;
-    if (type === 'row') {
-      rows.splice(i, 1);
-    } else {
-      cols.splice(i, 1);
-    }
-    this.setState(
-      {
-        rows: rows,
-        rowName: '',
-        cols: cols,
-        colName: '',
-      },
-      this.persistData(rows, cols, cells)
-    );
-  }
+  // deleteData(e, type, i) {
+  //   e.preventDefault();
+  //   const { rows, cols, cells } = this.props;
+  //   if (type === 'row') {
+  //     rows.splice(i, 1);
+  //   } else {
+  //     cols.splice(i, 1);
+  //   }
+  //   this.setState(
+  //     {
+  //       rows: rows,
+  //       rowName: '',
+  //       cols: cols,
+  //       colName: '',
+  //     },
+  //     this.persistData(rows, cols, cells)
+  //   );
+  // }
 
   render() {
     const {
@@ -107,6 +108,7 @@ export default class EditBoard extends React.Component {
       attributeName,
       isType,
       value,
+      editMode,
     } = this.state;
     const { rows, cols, cells } = this.props;
 
@@ -125,29 +127,34 @@ export default class EditBoard extends React.Component {
             >
               <div>
                 {rows.map((row, i) => (
+                  //Click edit, textfield turns to editable field, click done to save
                   <div key={i}>
-                    <TextField
-                      label="Title"
-                      onChange={e => this.changeHandler(e, 'rowName')}
-                      value={rowName}
-                    />
+                    <TextField label="Title" value={row} />
                     <Button
+                      sizeType={Button.SIZE_TYPE.SMALL}
                       iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
-                      onClick={e => this.updateData(e, 'row', i)}
+                      onClick={e => this.handleEdit}
                     >
-                      Update
+                      Edit
                     </Button>
                     <Button
-                      type={Button.TYPE.DESTRUCTIVE}
-                      iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
-                      // onClick={e => this.cancelUpdate(e, 'row', i)}
+                      sizeType={Button.SIZE_TYPE.SMALL}
+                      type={Button.TYPE.PRIMARY}
+                      iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
                     >
-                      Cancel
+                      Done
                     </Button>
                     <Button
+                      sizeType={Button.SIZE_TYPE.SMALL}
+                      iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__UNDO}
+                    >
+                      Undo
+                    </Button>
+                    <Button
+                      sizeType={Button.SIZE_TYPE.SMALL}
                       type={Button.TYPE.DESTRUCTIVE}
                       iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
-                      onClick={e => this.deleteData(e, 'row', i)}
+                      // onClick={e => this.deleteData(e, 'row', i)}
                     >
                       Delete
                     </Button>
