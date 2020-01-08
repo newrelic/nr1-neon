@@ -37,10 +37,9 @@ export default class EditBoard extends React.Component {
     if (onSave) onSave(rows, cols, cells);
   }
 
-  toggleEdit(e, i) {
+  toggleEdit(row) {
     const { editMode } = this.state;
-    const { rows } = this.props;
-    console.log(rows[i]);
+    console.log(row);
     this.setState({ editMode: !editMode });
     // reference this https://codepen.io/saoirsezee/pen/yOrVra
   }
@@ -80,7 +79,7 @@ export default class EditBoard extends React.Component {
                       <TextField label="Title" value={row} />
                       <Button
                         iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
-                        onClick={e => this.toggleEdit(e, i)}
+                        onClick={() => this.toggleEdit(row)}
                       >
                         Done
                       </Button>
@@ -95,7 +94,7 @@ export default class EditBoard extends React.Component {
 
                       <Button
                         iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
-                        onClick={e => this.toggleEdit(e, i)}
+                        onClick={() => this.toggleEdit(row)}
                       >
                         Edit
                       </Button>
