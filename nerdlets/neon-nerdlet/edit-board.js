@@ -42,6 +42,7 @@ export default class EditBoard extends React.Component {
     const { rows } = this.props;
     console.log(rows[i]);
     this.setState({ editMode: !editMode });
+    // reference this https://codepen.io/saoirsezee/pen/yOrVra
   }
 
   render() {
