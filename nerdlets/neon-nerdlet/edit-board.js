@@ -127,7 +127,7 @@ export default class EditBoard extends React.Component {
             >
               <div>
                 {rows.map((row, i) => (
-                  //Click edit, textfield turns to editable field, click done to save
+                  //Click edit, editMode is true then textfield turns to editable field, click done to save
                   <div key={i}>
                     <TextField label="Title" value={row} />
                     <Button
