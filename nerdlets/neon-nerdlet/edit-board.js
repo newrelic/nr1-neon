@@ -128,9 +128,8 @@ export default class EditBoard extends React.Component {
                   <div key={i}>
                     <TextField
                       label="Title"
-                      placeholder={rowName}
-                      onChange={this.changeHandler}
-                      value={value}
+                      onChange={e => this.changeHandler(e, 'rowName')}
+                      value={rowName}
                     />
                     <Button
                       iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
