@@ -415,11 +415,11 @@ export default class Board extends React.Component {
         </table>
         <div className="control-bar">
           <a href="#" className="default" onClick={e => this.openAdmin(e)}>
-            admin
+            setup board
           </a>
           &nbsp;|&nbsp;
           <a href="#" className="default" onClick={e => this.closeBoard(e)}>
-            boards
+            view boards
           </a>
           &nbsp;|&nbsp;
           <a href="#" className="default" onClick={e => this.openEditBoard(e)}>

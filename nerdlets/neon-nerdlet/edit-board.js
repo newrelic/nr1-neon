@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EditTitle from './edit-title';
+import Title from './title';
 
 import { Tabs, TabsItem } from 'nr1';
 
@@ -12,31 +12,9 @@ export default class EditBoard extends React.Component {
 
   constructor(props) {
     super(props);
-
-    // this.state = {
-    //   rowName: '',
-    //   rowForCell: '',
-    //   colName: '',
-    //   colForCell: '',
-    //   cells: [],
-    //   cellType: '',
-    //   policyName: '',
-    //   attributeName: '',
-    //   isType: '',
-    // };
   }
 
   render() {
-    // const {
-    //   rowName,
-    //   rowForCell,
-    //   colName,
-    //   colForCell,
-    //   cellType,
-    //   policyName,
-    //   attributeName,
-    //   isType,
-    // } = this.state;
     const { rows, cols } = this.props;
 
     return (
@@ -52,10 +30,12 @@ export default class EditBoard extends React.Component {
                 marginTop: '2em',
               }}
             >
-              <EditTitle rows={rows} />
+              {rows.map((row, i) => (
+                <Title key={i} title={row} />
+              ))}
             </div>
           </TabsItem>
-          <TabsItem value="tab-cols" label="Columns">
+          <TabsItem value="tab-cols" label="Cols">
             <div
               style={{
                 display: 'grid',
@@ -64,9 +44,9 @@ export default class EditBoard extends React.Component {
                 marginTop: '2em',
               }}
             >
-              <div>
-                <EditTitle cols={cols} />
-              </div>
+              {cols.map((col, i) => (
+                <Title key={i} title={col} />
+              ))}
             </div>
           </TabsItem>
         </Tabs>
