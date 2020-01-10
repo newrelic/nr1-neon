@@ -16,7 +16,7 @@ export default class Title extends React.Component {
       editMode: false,
     };
 
-    // this.toggleEdit = this.toggleEdit.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
     // this.persistData = this.persistData.bind(this);
   }
 
@@ -25,12 +25,11 @@ export default class Title extends React.Component {
   //   if (onSave) onSave(rows, cols, cells);
   // }
 
-  // toggleEdit(row) {
-  //   const { editMode } = this.state;
-  //   console.log(row);
-  //   this.setState({ editMode: !editMode });
-  //   // reference this https://codepen.io/saoirsezee/pen/yOrVra
-  // }
+  toggleEdit() {
+    const { editMode } = this.state;
+    this.setState({ editMode: !editMode });
+    // reference this https://codepen.io/saoirsezee/pen/yOrVra
+  }
 
   render() {
     const { title } = this.props;
@@ -38,13 +37,30 @@ export default class Title extends React.Component {
 
     return (
       <div>
-        <TextField value={title} disabled={false} />
-        <Button
-          iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
-          sizeType={Button.SIZE_TYPE.MEDIUM}
-        >
-          Edit
-        </Button>
+        {editMode ? (
+          <div>
+            <TextField value={title} disabled={true} />
+            <Button
+              iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
+              sizeType={Button.SIZE_TYPE.MEDIUM}
+              type={Button.TYPE.PRIMARY}
+              onClick={this.toggleEdit}
+            >
+              Save
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <TextField value={title} disabled={false} />
+            <Button
+              iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
+              sizeType={Button.SIZE_TYPE.MEDIUM}
+              onClick={this.toggleEdit}
+            >
+              Edit
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
