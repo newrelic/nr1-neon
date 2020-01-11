@@ -54,6 +54,7 @@ export default class Board extends React.Component {
     this.openDeleteBoard = this.openDeleteBoard.bind(this);
     this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
     this.deleteBoard = this.deleteBoard.bind(this);
+    this.handleDataDelete = this.handleDataDelete.bind(this);
 
     this.persistData = this.persistData.bind(this);
     this.fetchAlertStatuses = this.fetchAlertStatuses.bind(this);
@@ -191,6 +192,10 @@ export default class Board extends React.Component {
         });
       })
       .finally(() => onClose(boards));
+  }
+
+  handleDataDelete() {
+    console.log('delete button clicked');
   }
 
   fetchAlertStatuses(cells) {
@@ -453,7 +458,12 @@ export default class Board extends React.Component {
           )}
         </Modal>
         <Modal hidden={editModalHidden} onClose={this.closeEditBoard}>
-          <EditBoard rows={rows} cols={cols} onSave={this.persistData} />
+          <EditBoard
+            rows={rows}
+            cols={cols}
+            onDataDelete={this.handleDataDelete}
+            onSave={this.persistData}
+          />
         </Modal>
         <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>
           <HeadingText type={HeadingText.TYPE.HEADING_2}>

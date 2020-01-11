@@ -6,7 +6,7 @@ import { TextField, Button } from 'nr1';
 export default class Title extends React.Component {
   static propTypes = {
     title: PropTypes.string,
-    onClose: PropTypes.func,
+    onDataDelete: PropTypes.func,
   };
 
   constructor(props) {
@@ -18,14 +18,14 @@ export default class Title extends React.Component {
     };
 
     this.toggleEdit = this.toggleEdit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    // this.persistData = this.persistData.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.persistData = this.persistData.bind(this);
   }
 
-  // persistData(rows, cols, cells) {
-  //   const { onSave } = this.props;
-  //   if (onSave) onSave(rows, cols, cells);
-  // }
+  persistData(rows, cols, cells) {
+    const { onSave } = this.props;
+    if (onSave) onSave(rows, cols, cells);
+  }
 
   toggleEdit() {
     const { editMode } = this.state;
@@ -33,19 +33,20 @@ export default class Title extends React.Component {
     // reference this https://codepen.io/saoirsezee/pen/yOrVra
   }
 
-  handleChange(e) {
+  handleEdit(e) {
     this.setState({ value: e.target.value });
   }
 
   render() {
-    const { title } = this.props;
+    const { title, onDataDelete } = this.props;
     const { editMode, value } = this.state;
+    // console.log('title', this.props);
 
     return (
       <div>
         {editMode ? (
           <div>
-            <TextField onChange={this.handleChange} value={value} />
+            <TextField onChange={this.handleEdit} value={value} />
             <Button
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
@@ -61,6 +62,14 @@ export default class Title extends React.Component {
               onClick={this.toggleEdit}
             >
               Cancel
+            </Button>
+            <Button
+              iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
+              sizeType={Button.SIZE_TYPE.MEDIUM}
+              type={Button.TYPE.DESTRUCTIVE}
+              onClick={onDataDelete}
+            >
+              Delete
             </Button>
           </div>
         ) : (
