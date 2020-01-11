@@ -18,7 +18,7 @@ export default class Title extends React.Component {
     };
 
     this.toggleEdit = this.toggleEdit.bind(this);
-    this.updateTitle = this.updateTitle.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     // this.persistData = this.persistData.bind(this);
   }
 
@@ -33,19 +33,19 @@ export default class Title extends React.Component {
     // reference this https://codepen.io/saoirsezee/pen/yOrVra
   }
 
-  updateTitle(e) {
+  handleChange(e) {
     this.setState({ value: e.target.value });
   }
 
   render() {
     const { title } = this.props;
-    const { editMode } = this.state;
+    const { editMode, value } = this.state;
 
     return (
       <div>
         {editMode ? (
           <div>
-            <TextField value="" onChange={e => this.updateTitle(e)} />
+            <TextField onChange={this.handleChange} value={value} />
             <Button
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
@@ -53,6 +53,14 @@ export default class Title extends React.Component {
               // onClick={this.handleSave}
             >
               Save
+            </Button>
+            <Button
+              iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__UNDO}
+              sizeType={Button.SIZE_TYPE.MEDIUM}
+              type={Button.TYPE.NEUTRAL}
+              onClick={this.toggleEdit}
+            >
+              Cancel
             </Button>
           </div>
         ) : (
