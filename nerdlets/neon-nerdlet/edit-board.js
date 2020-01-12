@@ -17,6 +17,7 @@ export default class EditBoard extends React.Component {
 
   render() {
     const { rows, cols, onDataDelete } = this.props;
+    // console.log('edit-board', this.props);
 
     return (
       <div>

@@ -194,8 +194,25 @@ export default class Board extends React.Component {
       .finally(() => onClose(boards));
   }
 
-  handleDataDelete() {
-    alert('delete button clicked');
+  handleDataDelete(title) {
+    const { rows, cols, cells } = this.state;
+    const rowIndex = rows.indexOf(title);
+    const colIndex = cols.indexOf(title);
+
+    if (colIndex === -1) {
+      rows.splice(rowIndex, 1);
+    } else {
+      cols.splice(colIndex, 1);
+    }
+    this.setState(
+      {
+        rows: rows,
+        rowName: '',
+        cols: cols,
+        colName: '',
+      },
+      this.persistData(rows, cols, cells)
+    );
   }
 
   fetchAlertStatuses(cells) {

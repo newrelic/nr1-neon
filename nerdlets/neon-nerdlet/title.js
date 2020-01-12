@@ -39,6 +39,7 @@ export default class Title extends React.Component {
 
   render() {
     const { title, onDataDelete } = this.props;
+
     const { editMode, value } = this.state;
 
     return (
@@ -66,7 +67,7 @@ export default class Title extends React.Component {
               iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.DESTRUCTIVE}
-              onClick={onDataDelete}
+              onClick={() => onDataDelete(title)}
             >
               Delete
             </Button>
