@@ -40,7 +40,6 @@ export default class Title extends React.Component {
   render() {
     const { title, onDataDelete } = this.props;
     const { editMode, value } = this.state;
-    // console.log('title', this.props);
 
     return (
       <div>

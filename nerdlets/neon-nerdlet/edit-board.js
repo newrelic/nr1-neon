@@ -32,7 +32,7 @@ export default class EditBoard extends React.Component {
               }}
             >
               {rows.map((row, i) => (
-                <Title key={i} title={row} />
+                <Title key={i} title={row} onDataDelete={onDataDelete} />
               ))}
             </div>
           </TabsItem>

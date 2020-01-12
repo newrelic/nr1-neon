@@ -195,7 +195,7 @@ export default class Board extends React.Component {
   }
 
   handleDataDelete() {
-    console.log('delete button clicked');
+    alert('delete button clicked');
   }
 
   fetchAlertStatuses(cells) {
