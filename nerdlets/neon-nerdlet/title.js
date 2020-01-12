@@ -19,12 +19,6 @@ export default class Title extends React.Component {
 
     this.toggleEdit = this.toggleEdit.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
-    this.persistData = this.persistData.bind(this);
-  }
-
-  persistData(rows, cols, cells) {
-    const { onSave } = this.props;
-    if (onSave) onSave(rows, cols, cells);
   }
 
   toggleEdit() {
@@ -46,7 +40,11 @@ export default class Title extends React.Component {
       <div>
         {editMode ? (
           <div>
-            <TextField onChange={this.handleEdit} value={value} />
+            <TextField
+              style={{ backgroundColor: '#f4f5f5' }}
+              onChange={this.handleEdit}
+              value={value}
+            />
             <Button
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
