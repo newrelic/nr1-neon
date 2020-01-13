@@ -6,6 +6,8 @@ import { TextField, Button } from 'nr1';
 export default class Title extends React.Component {
   static propTypes = {
     title: PropTypes.string,
+    index: PropTypes.number,
+    type: PropTypes.string,
     onDataDelete: PropTypes.func,
     onDataSave: PropTypes.func,
   };
@@ -15,7 +17,7 @@ export default class Title extends React.Component {
 
     this.state = {
       editMode: false,
-      value: '',
+      value: props.title || '',
     };
 
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -33,7 +35,7 @@ export default class Title extends React.Component {
   }
 
   render() {
-    const { title, onDataDelete, onDataSave } = this.props;
+    const { title, index, onDataDelete, onDataSave, type } = this.props;
 
     const { editMode, value } = this.state;
 
@@ -50,7 +52,7 @@ export default class Title extends React.Component {
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.PRIMARY}
-              onClick={() => onDataSave(title)}
+              onClick={() => onDataSave(value, index, type)}
             >
               Save
             </Button>

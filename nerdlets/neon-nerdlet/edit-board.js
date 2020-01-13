@@ -36,6 +36,8 @@ export default class EditBoard extends React.Component {
                 <Title
                   key={i}
                   title={row}
+                  index={i}
+                  type={'rows'}
                   onDataDelete={onDataDelete}
                   onDataSave={onDataSave}
                 />
@@ -55,6 +57,8 @@ export default class EditBoard extends React.Component {
                 <Title
                   key={i}
                   title={col}
+                  index={i}
+                  type={'cols'}
                   onDataDelete={onDataDelete}
                   onDataSave={onDataSave}
                 />
