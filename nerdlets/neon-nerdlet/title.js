@@ -35,7 +35,6 @@ export default class Title extends React.Component {
 
   render() {
     const { title, index, onDataDelete, onDataSave, type } = this.props;
-
     const { editMode, value } = this.state;
 
     return (
@@ -48,6 +47,7 @@ export default class Title extends React.Component {
               value={value}
             />
             <Button
+              className="btn-spacing"
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.PRIMARY}
@@ -56,6 +56,7 @@ export default class Title extends React.Component {
               Save
             </Button>
             <Button
+              className="btn-spacing"
               iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__UNDO}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.NEUTRAL}
@@ -64,6 +65,7 @@ export default class Title extends React.Component {
               Cancel
             </Button>
             <Button
+              className="btn-spacing"
               iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.DESTRUCTIVE}
@@ -76,6 +78,7 @@ export default class Title extends React.Component {
           <div>
             <TextField value={title} disabled={false} />
             <Button
+              className="btn-spacing"
               iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               onClick={this.toggleEdit}
