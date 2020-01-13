@@ -9,6 +9,7 @@ export default class EditBoard extends React.Component {
     rows: PropTypes.array,
     cols: PropTypes.array,
     onDataDelete: PropTypes.func,
+    onDataSave: PropTypes.func,
   };
 
   constructor(props) {
@@ -16,8 +17,7 @@ export default class EditBoard extends React.Component {
   }
 
   render() {
-    const { rows, cols, onDataDelete } = this.props;
-    // console.log('edit-board', this.props);
+    const { rows, cols, onDataDelete, onDataSave } = this.props;
 
     return (
       <div>
@@ -33,7 +33,12 @@ export default class EditBoard extends React.Component {
               }}
             >
               {rows.map((row, i) => (
-                <Title key={i} title={row} onDataDelete={onDataDelete} />
+                <Title
+                  key={i}
+                  title={row}
+                  onDataDelete={onDataDelete}
+                  onDataSave={onDataSave}
+                />
               ))}
             </div>
           </TabsItem>
@@ -47,7 +52,12 @@ export default class EditBoard extends React.Component {
               }}
             >
               {cols.map((col, i) => (
-                <Title key={i} title={col} onDataDelete={onDataDelete} />
+                <Title
+                  key={i}
+                  title={col}
+                  onDataDelete={onDataDelete}
+                  onDataSave={onDataSave}
+                />
               ))}
             </div>
           </TabsItem>

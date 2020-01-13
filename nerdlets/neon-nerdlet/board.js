@@ -6,12 +6,9 @@ import {
   AccountStorageQuery,
   AccountStorageMutation,
   NerdGraphQuery,
-  Icon,
   Modal,
   Button,
   HeadingText,
-  Tabs,
-  TabsItem,
 } from 'nr1';
 
 import BoardAdmin from './board-admin';
@@ -55,6 +52,7 @@ export default class Board extends React.Component {
     this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
     this.deleteBoard = this.deleteBoard.bind(this);
     this.handleDataDelete = this.handleDataDelete.bind(this);
+    this.handleDataSave = this.handleDataSave.bind(this);
 
     this.persistData = this.persistData.bind(this);
     this.fetchAlertStatuses = this.fetchAlertStatuses.bind(this);
@@ -213,6 +211,24 @@ export default class Board extends React.Component {
       },
       this.persistData(rows, cols, cells)
     );
+  }
+
+  handleDataSave(e, title) {
+    const { rows, cols, cells } = this.state;
+    const rowIndex = rows.indexOf(title);
+    const colIndex = cols.indexOf(title);
+    console.log(rowIndex, colIndex, 'newtitle', e.target.value);
+
+    // if (colIndex === -1) {
+    //   this.setState({
+    //     rowName: rows[rowIndex],
+    //   });
+    // } else {
+    //   this.setState({
+    //     colName: cols[colIndex],
+    //   });
+    // }
+    // this.persistData(cols, rows, cells);
   }
 
   fetchAlertStatuses(cells) {
@@ -479,7 +495,8 @@ export default class Board extends React.Component {
             rows={rows}
             cols={cols}
             onDataDelete={this.handleDataDelete}
-            onSave={this.persistData}
+            onDataSave={this.handleDataSave}
+            // onSave={this.persistData}
           />
         </Modal>
         <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>

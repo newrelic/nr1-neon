@@ -7,6 +7,7 @@ export default class Title extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     onDataDelete: PropTypes.func,
+    onDataSave: PropTypes.func,
   };
 
   constructor(props) {
@@ -24,7 +25,7 @@ export default class Title extends React.Component {
   toggleEdit() {
     const { editMode } = this.state;
     this.setState({ editMode: !editMode });
-    // reference this https://codepen.io/saoirsezee/pen/yOrVra
+    // referenced this https://codepen.io/saoirsezee/pen/yOrVra
   }
 
   handleEdit(e) {
@@ -32,7 +33,7 @@ export default class Title extends React.Component {
   }
 
   render() {
-    const { title, onDataDelete } = this.props;
+    const { title, onDataDelete, onDataSave } = this.props;
 
     const { editMode, value } = this.state;
 
@@ -49,7 +50,7 @@ export default class Title extends React.Component {
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.PRIMARY}
-              // onClick={this.handleSave}
+              onClick={() => onDataSave(title)}
             >
               Save
             </Button>
