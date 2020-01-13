@@ -25,7 +25,6 @@ export default class Title extends React.Component {
   }
 
   toggleEdit() {
-    // referenced this https://codepen.io/saoirsezee/pen/yOrVras
     const { editMode } = this.state;
     this.setState({ editMode: !editMode });
   }
