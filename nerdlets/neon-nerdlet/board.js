@@ -104,6 +104,7 @@ export default class Board extends React.Component {
       documentId: 'data',
     }).then(res => {
       const data = (res || {}).data || {};
+      console.log(data);
       this.setState(
         {
           cells: data && 'cells' in data ? data.cells : [],
@@ -212,23 +213,21 @@ export default class Board extends React.Component {
       this.persistData(rows, cols, cells)
     );
   }
-
-  handleDataSave(e, title) {
+  handleDataSave(value, index, type) {
     const { rows, cols, cells } = this.state;
-    const rowIndex = rows.indexOf(title);
-    const colIndex = cols.indexOf(title);
-    console.log(rowIndex, colIndex, 'newtitle', e.target.value);
 
-    // if (colIndex === -1) {
-    //   this.setState({
-    //     rowName: rows[rowIndex],
-    //   });
-    // } else {
-    //   this.setState({
-    //     colName: cols[colIndex],
-    //   });
-    // }
-    // this.persistData(cols, rows, cells);
+    if (type === 'rows') {
+      rows[index] = value;
+    } else {
+      cols[index] = value;
+    }
+    this.setState(
+      {
+        rows: rows,
+        cols: cols,
+      },
+      this.persistData(rows, cols, cells)
+    );
   }
 
   fetchAlertStatuses(cells) {
@@ -417,6 +416,7 @@ export default class Board extends React.Component {
       deleteModalHidden,
     } = this.state;
     const { board, accountId, currentUser } = this.props;
+    console.log(rows);
     return (
       <div>
         <div className="board-title">
