@@ -414,6 +414,7 @@ export default class Board extends React.Component {
       detailsForCell,
       editModalHidden,
       deleteModalHidden,
+      editMode,
     } = this.state;
     const { board, accountId, currentUser } = this.props;
     console.log(rows);
@@ -494,6 +495,7 @@ export default class Board extends React.Component {
           <EditBoard
             rows={rows}
             cols={cols}
+            editMode={editMode}
             onDataDelete={this.handleDataDelete}
             onDataSave={this.handleDataSave}
           />
