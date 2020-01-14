@@ -496,7 +496,6 @@ export default class Board extends React.Component {
             cols={cols}
             onDataDelete={this.handleDataDelete}
             onDataSave={this.handleDataSave}
-            // onSave={this.persistData}
           />
         </Modal>
         <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>
