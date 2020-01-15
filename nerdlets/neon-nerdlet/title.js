@@ -22,6 +22,7 @@ export default class Title extends React.Component {
 
     this.toggleEdit = this.toggleEdit.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   toggleEdit() {
@@ -31,6 +32,11 @@ export default class Title extends React.Component {
 
   handleEdit(e) {
     this.setState({ value: e.target.value });
+  }
+
+  handleCancel(e) {
+    e.preventDefault();
+    this.setState({ editMode: false });
   }
 
   render() {
@@ -60,7 +66,7 @@ export default class Title extends React.Component {
               iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__UNDO}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.NEUTRAL}
-              onClick={this.toggleEdit}
+              onClick={this.handleCancel}
             >
               Cancel
             </Button>

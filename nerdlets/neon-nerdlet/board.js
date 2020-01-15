@@ -104,7 +104,6 @@ export default class Board extends React.Component {
       documentId: 'data',
     }).then(res => {
       const data = (res || {}).data || {};
-      console.log(data);
       this.setState(
         {
           cells: data && 'cells' in data ? data.cells : [],
@@ -416,7 +415,6 @@ export default class Board extends React.Component {
       deleteModalHidden,
     } = this.state;
     const { board, accountId, currentUser } = this.props;
-    console.log(rows);
     return (
       <div>
         <div className="board-title">
