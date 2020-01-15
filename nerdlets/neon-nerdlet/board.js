@@ -130,21 +130,7 @@ export default class Board extends React.Component {
   closeBoard(e) {
     e.preventDefault();
     const { onClose } = this.props;
-
     if (onClose) onClose();
-  }
-
-  openEditBoard(e) {
-    e.preventDefault();
-    this.setState({ deleteModalHidden: false });
-  }
-
-  closeEditBoard() {
-    this.setState({ deleteModalHidden: true });
-  }
-
-  editBoard() {
-    console.log('clicked edit board');
   }
 
   openEditBoard(e) {
@@ -166,7 +152,7 @@ export default class Board extends React.Component {
   }
 
   deleteBoard() {
-    const { boards, accountId, board, onUpdate, onClose } = this.props;
+    const { boards, accountId, board, onClose } = this.props;
     delete boards[board.id];
     AccountStorageMutation.mutate({
       actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
@@ -212,6 +198,7 @@ export default class Board extends React.Component {
       this.persistData(rows, cols, cells)
     );
   }
+
   handleDataSave(value, index, type) {
     const { rows, cols, cells } = this.state;
 

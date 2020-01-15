@@ -10,6 +10,7 @@ export default class Title extends React.Component {
     type: PropTypes.string,
     onDataDelete: PropTypes.func,
     onDataSave: PropTypes.func,
+    resetEditBoard: PropTypes.func,
   };
 
   constructor(props) {
