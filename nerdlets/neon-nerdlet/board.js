@@ -450,11 +450,7 @@ export default class Board extends React.Component {
             edit board
           </a>
           &nbsp;|&nbsp;
-          <a
-            href="#"
-            className="default"
-            onClick={e => this.openDeleteBoard(e)}
-          >
+          <a href="#" className="default" onClick={this.openDeleteBoard}>
             delete board
           </a>
         </div>
@@ -477,13 +473,15 @@ export default class Board extends React.Component {
           )}
         </Modal>
         <Modal hidden={editModalHidden} onClose={this.closeEditBoard}>
-          <EditBoard
-            rows={rows}
-            cols={cols}
-            editMode={editMode}
-            onDataDelete={this.handleDataDelete}
-            onDataSave={this.handleDataSave}
-          />
+          {!editModalHidden && (
+            <EditBoard
+              rows={rows}
+              cols={cols}
+              editMode={editMode}
+              onDataDelete={this.handleDataDelete}
+              onDataSave={this.handleDataSave}
+            />
+          )}
         </Modal>
         <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>
           <HeadingText type={HeadingText.TYPE.HEADING_2}>
