@@ -25,7 +25,8 @@ export default class Title extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
   }
 
-  toggleEdit() {
+  toggleEdit(e) {
+    e.preventDefault();
     const { editMode } = this.state;
     this.setState({ editMode: !editMode });
   }
