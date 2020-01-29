@@ -6,7 +6,6 @@ import {
   AccountStorageQuery,
   AccountStorageMutation,
   NerdGraphQuery,
-  Icon,
   Modal,
   Button,
   HeadingText,
@@ -14,6 +13,7 @@ import {
 
 import BoardAdmin from './board-admin';
 import CellDetails from './cell-details';
+import EditBoard from './edit-board';
 
 export default class Board extends React.Component {
   static propTypes = {
@@ -31,22 +31,28 @@ export default class Board extends React.Component {
 
     this.state = {
       rows: [],
+      rowName: '',
       cols: [],
+      colName: '',
       cells: [],
       data: {},
       alerts: {},
       timeoutId: null,
       modalHidden: true,
       detailsForCell: null,
+      editModalHidden: true,
       deleteModalHidden: true,
     };
 
     this.getBoard = this.getBoard.bind(this);
     this.openAdmin = this.openAdmin.bind(this);
     this.closeAdmin = this.closeAdmin.bind(this);
+    this.closeEditBoard = this.closeEditBoard.bind(this);
     this.openDeleteBoard = this.openDeleteBoard.bind(this);
     this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
     this.deleteBoard = this.deleteBoard.bind(this);
+    this.handleDataDelete = this.handleDataDelete.bind(this);
+    this.handleDataSave = this.handleDataSave.bind(this);
 
     this.persistData = this.persistData.bind(this);
     this.fetchAlertStatuses = this.fetchAlertStatuses.bind(this);
@@ -124,8 +130,16 @@ export default class Board extends React.Component {
   closeBoard(e) {
     e.preventDefault();
     const { onClose } = this.props;
-
     if (onClose) onClose();
+  }
+
+  openEditBoard(e) {
+    e.preventDefault();
+    this.setState({ editModalHidden: false });
+  }
+
+  closeEditBoard() {
+    this.setState({ editModalHidden: true });
   }
 
   openDeleteBoard(e) {
@@ -138,7 +152,7 @@ export default class Board extends React.Component {
   }
 
   deleteBoard() {
-    const { boards, accountId, board, onUpdate, onClose } = this.props;
+    const { boards, accountId, board, onClose } = this.props;
     delete boards[board.id];
     AccountStorageMutation.mutate({
       actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
@@ -162,6 +176,44 @@ export default class Board extends React.Component {
         });
       })
       .finally(() => onClose(boards));
+  }
+
+  handleDataDelete(title) {
+    const { rows, cols, cells } = this.state;
+    const rowIndex = rows.indexOf(title);
+    const colIndex = cols.indexOf(title);
+
+    if (colIndex === -1) {
+      rows.splice(rowIndex, 1);
+    } else {
+      cols.splice(colIndex, 1);
+    }
+    this.setState(
+      {
+        rows: rows,
+        rowName: '',
+        cols: cols,
+        colName: '',
+      },
+      this.persistData(rows, cols, cells)
+    );
+  }
+
+  handleDataSave(value, index, type) {
+    const { rows, cols, cells } = this.state;
+
+    if (type === 'rows') {
+      rows[index] = value;
+    } else {
+      cols[index] = value;
+    }
+    this.setState(
+      {
+        rows: rows,
+        cols: cols,
+      },
+      this.persistData(rows, cols, cells)
+    );
   }
 
   fetchAlertStatuses(cells) {
@@ -340,11 +392,15 @@ export default class Board extends React.Component {
   render() {
     const {
       rows,
+      rowName,
       cols,
+      colName,
       cells,
       modalHidden,
       detailsForCell,
+      editModalHidden,
       deleteModalHidden,
+      editMode,
     } = this.state;
     const { board, accountId, currentUser } = this.props;
     return (
@@ -383,18 +439,18 @@ export default class Board extends React.Component {
         </table>
         <div className="control-bar">
           <a href="#" className="default" onClick={e => this.openAdmin(e)}>
-            admin
+            setup board
           </a>
           &nbsp;|&nbsp;
           <a href="#" className="default" onClick={e => this.closeBoard(e)}>
-            boards
+            view boards
           </a>
           &nbsp;|&nbsp;
-          <a
-            href="#"
-            className="default"
-            onClick={e => this.openDeleteBoard(e)}
-          >
+          <a href="#" className="default" onClick={e => this.openEditBoard(e)}>
+            edit board
+          </a>
+          &nbsp;|&nbsp;
+          <a href="#" className="default" onClick={this.openDeleteBoard}>
             delete board
           </a>
         </div>
@@ -413,6 +469,17 @@ export default class Board extends React.Component {
               accountId={accountId}
               currentUser={currentUser}
               cell={detailsForCell}
+            />
+          )}
+        </Modal>
+        <Modal hidden={editModalHidden} onClose={this.closeEditBoard}>
+          {!editModalHidden && (
+            <EditBoard
+              rows={rows}
+              cols={cols}
+              editMode={editMode}
+              onDataDelete={this.handleDataDelete}
+              onDataSave={this.handleDataSave}
             />
           )}
         </Modal>

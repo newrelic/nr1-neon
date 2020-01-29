@@ -190,7 +190,14 @@ h6 {
 [class*='InnerModal'] {
   background-color: #fff;
 }
+// / delete board modal
 
+//  edit board modal
+.btn-spacing {
+  margin: 8px 4px;
+}
+
+// / edit board modal
 @supports (display: grid) {
   .board_list {
     display: grid;
