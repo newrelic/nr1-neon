@@ -5,7 +5,7 @@ import {
   AccountsQuery,
   AccountStorageQuery,
   NerdGraphQuery,
-  PlatformStateContext
+  PlatformStateContext,
 } from 'nr1';
 
 import BoxSpinner from './box-spinner.js';
@@ -14,7 +14,6 @@ import Board from './board.js';
 import AccountPicker from './account-picker.js';
 
 export default class NeonNerdlet extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -169,7 +168,6 @@ export default class NeonNerdlet extends React.Component {
           </div>
         )}
       </PlatformStateContext.Consumer>
-
     );
   }
 }
