@@ -14,7 +14,7 @@
     "sdkVersion": 2
   },
   "bugs": {
-    "email": "opensource@newrelic.com"
+    "email": "opensource+nr1-neon@newrelic.com"
   },
   "license": "Apache-2.0",
   "dependencies": {
