@@ -29,7 +29,8 @@ git --version
 npm -v
 ```
 
-If this is your time building or running a New Relic One application, do the following:
+If this is your time building or running a New Relic One application, do the following:  
+
     1.  Go to [one.newrelic.com](https://one.newrelic.com/)  
     2.  Select [Build a New Relic One application](https://one.newrelic.com/launcher/developer-center.launcher)  
     3.  Follow the instructions including generating an API key and downloading and installing [the CLI](https://developer.newrelic.com/build-tools/new-relic-one-applications/cli)  
@@ -60,6 +61,18 @@ nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 ```
 
 Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
+
+## Creating Your First Board  
+
+In this example, we will create an Alerts board. You will need to set-up the alert policy to send notifications via a webhook notification channel as explained in this [blog](https://blog.newrelic.com/product-news/sending-alerts-data-to-insights/). Once you've set up the webhook notification channel, make sure you add it to the alert policy that will be visualized in Neon.   
+
+![Webhook notification](screenshots/webhook.png)
+
+
+
+
+
+
 
 ## Support
 
