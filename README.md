@@ -29,6 +29,11 @@ git --version
 npm -v
 ```
 
+If this is your time building or running a New Relic One application, do the following:
+    1.  Go to [one.newrelic.com] (https://one.newrelic.com/)
+    2.  Select [Build a New Relic One application] (https://one.newrelic.com/launcher/developer-center.launcher)
+    3.  Follow the instructions including generating an API key and downloading and installing [the CLI] (https://developer.newrelic.com/build-tools/new-relic-one-applications/cli)
+
 Next, clone this repository and run the following scripts:
 
 ```bash
