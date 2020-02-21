@@ -41,7 +41,7 @@ npm install
 npm start
 ```
 
-Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
+Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerdpacks=local), navigate to the Nerdpack, and :sparkles:
 
 ## Deploying this Nerdpack
 
