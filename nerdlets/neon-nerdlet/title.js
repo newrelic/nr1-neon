@@ -6,8 +6,6 @@ import { TextField, Button } from 'nr1';
 export default class Title extends React.Component {
   static propTypes = {
     title: PropTypes.string,
-    index: PropTypes.number,
-    type: PropTypes.string,
     onDataDelete: PropTypes.func,
     onDataSave: PropTypes.func,
   };
@@ -17,16 +15,15 @@ export default class Title extends React.Component {
 
     this.state = {
       editMode: false,
-      value: props.title || '',
+      value: '',
     };
 
     this.toggleEdit = this.toggleEdit.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
   }
 
-  toggleEdit(e) {
-    e.preventDefault();
+  toggleEdit() {
+    // referenced this https://codepen.io/saoirsezee/pen/yOrVras
     const { editMode } = this.state;
     this.setState({ editMode: !editMode });
   }
@@ -35,13 +32,9 @@ export default class Title extends React.Component {
     this.setState({ value: e.target.value });
   }
 
-  handleCancel(e) {
-    e.preventDefault();
-    this.setState({ editMode: false });
-  }
-
   render() {
-    const { title, index, onDataDelete, onDataSave, type } = this.props;
+    const { title, onDataDelete, onDataSave } = this.props;
+
     const { editMode, value } = this.state;
 
     return (
@@ -54,25 +47,22 @@ export default class Title extends React.Component {
               value={value}
             />
             <Button
-              className="btn-spacing"
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.PRIMARY}
-              onClick={() => onDataSave(value, index, type)}
+              onClick={() => onDataSave(title)}
             >
               Save
             </Button>
             <Button
-              className="btn-spacing"
               iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__UNDO}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.NEUTRAL}
-              onClick={this.handleCancel}
+              onClick={this.toggleEdit}
             >
               Cancel
             </Button>
             <Button
-              className="btn-spacing"
               iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.DESTRUCTIVE}
@@ -85,7 +75,6 @@ export default class Title extends React.Component {
           <div>
             <TextField value={title} disabled={false} />
             <Button
-              className="btn-spacing"
               iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EDIT}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               onClick={this.toggleEdit}

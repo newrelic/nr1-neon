@@ -52,7 +52,7 @@ export default class Board extends React.Component {
     this.closeDeleteBoard = this.closeDeleteBoard.bind(this);
     this.deleteBoard = this.deleteBoard.bind(this);
     this.handleDataDelete = this.handleDataDelete.bind(this);
-    this.handleDataSave = this.handleDataSave.bind(this);
+    this.handleSave = this.handleSave.bind(this);
 
     this.persistData = this.persistData.bind(this);
     this.fetchAlertStatuses = this.fetchAlertStatuses.bind(this);
@@ -130,7 +130,21 @@ export default class Board extends React.Component {
   closeBoard(e) {
     e.preventDefault();
     const { onClose } = this.props;
+
     if (onClose) onClose();
+  }
+
+  openEditBoard(e) {
+    e.preventDefault();
+    this.setState({ deleteModalHidden: false });
+  }
+
+  closeEditBoard() {
+    this.setState({ deleteModalHidden: true });
+  }
+
+  editBoard() {
+    console.log('clicked edit board');
   }
 
   openEditBoard(e) {
@@ -152,7 +166,7 @@ export default class Board extends React.Component {
   }
 
   deleteBoard() {
-    const { boards, accountId, board, onClose } = this.props;
+    const { boards, accountId, board, onUpdate, onClose } = this.props;
     delete boards[board.id];
     AccountStorageMutation.mutate({
       actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
@@ -199,21 +213,22 @@ export default class Board extends React.Component {
     );
   }
 
-  handleDataSave(value, index, type) {
+  handleSave(title) {
     const { rows, cols, cells } = this.state;
+    const rowIndex = rows.indexOf(title);
+    const colIndex = cols.indexOf(title);
+    console.log(rowIndex, colIndex, 'newtitle', value);
 
-    if (type === 'rows') {
-      rows[index] = value;
-    } else {
-      cols[index] = value;
-    }
-    this.setState(
-      {
-        rows: rows,
-        cols: cols,
-      },
-      this.persistData(rows, cols, cells)
-    );
+    // if (colIndex === -1) {
+    //   this.setState({
+    //     rowName: rows[rowIndex],
+    //   });
+    // } else {
+    //   this.setState({
+    //     colName: cols[colIndex],
+    //   });
+    // }
+    // this.persistData(cols, rows, cells);
   }
 
   fetchAlertStatuses(cells) {
@@ -400,7 +415,6 @@ export default class Board extends React.Component {
       detailsForCell,
       editModalHidden,
       deleteModalHidden,
-      editMode,
     } = this.state;
     const { board, accountId, currentUser } = this.props;
     return (
@@ -450,7 +464,11 @@ export default class Board extends React.Component {
             edit board
           </a>
           &nbsp;|&nbsp;
-          <a href="#" className="default" onClick={this.openDeleteBoard}>
+          <a
+            href="#"
+            className="default"
+            onClick={e => this.openDeleteBoard(e)}
+          >
             delete board
           </a>
         </div>
@@ -473,15 +491,12 @@ export default class Board extends React.Component {
           )}
         </Modal>
         <Modal hidden={editModalHidden} onClose={this.closeEditBoard}>
-          {!editModalHidden && (
-            <EditBoard
-              rows={rows}
-              cols={cols}
-              editMode={editMode}
-              onDataDelete={this.handleDataDelete}
-              onDataSave={this.handleDataSave}
-            />
-          )}
+          <EditBoard
+            rows={rows}
+            cols={cols}
+            onDataDelete={this.handleDataDelete}
+            onDataSave={this.handleSave}
+          />
         </Modal>
         <Modal hidden={deleteModalHidden} onClose={this.closeDeleteBoard}>
           <HeadingText type={HeadingText.TYPE.HEADING_2}>
