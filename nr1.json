@@ -1,6 +1,10 @@
 {
   "schemaType": "NERDPACK",
+<<<<<<< HEAD
   "id": "fff41726-7e30-4c7b-9a84-0d495c36b6c8",
+=======
+  "id": "0b8c9413-404f-44d1-86cf-026dba975204",
+>>>>>>> edit-board-modal
   "displayName": "nr1-neon",
   "description": "Neon Nerdpack"
 }
