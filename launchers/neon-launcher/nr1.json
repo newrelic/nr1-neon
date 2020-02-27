@@ -1,7 +1,7 @@
 {
     "schemaType": "LAUNCHER",
     "id": "neon-launcher",
-    "displayName": "Neon [GL]",
+    "displayName": "Neon",
     "description": "Status Board for Alerts",
     "rootNerdletId": "neon-nerdlet"
 }
