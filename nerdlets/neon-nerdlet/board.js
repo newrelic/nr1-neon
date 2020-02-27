@@ -262,7 +262,10 @@ export default class Board extends React.Component {
       fetching: true,
     });
 
-    NerdGraphQuery.query({ query: gql })
+    NerdGraphQuery.query({
+      query: gql,
+      fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
+    })
       .then(this.parseAlertStatuses)
       .catch(err => {
         this.setState({
