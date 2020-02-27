@@ -33,6 +33,7 @@ export default class MotherBoard extends React.Component {
       modalHidden: true,
       events: [],
     };
+    x;
   }
 
   componentDidMount() {
