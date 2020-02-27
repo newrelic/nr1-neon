@@ -31,7 +31,7 @@ git --version
 npm -v
 ```
 
-If this is your time building or running a New Relic One application, do the following:  
+If this is your first time building or running a New Relic One application, do the following:  
 
     1.  Go to [one.newrelic.com](https://one.newrelic.com/)  
     2.  Select [Build a New Relic One application](https://one.newrelic.com/launcher/developer-center.launcher)  
