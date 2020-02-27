@@ -218,17 +218,6 @@ export default class Board extends React.Component {
     const rowIndex = rows.indexOf(title);
     const colIndex = cols.indexOf(title);
     console.log(rowIndex, colIndex, 'newtitle', value);
-
-    // if (colIndex === -1) {
-    //   this.setState({
-    //     rowName: rows[rowIndex],
-    //   });
-    // } else {
-    //   this.setState({
-    //     colName: cols[colIndex],
-    //   });
-    // }
-    // this.persistData(cols, rows, cells);
   }
 
   fetchAlertStatuses(cells) {
