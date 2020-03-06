@@ -47,7 +47,10 @@ export default class NeonNerdlet extends React.Component {
     AccountsQuery.query().then(this.parseAccounts);
 
     const gql = `{ actor { user { email id name } } }`;
-    NerdGraphQuery.query({ query: gql }).then(res => {
+    NerdGraphQuery.query({
+      query: gql,
+      fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
+    }).then(res => {
       const user = (((res || {}).data || {}).actor || {}).user;
       if (user)
         this.setState({
