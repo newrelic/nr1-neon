@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/newrelic/nr1-neon/compare/v0.2.2...v0.3.0) (2020-03-06)
+
+
+### Features
+
+* **catalog:** version update ([#22](https://github.com/newrelic/nr1-neon/issues/22)) ([2964dc8](https://github.com/newrelic/nr1-neon/commit/2964dc897120da0998b3cfb65a575d649c141f67))
+
 ## [0.2.2](https://github.com/newrelic/nr1-neon/compare/v0.2.1...v0.2.2) (2020-01-30)
 
 
