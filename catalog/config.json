@@ -1,0 +1,17 @@
+{
+  "tagline": "Create a status board based on New Relic alert statuses or event values.",
+  "repository": "https://github.com/newrelic/nr1-neon.git",
+  "details": "Neon is an application that allows you to create a status at a glance visualization that can be scaled to track the health of entire business units or regions.\n\nStatuses are derived from existing New Relic alert policies or based on values from New Relic events.\n\nNeon makes it easy to configure the visualization to show exactly what you need to see.",
+  "support": {
+    "issues": {
+      "url": "https://github.com/newrelic/nr1-neon/issues"
+    },
+    "email": {
+      "address": "opensource+nr1-neon@newrelic.com"
+    },
+    "community": {
+      "url": "https://discuss.newrelic.com/t/neon-alerting-nerdpack/83272"
+    }
+  },
+  "whatsNew": "- Fix: Edit state when edit modal is closed"
+}

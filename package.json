@@ -1,8 +1,8 @@
 {
   "private": true,
   "name": "nr1-neon",
-  "description": "Neon Nerdpack",
-  "version": "0.2.0",
+  "description": "Create a status board based on New Relic alert statuses or event values.",
+  "version": "0.3.0",
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",

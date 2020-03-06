@@ -1,3 +1,21 @@
+<<<<<<< HEAD
+=======
+# [0.3.0](https://github.com/newrelic/nr1-neon/compare/v0.2.2...v0.3.0) (2020-03-06)
+
+
+### Features
+
+* **catalog:** version update ([#22](https://github.com/newrelic/nr1-neon/issues/22)) ([2964dc8](https://github.com/newrelic/nr1-neon/commit/2964dc897120da0998b3cfb65a575d649c141f67))
+
+## [0.2.2](https://github.com/newrelic/nr1-neon/compare/v0.2.1...v0.2.2) (2020-01-30)
+
+
+### Bug Fixes
+
+* lint errors. ([06e02a7](https://github.com/newrelic/nr1-neon/commit/06e02a7cdea19ab682a16b2a5280e713334f0cf7))
+* resolving use of StState Context and AutoSizer. ([79cec89](https://github.com/newrelic/nr1-neon/commit/79cec8991160e973a681bf2b5c75e47cda6d5145))
+
+>>>>>>> upstream/master
 # [0.2.0](https://github.com/newrelic/nr1-neon/compare/v0.1.1...v0.2.0) (2019-11-15)
 
 
