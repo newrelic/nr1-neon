@@ -1,17 +1,13 @@
 {
   "private": true,
   "name": "nr1-neon",
-  "description": "Neon Nerdpack",
+  "description": "Create a status board based on New Relic alert statuses or event values.",
   "version": "0.2.2",
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",
     "eslint-check": "eslint nerdlets/",
     "eslint-fix": "eslint nerdlets/ --fix"
-  },
-  "nr1": {
-    "uuid": "4a91cb2f-5121-494a-8e3b-689c0dae4876",
-    "sdkVersion": 2
   },
   "bugs": {
     "email": "opensource+nr1-neon@newrelic.com"

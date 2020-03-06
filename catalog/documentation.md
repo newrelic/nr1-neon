@@ -12,13 +12,13 @@ Statuses are derived from existing New Relic alert policies or based on values f
 
 Neon makes it easy to configure the visualization to show exactly what you need to see.
 
-![Home Page](catalog/screenshots/nr1-neon-1.png)
+![Home Page](https://github.com/newrelic/nr1-neon/blob/master/catalog/screenshots/nr1-neon-1.png)
 
-![A Sample Board](catalog/screenshots/nr1-neon-2.png)
+![A Sample Board](https://github.com/newrelic/nr1-neon/blob/master/catalog/screenshots/nr1-neon-2.png)
 
 ## Open Source License
 
-This project is distributed under the [Apache 2 license](./LICENSE).
+This project is distributed under the [Apache 2 license](https://github.com/newrelic/nr1-neon/blob/master/LICENSE).
 
 ## Dependencies
 
@@ -71,10 +71,10 @@ Please do not report issues with Neon to New Relic Global Technical Support. Ins
 
 ## Issues / Enhancement Requests
 
-Issues and enhancement requests can be submitted in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
+Issues and enhancement requests can be submitted in the [Issues tab of this repository](https://github.com/newrelic/nr1-neon/issues). Please search for and review the existing open issues before submitting a new issue.
 
 ## Contributing
 
-Contributions are welcome (and if you submit an Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](./CONTRIBUTING.md).
+Contributions are welcome (and if you submit an Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](https://github.com/newrelic/nr1-neon/blob/master/CONTRIBUTING.md).
 
 Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource+nr1-neon@newrelic.com.
