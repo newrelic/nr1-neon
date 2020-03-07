@@ -204,20 +204,18 @@ export default class Board extends React.Component {
     let newCells;
     if (type === 'rows') {
       newCells = cells.map(cell => {
-        if (cell.row === rows[index]) {
-          cell.row = value;
-        }
+        if (cell.row === rows[index]) cell.row = value;
+        console.log('row cell', cell);
+        return cell;
       });
       rows[index] = value;
     } else {
       newCells = cells.map(cell => {
-        if (cell.col === cols[index]) {
-          cell.col = value;
-        }
+        if (cell.col === cols[index]) cell.col = value;
+        return cell;
       });
       cols[index] = value;
     }
-    return newCells;
     this.setState(
       {
         rows: rows,
@@ -492,6 +490,7 @@ export default class Board extends React.Component {
             <EditBoard
               rows={rows}
               cols={cols}
+              cells={cells}
               editMode={editMode}
               onDataDelete={this.handleDataDelete}
               onDataSave={this.handleDataSave}
