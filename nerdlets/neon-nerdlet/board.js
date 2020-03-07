@@ -201,16 +201,28 @@ export default class Board extends React.Component {
 
   handleDataSave(value, index, type) {
     const { rows, cols, cells } = this.state;
-
+    let newCells;
     if (type === 'rows') {
+      newCells = cells.map(cell => {
+        if (cell.row === rows[index]) {
+          cell.row = value;
+        }
+      });
       rows[index] = value;
     } else {
+      newCells = cells.map(cell => {
+        if (cell.col === cols[index]) {
+          cell.col = value;
+        }
+      });
       cols[index] = value;
     }
+    return newCells;
     this.setState(
       {
         rows: rows,
         cols: cols,
+        cells: newCells,
       },
       this.persistData(rows, cols, cells)
     );
