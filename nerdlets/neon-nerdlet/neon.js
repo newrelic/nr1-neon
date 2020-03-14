@@ -14,6 +14,7 @@ import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
 import Board from './board.js';
 import AccountPicker from './account-picker.js';
+import Help from './help';
 
 export default class NeonNerdlet extends React.Component {
   static propTypes = {
@@ -152,11 +153,14 @@ export default class NeonNerdlet extends React.Component {
 
     return (
       <div className="container">
-        <AccountPicker
-          account={account}
-          accounts={accounts}
-          setAccount={this.accountChange}
-        />
+        <div className="help-row">
+          <Help />
+          <AccountPicker
+            account={account}
+            accounts={accounts}
+            setAccount={this.accountChange}
+          />
+        </div>
         {!accountId && <BoxSpinner />}
         {accountId && !board && (
           <MotherBoard

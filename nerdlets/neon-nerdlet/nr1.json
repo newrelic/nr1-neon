@@ -1,6 +1,6 @@
 {
-    "schemaType": "NERDLET",
-    "id": "neon-nerdlet",
-    "displayName": "Neon",
-    "description": ""
+  "schemaType": "NERDLET",
+  "id": "neon-nerdlet",
+  "displayName": "Neon",
+  "description": "An application to track alerts and New Relic events"
 }

@@ -60,10 +60,6 @@ export default class Board extends React.Component {
     this.humanizeNumber = this.humanizeNumber.bind(this);
     this.getCellContent = this.getCellContent.bind(this);
     this.showCellDetails = this.showCellDetails.bind(this);
-
-    // nerdlet.setUrlState({
-    //   id: ((props || {}).board || {}).id
-    // })
   }
 
   componentDidMount() {

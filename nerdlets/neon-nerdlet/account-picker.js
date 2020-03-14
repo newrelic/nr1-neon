@@ -17,6 +17,7 @@ export default class AccountPicker extends React.PureComponent {
       <div
         style={{
           display: 'flex',
+          flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
         }}
