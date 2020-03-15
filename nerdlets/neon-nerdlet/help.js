@@ -1,5 +1,12 @@
 import React from 'react';
-import { Dropdown, DropdownItem, Modal, Button } from 'nr1';
+import {
+  Dropdown,
+  DropdownItem,
+  Modal,
+  Button,
+  HeadingText,
+  BlockText,
+} from 'nr1';
 
 export default class Help extends React.Component {
   constructor(props) {
@@ -26,6 +33,11 @@ export default class Help extends React.Component {
     return (
       <div>
         <Dropdown title="Getting Started">
+          <DropdownItem>
+            <a href="#prerequisites" onClick={e => this.openHelp(e)}>
+              Prerequisites
+            </a>
+          </DropdownItem>
           <DropdownItem>
             <a href="#create_new_board" onClick={e => this.openHelp(e)}>
               Create a New Board
@@ -55,8 +67,23 @@ export default class Help extends React.Component {
 
         <Modal hidden={newBoardModalHidden} onClose={this._onClose}>
           <div>
-            <h1>Getting Started</h1>
+            <HeadingText type={HeadingText.TYPE.HEADING_3}>
+              Getting Started With Neon
+            </HeadingText>
+            <h3 id="prerequisites">Prerequisites</h3>
+            <BlockText type={BlockText.TYPE.PARAGRAPH}>
+              You need to have New Relic Alerts and a webhook notification
+              channel set up.
+            </BlockText>
             <h3 id="create_new_board">Create A New Board</h3>
+            <BlockText type={BlockText.TYPE.PARAGRAPH}>
+              <li>Click the plus icon (+)</li>
+              <li>
+                In the <strong>BOARD NAME</strong> text field, type in a name
+                for your board
+              </li>
+              <li>Click the plus icon (+)</li>
+            </BlockText>
             <h3 id="set_up_board">Set Up Board</h3>
             <h3 id="view_boards">View Boards</h3>
             <h3 id="edit_board">Edit Board</h3>
