@@ -74,9 +74,10 @@ export default class Help extends React.Component {
             <h3 id="dependencies">Dependencies</h3>
             <BlockText type={BlockText.TYPE.PARAGRAPH}>
               You need to have New Relic Alerts and a webhook notification
-              channel set up. Click
-              <Link to="docs/alert_webhook_config.md">here</Link> for
-              instructions on creating a webhook notification channel.
+              channel set up. Instructions for webhook setup is{' '}
+              <Link to="https://github.com/glitton/nr1-neon/blob/documentation/docs/alert_webhook_config.md">
+                here.
+              </Link>
             </BlockText>
             <h3 id="create_new_board">Create A New Board</h3>
             <BlockText type={BlockText.TYPE.PARAGRAPH}>
