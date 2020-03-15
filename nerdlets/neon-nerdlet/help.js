@@ -6,6 +6,7 @@ import {
   Button,
   HeadingText,
   BlockText,
+  Link,
 } from 'nr1';
 
 export default class Help extends React.Component {
@@ -34,8 +35,8 @@ export default class Help extends React.Component {
       <div>
         <Dropdown title="Getting Started">
           <DropdownItem>
-            <a href="#prerequisites" onClick={e => this.openHelp(e)}>
-              Prerequisites
+            <a href="#dependencies" onClick={e => this.openHelp(e)}>
+              Dependencies
             </a>
           </DropdownItem>
           <DropdownItem>
@@ -70,10 +71,12 @@ export default class Help extends React.Component {
             <HeadingText type={HeadingText.TYPE.HEADING_3}>
               Getting Started With Neon
             </HeadingText>
-            <h3 id="prerequisites">Prerequisites</h3>
+            <h3 id="dependencies">Dependencies</h3>
             <BlockText type={BlockText.TYPE.PARAGRAPH}>
               You need to have New Relic Alerts and a webhook notification
-              channel set up.
+              channel set up. Click
+              <Link to="docs/alert_webhook_config.md">here</Link> for
+              instructions on creating a webhook notification channel.
             </BlockText>
             <h3 id="create_new_board">Create A New Board</h3>
             <BlockText type={BlockText.TYPE.PARAGRAPH}>
