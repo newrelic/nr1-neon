@@ -1,20 +1,20 @@
-# Steps to enable the recording of Alert Events for use with SLO/R
+# Steps to create an alert webhook notification channel
 
-The following must be followed if you wish to use Alert violations as the basis for Availability, Capacity, or Latency SLOs.
+In order to setup a webhook notification key, you will need to do the following steps:
 
 ## 1. Generate an Insights insert token
 
 Insights insert tokens can be generated from the _Manage data_ option in your New Relic Insights account (e.g. https://insights.newrelic.com/accounts/{your-account-id}/manage/summary
 
-![Screenshot #9](../catalog/screenshots/nr1-slo-r-09.png)
+![Screenshot #1](../catalog/screenshots/nr1-neon-APIKey1.png)
 
 > Appears on the left hand navigation panel on the Insights landing page.
 
-![Screenshot #11](../catalog/screenshots/nr1-slo-r-11.png)
+![Screenshot #2](../catalog/screenshots/nr1-neon-APIKey2.png)
 
 > Select the _Add data_ option from the top navigation menu.
 
-![Screenshot #12](../catalog/screenshots/nr1-slo-r-12.png)
+![Screenshot #3](../catalog/screenshots/nr1-neon-APIKey3.png)
 
 > We will want to create a new _Insert Key_ click the "+" sign to enter the create dialog.
 
