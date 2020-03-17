@@ -21,7 +21,6 @@ import MotherBoard from './mother-board.js';
 import Board from './board.js';
 import AccountPicker from './account-picker.js';
 import Help from './help';
-import Welcome from './welcome';
 
 // Below is based on the Nerdpack Layout Standard component found in
 // https://github.com/newrelic/nr1-nerdpack-layout-standard/blob/master/nerdlets/nerdpack-layout-standard-nerdlet/index.js
@@ -190,27 +189,24 @@ export default class NeonNerdlet extends React.Component {
               </StackItem>
             </Stack>
           </StackItem>
-          {/* <StackItem className="toolbar-section2"> */}
-          {/* <Stack
+          <StackItem className="toolbar-section2">
+            <Stack
               fullWidth
               fullHeight
               verticalType={Stack.VERTICAL_TYPE.CENTER}
               horizontalType={Stack.HORIZONTAL_TYPE.RIGHT}
-            > */}
-          {/* <StackItem>
+            >
+              <StackItem>
                 <Button type={Button.TYPE.PRIMARY}>Help</Button>
-              </StackItem> */}
-          {/* </Stack> */}
-          {/* </StackItem> */}
+              </StackItem>
+            </Stack>
+          </StackItem>
         </Stack>
         <Grid
           className="primary-grid"
           spacingType={[Grid.SPACING_TYPE.NONE, Grid.SPACING_TYPE.NONE]}
         >
-          <GridItem className="sidebar-container" columnSpan={2}>
-            <Welcome />
-          </GridItem>
-          <GridItem className="primary-content-container" columnSpan={10}>
+          <GridItem className="primary-content-container" columnSpan={12}>
             <main className="primary-content full-height">
               {!accountId && <BoxSpinner />}
               {accountId && !board && (
