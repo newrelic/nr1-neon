@@ -34,35 +34,26 @@ export default class Help extends React.Component {
     return (
       <div>
         <Dropdown title="Getting Started">
-          <DropdownItem>
-            <a href="#dependencies" onClick={e => this.openHelp(e)}>
-              Dependencies
-            </a>
+          <DropdownItem href="#dependencies" onClick={e => this.openHelp(e)}>
+            Dependencies
           </DropdownItem>
-          <DropdownItem>
-            <a href="#create_new_board" onClick={e => this.openHelp(e)}>
-              Create a New Board
-            </a>
+          <DropdownItem
+            href="#create_new_board"
+            onClick={e => this.openHelp(e)}
+          >
+            Create a New Board
           </DropdownItem>
-          <DropdownItem>
-            <a href="#set_up_board" onClick={e => this.openHelp(e)}>
-              Set Up Board
-            </a>
+          <DropdownItem href="#set_up_board" onClick={e => this.openHelp(e)}>
+            Set Up Board
           </DropdownItem>
-          <DropdownItem>
-            <a href="#view_boards" onClick={e => this.openHelp(e)}>
-              View Boards
-            </a>
+          <DropdownItem href="#view_boards" onClick={e => this.openHelp(e)}>
+            View Boards
           </DropdownItem>
-          <DropdownItem>
-            <a href="#edit_board" onClick={e => this.openHelp(e)}>
-              Edit Board
-            </a>
+          <DropdownItem href="#edit_board" onClick={e => this.openHelp(e)}>
+            Edit Board
           </DropdownItem>
-          <DropdownItem>
-            <a href="#delete_board" onClick={e => this.openHelp(e)}>
-              Delete Board
-            </a>
+          <DropdownItem href="#delete_board" onClick={e => this.openHelp(e)}>
+            Delete Board
           </DropdownItem>
         </Dropdown>
 

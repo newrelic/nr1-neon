@@ -8,12 +8,6 @@ import {
   UserStorageQuery,
   UserStorageMutation,
   NerdGraphQuery,
-  Grid,
-  GridItem,
-  Stack,
-  StackItem,
-  Button,
-  BlockText,
 } from 'nr1';
 
 import BoxSpinner from './box-spinner.js';
@@ -21,10 +15,6 @@ import MotherBoard from './mother-board.js';
 import Board from './board.js';
 import AccountPicker from './account-picker.js';
 import Help from './help';
-import EmptyState from './empty-state';
-
-// Below is based on the Nerdpack Layout Standard component found in
-// https://github.com/newrelic/nr1-nerdpack-layout-standard/blob/master/nerdlets/nerdpack-layout-standard-nerdlet/index.js
 
 export default class NeonNerdlet extends React.Component {
   static propTypes = {
@@ -162,77 +152,35 @@ export default class NeonNerdlet extends React.Component {
     const { launcherUrlState } = this.props;
 
     return (
-      <>
-        <Stack
-          className="toolbar-container"
-          fullWidth
-          gapType={Stack.GAP_TYPE.NONE}
-          horizontalType={Stack.HORIZONTAL_TYPE.FILL_EVENLY}
-          verticalType={Stack.VERTICAL_TYPE.FILL}
-        >
-          <StackItem className="toolbar-section1">
-            <Stack
-              gapType={Stack.GAP_TYPE.NONE}
-              fullWidth
-              verticalType={Stack.VERTICAL_TYPE.FILL_EVENLY}
-            >
-              <StackItem>
-                <div className="toolbar-item">Account</div>
-              </StackItem>
-              <StackItem className="toolbar-item has-separator">
-                <AccountPicker
-                  account={account}
-                  accounts={accounts}
-                  setAccount={this.accountChange}
-                />
-              </StackItem>
-            </Stack>
-          </StackItem>
-          <StackItem className="toolbar-section2">
-            <Stack
-              fullWidth
-              fullHeight
-              verticalType={Stack.VERTICAL_TYPE.CENTER}
-              horizontalType={Stack.HORIZONTAL_TYPE.RIGHT}
-            >
-              <StackItem>
-                <Button type={Button.TYPE.PRIMARY}>Help</Button>
-              </StackItem>
-            </Stack>
-          </StackItem>
-        </Stack>
-        <Grid
-          className="primary-grid"
-          spacingType={[Grid.SPACING_TYPE.NONE, Grid.SPACING_TYPE.NONE]}
-        >
-          <GridItem className="sidebar-container" columnSpan={3}>
-            <EmptyState />
-          </GridItem>
-          <GridItem className="primary-content-container" columnSpan={9}>
-            <main className="primary-content full-height">
-              {!accountId && <BoxSpinner />}
-              {accountId && !board && (
-                <MotherBoard
-                  boards={boards || {}}
-                  accountId={accountId}
-                  onClicked={this.displayBoard}
-                />
-              )}
-              {accountId && board && (
-                <Board
-                  board={board}
-                  boards={boards}
-                  accountId={accountId}
-                  currentUser={currentUser}
-                  timeRange={launcherUrlState.timeRange}
-                  onClose={this.closeBoard}
-                  onUpdate={this.updateBoards}
-                />
-              )}
-            </main>
-          </GridItem>
-        </Grid>
-      </>
+      <div className="container">
+        <div className="help-row">
+          <Help />
+          <AccountPicker
+            account={account}
+            accounts={accounts}
+            setAccount={this.accountChange}
+          />
+        </div>
+        {!accountId && <BoxSpinner />}
+        {accountId && !board && (
+          <MotherBoard
+            boards={boards || {}}
+            accountId={accountId}
+            onClicked={this.displayBoard}
+          />
+        )}
+        {accountId && board && (
+          <Board
+            board={board}
+            boards={boards}
+            accountId={accountId}
+            currentUser={currentUser}
+            timeRange={launcherUrlState.timeRange}
+            onClose={this.closeBoard}
+            onUpdate={this.updateBoards}
+          />
+        )}
+      </div>
     );
   }
 }
