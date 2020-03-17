@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Stack, StackItem, Button } from 'nr1';
 import styles from './styles.scss';
+import featuredImage from '../../launchers/neon-launcher/icon.png';
 
 export default class Welcome extends React.Component {
   static propTypes = {
@@ -52,6 +53,7 @@ export default class Welcome extends React.Component {
           {featuredImage && (
             <StackItem>
               <img src={featuredImage} className={styles['empty-state-img']} />
+              <img src={featuredImage} />
             </StackItem>
           )}
           <StackItem>
