@@ -16,6 +16,8 @@ import {
   BlockText,
 } from 'nr1';
 
+import { EmptyState } from '@newrelic/nr1-community';
+
 import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
 import Board from './board.js';
