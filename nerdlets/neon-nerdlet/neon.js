@@ -21,7 +21,7 @@ import MotherBoard from './mother-board.js';
 import Board from './board.js';
 import AccountPicker from './account-picker.js';
 import Help from './help';
-import EmptyState from './empty-state';
+import Welcome from './welcome';
 
 // Below is based on the Nerdpack Layout Standard component found in
 // https://github.com/newrelic/nr1-nerdpack-layout-standard/blob/master/nerdlets/nerdpack-layout-standard-nerdlet/index.js
@@ -167,19 +167,21 @@ export default class NeonNerdlet extends React.Component {
           className="toolbar-container"
           fullWidth
           gapType={Stack.GAP_TYPE.NONE}
-          horizontalType={Stack.HORIZONTAL_TYPE.FILL_EVENLY}
-          verticalType={Stack.VERTICAL_TYPE.FILL}
+          horizontalType={Stack.HORIZONTAL_TYPE.LEFT}
+          verticalType={Stack.VERTICAL_TYPE.CENTER}
         >
           <StackItem className="toolbar-section1">
             <Stack
+              directionType={Stack.DIRECTION_TYPE.HORIZONTAL}
               gapType={Stack.GAP_TYPE.NONE}
               fullWidth
-              verticalType={Stack.VERTICAL_TYPE.FILL_EVENLY}
+              full
+              verticalType={Stack.VERTICAL_TYPE.CENTER}
             >
               <StackItem>
                 <div className="toolbar-item">Account</div>
               </StackItem>
-              <StackItem className="toolbar-item has-separator">
+              <StackItem className="toolbar-item">
                 <AccountPicker
                   account={account}
                   accounts={accounts}
@@ -188,27 +190,27 @@ export default class NeonNerdlet extends React.Component {
               </StackItem>
             </Stack>
           </StackItem>
-          <StackItem className="toolbar-section2">
-            <Stack
+          {/* <StackItem className="toolbar-section2"> */}
+          {/* <Stack
               fullWidth
               fullHeight
               verticalType={Stack.VERTICAL_TYPE.CENTER}
               horizontalType={Stack.HORIZONTAL_TYPE.RIGHT}
-            >
-              <StackItem>
+            > */}
+          {/* <StackItem>
                 <Button type={Button.TYPE.PRIMARY}>Help</Button>
-              </StackItem>
-            </Stack>
-          </StackItem>
+              </StackItem> */}
+          {/* </Stack> */}
+          {/* </StackItem> */}
         </Stack>
         <Grid
           className="primary-grid"
           spacingType={[Grid.SPACING_TYPE.NONE, Grid.SPACING_TYPE.NONE]}
         >
-          <GridItem className="sidebar-container" columnSpan={3}>
-            <EmptyState />
+          <GridItem className="sidebar-container" columnSpan={2}>
+            <Welcome />
           </GridItem>
-          <GridItem className="primary-content-container" columnSpan={9}>
+          <GridItem className="primary-content-container" columnSpan={10}>
             <main className="primary-content full-height">
               {!accountId && <BoxSpinner />}
               {accountId && !board && (

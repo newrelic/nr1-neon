@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { Stack, StackItem, Button } from 'nr1';
 import styles from './styles.scss';
 
-export default class EmptyState extends React.Component {
+export default class Welcome extends React.Component {
   static propTypes = {
     heading: PropTypes.string,
     description: PropTypes.string,
     buttonText: PropTypes.string,
     buttonOnClick: PropTypes.func,
-    buttonUrl: PropTypes.string,
     className: PropTypes.string,
     featuredImage: PropTypes.string,
     footer: PropTypes.func,
@@ -56,22 +55,25 @@ export default class EmptyState extends React.Component {
             </StackItem>
           )}
           <StackItem>
-            <h4 className={styles['empty-state-header']}>
-              {heading || 'Lorem ipsum dolor'}
+            <h4 className={styles['empty-h1-header']}>
+              {heading || 'Welcome to Neon'}
             </h4>
           </StackItem>
           <StackItem className={description === '' ? styles.hidden : ''}>
             <p className={styles['empty-state-description']}>
               {description ||
-                'Morbi malesuada nulla nec purus convallis consequat. Vivamus id mollis quam. Morbi ac commodo nulla. In condimentum orci id nisl volutpat bibendum. Quisque commodo hendrerit lorem quis egestas. Maecenas quis tortor arcu. Vivamus rutrum nunc non neque consectetur quis placerat neque lobortis.'}
+                "If you are looking at an empty space with just a box and big plus sign, this means you don't have any boards. Before you create a new board, please review the dependencies in the Help menu. Once you've completed prerequisites, click the plus (+) icon to create a new board."}
             </p>
           </StackItem>
           {footer ? (
             <StackItem>{footer()}</StackItem>
           ) : (
             <StackItem className={buttonText === '' ? styles.hidden : ''}>
-              <Button onClick={this.handleButtonClick} to={buttonUrl}>
-                {buttonText || 'Call to action'}
+              <Button
+                type={Button.TYPE.PRIMARY}
+                onClick={this.handleButtonClick}
+              >
+                Help
               </Button>
             </StackItem>
           )}
