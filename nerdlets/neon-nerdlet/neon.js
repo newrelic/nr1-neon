@@ -17,6 +17,7 @@ import {
 } from 'nr1';
 
 import { EmptyState } from '@newrelic/nr1-community';
+import neonLogo from '../../launchers/neon-launcher/icon.png';
 
 import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
@@ -40,6 +41,7 @@ export default class NeonNerdlet extends React.Component {
 
     this.parseAccounts = this.parseAccounts.bind(this);
     this.accountChange = this.accountChange.bind(this);
+    this.createNewBoard = this.createNewBoard.bind(this);
     this.getBoards = this.getBoards.bind(this);
     this.displayBoard = this.displayBoard.bind(this);
     this.closeBoard = this.closeBoard.bind(this);
@@ -52,6 +54,7 @@ export default class NeonNerdlet extends React.Component {
       currentUser: {},
       boards: {},
       board: null,
+      noBoards: true,
     };
   }
 
@@ -112,6 +115,11 @@ export default class NeonNerdlet extends React.Component {
     }
   }
 
+  createNewBoard() {
+    const { noBoards } = this.state;
+    this.setState({ noBoards: !noBoards });
+  }
+
   getBoards() {
     const { account, accountId } = this.state;
     const accountName = account.name;
@@ -159,6 +167,7 @@ export default class NeonNerdlet extends React.Component {
       boards,
       board,
       currentUser,
+      noBoards,
     } = this.state;
     const { launcherUrlState } = this.props;
 
@@ -211,7 +220,16 @@ export default class NeonNerdlet extends React.Component {
           <GridItem className="primary-content-container" columnSpan={12}>
             <main className="primary-content full-height">
               {!accountId && <BoxSpinner />}
-              {accountId && !board && (
+              {noBoards && (
+                <EmptyState
+                  featuredImage={neonLogo}
+                  heading="Welcome to Neon!  Sadly, you have no boards :-("
+                  description="Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Let's do this!"
+                  buttonText="Create New Board"
+                  buttonOnClick={this.createNewBoard}
+                />
+              )}
+              {accountId && !board && !noBoards && (
                 <MotherBoard
                   boards={boards || {}}
                   accountId={accountId}
