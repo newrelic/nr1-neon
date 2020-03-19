@@ -39,7 +39,7 @@ export default class NeonNerdlet extends React.Component {
 
     this.parseAccounts = this.parseAccounts.bind(this);
     this.accountChange = this.accountChange.bind(this);
-    this.createNewBoard = this.createNewBoard.bind(this);
+    this.hideEmptyState = this.hideEmptyState.bind(this);
     this.getBoards = this.getBoards.bind(this);
     this.displayBoard = this.displayBoard.bind(this);
     this.closeBoard = this.closeBoard.bind(this);
@@ -52,7 +52,7 @@ export default class NeonNerdlet extends React.Component {
       currentUser: {},
       boards: {},
       board: null,
-      noBoards: true,
+      isHidden: false,
     };
   }
 
@@ -113,9 +113,9 @@ export default class NeonNerdlet extends React.Component {
     }
   }
 
-  createNewBoard() {
-    const { noBoards } = this.state;
-    this.setState({ noBoards: false });
+  hideEmptyState() {
+    const { isHidden } = this.state;
+    this.setState({ isHidden: !isHidden });
   }
 
   getBoards() {
@@ -165,13 +165,12 @@ export default class NeonNerdlet extends React.Component {
       boards,
       board,
       currentUser,
-      noBoards,
+      isHidden,
     } = this.state;
     const { launcherUrlState } = this.props;
-    // if true, show empty state component
-    const zeroBoards = Object.entries(boards).length === 0;
+    const zeroBoardsDisplayed = Object.entries(boards).length === 0;
 
-    console.log('boards obj', Object.entries(boards).length);
+    console.log('boards obj', zeroBoardsDisplayed, isHidden);
 
     return (
       <>
@@ -179,15 +178,15 @@ export default class NeonNerdlet extends React.Component {
           className="toolbar-container"
           fullWidth
           gapType={Stack.GAP_TYPE.NONE}
-          horizontalType={Stack.HORIZONTAL_TYPE.LEFT}
-          verticalType={Stack.VERTICAL_TYPE.CENTER}
+          horizontalType={Stack.HORIZONTAL_TYPE.FILL_EVENLY}
+          verticalType={Stack.VERTICAL_TYPE.FILL}
         >
           <StackItem className="toolbar-section1">
             <Stack
               directionType={Stack.DIRECTION_TYPE.HORIZONTAL}
               gapType={Stack.GAP_TYPE.NONE}
               fullWidth
-              full
+              fullHeight
               verticalType={Stack.VERTICAL_TYPE.CENTER}
             >
               <StackItem>
@@ -222,15 +221,16 @@ export default class NeonNerdlet extends React.Component {
           <GridItem className="primary-content-container" columnSpan={12}>
             <main className="primary-content full-height">
               {!accountId && <BoxSpinner />}
-              {noBoards && zeroBoards && (
+              {!isHidden && zeroBoardsDisplayed && (
                 <EmptyState
-                  heading="Welcome to Neon!  Sadly, you have no boards :-("
-                  description="Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Click the plus (+) icon to create a new board."
+                  heading="Welcome to Neon!"
+                  description="Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Ready to start?  Click the close button below and then click the plus (+) icon  to create a new board."
                   buttonText="Close"
-                  buttonOnClick={this.createNewBoard}
+                  buttonOnClick={this.hideEmptyState}
                 />
               )}
-              {accountId && !board && (
+
+              {accountId && !board && isHidden && (
                 <MotherBoard
                   boards={boards || {}}
                   accountId={accountId}
