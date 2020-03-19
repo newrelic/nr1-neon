@@ -13,11 +13,9 @@ import {
   Stack,
   StackItem,
   Button,
-  BlockText,
 } from 'nr1';
 
 import { EmptyState } from '@newrelic/nr1-community';
-import neonLogo from '../../launchers/neon-launcher/icon.png';
 
 import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
@@ -226,10 +224,9 @@ export default class NeonNerdlet extends React.Component {
               {!accountId && <BoxSpinner />}
               {noBoards && zeroBoards && (
                 <EmptyState
-                  featuredImage={neonLogo}
                   heading="Welcome to Neon!  Sadly, you have no boards :-("
-                  description="Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Let's do this!"
-                  buttonText="Create New Board"
+                  description="Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Click the plus (+) icon to create a new board."
+                  buttonText="Close"
                   buttonOnClick={this.createNewBoard}
                 />
               )}
