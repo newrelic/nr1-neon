@@ -13,6 +13,7 @@ import {
   Stack,
   StackItem,
   Button,
+  navigation,
 } from 'nr1';
 
 import { EmptyState } from '@newrelic/nr1-community';
@@ -21,7 +22,6 @@ import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
 import Board from './board.js';
 import AccountPicker from './account-picker.js';
-import Help from './help';
 
 // Below is based on the Nerdpack Layout Standard component found in
 // https://github.com/newrelic/nr1-nerdpack-layout-standard/blob/master/nerdlets/nerdpack-layout-standard-nerdlet/index.js
@@ -40,6 +40,7 @@ export default class NeonNerdlet extends React.Component {
     this.parseAccounts = this.parseAccounts.bind(this);
     this.accountChange = this.accountChange.bind(this);
     this.hideEmptyState = this.hideEmptyState.bind(this);
+    this.showHelpDocs = this.showHelpDocs.bind(this);
     this.getBoards = this.getBoards.bind(this);
     this.displayBoard = this.displayBoard.bind(this);
     this.closeBoard = this.closeBoard.bind(this);
@@ -53,6 +54,7 @@ export default class NeonNerdlet extends React.Component {
       boards: {},
       board: null,
       isHidden: false,
+      boardsExist: false,
     };
   }
 
@@ -118,6 +120,10 @@ export default class NeonNerdlet extends React.Component {
     this.setState({ isHidden: !isHidden });
   }
 
+  showHelpDocs() {
+    navigation.openStackedNerdlet({ id: 'help' });
+  }
+
   getBoards() {
     const { account, accountId } = this.state;
     const accountName = account.name;
@@ -166,11 +172,11 @@ export default class NeonNerdlet extends React.Component {
       board,
       currentUser,
       isHidden,
+      boardsExist,
     } = this.state;
     const { launcherUrlState } = this.props;
-    const zeroBoardsDisplayed = Object.entries(boards).length === 0;
 
-    console.log('boards obj', zeroBoardsDisplayed, isHidden);
+    console.log('boards obj', boardsExist, isHidden);
 
     return (
       <>
@@ -209,7 +215,9 @@ export default class NeonNerdlet extends React.Component {
               horizontalType={Stack.HORIZONTAL_TYPE.RIGHT}
             >
               <StackItem>
-                <Button type={Button.TYPE.PRIMARY}>Help</Button>
+                <Button type={Button.TYPE.PRIMARY} onClick={this.showHelpDocs}>
+                  Help
+                </Button>
               </StackItem>
             </Stack>
           </StackItem>
@@ -221,7 +229,7 @@ export default class NeonNerdlet extends React.Component {
           <GridItem className="primary-content-container" columnSpan={12}>
             <main className="primary-content full-height">
               {!accountId && <BoxSpinner />}
-              {!isHidden && zeroBoardsDisplayed && (
+              {boardsExist && (
                 <EmptyState
                   heading="Welcome to Neon!"
                   description="Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Ready to start?  Click the close button below and then click the plus (+) icon  to create a new board."
@@ -230,7 +238,7 @@ export default class NeonNerdlet extends React.Component {
                 />
               )}
 
-              {accountId && !board && isHidden && (
+              {accountId && !board && (
                 <MotherBoard
                   boards={boards || {}}
                   accountId={accountId}
@@ -246,6 +254,7 @@ export default class NeonNerdlet extends React.Component {
                   timeRange={launcherUrlState.timeRange}
                   onClose={this.closeBoard}
                   onUpdate={this.updateBoards}
+                  boardsExist={boardsExist}
                 />
               )}
             </main>
