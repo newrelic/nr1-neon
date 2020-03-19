@@ -117,7 +117,7 @@ export default class NeonNerdlet extends React.Component {
 
   createNewBoard() {
     const { noBoards } = this.state;
-    this.setState({ noBoards: !noBoards });
+    this.setState({ noBoards: false });
   }
 
   getBoards() {
@@ -170,6 +170,10 @@ export default class NeonNerdlet extends React.Component {
       noBoards,
     } = this.state;
     const { launcherUrlState } = this.props;
+    // if true, show empty state component
+    const zeroBoards = Object.entries(boards).length === 0;
+
+    console.log('boards obj', Object.entries(boards).length);
 
     return (
       <>
@@ -220,7 +224,7 @@ export default class NeonNerdlet extends React.Component {
           <GridItem className="primary-content-container" columnSpan={12}>
             <main className="primary-content full-height">
               {!accountId && <BoxSpinner />}
-              {noBoards && (
+              {noBoards && zeroBoards && (
                 <EmptyState
                   featuredImage={neonLogo}
                   heading="Welcome to Neon!  Sadly, you have no boards :-("
@@ -229,7 +233,7 @@ export default class NeonNerdlet extends React.Component {
                   buttonOnClick={this.createNewBoard}
                 />
               )}
-              {accountId && !board && !noBoards && (
+              {accountId && !board && (
                 <MotherBoard
                   boards={boards || {}}
                   accountId={accountId}
