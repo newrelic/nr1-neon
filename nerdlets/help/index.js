@@ -71,18 +71,18 @@ export default class HelpNerdlet extends React.Component {
                 <ol className="instructions">
                   <li>
                     Click the plus (+) icon which will open a modal window on
-                    the right
+                    the right.
                   </li>
                   <li>
                     In the <strong>BOARD NAME</strong> text field, type in your
-                    board title
+                    board title.
                   </li>
                   <li>
                     Using the Event dropdown, select the New Relic event that
-                    you would like to display in your board. For example, let's
-                    choose the New Relic Browser event, PageView
+                    you would like to display in your board. For example, the
+                    New Relic Browser event, PageView.
                   </li>
-                  <li>Click the + Add button</li>
+                  <li>Click the + Add button.</li>
                 </ol>
                 <br />
                 <li>
