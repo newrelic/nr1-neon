@@ -24,7 +24,7 @@ export default class Board extends React.Component {
     timeRange: PropTypes.object,
     onClose: PropTypes.func,
     onUpdate: PropTypes.func,
-    boardsExist: PropTypes.bool,
+    noBoards: PropTypes.bool,
   };
 
   constructor(props) {
@@ -149,11 +149,11 @@ export default class Board extends React.Component {
   }
 
   deleteBoard() {
-    const { boards, accountId, board, onClose, boardsExist } = this.props;
+    const { boards, accountId, board, onClose, noBoards } = this.props;
     delete boards[board.id];
     Object.entries(boards) === 0
-      ? this.setState({ boardsExist: false })
-      : this.setState({ boardsExist: true });
+      ? this.setState({ noBoards: false })
+      : this.setState({ noBoards: true });
     AccountStorageMutation.mutate({
       actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'neondb',

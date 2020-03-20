@@ -53,8 +53,8 @@ export default class NeonNerdlet extends React.Component {
       currentUser: {},
       boards: {},
       board: null,
-      isHidden: false,
-      boardsExist: false,
+      isHidden: true,
+      noBoards: true,
     };
   }
 
@@ -117,7 +117,7 @@ export default class NeonNerdlet extends React.Component {
 
   hideEmptyState() {
     const { isHidden } = this.state;
-    this.setState({ isHidden: !isHidden });
+    this.setState({ isHidden: false });
   }
 
   showHelpDocs() {
@@ -172,11 +172,11 @@ export default class NeonNerdlet extends React.Component {
       board,
       currentUser,
       isHidden,
-      boardsExist,
+      noBoards,
     } = this.state;
     const { launcherUrlState } = this.props;
 
-    console.log('boards obj', boardsExist, isHidden);
+    console.log('boards obj', noBoards, isHidden);
 
     return (
       <>
@@ -229,7 +229,7 @@ export default class NeonNerdlet extends React.Component {
           <GridItem className="primary-content-container" columnSpan={12}>
             <main className="primary-content full-height">
               {!accountId && <BoxSpinner />}
-              {boardsExist && (
+              {(isHidden || noBoards) && (
                 <EmptyState
                   heading="Welcome to Neon!"
                   description="Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Ready to start?  Click the close button below and then click the plus (+) icon  to create a new board."
@@ -238,7 +238,7 @@ export default class NeonNerdlet extends React.Component {
                 />
               )}
 
-              {accountId && !board && (
+              {accountId && !board && !isHidden && (
                 <MotherBoard
                   boards={boards || {}}
                   accountId={accountId}
@@ -254,7 +254,7 @@ export default class NeonNerdlet extends React.Component {
                   timeRange={launcherUrlState.timeRange}
                   onClose={this.closeBoard}
                   onUpdate={this.updateBoards}
-                  boardsExist={boardsExist}
+                  noBoards={noBoards}
                 />
               )}
             </main>
