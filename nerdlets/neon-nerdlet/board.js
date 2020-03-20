@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  nerdlet,
   AccountStorageQuery,
   AccountStorageMutation,
   NerdGraphQuery,
@@ -200,16 +201,29 @@ export default class Board extends React.Component {
 
   handleDataSave(value, index, type) {
     const { rows, cols, cells } = this.state;
-
+    let newCells;
     if (type === 'rows') {
+      newCells = cells.map(cell => {
+        if (cell.row === rows[index]) {
+          cell.row = value;
+        }
+        return cell;
+      });
       rows[index] = value;
     } else {
+      newCells = cells.map(cell => {
+        if (cell.col === cols[index]) {
+          cell.col = value;
+        }
+        return cell;
+      });
       cols[index] = value;
     }
     this.setState(
       {
         rows: rows,
         cols: cols,
+        cells: newCells,
       },
       this.persistData(rows, cols, cells)
     );
@@ -261,7 +275,10 @@ export default class Board extends React.Component {
       fetching: true,
     });
 
-    NerdGraphQuery.query({ query: gql })
+    NerdGraphQuery.query({
+      query: gql,
+      fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
+    })
       .then(this.parseAlertStatuses)
       .catch(err => {
         this.setState({
@@ -476,6 +493,7 @@ export default class Board extends React.Component {
             <EditBoard
               rows={rows}
               cols={cols}
+              cells={cells}
               editMode={editMode}
               onDataDelete={this.handleDataDelete}
               onDataSave={this.handleDataSave}

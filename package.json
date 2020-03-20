@@ -10,7 +10,7 @@
     "eslint-fix": "eslint nerdlets/ --fix"
   },
   "bugs": {
-    "email": "opensource+nr1-neon@newrelic.com"
+    "email": "opensource@newrelic.com"
   },
   "license": "Apache-2.0",
   "dependencies": {
