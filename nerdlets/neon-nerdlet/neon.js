@@ -53,8 +53,7 @@ export default class NeonNerdlet extends React.Component {
       currentUser: {},
       boards: {},
       board: null,
-      isHidden: true,
-      noBoards: true,
+      emptyStateHidden: false,
     };
   }
 
@@ -171,12 +170,9 @@ export default class NeonNerdlet extends React.Component {
       boards,
       board,
       currentUser,
-      isHidden,
-      noBoards,
+      emptyStateHidden,
     } = this.state;
     const { launcherUrlState } = this.props;
-
-    console.log('boards obj', noBoards, isHidden);
 
     return (
       <>
@@ -229,16 +225,18 @@ export default class NeonNerdlet extends React.Component {
           <GridItem className="primary-content-container" columnSpan={12}>
             <main className="primary-content full-height">
               {!accountId && <BoxSpinner />}
-              {(isHidden || noBoards) && (
+              {!Object.keys(boards).length && !emptyStateHidden && (
                 <EmptyState
                   heading="Welcome to Neon!"
                   description="Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Ready to start?  Click the close button below and then click the plus (+) icon  to create a new board."
                   buttonText="Close"
-                  buttonOnClick={this.hideEmptyState}
+                  buttonOnClick={() =>
+                    this.setState({ emptyStateHidden: true })
+                  }
                 />
               )}
 
-              {accountId && !board && !isHidden && (
+              {accountId && !board && (
                 <MotherBoard
                   boards={boards || {}}
                   accountId={accountId}
@@ -254,7 +252,6 @@ export default class NeonNerdlet extends React.Component {
                   timeRange={launcherUrlState.timeRange}
                   onClose={this.closeBoard}
                   onUpdate={this.updateBoards}
-                  noBoards={noBoards}
                 />
               )}
             </main>
