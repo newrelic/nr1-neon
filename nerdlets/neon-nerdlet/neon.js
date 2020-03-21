@@ -115,8 +115,8 @@ export default class NeonNerdlet extends React.Component {
   }
 
   hideEmptyState() {
-    const { isHidden } = this.state;
-    this.setState({ isHidden: false });
+    const { emptyStateHidden } = this.state;
+    this.setState({ emptyStateHidden: true });
   }
 
   showHelpDocs() {
@@ -228,7 +228,7 @@ export default class NeonNerdlet extends React.Component {
               {!Object.keys(boards).length && !emptyStateHidden && (
                 <EmptyState
                   heading="Welcome to Neon!"
-                  description="Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Ready to start?  Click the close button below and then click the plus (+) icon  to create a new board."
+                  description="Looks like you have no boards ;-(.  Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Ready to start?  Click the plus (+) icon  to create a new board."
                   buttonText="Close"
                   buttonOnClick={() =>
                     this.setState({ emptyStateHidden: true })
