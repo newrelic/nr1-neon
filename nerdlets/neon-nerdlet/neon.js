@@ -174,6 +174,14 @@ export default class NeonNerdlet extends React.Component {
     } = this.state;
     const { launcherUrlState } = this.props;
 
+    const noBoardsExist = Object.keys(boards).length === 0;
+    console.log(
+      'boards length',
+      noBoardsExist,
+      'empty state',
+      emptyStateHidden
+    );
+
     return (
       <>
         <Stack
@@ -211,7 +219,11 @@ export default class NeonNerdlet extends React.Component {
               horizontalType={Stack.HORIZONTAL_TYPE.RIGHT}
             >
               <StackItem>
-                <Button type={Button.TYPE.PRIMARY} onClick={this.showHelpDocs}>
+                <Button
+                  className="help-button"
+                  type={Button.TYPE.PRIMARY}
+                  onClick={this.showHelpDocs}
+                >
                   Help
                 </Button>
               </StackItem>
@@ -225,17 +237,16 @@ export default class NeonNerdlet extends React.Component {
           <GridItem className="primary-content-container" columnSpan={12}>
             <main className="primary-content full-height">
               {!accountId && <BoxSpinner />}
-              {!Object.keys(boards).length && !emptyStateHidden && (
+              {noBoardsExist && !emptyStateHidden && (
                 <EmptyState
                   heading="Welcome to Neon!"
-                  description="Looks like you have no boards ;-(.  Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation. Ready to start?  Click the plus (+) icon  to create a new board."
+                  description="Looks like you have no boards so let's change that.                                       Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation.                                                                                                Ready to start?  Click the plus (+) icon  to create a new board."
                   buttonText="Close"
                   buttonOnClick={() =>
                     this.setState({ emptyStateHidden: true })
                   }
                 />
               )}
-
               {accountId && !board && (
                 <MotherBoard
                   boards={boards || {}}
