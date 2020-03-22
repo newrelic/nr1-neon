@@ -90,8 +90,12 @@ export default class HelpNerdlet extends React.Component {
                 </li>
                 <p>
                   To monitor the status of a <strong>New Relic alert </strong>
-                  which requires a webhook notification channel, perform the
-                  following steps:
+                  make sure you've set up a{' '}
+                  <Link to="https://github.com/glitton/nr1-neon/blob/documentation/docs/alert_webhook_config.md">
+                    webhook notification channel.
+                  </Link>
+                  <br />
+                  Then perform the following steps:
                 </p>
                 <ol className="instructions">
                   <li>Click on setup board.</li>
