@@ -1,9 +1,3 @@
-[![New Relic One Catalog Project header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/New_Relic_One_Catalog_Project.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#nr1-catalog)
-
-# Neon
-
-![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-neon?include_prereleases) [![Snyk](https://snyk.io/test/github/newrelic/nr1-neon/badge.svg)](https://snyk.io/test/github/newrelic/nr1-neon)
-
 ## Usage
 
 Neon is an application that allows you to create a status at a glance visualization that can be scaled to track the health of entire business units or regions.
@@ -11,10 +5,6 @@ Neon is an application that allows you to create a status at a glance visualizat
 Statuses are derived from existing New Relic alert policies or based on values from New Relic events.
 
 Neon makes it easy to configure the visualization to show exactly what you need to see.
-
-![Home Page](https://github.com/newrelic/nr1-neon/blob/master/catalog/screenshots/nr1-neon-1.png)
-
-![A Sample Board](https://github.com/newrelic/nr1-neon/blob/master/catalog/screenshots/nr1-neon-2.png)
 
 ## Open Source License
 
