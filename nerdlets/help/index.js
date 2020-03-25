@@ -68,7 +68,7 @@ export default class HelpNerdlet extends React.Component {
                   attributes you'd like to keep track of. Learn more about
                   attributes{' '}
                   <Link to="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute">
-                    here
+                    here.
                   </Link>
                 </p>
                 <br />
@@ -161,6 +161,10 @@ export default class HelpNerdlet extends React.Component {
                     average(duration) attribute name, with a COMPARISON of
                     greater than, and a value of 1. When this event occurs, Neon
                     will display that actual number that exceeded 1 in red.
+                  </li>
+                  <li>
+                    You may need to refresh the screen to see the changes take
+                    place.
                   </li>
                 </ul>
                 <br />
