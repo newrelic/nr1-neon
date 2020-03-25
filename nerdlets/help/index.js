@@ -68,7 +68,7 @@ export default class HelpNerdlet extends React.Component {
                   attributes you'd like to keep track of. Learn more about
                   attributes{' '}
                   <Link to="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute">
-                    here
+                    here.
                   </Link>
                 </p>
                 <br />
@@ -141,11 +141,11 @@ export default class HelpNerdlet extends React.Component {
                   setup.
                 </p>
                 <ul>
-                  <li>Perform step 6 except and select New Relic Attribute</li>
+                  <li>For step 6 select New Relic Attribute</li>
                   <li>
                     In the Attribute Name text field, type in the attribute name
-                    prepended by an aggregator function such as
-                    average(duration).
+                    like duration. Optionally you can prepend the attribute with
+                    an aggregator function such as average(duration).
                   </li>
                   <li>
                     Click on the COMPARISON dropdown and select less than,
@@ -157,10 +157,14 @@ export default class HelpNerdlet extends React.Component {
                   </li>
                   <li>
                     For example, Neon can inform you when the average duration
-                    of a Page View event exceeds 1 second. Using the
+                    of a Page View event exceeds 1 second. Set up Neon using the
                     average(duration) attribute name, with a COMPARISON of
-                    greater than, and a value of 1, when this event occurs, Neon
+                    greater than, and a value of 1. When this event occurs, Neon
                     will display that actual number that exceeded 1 in red.
+                  </li>
+                  <li>
+                    You may need to refresh the screen to see the changes take
+                    place.
                   </li>
                 </ul>
                 <br />
