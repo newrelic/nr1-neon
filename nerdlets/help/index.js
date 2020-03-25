@@ -33,11 +33,11 @@ export default class HelpNerdlet extends React.Component {
                   <h3>About Neon</h3>
                 </li>
                 <p>
-                  Neon is an application that allows you to create a status at a
-                  glance visualization that can be scaled to track the health of
-                  entire business units or regions. Statuses are derived from
-                  existing New Relic alert policies or based on values from New
-                  Relic events. Neon makes it easy to configure the
+                  Neon is an application that allows you to create a status
+                  visualization at a glance. Neon can be scaled to track the
+                  health of entire business units or regions. Statuses are
+                  derived from existing New Relic alert policies or from values
+                  from New Relic events. Neon makes it easy to configure the
                   visualization to show exactly what you need to see.
                 </p>
                 <div className="screenshots">
@@ -61,6 +61,13 @@ export default class HelpNerdlet extends React.Component {
                   Alerts and a webhook notification channel set up. Instructions
                   for webhook setup is{' '}
                   <Link to="https://github.com/glitton/nr1-neon/blob/documentation/docs/alert_webhook_config.md">
+                    here.
+                  </Link>
+                  <br />
+                  Using Neon to monitor your events require that you know the
+                  attributes you'd like to keep track of. Learn more about
+                  attributes{' '}
+                  <Link to="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute">
                     here.
                   </Link>
                 </p>
@@ -134,11 +141,11 @@ export default class HelpNerdlet extends React.Component {
                   setup.
                 </p>
                 <ul>
-                  <li>Perform step 6 except and select New Relic Attribute</li>
+                  <li>For step 6 select New Relic Attribute</li>
                   <li>
                     In the Attribute Name text field, type in the attribute name
-                    prepended by an aggregator function such as
-                    average(duration).
+                    like duration. Optionally you can prepend the attribute with
+                    an aggregator function such as average(duration).
                   </li>
                   <li>
                     Click on the COMPARISON dropdown and select less than,
@@ -150,10 +157,14 @@ export default class HelpNerdlet extends React.Component {
                   </li>
                   <li>
                     For example, Neon can inform you when the average duration
-                    of a Page View event exceeds 1 second. Using the
+                    of a Page View event exceeds 1 second. Set up Neon using the
                     average(duration) attribute name, with a COMPARISON of
-                    greater than, and a value of 1, when this event occurs, Neon
+                    greater than, and a value of 1. When this event occurs, Neon
                     will display that actual number that exceeded 1 in red.
+                  </li>
+                  <li>
+                    You may need to refresh the screen to see the changes take
+                    place.
                   </li>
                 </ul>
                 <br />
