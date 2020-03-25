@@ -63,14 +63,15 @@ export default class HelpNerdlet extends React.Component {
                   <Link to="https://github.com/glitton/nr1-neon/blob/documentation/docs/alert_webhook_config.md">
                     here.
                   </Link>
+                  <br />
+                  Using Neon to monitor your events require that you know the
+                  attributes you'd like to keep track of. Learn more about
+                  attributes{' '}
+                  <Link to="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute">
+                    here
+                  </Link>
                 </p>
                 <br />
-                Using Neon to monitor your events require that you know the
-                attributes you'd like to keep track of. Learn more about
-                attributes{' '}
-                <Link to="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute">
-                  here
-                </Link>
                 <li>
                   <h3>Create A New Board</h3>
                 </li>
