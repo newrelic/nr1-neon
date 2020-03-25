@@ -17,6 +17,7 @@ import {
 } from 'nr1';
 
 import { EmptyState } from '@newrelic/nr1-community';
+import logo from '../../catalog/screenshots/logo.png';
 
 import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
@@ -211,6 +212,16 @@ export default class NeonNerdlet extends React.Component {
               </StackItem>
             </Stack>
           </StackItem>
+          <Stack
+            fullWidth
+            fullHeight
+            verticalType={Stack.VERTICAL_TYPE.CENTER}
+            horizontalType={Stack.HORIZONTAL_TYPE.CENTER}
+          >
+            <StackItem>
+              <img className="neon-logo-main" src={logo} alt="Neon Logo" />
+            </StackItem>
+          </Stack>
           <StackItem className="toolbar-section2">
             <Stack
               fullWidth
