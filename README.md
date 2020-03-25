@@ -36,7 +36,9 @@ Next, clone this repository and run the following scripts:
 ```bash
 nr1 nerdpack:clone -r https://github.com/newrelic/nr1-neon.git
 cd nr1-neon
-nr1 nerdpack:serve
+nr1 nerdpack:uuid -gf
+npm install
+npm start
 ```
 
 Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
@@ -47,7 +49,7 @@ Open a command prompt in the nerdpack's directory and run the following commands
 
 ```bash
 # To create a new uuid for the nerdpack so that you can deploy it to your account:
-# nr1 nerdpack:uuid -g [--profile=your_profile_name]
+# nr1 nerdpack:uuid -gf [--profile=your_profile_name]
 
 # To see a list of APIkeys / profiles available in your development environment:
 # nr1 profiles:list
