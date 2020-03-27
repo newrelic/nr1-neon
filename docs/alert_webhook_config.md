@@ -22,7 +22,7 @@ Insights insert tokens can be generated from the _Manage data_ option in your Ne
 
 > You just need to enter a note to configure the key, I recommend Neon_Webhook (that will be the name of the Insights event table created)
 
-![Screenshot #14](../catalog/screenshots/nr1-slo-r-14.png)
+![Screenshot #5](../catalog/screenshots/nr1-neon-SaveKey5.png)
 
 > Once your key is created keep it handy, you will need it to configure the Webhook.
 
