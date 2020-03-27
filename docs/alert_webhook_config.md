@@ -18,7 +18,7 @@ Insights insert tokens can be generated from the _Manage data_ option in your Ne
 
 > We will want to create a new _Insert Key_ click the "+" sign to enter the create dialog.
 
-![Screenshot #13](../catalog/screenshots/nr1-slo-r-13.png)
+![Screenshot #4](../catalog/screenshots/nr1-slo-r-13.png)
 
 > You just need to enter a note to configure the key, I recommend SLOR_ALERTS (that will be the name of the Insights event table created)
 
