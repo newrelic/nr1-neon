@@ -1,6 +1,6 @@
 # Steps to create an alert webhook notification channel
 
-In order to setup a webhook notification key, you will need to do the following steps:
+In order to setup a webhook notification channel, you will need to do the following steps:
 
 ## 1. Generate an Insights insert token
 
