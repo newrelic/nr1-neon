@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, GridItem, Stack, StackItem, Link } from 'nr1';
+import { Grid, GridItem, Stack, StackItem } from 'nr1';
 import logo from '../../catalog/screenshots/logo.png';
 import neon1 from '../../catalog/screenshots/neon1.png';
 import neon2 from '../../catalog/screenshots/neon2.png';
@@ -60,16 +60,22 @@ export default class HelpNerdlet extends React.Component {
                   To use Neon to monitor your alerts, you need to have New Relic
                   Alerts and a webhook notification channel set up. Instructions
                   for webhook setup is{' '}
-                  <Link to="https://github.com/glitton/nr1-neon/blob/documentation/docs/alert_webhook_config.md">
+                  <a
+                    href="nr1-neon/docs/alert_webhook_config.md"
+                    target="_blank"
+                  >
                     here.
-                  </Link>
+                  </a>
                   <br />
                   Using Neon to monitor your events require that you know the
                   attributes you'd like to keep track of. Learn more about
                   attributes{' '}
-                  <Link to="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute">
+                  <a
+                    href="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute"
+                    target="_blank"
+                  >
                     here.
-                  </Link>
+                  </a>
                 </p>
                 <br />
                 <li>
@@ -98,9 +104,12 @@ export default class HelpNerdlet extends React.Component {
                 <p>
                   To monitor the status of a <strong>New Relic alert </strong>
                   make sure you've set up a{' '}
-                  <Link to="https://github.com/glitton/nr1-neon/blob/documentation/docs/alert_webhook_config.md">
+                  <a
+                    href="nr1-neon/docs/alert_webhook_config.md"
+                    target="_blank"
+                  >
                     webhook notification channel.
-                  </Link>
+                  </a>
                   <br />
                   Then perform the following steps:
                 </p>

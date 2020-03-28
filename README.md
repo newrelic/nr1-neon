@@ -20,15 +20,16 @@ This project is distributed under the [Apache 2 license](./LICENSE).
 
 In order to view status of New Relic alerts, you'll need to set up a webhook notification channel for the alert policies.
 
-See [Managing Notification Channels](https://docs.newrelic.com/docs/alerts/new-relic-alerts/managing-notification-channels) on [New Relic Documentation](https://docs.newrelic.com/).
+See [Creat Alert Webhook Notification Channel](docs/alert_webhook_config.md)
 
 ## Getting started
 
-First, ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [NPM](https://www.npmjs.com/get-npm) installed. If you're unsure whether you have one or both of them installed, run the following command(s) (If you have them installed these commands will return a version number, if not, the commands won't be recognized):
+First, ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [NPM](https://www.npmjs.com/get-npm) and the [New Relic One CLI](https://developer.newrelic.com/build-tools/new-relic-one-applications/cli) installed. If you're unsure whether you have these installed, run the following command(s). If you have them installed these commands will return a version number, if not, the commands won't be recognized.
 
 ```bash
 git --version
 npm -v
+nr1 --version
 ```
 
 Next, clone this repository and run the following scripts:
@@ -41,18 +42,40 @@ npm install
 npm start
 ```
 
-Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
+What you have just installed is a local version of neon.
 
-## Deploying this Nerdpack
+To test the nerdpack, go to https://one.newrelic.com/?nerdpacks=local and click on the Neon icon to launch the application.
+
+![Screenshot #1](catalog/screenshots/nr1-neon-logo.png)
+
+Close the Welcome screen and click the plus icon (+) to create your first board.
+
+![Screenshot #2](catalog/screenshots/nr1-neon-home.png)
+
+Click the HELP button for documentation on getting started.
+
+To stop the application from running on your local machine, run control-C.
+
+To re-run the application on your local machine, run
+
+```bash
+npm start
+```
+
+## Publish and Deploy this Nerdpack
+
+Once you've modified and tested Neon to your requirements, you are ready to publish and deploy in in your New Relic account so others can have access to this application.
+
+The instructions below assume that you have created a profile with an associated API key. If you haven't done this step, please review the publish and Deploy details found in [developer.newrelic.com](https://developer.newrelic.com/build-tools/new-relic-one-applications/publish-deploy)
 
 Open a command prompt in the nerdpack's directory and run the following commands.
 
 ```bash
-# To create a new uuid for the nerdpack so that you can deploy it to your account:
-# nr1 nerdpack:uuid -gf [--profile=your_profile_name]
+To create a new uuid for the nerdpack so that you can deploy it to your account:
+nr1 nerdpack:uuid -gf [--profile=your_profile_name]
 
-# To see a list of APIkeys / profiles available in your development environment:
-# nr1 profiles:list
+To see a list of APIkeys / profiles available in your development environment:
+nr1 profiles:list
 
 nr1 nerdpack:publish [--profile=your_profile_name]
 nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
