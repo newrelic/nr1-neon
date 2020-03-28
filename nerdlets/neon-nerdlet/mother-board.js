@@ -38,7 +38,10 @@ export default class MotherBoard extends React.Component {
   componentDidMount() {
     const { accountId } = this.props;
     const gql = `{ actor { account(id: ${accountId}) { nrql(query: "SHOW EVENT TYPES") { results } } } }`;
-    NerdGraphQuery.query({ query: gql }).then(res => {
+    NerdGraphQuery.query({
+      query: gql,
+      fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
+    }).then(res => {
       const results =
         (((((res || {}).data || {}).actor || {}).account || {}).nrql || {})
           .results || [];

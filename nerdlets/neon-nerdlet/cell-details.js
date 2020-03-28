@@ -88,7 +88,10 @@ export default class CellDetails extends React.Component {
       fetching: true,
     });
 
-    NerdGraphQuery.query({ query: gql })
+    NerdGraphQuery.query({
+      query: gql,
+      fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
+    })
       .then(res => {
         const results =
           (((((res || {}).data || {}).actor || {}).account || {}).nrql || {})
