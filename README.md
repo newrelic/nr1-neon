@@ -20,7 +20,7 @@ This project is distributed under the [Apache 2 license](./LICENSE).
 
 In order to view status of New Relic alerts, you'll need to set up a webhook notification channel for the alert policies.
 
-See [Creat Alert Webhook Notification Channel](../../docs/alert_webhook_config.md>)
+See [Creat Alert Webhook Notification Channel](docs/alert_webhook_config.md)
 
 ## Getting started
 
@@ -46,11 +46,11 @@ What you have just installed is a local version of neon.
 
 To test the nerdpack, go to https://one.newrelic.com/?nerdpacks=local and click on the Neon icon to launch the application.
 
-![Screenshot #1](./catalog/screenshots/nr1-neon-logo.png)
+![Screenshot #1](catalog/screenshots/nr1-neon-logo.png)
 
 Close the Welcome screen and click the plus icon (+) to create your first board.
 
-![Screenshot #2](./catalog/screenshots/nr1-neon-home.png)
+![Screenshot #2](catalog/screenshots/nr1-neon-home.png)
 
 Click the HELP button for documentation on getting started.
 
