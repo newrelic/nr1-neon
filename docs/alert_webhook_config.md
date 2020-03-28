@@ -49,7 +49,7 @@ Insights insert tokens can be generated from the _Manage data_ option in your Ne
 > Add a Custom Payload
 > ![Screenshot #10](../catalog/screenshots/nr1-neon-customPayload10.png)
 
-> Replace the default payload with the one below ...
+> Replace the default payload with the one below.
 
 ```
 {
@@ -98,6 +98,6 @@ In New Relic alerts, create an alert policy and condition that you'd like to vis
 
 ![Screenshot #13](../catalog/screenshots/nr1-neon-webhookChannel13.png)
 
-> In step 6 of Neon's Setup Board step, enter PawsFinder Page Performance in the Alert Policy text field.
+> Take note of the name and syntax of the alert policy as you will be using this in step 6 of Neon's Setup Board step.
 
 > Note: An Alert has to have fired to be visible in Neon.

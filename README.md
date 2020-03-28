@@ -24,7 +24,7 @@ See [Managing Notification Channels](https://docs.newrelic.com/docs/alerts/new-r
 
 ## Getting started
 
-First, ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [NPM](https://www.npmjs.com/get-npm) and the [New Relic One CLI](https://developer.newrelic.com/build-tools/new-relic-one-applications/cli) installed. If you're unsure whether you have these installed, run the following command(s) (If you have them installed these commands will return a version number, if not, the commands won't be recognized):
+First, ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [NPM](https://www.npmjs.com/get-npm) and the [New Relic One CLI](https://developer.newrelic.com/build-tools/new-relic-one-applications/cli) installed. If you're unsure whether you have these installed, run the following command(s). If you have them installed these commands will return a version number, if not, the commands won't be recognized.
 
 ```bash
 git --version
@@ -46,7 +46,7 @@ What you have just installed is a local version of neon.
 
 To test the nerdpack, go to https://one.newrelic.com/?nerdpacks=local and click on the Neon icon to launch the application.
 
-![Screenshot #1](../catalog/screenshots/nr1-neon-home.png)
+![Screenshot #1](./catalog/screenshots/nr1-neon-home.png)
 
 Close the Welcome screen and click the plus icon (+) to create your first board.
 Click the HELP button for documentation on getting started.
