@@ -92,12 +92,12 @@ Insights insert tokens can be generated from the _Manage data_ option in your Ne
 
 ## 3. Create an Alert and add the NEON_ALERTS notification Webhook
 
-Now you have to add the alert policy name that uses the NEON_ALERTS notification channel name to the Alert Policy text field exactly as you named it in New Relic alerts.
+In New Relic alerts, create an alert policy and condition that you'd like to visualize in Neon. Make sure to use the NEON_ALERTS webhook notification channel.
 
-> For example, PawsFinder Page Performance is the name of the alert policy that uses the NEON_ALERTS webhook channel. Enter PawsFinder Page Performance in the Alert Policy text field as described in step 6 of Setup Board.
+> For example, PawsFinder Page Performance is the name of the alert policy that tracks a browser page rendering time. Add a webhook notification channel called NEON_ALERTS to this alert policy.
 
 ![Screenshot #13](../catalog/screenshots/nr1-neon-webhookChannel13.png)
 
-> To set a notification channel just select the "Notification channel" tab in an Alert Policy and click "Add notification channels". Select the SLOR_ALERTS Webhook channel you created and associate it with the Alert.
+> In step 6 of Neon's Setup Board step, enter PawsFinder Page Performance in the Alert Policy text field.
 
 > Note: An Alert has to have fired to be visible in Neon.
