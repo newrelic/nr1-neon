@@ -90,9 +90,11 @@ Insights insert tokens can be generated from the _Manage data_ option in your Ne
 
 ![Screenshot #12](../catalog/screenshots/nr1-neon-webhookComplete12.png)
 
-## 3. Create an Alert and add the SLOR_ALERT notification Webhook
+## 3. Create an Alert and add the NEON_ALERTS notification Webhook
 
-Now you have to add the SLOR_ALERTS notification channel name to the Alert Policy text field (step 6 in Setup Board).
+Now you have to add the alert policy name that uses the NEON_ALERTS notification channel name to the Alert Policy text field exactly as you named it in New Relic alerts.
+
+> For example, PawsFinder Page Performance is the name of the alert policy that uses the NEON_ALERTS webhook channel. Enter PawsFinder Page Performance in the Alert Policy text field as described in step 6 of Setup Board.
 
 ![Screenshot #13](../catalog/screenshots/nr1-neon-webhookChannel13.png)
 
