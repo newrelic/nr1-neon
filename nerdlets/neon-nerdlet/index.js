@@ -145,31 +145,31 @@ export default class NeonNerdlet extends React.Component {
       <PlatformStateContext.Consumer>
         {platformUrlState => (
           <div className="container">
-          <AccountPicker
-            account={account}
-            accounts={accounts}
-            setAccount={this.accountChange}
-          />
-          {!accountId && <BoxSpinner />}
-          {accountId && !board && (
-            <MotherBoard
-              boards={boards || {}}
-              accountId={accountId}
-              onClicked={this.displayBoard}
+            <AccountPicker
+              account={account}
+              accounts={accounts}
+              setAccount={this.accountChange}
             />
-          )}
-          {accountId && board && (
-            <Board
-              board={board}
-              boards={boards}
-              accountId={accountId}
-              currentUser={currentUser}
-              timeRange={platformUrlState.timeRange}
-              onClose={this.closeBoard}
-              onUpdate={this.updateBoards}
-            />
-          )}
-        </div>
+            {!accountId && <BoxSpinner />}
+            {accountId && !board && (
+              <MotherBoard
+                boards={boards || {}}
+                accountId={accountId}
+                onClicked={this.displayBoard}
+              />
+            )}
+            {accountId && board && (
+              <Board
+                board={board}
+                boards={boards}
+                accountId={accountId}
+                currentUser={currentUser}
+                timeRange={platformUrlState.timeRange}
+                onClose={this.closeBoard}
+                onUpdate={this.updateBoards}
+              />
+            )}
+          </div>
         )}
       </PlatformStateContext.Consumer>
     );
