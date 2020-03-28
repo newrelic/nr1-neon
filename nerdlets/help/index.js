@@ -60,9 +60,7 @@ export default class HelpNerdlet extends React.Component {
                   To use Neon to monitor your alerts, you need to have New Relic
                   Alerts and a webhook notification channel set up. Instructions
                   for webhook setup is{' '}
-                  <Link to="https://github.com/glitton/nr1-neon/blob/documentation/docs/alert_webhook_config.md">
-                    here.
-                  </Link>
+                  <Link to="docs/alert_webhook_config.md">here.</Link>
                   <br />
                   Using Neon to monitor your events require that you know the
                   attributes you'd like to keep track of. Learn more about
