@@ -46,9 +46,12 @@ What you have just installed is a local version of neon.
 
 To test the nerdpack, go to https://one.newrelic.com/?nerdpacks=local and click on the Neon icon to launch the application.
 
-![Screenshot #1](./catalog/screenshots/nr1-neon-home.png)
+![Screenshot #1](./catalog/screenshots/nr1-neon-logo.png)
 
 Close the Welcome screen and click the plus icon (+) to create your first board.
+
+![Screenshot #2](./catalog/screenshots/nr1-neon-home.png)
+
 Click the HELP button for documentation on getting started.
 
 To stop the application from running on your local machine, run control-C
