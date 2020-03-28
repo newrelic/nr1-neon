@@ -54,8 +54,13 @@ Close the Welcome screen and click the plus icon (+) to create your first board.
 
 Click the HELP button for documentation on getting started.
 
-To stop the application from running on your local machine, run control-C
-To re-run the application on your local machine, run npm start or nr1 nerdpack:serve
+To stop the application from running on your local machine, run control-C.
+
+To re-run the application on your local machine, run
+
+```bash
+npm start
+```
 
 ## Publish and Deploy this Nerdpack
 
