@@ -28,33 +28,32 @@ Insights insert tokens can be generated from the _Manage data_ option in your Ne
 
 ## 2. Create a Webhook notification channel
 
-![Screenshot #20](../catalog/screenshots/nr1-slo-r-20.png)
-
 > In New Relic Alerts click on "Notification Channel" and then "New notification channel"
 
-![Screenshot #17](../catalog/screenshots/nr1-slo-r-17.png)
+![Screenshot #6](../catalog/screenshots/nr1-neon-channel6.png)
 
 > Select the "Webhook" channel type
 
-> Set the "Channel name" as SLOR_ALERTS
+![Screenshot #7](../catalog/screenshots/nr1-neon-webhook7.png)
+
+> Set the "Channel name" as NEON_ALERTS
 
 > The "Base Url" should be the Insights collector events Url - be sure to specify your Account ID
 > `https://insights-collector.newrelic.com/v1/accounts/{your account id}/events`
 
-![Screenshot #21](../catalog/screenshots/nr1-slo-r-21.png)
-![Screenshot #22](../catalog/screenshots/nr1-slo-r-22.png)
-
 > You will need to add a custom header and specify the X-Insert-Key you generated in step 1 above
 
-![Screenshot #23](../catalog/screenshots/nr1-slo-r-23.png)
+![Screenshot #8](../catalog/screenshots/nr1-neon-customHeaders8.png)
+![Screenshot #9](../catalog/screenshots/nr1-neon-customHeaders9.png)
 
 > Add a Custom Payload
+> ![Screenshot #10](../catalog/screenshots/nr1-neon-customPayload10.png)
 
 > Replace the default payload with the one below ...
 
 ```
 {
-  "eventType": "SLOR_ALERTS",
+  "eventType": "NEON_ALERTS",
   "account_id": "$ACCOUNT_ID",
   "account_name": "$ACCOUNT_NAME",
   "closed_violations_count_critical": "$CLOSED_VIOLATIONS_COUNT_CRITICAL",
@@ -83,20 +82,20 @@ Insights insert tokens can be generated from the _Manage data_ option in your Ne
 }
 ```
 
-![Screenshot #24](../catalog/screenshots/nr1-slo-r-24.png)
-
 > Save your changes
 
-![Screenshot #19](../catalog/screenshots/nr1-slo-r-19.png)
+![Screenshot #11](../catalog/screenshots/nr1-neon-save11.png)
 
 > You should have defined a notification channel that looks like the following
 
+![Screenshot #12](../catalog/screenshots/nr1-neon-webhookComplete12.png)
+
 ## 3. Create an Alert and add the SLOR_ALERT notification Webhook
 
-Now you have to add the SLOR_ALERTS notification channel to any Alerts you wish to use to make SLO calculations.
+Now you have to add the SLOR_ALERTS notification channel name to the Alert Policy text field (step 6 in Setup Board).
 
-![Screenshot #25](../catalog/screenshots/nr1-slo-r-25.png)
+![Screenshot #13](../catalog/screenshots/nr1-neon-webhookChannel13.png)
 
 > To set a notification channel just select the "Notification channel" tab in an Alert Policy and click "Add notification channels". Select the SLOR_ALERTS Webhook channel you created and associate it with the Alert.
 
-> Note: An Alert has to have fired to be visible to the SLO/R configurstion.
+> Note: An Alert has to have fired to be visible in Neon.
