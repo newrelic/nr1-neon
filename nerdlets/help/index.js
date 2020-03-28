@@ -65,7 +65,10 @@ export default class HelpNerdlet extends React.Component {
                   Using Neon to monitor your events require that you know the
                   attributes you'd like to keep track of. Learn more about
                   attributes{' '}
-                  <a href="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute">
+                  <a
+                    href="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute"
+                    target="_blank"
+                  >
                     here.
                   </a>
                 </p>
@@ -96,7 +99,7 @@ export default class HelpNerdlet extends React.Component {
                 <p>
                   To monitor the status of a <strong>New Relic alert </strong>
                   make sure you've set up a{' '}
-                  <a href="../../docs/alert_webhook_config.md">
+                  <a href="../../docs/alert_webhook_config.md" target="_blank">
                     webhook notification channel.
                   </a>
                   <br />
