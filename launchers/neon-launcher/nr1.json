@@ -1,7 +1,7 @@
 {
-    "schemaType": "LAUNCHER",
-    "id": "neon-launcher",
-    "displayName": "Neon",
-    "description": "Status Board for Alerts",
-    "rootNerdletId": "neon-nerdlet"
+  "schemaType": "LAUNCHER",
+  "id": "neon-launcher",
+  "displayName": "Neon Generosa",
+  "description": "Status Board for Alerts",
+  "rootNerdletId": "neon-nerdlet"
 }
