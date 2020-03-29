@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, GridItem, Stack, StackItem } from 'nr1';
+import { Grid, GridItem, Stack, StackItem, Link } from 'nr1';
 import logo from '../../catalog/screenshots/logo.png';
 import neon1 from '../../catalog/screenshots/neon1.png';
 import neon2 from '../../catalog/screenshots/neon2.png';
@@ -60,22 +60,16 @@ export default class HelpNerdlet extends React.Component {
                   To use Neon to monitor your alerts, you need to have New Relic
                   Alerts and a webhook notification channel set up. Instructions
                   for webhook setup is{' '}
-                  <a
-                    href="https://github.com/glitton/nr1-neon/blob/master/docs/alert_webhook_config.md"
-                    target="_blank"
-                  >
+                  <Link to="https://github.com/glitton/nr1-neon/blob/master/docs/alert_webhook_config.md">
                     here.
-                  </a>
+                  </Link>
                   <br />
                   Using Neon to monitor your events require that you know the
                   attributes you'd like to keep track of. Learn more about
                   attributes{' '}
-                  <a
-                    href="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute"
-                    target="_blank"
-                  >
+                  <Link to="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute">
                     here.
-                  </a>
+                  </Link>
                 </p>
                 <br />
                 <li>
@@ -92,10 +86,16 @@ export default class HelpNerdlet extends React.Component {
                   </li>
                   <li>
                     Using the Event dropdown, select the New Relic event that
-                    you would like to display in your board. For example, the
-                    New Relic Browser event, PageView.
+                    you would like to display in your board. Events that appear
+                    in the dropdown are dependent on what you have in your
+                    account. For example, if you are using APM, you will see
+                    events such as Metric, Transaction, TransactionError, etc
+                    ...
                   </li>
                   <li>Click the + Add button.</li>
+                  <li>
+                    You will then see your new board in the Neon home page.
+                  </li>
                 </ol>
                 <br />
                 <li>
@@ -104,26 +104,28 @@ export default class HelpNerdlet extends React.Component {
                 <p>
                   To monitor the status of a <strong>New Relic alert </strong>
                   make sure you've set up a{' '}
-                  <a
-                    href="https://github.com/glitton/nr1-neon/blob/master/docs/alert_webhook_config.md"
-                    target="_blank"
-                  >
+                  <Link to="https://github.com/glitton/nr1-neon/blob/master/docs/alert_webhook_config.md">
                     webhook notification channel.
-                  </a>
+                  </Link>
                   <br />
                   Then perform the following steps:
                 </p>
                 <ol className="instructions">
-                  <li>Click on setup board.</li>
                   <li>
-                    In the Board Details section , click on the Rows tab and
-                    type in a title to one or multiple rows in the Title text
-                    field.
+                    From the Neon home page, click on the board that you'd like
+                    to setup.
                   </li>
                   <li>
-                    Click the + Add button which enables your row title to be
-                    displayed on the board. Repeat the same step to add more row
-                    titles.
+                    You will see a row of options underneath your board title.
+                    Click on setup board.
+                  </li>
+                  <li>
+                    A modal window opens with a title of Board Details. Click on
+                    the Rows tab and type in a title in the Title text field.
+                  </li>
+                  <li>
+                    Click the + Add button. Your row title is now displayed on
+                    the board. Repeat the same step to add more row titles.
                   </li>
                   <li>
                     Click on the column tab and type in your column name in the
@@ -140,14 +142,17 @@ export default class HelpNerdlet extends React.Component {
                     policy name <i>exactly</i> as you've named it in New Relic
                     Alerts.
                   </li>
-                  <li>Click the + Add button to finish.</li>
+                  <li>Click the + Add button to finish the board setup.</li>
+                  <li>
+                    Click outside the modal or the X icon to close the modal.
+                  </li>
                 </ol>
                 <br />
                 <p>
-                  To monitor the status of a <strong>New Relic event </strong>
-                  such as if the average duration of a Page View event that
-                  exceeded a certain value repeat steps 1 to 5 from the alert
-                  setup.
+                  To monitor the status of the <strong>New Relic event </strong>
+                  that you chose when you created a new board such as when an
+                  attribute like average(duration) exceeded a certain value
+                  repeat steps 1 to 5 from the alert setup.
                 </p>
                 <ul>
                   <li>For step 6 select New Relic Attribute</li>
@@ -180,8 +185,9 @@ export default class HelpNerdlet extends React.Component {
                 <li>
                   <h3>View Boards</h3>
                   <p>
-                    To view all the boards that you have in your account, click
-                    on view boards.
+                    While looking at an individual board, clicking on view
+                    boards will take you back to the Neon home page where all
+                    your boards are displayed.
                   </p>
                 </li>
                 <br />
@@ -190,9 +196,10 @@ export default class HelpNerdlet extends React.Component {
                 </li>
                 <p>
                   To edit your row and/or column titles, go to the board that
-                  you'd like to edit and click on edit board.
+                  you'd like to edit and click on edit board. Note that cell
+                  editing functionality is not yet available at this time.
                 </p>
-                <ol>
+                <ol className="instructions">
                   <li>
                     Click on the row or column tab and click on the edit button
                     to edit the row or column title
@@ -214,7 +221,10 @@ export default class HelpNerdlet extends React.Component {
                 <li>
                   <h3>Delete Board</h3>
                 </li>
-                <p>Click on delete board to completely get rid of a board.</p>
+                <p>
+                  While viewing an individual board, click on delete board to
+                  completely get rid of a board.
+                </p>
                 <br />
               </ul>
             </main>

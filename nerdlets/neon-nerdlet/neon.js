@@ -173,15 +173,9 @@ export default class NeonNerdlet extends React.Component {
       currentUser,
       emptyStateHidden,
     } = this.state;
-    const { launcherUrlState } = this.props;
 
+    const { launcherUrlState } = this.props;
     const noBoardsExist = Object.keys(boards).length === 0;
-    console.log(
-      'boards length',
-      noBoardsExist,
-      'empty state',
-      emptyStateHidden
-    );
 
     return (
       <>
