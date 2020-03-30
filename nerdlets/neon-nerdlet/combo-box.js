@@ -63,7 +63,7 @@ export default class ComboBox extends React.Component {
           {options && (
             <Dropdown
               title="Select"
-              style={{ alignSelf: 'end', boxShadow: '0 1px 0 0 #e3e4e4' }}
+              // style={{ alignSelf: 'end', boxShadow: '0 1px 0 0 #e3e4e4' }}
             >
               {options.map((o, i) => (
                 <DropdownItem onClick={e => this.valueChange(o)} key={i}>
