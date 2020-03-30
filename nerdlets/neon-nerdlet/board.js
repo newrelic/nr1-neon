@@ -455,19 +455,35 @@ export default class Board extends React.Component {
           </tbody>
         </table>
         <div className="control-bar">
-          <a href="#" className="default" onClick={e => this.openAdmin(e)}>
+          <a
+            href="#"
+            className="u-unstyledLink default"
+            onClick={e => this.openAdmin(e)}
+          >
             setup board
           </a>
           &nbsp;|&nbsp;
-          <a href="#" className="default" onClick={e => this.closeBoard(e)}>
+          <a
+            href="#"
+            className="u-unstyledLink default"
+            onClick={e => this.closeBoard(e)}
+          >
             view boards
           </a>
           &nbsp;|&nbsp;
-          <a href="#" className="default" onClick={e => this.openEditBoard(e)}>
+          <a
+            href="#"
+            className="u-unstyledLink default"
+            onClick={e => this.openEditBoard(e)}
+          >
             edit board
           </a>
           &nbsp;|&nbsp;
-          <a href="#" className="default" onClick={this.openDeleteBoard}>
+          <a
+            href="#"
+            className="u-unstyledLink default"
+            onClick={this.openDeleteBoard}
+          >
             delete board
           </a>
         </div>

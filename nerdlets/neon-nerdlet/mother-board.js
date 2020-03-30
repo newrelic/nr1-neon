@@ -152,14 +152,22 @@ export default class MotherBoard extends React.Component {
         <section className="board_list">
           {Object.keys(boards).map(boardId => (
             <article className="board_card" key={boardId}>
-              <a href="#" onClick={e => this.boardClicked(e, boardId)}>
+              <a
+                className="u-unstyledLink"
+                href="#"
+                onClick={e => this.boardClicked(e, boardId)}
+              >
                 <h2 className="board_name">{boards[boardId].name}</h2>
                 <span className="board_team">{boards[boardId].team || ''}</span>
               </a>
             </article>
           ))}
           <article className="board_card">
-            <a href="#" onClick={e => this.showAddBoardModal(e)}>
+            <a
+              className="u-unstyledLink"
+              href="#"
+              onClick={e => this.showAddBoardModal(e)}
+            >
               <Icon
                 type={Icon.TYPE.INTERFACE__SIGN__PLUS}
                 sizeType={Icon.SIZE_TYPE.LARGE}

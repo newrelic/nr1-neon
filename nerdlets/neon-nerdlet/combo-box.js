@@ -21,9 +21,10 @@ export default class ComboBox extends React.Component {
     };
   }
 
-  valueChange(val) {
+  valueChange(e) {
     const { onChange } = this.props;
 
+    const val = e.target.value;
     this.setState(
       {
         value: val,
@@ -61,22 +62,26 @@ export default class ComboBox extends React.Component {
           }
         >
           {options && (
-            <Dropdown
-              title="Select"
-              // style={{ alignSelf: 'end', boxShadow: '0 1px 0 0 #e3e4e4' }}
-            >
-              {options.map((o, i) => (
-                <DropdownItem onClick={e => this.valueChange(o)} key={i}>
-                  {o}
-                </DropdownItem>
-              ))}
-            </Dropdown>
+            <div>
+              <select
+                onChange={e => this.valueChange(e)}
+                style={{ alignSelf: 'end' }}
+              >
+                {options.map((o, i) => (
+                  <option value={o} key={i}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            </div>
           )}
-          <TextField
-            placeholder={placeholder || ''}
-            value={value || ''}
-            onChange={e => this.valueChange(e.target.value)}
-          />
+          <div>
+            <TextField
+              placeholder={placeholder || ''}
+              value={value || ''}
+              onChange={e => this.valueChange(e.target.value)}
+            />
+          </div>
         </div>
       </div>
     );
