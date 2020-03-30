@@ -1,3 +1,12 @@
+## [0.3.1](https://github.com/newrelic/nr1-neon/compare/v0.3.0...v0.3.1) (2020-03-30)
+
+
+### Bug Fixes
+
+* eslint upgrade closes newrelic/nr1-neon[#28](https://github.com/newrelic/nr1-neon/issues/28) ([e55146f](https://github.com/newrelic/nr1-neon/commit/e55146f823db6eeec18fe939e1b16e216201c7b5))
+* linting issues. ([823080f](https://github.com/newrelic/nr1-neon/commit/823080fc38d87092519349f1a0163c45fad8022b))
+* Resolves nerdlet state usage. Closes newrelic/nr1-neon[#23](https://github.com/newrelic/nr1-neon/issues/23). ([3f6473f](https://github.com/newrelic/nr1-neon/commit/3f6473f29cb4f331284d063029f7f34d4c1ca835))
+
 <<<<<<< HEAD
 =======
 # [0.3.0](https://github.com/newrelic/nr1-neon/compare/v0.2.2...v0.3.0) (2020-03-06)
