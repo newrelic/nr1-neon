@@ -245,7 +245,7 @@ export default class NeonNerdlet extends React.Component {
               {noBoardsExist && !emptyStateHidden && (
                 <EmptyState
                   heading="Welcome to Neon!"
-                  description="Looks like you have no boards so let's change that.                                       Before you create your first board, make sure to review the dependencies as detailed in the HELP documentation.                                                                                                Ready to start?  Click the plus (+) icon  to create a new board."
+                  description="Looks like you have no boards so let's change that. Before you begin, make sure to review the HELP documentation.  Ready to start?  Click the + icon to create your first board."
                   buttonText="Close"
                   buttonOnClick={() =>
                     this.setState({ emptyStateHidden: true })
