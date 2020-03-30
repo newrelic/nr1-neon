@@ -24,7 +24,9 @@ export default class ComboBox extends React.Component {
   valueChange(e) {
     const { onChange } = this.props;
 
-    const val = e.target.value;
+    let val = e.target.value;
+    val = val === 'Select' ? '' : val;
+
     this.setState(
       {
         value: val,
@@ -38,6 +40,25 @@ export default class ComboBox extends React.Component {
   render() {
     const { value } = this.state;
     const { title, placeholder, options } = this.props;
+
+    const selectStyle = {
+      minWidth: '128px',
+      minHeight: '33px',
+      justifyContent: 'space-between',
+      boxSizing: 'border-box',
+      padding: '6.5px 8px',
+      fontSize: '14px',
+      position: 'relative',
+      lineHeight: '19px',
+      border: 'none',
+      boxShadow:
+        'inset 0 0 0 1px #d5d7d7, inset 0px 3px 0px rgba(0, 0, 0, 0.02)',
+      backgroundPosition: 'right 8px top 56%',
+      borderRadius: '3px',
+      backgroundColor: '#fff',
+      transition: '0.075s all ease-in-out',
+      left: 0,
+    };
 
     return (
       <div>
@@ -65,8 +86,9 @@ export default class ComboBox extends React.Component {
             <div>
               <select
                 onChange={e => this.valueChange(e)}
-                style={{ alignSelf: 'end' }}
+                style={{ alignSelf: 'end', ...selectStyle }}
               >
+                <option>Select</option>
                 {options.map((o, i) => (
                   <option value={o} key={i}>
                     {o}
