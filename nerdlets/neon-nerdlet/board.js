@@ -24,6 +24,7 @@ export default class Board extends React.Component {
     timeRange: PropTypes.object,
     onClose: PropTypes.func,
     onUpdate: PropTypes.func,
+    noBoards: PropTypes.bool,
   };
 
   constructor(props) {
@@ -60,10 +61,6 @@ export default class Board extends React.Component {
     this.humanizeNumber = this.humanizeNumber.bind(this);
     this.getCellContent = this.getCellContent.bind(this);
     this.showCellDetails = this.showCellDetails.bind(this);
-
-    // nerdlet.setUrlState({
-    //   id: ((props || {}).board || {}).id
-    // })
   }
 
   componentDidMount() {
@@ -152,8 +149,11 @@ export default class Board extends React.Component {
   }
 
   deleteBoard() {
-    const { boards, accountId, board, onClose } = this.props;
+    const { boards, accountId, board, onClose, noBoards } = this.props;
     delete boards[board.id];
+    Object.entries(boards) === 0
+      ? this.setState({ noBoards: false })
+      : this.setState({ noBoards: true });
     AccountStorageMutation.mutate({
       actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'neondb',
@@ -418,7 +418,8 @@ export default class Board extends React.Component {
       deleteModalHidden,
       editMode,
     } = this.state;
-    const { board, accountId, currentUser } = this.props;
+    const { board, accountId, currentUser, boards } = this.props;
+    console.log('board component', Object.entries(boards));
     return (
       <div>
         <div className="board-title">
@@ -454,19 +455,35 @@ export default class Board extends React.Component {
           </tbody>
         </table>
         <div className="control-bar">
-          <a href="#" className="default" onClick={e => this.openAdmin(e)}>
+          <a
+            href="#"
+            className="u-unstyledLink default"
+            onClick={e => this.openAdmin(e)}
+          >
             setup board
           </a>
           &nbsp;|&nbsp;
-          <a href="#" className="default" onClick={e => this.closeBoard(e)}>
+          <a
+            href="#"
+            className="u-unstyledLink default"
+            onClick={e => this.closeBoard(e)}
+          >
             view boards
           </a>
           &nbsp;|&nbsp;
-          <a href="#" className="default" onClick={e => this.openEditBoard(e)}>
+          <a
+            href="#"
+            className="u-unstyledLink default"
+            onClick={e => this.openEditBoard(e)}
+          >
             edit board
           </a>
           &nbsp;|&nbsp;
-          <a href="#" className="default" onClick={this.openDeleteBoard}>
+          <a
+            href="#"
+            className="u-unstyledLink default"
+            onClick={this.openDeleteBoard}
+          >
             delete board
           </a>
         </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon, Tabs, TabsItem, TextField, Button } from 'nr1';
+import { Tabs, TabsItem, TextField, Button } from 'nr1';
 
 export default class BoardAdmin extends React.Component {
   static propTypes = {
@@ -153,6 +153,25 @@ export default class BoardAdmin extends React.Component {
     } = this.state;
     const { rows, cols, cells } = this.props;
 
+    const selectStyle = {
+      minWidth: '128px',
+      minHeight: '33px',
+      justifyContent: 'space-between',
+      boxSizing: 'border-box',
+      padding: '6.5px 8px',
+      fontSize: '14px',
+      position: 'relative',
+      lineHeight: '19px',
+      border: 'none',
+      boxShadow:
+        'inset 0 0 0 1px #d5d7d7, inset 0px 3px 0px rgba(0, 0, 0, 0.02)',
+      backgroundPosition: 'right 8px top 56%',
+      borderRadius: '3px',
+      backgroundColor: '#fff',
+      transition: '0.075s all ease-in-out',
+      left: 0,
+    };
+
     return (
       <div>
         <h3>Board Details</h3>
@@ -215,6 +234,7 @@ export default class BoardAdmin extends React.Component {
               }}
             >
               <select
+                style={selectStyle}
                 value={rowForCell || ''}
                 onChange={e => this.changeHandler(e, 'rowForCell')}
               >
@@ -226,6 +246,7 @@ export default class BoardAdmin extends React.Component {
                 ))}
               </select>
               <select
+                style={selectStyle}
                 value={colForCell || ''}
                 onChange={e => this.changeHandler(e, 'colForCell')}
               >
@@ -237,6 +258,7 @@ export default class BoardAdmin extends React.Component {
                 ))}
               </select>
               <select
+                style={selectStyle}
                 value={cellType || ''}
                 onChange={e => this.changeHandler(e, 'cellType')}
               >
@@ -271,7 +293,7 @@ export default class BoardAdmin extends React.Component {
                     <select
                       value={isType || ''}
                       onChange={e => this.changeHandler(e, 'isType')}
-                      style={{ alignSelf: 'end' }}
+                      style={{ alignSelf: 'end', ...selectStyle }}
                     >
                       <option value="">COMPARISON</option>
                       <option value="less">less than</option>

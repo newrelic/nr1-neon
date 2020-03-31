@@ -14,7 +14,6 @@ import {
   StackItem,
   Button,
   navigation,
-  PlatformStateContext,
 } from 'nr1';
 
 import { EmptyState } from '@newrelic/nr1-community';
@@ -179,104 +178,100 @@ export default class NeonNerdlet extends React.Component {
     const noBoardsExist = Object.keys(boards).length === 0;
 
     return (
-      <PlatformStateContext.Consumer>
-        {platformState => (
-          <>
+      <>
+        <Stack
+          className="toolbar-container"
+          fullWidth
+          gapType={Stack.GAP_TYPE.NONE}
+          horizontalType={Stack.HORIZONTAL_TYPE.FILL_EVENLY}
+          verticalType={Stack.VERTICAL_TYPE.FILL}
+        >
+          <StackItem className="toolbar-section1">
             <Stack
-              className="toolbar-container"
-              fullWidth
+              directionType={Stack.DIRECTION_TYPE.HORIZONTAL}
               gapType={Stack.GAP_TYPE.NONE}
-              horizontalType={Stack.HORIZONTAL_TYPE.FILL_EVENLY}
-              verticalType={Stack.VERTICAL_TYPE.FILL}
+              fullWidth
+              fullHeight
+              verticalType={Stack.VERTICAL_TYPE.CENTER}
             >
-              <StackItem className="toolbar-section1">
-                <Stack
-                  directionType={Stack.DIRECTION_TYPE.HORIZONTAL}
-                  gapType={Stack.GAP_TYPE.NONE}
-                  fullWidth
-                  fullHeight
-                  verticalType={Stack.VERTICAL_TYPE.CENTER}
-                >
-                  <StackItem>
-                    <div className="toolbar-item">Account</div>
-                  </StackItem>
-                  <StackItem className="toolbar-item">
-                    <AccountPicker
-                      account={account}
-                      accounts={accounts}
-                      setAccount={this.accountChange}
-                    />
-                  </StackItem>
-                </Stack>
+              <StackItem>
+                <div className="toolbar-item">Account</div>
               </StackItem>
-              <Stack
-                fullWidth
-                fullHeight
-                verticalType={Stack.VERTICAL_TYPE.CENTER}
-                horizontalType={Stack.HORIZONTAL_TYPE.CENTER}
-              >
-                <StackItem>
-                  <img className="neon-logo-main" src={logo} alt="Neon Logo" />
-                </StackItem>
-              </Stack>
-              <StackItem className="toolbar-section2">
-                <Stack
-                  fullWidth
-                  fullHeight
-                  verticalType={Stack.VERTICAL_TYPE.CENTER}
-                  horizontalType={Stack.HORIZONTAL_TYPE.RIGHT}
-                >
-                  <StackItem>
-                    <Button
-                      className="help-button"
-                      type={Button.TYPE.PRIMARY}
-                      onClick={this.showHelpDocs}
-                    >
-                      Help
-                    </Button>
-                  </StackItem>
-                </Stack>
+              <StackItem className="toolbar-item">
+                <AccountPicker
+                  account={account}
+                  accounts={accounts}
+                  setAccount={this.accountChange}
+                />
               </StackItem>
             </Stack>
-            <Grid
-              className="primary-grid"
-              spacingType={[Grid.SPACING_TYPE.NONE, Grid.SPACING_TYPE.NONE]}
+          </StackItem>
+          <Stack
+            fullWidth
+            fullHeight
+            verticalType={Stack.VERTICAL_TYPE.CENTER}
+            horizontalType={Stack.HORIZONTAL_TYPE.CENTER}
+          >
+            <StackItem>
+              <img className="neon-logo-main" src={logo} alt="Neon Logo" />
+            </StackItem>
+          </Stack>
+          <StackItem className="toolbar-section2">
+            <Stack
+              fullWidth
+              fullHeight
+              verticalType={Stack.VERTICAL_TYPE.CENTER}
+              horizontalType={Stack.HORIZONTAL_TYPE.RIGHT}
             >
-              <GridItem className="primary-content-container" columnSpan={12}>
-                <main className="primary-content full-height">
-                  {!accountId && <BoxSpinner />}
-                  {noBoardsExist && !emptyStateHidden && (
-                    <EmptyState
-                      heading="Welcome to Neon!"
-                      description="Looks like you have no boards so let's change that.                                       Before you begin, review the HELP documentation to understand dependencies and steps to getting started.  Ready to start?  Close this message and click the plus (+) icon to create a new board."
-                      buttonText="Close"
-                      buttonOnClick={this.hideEmptyState}
-                    />
-                  )}
-                  {accountId && !board && (
-                    <MotherBoard
-                      boards={boards || {}}
-                      accountId={accountId}
-                      onClicked={this.displayBoard}
-                    />
-                  )}
-                  {accountId && board && (
-                    <Board
-                      board={board}
-                      boards={boards}
-                      accountId={accountId}
-                      currentUser={currentUser}
-                      timeRange={platformState.timeRange}
-                      onClose={this.closeBoard}
-                      onUpdate={this.updateBoards}
-                    />
-                  )}
-                </main>
-              </GridItem>
-            </Grid>
-          </>
-        )}
-      </PlatformStateContext.Consumer>
+              <StackItem>
+                <Button
+                  className="help-button"
+                  type={Button.TYPE.PRIMARY}
+                  onClick={this.showHelpDocs}
+                >
+                  Help
+                </Button>
+              </StackItem>
+            </Stack>
+          </StackItem>
+        </Stack>
+        <Grid
+          className="primary-grid"
+          spacingType={[Grid.SPACING_TYPE.NONE, Grid.SPACING_TYPE.NONE]}
+        >
+          <GridItem className="primary-content-container" columnSpan={12}>
+            <main className="primary-content full-height">
+              {!accountId && <BoxSpinner />}
+              {noBoardsExist && !emptyStateHidden && (
+                <EmptyState
+                  heading="Welcome to Neon!"
+                  description="Looks like you have no boards so let's change that.                                       Before you begin, review the HELP documentation to understand dependencies and steps to getting started.  Ready to start?  Close this message and click the plus (+) icon to create a new board."
+                  buttonText="Close"
+                  buttonOnClick={this.hideEmptyState}
+                />
+              )}
+              {accountId && !board && (
+                <MotherBoard
+                  boards={boards || {}}
+                  accountId={accountId}
+                  onClicked={this.displayBoard}
+                />
+              )}
+              {accountId && board && (
+                <Board
+                  board={board}
+                  boards={boards}
+                  accountId={accountId}
+                  currentUser={currentUser}
+                  timeRange={launcherUrlState.timeRange}
+                  onClose={this.closeBoard}
+                  onUpdate={this.updateBoards}
+                />
+              )}
+            </main>
+          </GridItem>
+        </Grid>
+      </>
     );
   }
 }
