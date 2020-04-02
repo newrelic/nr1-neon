@@ -1,3 +1,10 @@
+## [0.3.2](https://github.com/newrelic/nr1-neon/compare/v0.3.1...v0.3.2) (2020-04-02)
+
+
+### Bug Fixes
+
+* bump version ([d337d58](https://github.com/newrelic/nr1-neon/commit/d337d587acc3a68a3a6ca1c467e39be8dc0e691e))
+
 ## [0.3.1](https://github.com/newrelic/nr1-neon/compare/v0.3.0...v0.3.1) (2020-03-30)
 
 ### Bug Fixes
