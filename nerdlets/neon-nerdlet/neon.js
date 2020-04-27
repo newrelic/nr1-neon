@@ -197,7 +197,7 @@ export default class NeonNerdlet extends React.Component {
               <StackItem>
                 <div className="toolbar-item">Account</div>
               </StackItem>
-              <StackItem className="toolbar-item">
+              <StackItem className="toolbar-account-picker">
                 <AccountPicker
                   account={account}
                   accounts={accounts}

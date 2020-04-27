@@ -698,11 +698,7 @@ tbody {
 }
 
 .toolbar-item {
-  display: flex;
-  justify-content: center;
-  padding: 8px 16px;
-  align-items: center;
-
+  font-size: 14px;
   &.has-separator {
     border-right: 1px dotted #d5d7d7;
   }
