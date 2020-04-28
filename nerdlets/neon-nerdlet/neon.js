@@ -211,9 +211,10 @@ export default class NeonNerdlet extends React.Component {
             fullHeight
             verticalType={Stack.VERTICAL_TYPE.CENTER}
             horizontalType={Stack.HORIZONTAL_TYPE.CENTER}
+            // className="neon-logo-main"
           >
             <StackItem>
-              <img className="neon-logo-main" src={logo} alt="Neon Logo" />
+              <img src={logo} alt="Neon Logo" />
             </StackItem>
           </Stack>
           <StackItem className="toolbar-section2">

@@ -691,6 +691,19 @@ tbody {
   box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.02);
   background: #edeeee;
   padding: 0 16px;
+  position: relative;
+}
+
+.toolbar-section1 {
+  position: absolute;
+  left: 16px;
+  top: 21px;
+}
+
+.toolbar-section2 {
+  position: absolute;
+  right: 16px;
+  top: 21px;
 }
 
 .toolbar-section1 .toolbar-item:first-child {
@@ -699,6 +712,7 @@ tbody {
 
 .toolbar-item {
   font-size: 14px;
+  padding-right: 10px;
   &.has-separator {
     border-right: 1px dotted #d5d7d7;
   }
