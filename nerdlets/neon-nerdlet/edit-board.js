@@ -8,6 +8,7 @@ export default class EditBoard extends React.Component {
   static propTypes = {
     rows: PropTypes.array,
     cols: PropTypes.array,
+    cells: PropTypes.object,
     onDataDelete: PropTypes.func,
     onDataSave: PropTypes.func,
   };
@@ -21,7 +22,7 @@ export default class EditBoard extends React.Component {
 
     return (
       <div>
-        <h3>Edit Board Titles</h3>
+        <h3>Edit Board</h3>
         <Tabs>
           <TabsItem value="tab-rows" label="Rows">
             <div
@@ -45,6 +46,27 @@ export default class EditBoard extends React.Component {
             </div>
           </TabsItem>
           <TabsItem value="tab-cols" label="Cols">
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr',
+                gridGap: '1em',
+                marginTop: '2em',
+              }}
+            >
+              {cols.map((col, i) => (
+                <Title
+                  key={i}
+                  title={cell}
+                  index={i}
+                  type={'cols'}
+                  onDataDelete={onDataDelete}
+                  onDataSave={onDataSave}
+                />
+              ))}
+            </div>
+          </TabsItem>
+          <TabsItem value="tab-cells" label="Cells">
             <div
               style={{
                 display: 'grid',

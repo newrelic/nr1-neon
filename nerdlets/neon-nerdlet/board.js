@@ -419,7 +419,7 @@ export default class Board extends React.Component {
       editMode,
     } = this.state;
     const { board, accountId, currentUser, boards } = this.props;
-    console.log('board component', Object.entries(boards));
+    console.log('cells data type', cells);
     return (
       <div>
         <div className="board-title">
