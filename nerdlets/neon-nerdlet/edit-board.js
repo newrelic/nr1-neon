@@ -8,7 +8,7 @@ export default class EditBoard extends React.Component {
   static propTypes = {
     rows: PropTypes.array,
     cols: PropTypes.array,
-    cells: PropTypes.object,
+    cells: PropTypes.array,
     onDataDelete: PropTypes.func,
     onDataSave: PropTypes.func,
   };
@@ -18,7 +18,8 @@ export default class EditBoard extends React.Component {
   }
 
   render() {
-    const { rows, cols, onDataDelete, onDataSave } = this.props;
+    console.log('cell type', cells);
+    const { rows, cols, cells, onDataDelete, onDataSave } = this.props;
 
     return (
       <div>
@@ -57,7 +58,7 @@ export default class EditBoard extends React.Component {
               {cols.map((col, i) => (
                 <Title
                   key={i}
-                  title={cell}
+                  title={col}
                   index={i}
                   type={'cols'}
                   onDataDelete={onDataDelete}
@@ -75,12 +76,13 @@ export default class EditBoard extends React.Component {
                 marginTop: '2em',
               }}
             >
-              {cols.map((col, i) => (
+              {/* Use board admin select rowforcell, colforcell */}
+              {cells.map((cell, i) => (
                 <Title
                   key={i}
-                  title={col}
+                  title={cell}
                   index={i}
-                  type={'cols'}
+                  type={'cells'}
                   onDataDelete={onDataDelete}
                   onDataSave={onDataSave}
                 />
