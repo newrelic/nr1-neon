@@ -33,9 +33,12 @@ export default class Board extends React.Component {
     this.state = {
       rows: [],
       rowName: '',
+      rowForCell: '',
       cols: [],
       colName: '',
+      colForCell: '',
       cells: [],
+      cellType: '',
       data: {},
       alerts: {},
       timeoutId: null,
@@ -409,9 +412,12 @@ export default class Board extends React.Component {
     const {
       rows,
       rowName,
+      rowForCell,
       cols,
       colName,
+      colForCell,
       cells,
+      cellType,
       modalHidden,
       detailsForCell,
       editModalHidden,
@@ -508,8 +514,11 @@ export default class Board extends React.Component {
           {!editModalHidden && (
             <EditBoard
               rows={rows}
+              rowForCell={rowForCell}
               cols={cols}
+              colForCell={colForCell}
               cells={cells}
+              cellType={cellType}
               editMode={editMode}
               onDataDelete={this.handleDataDelete}
               onDataSave={this.handleDataSave}
