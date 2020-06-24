@@ -64,6 +64,7 @@ jobs:
         uses: actions/cache@v1
         env:
           cache-name: node-modules
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           path: ~/.npm
           key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
