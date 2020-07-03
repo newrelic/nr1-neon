@@ -374,7 +374,12 @@ export default class Board extends React.Component {
         />
       );
     } else if (match.details) {
-      const num = data[match.details.name];
+      const val = data[match.details.name];
+      let num = val;
+      if (val && typeof val === 'object') {
+        num = Object.values(val)[0];
+      }
+
       const status = { class: '' };
       if (num && (match.details.is && match.details.value)) {
         const { is, value } = match.details;
