@@ -425,6 +425,7 @@ export default class Board extends React.Component {
       editMode,
     } = this.state;
     const { board, accountId, currentUser, boards } = this.props;
+
     return (
       <div>
         <div className="board-title">

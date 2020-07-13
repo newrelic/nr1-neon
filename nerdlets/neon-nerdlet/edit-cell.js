@@ -1,18 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from 'nr1';
+import { Button, TextField } from 'nr1';
 
 export default class Cell extends React.Component {
   static propTypes = {
     rows: PropTypes.array,
-    rowForCell: PropTypes.string,
     cols: PropTypes.array,
-    colForCell: PropTypes.string,
     cells: PropTypes.array,
-    cellType: PropTypes.string,
-    // onDataDelete: PropTypes.func,
-    // onDataSave: PropTypes.func,
   };
 
   constructor(props) {
@@ -50,17 +45,6 @@ export default class Cell extends React.Component {
   }
 
   editData(type) {
-    const {
-      rowName,
-      rowForCell,
-      colName,
-      colForCell,
-      cellType,
-      policyName,
-      attributeName,
-      isType,
-      valueName,
-    } = this.state;
     const { rows, cols, cells } = this.props;
 
     if (type === 'row') {
@@ -144,7 +128,6 @@ export default class Cell extends React.Component {
   }
 
   // TODO: Make edit with pencil, enable when user clicks, add save
-  // Immediate TODO: Select cells then show data
   render() {
     const selectStyle = {
       minWidth: '128px',
@@ -166,15 +149,17 @@ export default class Cell extends React.Component {
     };
 
     const {
-      rows,
+      rowName,
       rowForCell,
-      cols,
+      colName,
       colForCell,
-      cells,
       cellType,
-      onDataDelete,
-      onDataSave,
-    } = this.props;
+      policyName,
+      attributeName,
+      isType,
+      valueName,
+    } = this.state;
+    const { rows, cols, cells } = this.props;
 
     return (
       <div
@@ -266,7 +251,7 @@ export default class Cell extends React.Component {
           iconType={Button.ICON_TYPE.INTERFACE__SIGN__PLUS}
           onClick={() => this.editData('cell')}
         >
-          Edit
+          Update
         </Button>
       </div>
     );

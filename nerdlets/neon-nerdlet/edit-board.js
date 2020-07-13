@@ -22,7 +22,6 @@ export default class EditBoard extends React.Component {
   }
 
   render() {
-    // console.log('cell type', cells);
     const {
       rows,
       rowForCell,
@@ -81,14 +80,7 @@ export default class EditBoard extends React.Component {
             </div>
           </TabsItem>
           <TabsItem value="tab-cells" label="Cells">
-            <Cell
-              rows={rows}
-              rowForCell={rowForCell}
-              cols={cols}
-              colForCell={colForCell}
-              cells={cells}
-              cellType={cellType}
-            />
+            <Cell rows={rows} cols={cols} cells={cells} />
           </TabsItem>
         </Tabs>
       </div>
