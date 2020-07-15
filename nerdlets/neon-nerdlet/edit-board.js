@@ -80,7 +80,12 @@ export default class EditBoard extends React.Component {
             </div>
           </TabsItem>
           <TabsItem value="tab-cells" label="Cells">
-            <Cell rows={rows} cols={cols} cells={cells} />
+            <Cell
+              rows={rows}
+              cols={cols}
+              cells={cells}
+              onDataSave={onDataSave}
+            />
           </TabsItem>
         </Tabs>
       </div>
