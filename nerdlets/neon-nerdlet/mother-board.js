@@ -195,7 +195,7 @@ export default class MotherBoard extends React.Component {
               title="Event"
               placeholder="event to monitor"
               value={eventName || ''}
-              options={events}
+              // options={events}
               onChange={val => this.eventUpdated(val)}
             />
             <Button
