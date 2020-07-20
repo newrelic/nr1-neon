@@ -38,6 +38,39 @@ export default class Cell extends React.Component {
     this.persistData = this.persistData.bind(this);
   }
 
+  componentDidUpdate(_prevProps, prevState) {
+    const { rowForCell, colForCell } = this.state;
+
+    // only want to update default type if these values have changed
+    if (
+      prevState.rowForCell === rowForCell &&
+      prevState.colForCell === colForCell
+    )
+      return;
+
+    // can only find cell if row and col defined
+    if (!rowForCell || !colForCell) return;
+
+    const selectedCell = this.props.cells.find(
+      ({ col, row }) => col === colForCell && row === rowForCell
+    );
+
+    if (selectedCell) {
+      const { policy, attribute, details } = selectedCell;
+
+      console.log('CELL', selectedCell);
+
+      this.setState({
+        cellType: policy ? 'alert' : 'data',
+        policyName: policy || '',
+        attributeName: attribute || '',
+        value: details?.value || '',
+        valueName: details?.value || '',
+        isType: details?.is || '',
+      });
+    }
+  }
+
   toggleEdit(e) {
     e.preventDefault();
     const { editMode } = this.state;
