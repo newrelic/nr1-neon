@@ -7,4 +7,9 @@ tmp
 
 .DS_Store
 .vscode
+<<<<<<< HEAD
 github-token.txt
+=======
+vscode-settings-sync.txt
+
+>>>>>>> c65def785a3bb67f9826ccb2330f6009c75c3882
