@@ -24,7 +24,7 @@ export default class Cell extends React.Component {
       isType: '',
       valueName: '',
       editMode: false,
-      value: '', //figure out how to show value in edit mode
+      value: '',
     };
 
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -32,12 +32,11 @@ export default class Cell extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
     this.optionChange = this.optionChange.bind(this);
-    // this.editData = this.editData.bind(this);
-    // this.persistData = this.persistData.bind(this);
   }
 
   componentDidUpdate(_prevProps, prevState) {
     const { rowForCell, colForCell } = this.state;
+    const { cells } = this.props;
 
     // only want to update default type if these values have changed
     if (
@@ -49,7 +48,7 @@ export default class Cell extends React.Component {
     // can only find cell if row and col defined
     if (!rowForCell || !colForCell) return;
 
-    const selectedCell = this.props.cells.find(
+    const selectedCell = cells.find(
       ({ col, row }) => col === colForCell && row === rowForCell
     );
 
@@ -96,91 +95,7 @@ export default class Cell extends React.Component {
     this.setState(o);
   }
 
-  // editData(type) {
-  //   const { rows, cols, cells } = this.props;
-
-  //   if (type === 'row') {
-  //     if (rows.filter(r => r === rowName).length) return;
-  //     rows.push(rowName);
-  //     this.setState(
-  //       {
-  //         rows: rows,
-  //         rowName: '',
-  //       },
-  //       this.persistData(rows, cols, cells)
-  //     );
-  //   } else if (type === 'col') {
-  //     if (cols.filter(c => c === colName).length) return;
-  //     cols.push(colName);
-  //     this.setState(
-  //       {
-  //         cols: cols,
-  //         colName: '',
-  //       },
-  //       this.persistData(rows, cols, cells)
-  //     );
-  //   } else if (type === 'cell') {
-  //     if (
-  //       cells.reduce(
-  //         (a, c) => a || (c.row === rowForCell && c.col === colForCell),
-  //         false
-  //       )
-  //     )
-  //       return;
-  //     if (cellType === 'alert') {
-  //       if (!policyName) return;
-  //       cells.push({
-  //         row: rowForCell,
-  //         col: colForCell,
-  //         policy: policyName,
-  //       });
-  //     } else if (cellType === 'data') {
-  //       if (!attributeName) return;
-  //       const deets = {};
-  //       const attr = attributeName.split(/ as /i);
-  //       if (attr.length === 2) deets.name = attr[1].replace(/[^\w]/gi, '');
-  //       if (attr.length === 1 || attr.length === 2) {
-  //         const attrParts = attr[0].split('(');
-  //         deets.key = (attrParts[1] || attrParts[0]).replace(/[^\w]/gi, '');
-  //         deets.func =
-  //           attrParts.length === 2
-  //             ? attrParts[0].replace(/[^\w]/gi, '')
-  //             : 'latest';
-  //       }
-  //       if (!('name' in deets)) deets.name = deets.func + '_' + deets.key;
-  //       deets.str = deets.func + '(`' + deets.key + '`)' + ' AS ' + deets.name;
-  //       deets.is = isType;
-  //       deets.value = valueName;
-  //       cells.push({
-  //         row: rowForCell,
-  //         col: colForCell,
-  //         attribute: attributeName,
-  //         details: deets,
-  //       });
-  //     }
-  //     this.setState(
-  //       {
-  //         cells: cells,
-  //         rowForCell: '',
-  //         colForCell: '',
-  //         cellType: '',
-  //         policyName: '',
-  //         attributeName: '',
-  //         isType: '',
-  //         valueName: '',
-  //       },
-  //       this.persistData(rows, cols, cells)
-  //     );
-  //   }
-  // }
-
-  // persistData(rows, cols, cells) {
-  //   const { onSave } = this.props;
-  //   if (onSave) onSave(rows, cols, cells);
-  // }
-
   // TODO: Make edit with pencil, enable when user clicks, add save
-  // TODO: Style save and cancel buttons
   render() {
     const selectStyle = {
       minWidth: '128px',
