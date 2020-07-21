@@ -98,9 +98,7 @@ export default class EditCell extends React.Component {
 
   prepCellData() {
     const {
-      rowName,
       rowForCell,
-      colName,
       colForCell,
       cellType,
       policyName,
@@ -108,7 +106,8 @@ export default class EditCell extends React.Component {
       isType,
       valueName,
     } = this.state;
-    const { rows, cols, cells, onCellUpdate } = this.props;
+
+    const { cells, onCellUpdate } = this.props;
 
     const selectedCellIndex = cells.findIndex(
       ({ col, row }) => col === colForCell && row === rowForCell
@@ -141,6 +140,7 @@ export default class EditCell extends React.Component {
       deets.str = deets.func + '(`' + deets.key + '`)' + ' AS ' + deets.name;
       deets.is = isType;
       deets.value = valueName;
+
       cells[selectedCellIndex] = {
         row: rowForCell,
         col: colForCell,
@@ -151,8 +151,8 @@ export default class EditCell extends React.Component {
     onCellUpdate(cells);
   }
 
-  // Fix save function
   // TODO: Make edit with pencil, enable when user clicks, add save
+  // Tell user changes were made
   render() {
     const selectStyle = {
       minWidth: '128px',
