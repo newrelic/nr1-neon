@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Button, TextField } from 'nr1';
 
-export default class Cell extends React.Component {
+export default class EditCell extends React.Component {
   static propTypes = {
     rows: PropTypes.array,
     cols: PropTypes.array,

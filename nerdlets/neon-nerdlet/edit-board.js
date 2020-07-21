@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Title from './title';
-import Cell from './edit-cell';
+import EditCell from './edit-cell';
 
 import { Tabs, TabsItem, Button } from 'nr1';
 
@@ -79,7 +79,7 @@ export default class EditBoard extends React.Component {
             </div>
           </TabsItem>
           <TabsItem value="tab-cells" label="Cells">
-            <Cell
+            <EditCell
               rows={rows}
               cols={cols}
               cells={cells}
