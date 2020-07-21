@@ -64,6 +64,7 @@ export default class Board extends React.Component {
     this.humanizeNumber = this.humanizeNumber.bind(this);
     this.getCellContent = this.getCellContent.bind(this);
     this.showCellDetails = this.showCellDetails.bind(this);
+    this.handleCellEdit = this.handleCellEdit.bind(this);
   }
 
   componentDidMount() {
@@ -227,6 +228,18 @@ export default class Board extends React.Component {
         rows: rows,
         cols: cols,
         cells: newCells,
+      },
+      this.persistData(rows, cols, cells)
+    );
+  }
+
+  handleCellEdit(cells) {
+    const { rows, cols } = this.state;
+    this.setState(
+      {
+        rows: rows,
+        cols: cols,
+        cells: cells,
       },
       this.persistData(rows, cols, cells)
     );
@@ -523,6 +536,7 @@ export default class Board extends React.Component {
               editMode={editMode}
               onDataDelete={this.handleDataDelete}
               onDataSave={this.handleDataSave}
+              onCellUpdate={this.handleCellEdit}
             />
           )}
         </Modal>

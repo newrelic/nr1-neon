@@ -8,7 +8,7 @@ export default class Cell extends React.Component {
     rows: PropTypes.array,
     cols: PropTypes.array,
     cells: PropTypes.array,
-    onDataSave: PropTypes.func,
+    onCellUpdate: PropTypes.func,
   };
 
   constructor(props) {
@@ -32,8 +32,9 @@ export default class Cell extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
     this.optionChange = this.optionChange.bind(this);
+    this.prepCellData = this.prepCellData.bind(this);
   }
-
+  // Thanks to SEWinter
   componentDidUpdate(_prevProps, prevState) {
     const { rowForCell, colForCell } = this.state;
     const { cells } = this.props;
@@ -56,7 +57,7 @@ export default class Cell extends React.Component {
       const { policy, attribute, details } = selectedCell;
 
       console.log('CELL', selectedCell);
-
+      // ? syntax: optional chaining operator for value, valueName and isType
       this.setState({
         cellType: policy ? 'alert' : 'data',
         policyName: policy || '',
@@ -95,6 +96,62 @@ export default class Cell extends React.Component {
     this.setState(o);
   }
 
+  prepCellData() {
+    const {
+      rowName,
+      rowForCell,
+      colName,
+      colForCell,
+      cellType,
+      policyName,
+      attributeName,
+      isType,
+      valueName,
+    } = this.state;
+    const { rows, cols, cells, onCellUpdate } = this.props;
+
+    const selectedCellIndex = cells.findIndex(
+      ({ col, row }) => col === colForCell && row === rowForCell
+    );
+
+    if (selectedCellIndex < 0) return;
+
+    if (cellType === 'alert') {
+      if (!policyName) return;
+
+      cells[selectedCellIndex] = {
+        row: rowForCell,
+        col: colForCell,
+        policy: policyName,
+      };
+    } else if (cellType === 'data') {
+      if (!attributeName) return;
+      const deets = {};
+      const attr = attributeName.split(/ as /i);
+      if (attr.length === 2) deets.name = attr[1].replace(/[^\w]/gi, '');
+      if (attr.length === 1 || attr.length === 2) {
+        const attrParts = attr[0].split('(');
+        deets.key = (attrParts[1] || attrParts[0]).replace(/[^\w]/gi, '');
+        deets.func =
+          attrParts.length === 2
+            ? attrParts[0].replace(/[^\w]/gi, '')
+            : 'latest';
+      }
+      if (!('name' in deets)) deets.name = deets.func + '_' + deets.key;
+      deets.str = deets.func + '(`' + deets.key + '`)' + ' AS ' + deets.name;
+      deets.is = isType;
+      deets.value = valueName;
+      cells[selectedCellIndex] = {
+        row: rowForCell,
+        col: colForCell,
+        attribute: attributeName,
+        details: deets,
+      };
+    }
+    onCellUpdate(cells);
+  }
+
+  // Fix save function
   // TODO: Make edit with pencil, enable when user clicks, add save
   render() {
     const selectStyle = {
@@ -127,7 +184,7 @@ export default class Cell extends React.Component {
       value,
       editMode,
     } = this.state;
-    const { rows, cols, cells } = this.props;
+    const { rows, cols } = this.props;
 
     return (
       <div>
@@ -221,7 +278,7 @@ export default class Cell extends React.Component {
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.PRIMARY}
-              onClick={() => onDataSave(value, index, type)}
+              onClick={() => this.prepCellData()}
             >
               Save
             </Button>

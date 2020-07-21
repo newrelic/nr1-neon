@@ -15,6 +15,7 @@ export default class EditBoard extends React.Component {
     cellType: PropTypes.string,
     onDataDelete: PropTypes.func,
     onDataSave: PropTypes.func,
+    onCellUpdate: PropTypes.func,
   };
 
   constructor(props) {
@@ -24,13 +25,11 @@ export default class EditBoard extends React.Component {
   render() {
     const {
       rows,
-      rowForCell,
       cols,
-      colForCell,
       cells,
-      cellType,
       onDataDelete,
       onDataSave,
+      onCellUpdate,
     } = this.props;
 
     return (
@@ -84,7 +83,7 @@ export default class EditBoard extends React.Component {
               rows={rows}
               cols={cols}
               cells={cells}
-              onDataSave={onDataSave}
+              onCellUpdate={onCellUpdate}
             />
           </TabsItem>
         </Tabs>
