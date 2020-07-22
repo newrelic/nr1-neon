@@ -408,7 +408,7 @@ export default class Board extends React.Component {
   }
 
   showCellDetails(row, col) {
-    const { cells, data, alerts } = this.state;
+    const { cells } = this.state;
 
     const match = cells
       .filter(cell => cell.row === row && cell.col === col)
@@ -437,7 +437,7 @@ export default class Board extends React.Component {
       deleteModalHidden,
       editMode,
     } = this.state;
-    const { board, accountId, currentUser, boards } = this.props;
+    const { board, accountId, currentUser } = this.props;
 
     return (
       <div>

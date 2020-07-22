@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Title from './title';
 import EditCell from './edit-cell';
 
-import { Tabs, TabsItem, Button } from 'nr1';
+import { Tabs, TabsItem } from 'nr1';
 
 export default class EditBoard extends React.Component {
   static propTypes = {
