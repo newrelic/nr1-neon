@@ -9,6 +9,7 @@ export default class EditCell extends React.Component {
     cols: PropTypes.array,
     cells: PropTypes.array,
     onCellUpdate: PropTypes.func,
+    editsSaved: PropTypes.func,
   };
 
   constructor(props) {
@@ -107,7 +108,7 @@ export default class EditCell extends React.Component {
       valueName,
     } = this.state;
 
-    const { cells, onCellUpdate } = this.props;
+    const { cells, onCellUpdate, editsSaved } = this.props;
 
     const selectedCellIndex = cells.findIndex(
       ({ col, row }) => col === colForCell && row === rowForCell
@@ -184,7 +185,7 @@ export default class EditCell extends React.Component {
       value,
       editMode,
     } = this.state;
-    const { rows, cols } = this.props;
+    const { rows, cols, editsSaved } = this.props;
 
     return (
       <div>
@@ -197,6 +198,10 @@ export default class EditCell extends React.Component {
               marginTop: '2em',
             }}
           >
+            <div>
+              {editsSaved}
+              {console.log('edits')}
+            </div>
             <select
               style={selectStyle}
               value={rowForCell || ''}
