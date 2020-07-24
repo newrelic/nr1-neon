@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Title from './title';
 import EditCell from './edit-cell';
 
-import { Tabs, TabsItem, Button, Toast } from 'nr1';
+import { Tabs, TabsItem } from 'nr1';
 
 export default class EditBoard extends React.Component {
   static propTypes = {
@@ -20,15 +20,6 @@ export default class EditBoard extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.editsSaved = this.editsSaved.bind(this);
-  }
-
-  editsSaved() {
-    Toast.showToast({
-      title: 'Your edits are saved',
-      type: Toast.TYPE.NORMAL,
-    });
   }
 
   render() {
@@ -93,7 +84,6 @@ export default class EditBoard extends React.Component {
               cols={cols}
               cells={cells}
               onCellUpdate={onCellUpdate}
-              editsSaved={this.editsSaved}
             />
           </TabsItem>
         </Tabs>

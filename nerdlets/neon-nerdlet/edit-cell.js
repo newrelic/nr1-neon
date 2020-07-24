@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, TextField } from 'nr1';
+import { Button, TextField, Toast } from 'nr1';
 
 export default class EditCell extends React.Component {
   static propTypes = {
@@ -34,6 +34,7 @@ export default class EditCell extends React.Component {
     this.changeHandler = this.changeHandler.bind(this);
     this.optionChange = this.optionChange.bind(this);
     this.prepCellData = this.prepCellData.bind(this);
+    this.editsSaved = this.editsSaved.bind(this);
   }
   // Thanks to SEWinter
   componentDidUpdate(_prevProps, prevState) {
@@ -150,6 +151,14 @@ export default class EditCell extends React.Component {
       };
     }
     onCellUpdate(cells);
+  }
+
+  editsSaved() {
+    Toast.showToast({
+      title: 'Your edits are saved',
+      type: Toast.TYPE.NORMAL,
+      sticky: true,
+    });
   }
 
   // TODO: Make edit with pencil, enable when user clicks, add save
@@ -283,7 +292,7 @@ export default class EditCell extends React.Component {
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.PRIMARY}
-              onClick={() => this.prepCellData()}
+              onClick={(() => this.prepCellData(), this.editsSaved())}
             >
               Save
             </Button>
