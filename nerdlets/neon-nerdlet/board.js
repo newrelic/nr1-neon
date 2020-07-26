@@ -205,7 +205,7 @@ export default class Board extends React.Component {
         title: 'Data Deleted',
         type: Toast.TYPE.NORMAL,
         sticky: true,
-        style: { position: 'fixed', left: '450px', top: '45px' },
+        style: { position: 'fixed', left: '630px', top: '45px' },
       })
     );
   }
@@ -238,11 +238,10 @@ export default class Board extends React.Component {
       },
       this.persistData(rows, cols, cells),
       Toast.showToast({
-        title: 'Success',
-        description: 'Updates saved',
+        title: 'Updates Saved',
         type: Toast.TYPE.NORMAL,
         sticky: true,
-        style: { position: 'fixed', left: '450px', top: '45px' },
+        style: { position: 'fixed', left: '630px', top: '45px' },
       })
     );
   }
@@ -255,7 +254,13 @@ export default class Board extends React.Component {
         cols: cols,
         cells: cells,
       },
-      this.persistData(rows, cols, cells)
+      this.persistData(rows, cols, cells),
+      Toast.showToast({
+        title: 'Cells Updated',
+        type: Toast.TYPE.NORMAL,
+        sticky: true,
+        style: { position: 'fixed', left: '630px', top: '45px' },
+      })
     );
   }
 
