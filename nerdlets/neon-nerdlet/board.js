@@ -9,6 +9,7 @@ import {
   Modal,
   Button,
   HeadingText,
+  Toast,
 } from 'nr1';
 
 import BoardAdmin from './board-admin';
@@ -33,9 +34,12 @@ export default class Board extends React.Component {
     this.state = {
       rows: [],
       rowName: '',
+      rowForCell: '',
       cols: [],
       colName: '',
+      colForCell: '',
       cells: [],
+      cellType: '',
       data: {},
       alerts: {},
       timeoutId: null,
@@ -61,6 +65,7 @@ export default class Board extends React.Component {
     this.humanizeNumber = this.humanizeNumber.bind(this);
     this.getCellContent = this.getCellContent.bind(this);
     this.showCellDetails = this.showCellDetails.bind(this);
+    this.handleCellEdit = this.handleCellEdit.bind(this);
   }
 
   componentDidMount() {
@@ -195,7 +200,13 @@ export default class Board extends React.Component {
         cols: cols,
         colName: '',
       },
-      this.persistData(rows, cols, cells)
+      this.persistData(rows, cols, cells),
+      Toast.showToast({
+        title: 'Data Deleted',
+        type: Toast.TYPE.NORMAL,
+        sticky: true,
+        style: { position: 'fixed', left: '450px', top: '45px' },
+      })
     );
   }
 
@@ -224,6 +235,25 @@ export default class Board extends React.Component {
         rows: rows,
         cols: cols,
         cells: newCells,
+      },
+      this.persistData(rows, cols, cells),
+      Toast.showToast({
+        title: 'Success',
+        description: 'Updates saved',
+        type: Toast.TYPE.NORMAL,
+        sticky: true,
+        style: { position: 'fixed', left: '450px', top: '45px' },
+      })
+    );
+  }
+
+  handleCellEdit(cells) {
+    const { rows, cols } = this.state;
+    this.setState(
+      {
+        rows: rows,
+        cols: cols,
+        cells: cells,
       },
       this.persistData(rows, cols, cells)
     );
@@ -376,7 +406,7 @@ export default class Board extends React.Component {
     } else if (match.details) {
       const num = data[match.details.name];
       const status = { class: '' };
-      if (num && (match.details.is && match.details.value)) {
+      if (num && match.details.is && match.details.value) {
         const { is, value } = match.details;
         const comparator = `${num} ${
           is === 'more' ? '>' : is === 'less' ? '<' : '=='
@@ -392,7 +422,7 @@ export default class Board extends React.Component {
   }
 
   showCellDetails(row, col) {
-    const { cells, data, alerts } = this.state;
+    const { cells } = this.state;
 
     const match = cells
       .filter(cell => cell.row === row && cell.col === col)
@@ -409,17 +439,20 @@ export default class Board extends React.Component {
     const {
       rows,
       rowName,
+      rowForCell,
       cols,
       colName,
+      colForCell,
       cells,
+      cellType,
       modalHidden,
       detailsForCell,
       editModalHidden,
       deleteModalHidden,
       editMode,
     } = this.state;
-    const { board, accountId, currentUser, boards } = this.props;
-    console.log('board component', Object.entries(boards));
+    const { board, accountId, currentUser } = this.props;
+
     return (
       <div>
         <div className="board-title">
@@ -509,11 +542,15 @@ export default class Board extends React.Component {
           {!editModalHidden && (
             <EditBoard
               rows={rows}
+              rowForCell={rowForCell}
               cols={cols}
+              colForCell={colForCell}
               cells={cells}
+              cellType={cellType}
               editMode={editMode}
               onDataDelete={this.handleDataDelete}
               onDataSave={this.handleDataSave}
+              onCellUpdate={this.handleCellEdit}
             />
           )}
         </Modal>

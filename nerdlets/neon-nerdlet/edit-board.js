@@ -1,16 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Title from './title';
+import EditCell from './edit-cell';
 
 import { Tabs, TabsItem } from 'nr1';
 
 export default class EditBoard extends React.Component {
   static propTypes = {
     rows: PropTypes.array,
+    rowForCell: PropTypes.string,
     cols: PropTypes.array,
+    colForCell: PropTypes.string,
     cells: PropTypes.array,
+    cellType: PropTypes.string,
     onDataDelete: PropTypes.func,
     onDataSave: PropTypes.func,
+    onCellUpdate: PropTypes.func,
   };
 
   constructor(props) {
@@ -18,7 +23,14 @@ export default class EditBoard extends React.Component {
   }
 
   render() {
-    const { rows, cols, onDataDelete, onDataSave } = this.props;
+    const {
+      rows,
+      cols,
+      cells,
+      onDataDelete,
+      onDataSave,
+      onCellUpdate,
+    } = this.props;
 
     return (
       <div>
@@ -67,25 +79,12 @@ export default class EditBoard extends React.Component {
             </div>
           </TabsItem>
           <TabsItem value="tab-cells" label="Cells">
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr',
-                gridGap: '1em',
-                marginTop: '2em',
-              }}
-            >
-              {cells.map((cell, i) => (
-                <Title
-                  key={i}
-                  title={cell}
-                  index={i}
-                  type={'cells'}
-                  onDataDelete={onDataDelete}
-                  onDataSave={onDataSave}
-                />
-              ))}
-            </div>
+            <EditCell
+              rows={rows}
+              cols={cols}
+              cells={cells}
+              onCellUpdate={onCellUpdate}
+            />
           </TabsItem>
         </Tabs>
       </div>
