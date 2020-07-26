@@ -173,6 +173,12 @@ export default class Board extends React.Component {
           accountId: accountId,
         });
       })
+      .then(() => {
+        Toast.showToast({
+          title: 'Board Delted',
+          type: Toast.TYPE.NORMAL,
+        });
+      })
       .catch(err => {
         Toast.showToast({
           title: 'Unable to delete board',
