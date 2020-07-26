@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, TextField } from 'nr1';
+import { Button, TextField, Toast } from 'nr1';
 
 export default class EditCell extends React.Component {
   static propTypes = {
@@ -197,6 +197,7 @@ export default class EditCell extends React.Component {
               marginTop: '2em',
             }}
           >
+            <div>{console.log('edits')}</div>
             <select
               style={selectStyle}
               value={rowForCell || ''}
@@ -278,7 +279,7 @@ export default class EditCell extends React.Component {
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.PRIMARY}
-              onClick={() => this.prepCellData()}
+              onClick={this.prepCellData}
             >
               Save
             </Button>

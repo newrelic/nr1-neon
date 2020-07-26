@@ -9,6 +9,7 @@ import {
   Modal,
   Button,
   HeadingText,
+  Toast,
 } from 'nr1';
 
 import BoardAdmin from './board-admin';
@@ -199,7 +200,13 @@ export default class Board extends React.Component {
         cols: cols,
         colName: '',
       },
-      this.persistData(rows, cols, cells)
+      this.persistData(rows, cols, cells),
+      Toast.showToast({
+        title: 'Data Deleted',
+        type: Toast.TYPE.NORMAL,
+        sticky: true,
+        style: { position: 'fixed', left: '450px', top: '45px' },
+      })
     );
   }
 
@@ -229,7 +236,14 @@ export default class Board extends React.Component {
         cols: cols,
         cells: newCells,
       },
-      this.persistData(rows, cols, cells)
+      this.persistData(rows, cols, cells),
+      Toast.showToast({
+        title: 'Success',
+        description: 'Updates saved',
+        type: Toast.TYPE.NORMAL,
+        sticky: true,
+        style: { position: 'fixed', left: '450px', top: '45px' },
+      })
     );
   }
 
@@ -392,7 +406,7 @@ export default class Board extends React.Component {
     } else if (match.details) {
       const num = data[match.details.name];
       const status = { class: '' };
-      if (num && (match.details.is && match.details.value)) {
+      if (num && match.details.is && match.details.value) {
         const { is, value } = match.details;
         const comparator = `${num} ${
           is === 'more' ? '>' : is === 'less' ? '<' : '=='
