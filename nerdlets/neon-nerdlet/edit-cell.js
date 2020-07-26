@@ -9,7 +9,6 @@ export default class EditCell extends React.Component {
     cols: PropTypes.array,
     cells: PropTypes.array,
     onCellUpdate: PropTypes.func,
-    editsSaved: PropTypes.func,
   };
 
   constructor(props) {
@@ -34,7 +33,6 @@ export default class EditCell extends React.Component {
     this.changeHandler = this.changeHandler.bind(this);
     this.optionChange = this.optionChange.bind(this);
     this.prepCellData = this.prepCellData.bind(this);
-    this.editsSaved = this.editsSaved.bind(this);
   }
   // Thanks to SEWinter
   componentDidUpdate(_prevProps, prevState) {
@@ -109,7 +107,7 @@ export default class EditCell extends React.Component {
       valueName,
     } = this.state;
 
-    const { cells, onCellUpdate, editsSaved } = this.props;
+    const { cells, onCellUpdate } = this.props;
 
     const selectedCellIndex = cells.findIndex(
       ({ col, row }) => col === colForCell && row === rowForCell
@@ -153,14 +151,6 @@ export default class EditCell extends React.Component {
     onCellUpdate(cells);
   }
 
-  editsSaved() {
-    Toast.showToast({
-      title: 'Your edits are saved',
-      type: Toast.TYPE.NORMAL,
-      sticky: true,
-    });
-  }
-
   // TODO: Make edit with pencil, enable when user clicks, add save
   // Tell user changes were made
   render() {
@@ -194,7 +184,7 @@ export default class EditCell extends React.Component {
       value,
       editMode,
     } = this.state;
-    const { rows, cols, editsSaved } = this.props;
+    const { rows, cols } = this.props;
 
     return (
       <div>
@@ -207,10 +197,7 @@ export default class EditCell extends React.Component {
               marginTop: '2em',
             }}
           >
-            <div>
-              {editsSaved}
-              {console.log('edits')}
-            </div>
+            <div>{console.log('edits')}</div>
             <select
               style={selectStyle}
               value={rowForCell || ''}
@@ -292,7 +279,7 @@ export default class EditCell extends React.Component {
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
               sizeType={Button.SIZE_TYPE.MEDIUM}
               type={Button.TYPE.PRIMARY}
-              onClick={(() => this.prepCellData(), this.editsSaved())}
+              onClick={this.prepCellData}
             >
               Save
             </Button>
