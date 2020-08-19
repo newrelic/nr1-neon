@@ -119,6 +119,12 @@ export default class MotherBoard extends React.Component {
             document: {},
           });
         })
+        .then(() => {
+          Toast.showToast({
+            title: 'Board Added',
+            type: Toast.TYPE.NORMAL,
+          });
+        })
         .catch(err => {
           Toast.showToast({
             title: 'Unable to save board',

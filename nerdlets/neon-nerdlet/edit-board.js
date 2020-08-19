@@ -1,15 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Title from './title';
+import EditCell from './edit-cell';
 
 import { Tabs, TabsItem } from 'nr1';
 
 export default class EditBoard extends React.Component {
   static propTypes = {
     rows: PropTypes.array,
+    rowForCell: PropTypes.string,
     cols: PropTypes.array,
+    colForCell: PropTypes.string,
+    cells: PropTypes.array,
+    cellType: PropTypes.string,
     onDataDelete: PropTypes.func,
     onDataSave: PropTypes.func,
+    onCellUpdate: PropTypes.func,
   };
 
   constructor(props) {
@@ -17,11 +23,18 @@ export default class EditBoard extends React.Component {
   }
 
   render() {
-    const { rows, cols, onDataDelete, onDataSave } = this.props;
+    const {
+      rows,
+      cols,
+      cells,
+      onDataDelete,
+      onDataSave,
+      onCellUpdate,
+    } = this.props;
 
     return (
       <div>
-        <h3>Edit Board Titles</h3>
+        <h3>Edit Board</h3>
         <Tabs>
           <TabsItem value="tab-rows" label="Rows">
             <div
@@ -64,6 +77,14 @@ export default class EditBoard extends React.Component {
                 />
               ))}
             </div>
+          </TabsItem>
+          <TabsItem value="tab-cells" label="Cells">
+            <EditCell
+              rows={rows}
+              cols={cols}
+              cells={cells}
+              onCellUpdate={onCellUpdate}
+            />
           </TabsItem>
         </Tabs>
       </div>
