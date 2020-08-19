@@ -35,7 +35,7 @@ code, the source code can be found at [https://github.com/newrelic/nr1-neon](htt
 
 ### @newrelic/nr1-community
 
-This product includes source derived from [@newrelic/nr1-community](https://github.com/newrelic/nr1-community) ([v1.1.0](https://github.com/newrelic/nr1-community/tree/v1.1.0)), distributed under the [Apache-2.0 License](https://github.com/newrelic/nr1-community/blob/v1.1.0/LICENSE):
+This product includes source derived from [@newrelic/nr1-community](https://github.com/newrelic/nr1-community) ([v1.2.0](https://github.com/newrelic/nr1-community/tree/v1.2.0)), distributed under the [Apache-2.0 License](https://github.com/newrelic/nr1-community/blob/v1.2.0/LICENSE):
 
 ```
                                  Apache License
@@ -273,7 +273,7 @@ SOFTWARE.
 
 ### react-dom
 
-This product includes source derived from [react-dom](https://github.com/facebook/react) ([v16.9.0](https://github.com/facebook/react/tree/v16.9.0)), distributed under the [MIT License](https://github.com/facebook/react/blob/v16.9.0/LICENSE):
+This product includes source derived from [react-dom](https://github.com/facebook/react) ([v16.13.1](https://github.com/facebook/react/tree/v16.13.1)), distributed under the [MIT License](https://github.com/facebook/react/blob/v16.13.1/LICENSE):
 
 ```
 MIT License
@@ -302,7 +302,7 @@ SOFTWARE.
 
 ### react
 
-This product includes source derived from [react](https://github.com/facebook/react) ([v16.9.0](https://github.com/facebook/react/tree/v16.9.0)), distributed under the [MIT License](https://github.com/facebook/react/blob/v16.9.0/LICENSE):
+This product includes source derived from [react](https://github.com/facebook/react) ([v16.13.1](https://github.com/facebook/react/tree/v16.13.1)), distributed under the [MIT License](https://github.com/facebook/react/blob/v16.13.1/LICENSE):
 
 ```
 MIT License
@@ -334,7 +334,7 @@ SOFTWARE.
 
 ### @semantic-release/changelog
 
-This product includes source derived from [@semantic-release/changelog](https://github.com/semantic-release/changelog) ([v3.0.5](https://github.com/semantic-release/changelog/tree/v3.0.5)), distributed under the [MIT License](https://github.com/semantic-release/changelog/blob/v3.0.5/LICENSE):
+This product includes source derived from [@semantic-release/changelog](https://github.com/semantic-release/changelog) ([v3.0.6](https://github.com/semantic-release/changelog/tree/v3.0.6)), distributed under the [MIT License](https://github.com/semantic-release/changelog/blob/v3.0.6/LICENSE):
 
 ```
 MIT License
@@ -392,7 +392,7 @@ SOFTWARE.
 
 ### babel-eslint
 
-This product includes source derived from [babel-eslint](https://github.com/babel/babel-eslint) ([v10.0.3](https://github.com/babel/babel-eslint/tree/v10.0.3)), distributed under the [MIT License](https://github.com/babel/babel-eslint/blob/v10.0.3/LICENSE):
+This product includes source derived from [babel-eslint](https://github.com/babel/babel-eslint) ([v10.1.0](https://github.com/babel/babel-eslint/tree/v10.1.0)), distributed under the [MIT License](https://github.com/babel/babel-eslint/blob/v10.1.0/LICENSE):
 
 ```
 Copyright (c) 2014-2016 Sebastian McKenzie <sebmck@gmail.com>
@@ -422,7 +422,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### eslint-config-prettier
 
-This product includes source derived from [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) ([v6.2.0](https://github.com/prettier/eslint-config-prettier/tree/v6.2.0)), distributed under the [MIT License](https://github.com/prettier/eslint-config-prettier/blob/v6.2.0/LICENSE):
+This product includes source derived from [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) ([v6.11.0](https://github.com/prettier/eslint-config-prettier/tree/v6.11.0)), distributed under the [MIT License](https://github.com/prettier/eslint-config-prettier/blob/v6.11.0/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -451,7 +451,7 @@ THE SOFTWARE.
 
 ### eslint-plugin-prettier
 
-This product includes source derived from [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier) ([v3.1.0](https://github.com/prettier/eslint-plugin-prettier/tree/v3.1.0)), distributed under the [MIT License](https://github.com/prettier/eslint-plugin-prettier/blob/v3.1.0/LICENSE.md):
+This product includes source derived from [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier) ([v3.1.4](https://github.com/prettier/eslint-plugin-prettier/tree/v3.1.4)), distributed under the [MIT License](https://github.com/prettier/eslint-plugin-prettier/blob/v3.1.4/LICENSE.md):
 
 ```
 # The MIT License (MIT)
@@ -483,7 +483,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ### eslint-plugin-react
 
-This product includes source derived from [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) ([v7.14.3](https://github.com/yannickcr/eslint-plugin-react/tree/v7.14.3)), distributed under the [MIT License](https://github.com/yannickcr/eslint-plugin-react/blob/v7.14.3/LICENSE):
+This product includes source derived from [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) ([v7.20.3](https://github.com/yannickcr/eslint-plugin-react/tree/v7.20.3)), distributed under the [MIT License](https://github.com/yannickcr/eslint-plugin-react/blob/v7.20.3/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -540,7 +540,7 @@ THE SOFTWARE.
 
 ### prettier
 
-This product includes source derived from [prettier](https://github.com/prettier/prettier) ([v1.18.2](https://github.com/prettier/prettier/tree/v1.18.2)), distributed under the [MIT License](https://github.com/prettier/prettier/blob/v1.18.2/LICENSE):
+This product includes source derived from [prettier](https://github.com/prettier/prettier) ([v1.19.1](https://github.com/prettier/prettier/tree/v1.19.1)), distributed under the [MIT License](https://github.com/prettier/prettier/blob/v1.19.1/LICENSE):
 
 ```
 Copyright © James Long and contributors
