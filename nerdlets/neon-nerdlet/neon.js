@@ -25,7 +25,7 @@ import Board from './board.js';
 import AccountPicker from './account-picker.js';
 
 // Below is based on the Nerdpack Layout Standard component found in
-// https://github.com/newrelic/nr1-nerdpack-layout-standard/blob/master/nerdlets/nerdpack-layout-standard-nerdlet/index.js
+// https://github.com/newrelic/nr1-nerdpack-layout-standard/blob/main/nerdlets/nerdpack-layout-standard-nerdlet/index.js
 
 export default class NeonNerdlet extends React.Component {
   static propTypes = {
