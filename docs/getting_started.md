@@ -12,12 +12,12 @@ Using Neon to monitor your events require that you know the attributes you'd lik
 
 # Create A New Board
 
-In your New Relic One account, click on the Neon icon ![Screenshot #1](catalog/screenshots/nr1-neon-logo.png)
+In your New Relic One account, click on the Neon icon ![Screenshot #1](.../catalog/screenshots/nr1-neon-logo.png)
 in the Applications section.
 
 Close the Welcome screen and click the plus icon (+) to create your first board.
 
-![Screenshot #2](catalog/screenshots/nr1-neon-home.png)
+![Screenshot #2](.../catalog/screenshots/nr1-neon-home.png)
 
 In the modal window, type in your board title in the BOARD NAME text field.
 
