@@ -6,23 +6,23 @@ In order to setup a webhook notification channel, you will need to do the follow
 
 Insights insert tokens can be generated from the _Manage data_ option in your New Relic Insights account (e.g. https://insights.newrelic.com/accounts/{your-account-id}/manage/summary
 
-![Screenshot #1](../catalog/screenshots/nr1-neon-APIKey1.png)
+![Screenshot #1](screenshots/nr1-neon-APIKey1.png)
 
 > Appears on the left hand navigation panel on the Insights landing page.
 
-![Screenshot #2](../catalog/screenshots/nr1-neon-APIKey2.png)
+![Screenshot #2](screenshots/nr1-neon-APIKey2.png)
 
 > Select the _Add data_ option from the top navigation menu.
 
-![Screenshot #3](../catalog/screenshots/nr1-neon-APIKey3.png)
+![Screenshot #3](screenshots/nr1-neon-APIKey3.png)
 
 > We will want to create a new _Insert Key_ click the "+" sign to enter the create dialog.
 
-![Screenshot #4](../catalog/screenshots/nr1-neon-InsertKey4.png)
+![Screenshot #4](screenshots/nr1-neon-InsertKey4.png)
 
 > You just need to enter a note to configure the key, I recommend Neon_Webhook (that will be the name of the Insights event table created)
 
-![Screenshot #5](../catalog/screenshots/nr1-neon-SaveKey5.png)
+![Screenshot #5](screenshots/nr1-neon-SaveKey5.png)
 
 > Once your key is created keep it handy, you will need it to configure the Webhook.
 
@@ -30,11 +30,11 @@ Insights insert tokens can be generated from the _Manage data_ option in your Ne
 
 > In New Relic Alerts click on "Notification Channel" and then "New notification channel"
 
-![Screenshot #6](../catalog/screenshots/nr1-neon-channel6.png)
+![Screenshot #6](screenshots/nr1-neon-channel6.png)
 
 > Select the "Webhook" channel type
 
-![Screenshot #7](../catalog/screenshots/nr1-neon-webhook7.png)
+![Screenshot #7](screenshots/nr1-neon-webhook7.png)
 
 > Set the "Channel name" as NEON_ALERTS
 
@@ -43,11 +43,11 @@ Insights insert tokens can be generated from the _Manage data_ option in your Ne
 
 > You will need to add a custom header and specify the X-Insert-Key you generated in step 1 above
 
-![Screenshot #8](../catalog/screenshots/nr1-neon-customHeaders8.png)
-![Screenshot #9](../catalog/screenshots/nr1-neon-customHeaders9.png)
+![Screenshot #8](screenshots/nr1-neon-customHeaders8.png)
+![Screenshot #9](screenshots/nr1-neon-customHeaders9.png)
 
 > Add a Custom Payload
-> ![Screenshot #10](../catalog/screenshots/nr1-neon-customPayload10.png)
+> ![Screenshot #10](screenshots/nr1-neon-customPayload10.png)
 
 > Replace the default payload with the one below.
 

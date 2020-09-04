@@ -13,5 +13,5 @@
       "url": "https://discuss.newrelic.com/t/neon-alerting-nerdpack/83272"
     }
   },
-  "whatsNew": "- Fix: Edit state when edit modal is closed"
+  "whatsNew": "\n- Fix: Edit state when edit modal is closed\n -Feature: Edit cells capability\n -Feature: User feedback via Toast added when saving edits\n"
 }
