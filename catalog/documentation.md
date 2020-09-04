@@ -12,7 +12,7 @@ This project is distributed under the [Apache 2 license](https://github.com/newr
 
 ## Dependencies
 
-Requires [`New Relic Alerts`](https://newrelic.com/alerts) and a webhook notification configured as described [here](.../docs/alert_webhook_config.md).
+Requires [`New Relic Alerts`](https://newrelic.com/alerts) and a webhook notification configured as described [here](./docs/alert_webhook_config.md).
 
 ## Getting started
 
@@ -35,12 +35,12 @@ Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerd
 
 ### Create A New Board
 
-In your New Relic One account, click on the Neon icon ![Screenshot #1](catalog/screenshots/nr1-neon-logo.png)
+In your New Relic One account, click on the Neon icon ![Screenshot #1](./screenshots/nr1-neon-logo.png)
 in the Applications section.
 
 Close the Welcome screen and click the plus icon (+) to create your first board.
 
-![Screenshot #2](catalog/screenshots/nr1-neon-home.png)
+![Screenshot #2](./screenshots/nr1-neon-home.png)
 
 In the modal window, type in your board title in the BOARD NAME text field.
 
