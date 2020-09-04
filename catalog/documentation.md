@@ -52,7 +52,7 @@ You will then see your new board in the Neon home page.
 
 ### Setup Board
 
-To monitor the status of a **New Relic alert** make sure you've set up a ![webhook notification channel.](https://github.com/newrelic/nr1-neon/blob/main/docs/alert_webhook_config.md)
+To monitor the status of a **New Relic alert** make sure you've set up a [webhook notification channel.](https://github.com/newrelic/nr1-neon/blob/main/docs/alert_webhook_config.md)
 
 Then perform the following steps:
 
