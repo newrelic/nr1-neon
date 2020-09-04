@@ -209,10 +209,10 @@ export default class HelpNerdlet extends React.Component {
                   </li>
                   <li>
                     To edit the cells and use the new row and/or column titles,
-                    click on cells tab. Use the row and/or column drop down to
-                    associate the new row and/or column title to the attribute
-                    or alert. You also have the option of changing the
-                    attributes.
+                    click on cells tab then click the edit button. Use the row
+                    and/or column drop down to associate the new row and/or
+                    column title to the attribute or alert. You also have the
+                    option of changing the attributes.
                   </li>
                   <li>Click the cancel button to cancel editing.</li>
                   <li>

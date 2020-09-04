@@ -62,7 +62,7 @@ While looking at an individual board, clicking on view boards will take you back
 - To edit your row and/or column titles, go to the board that you'd like to edit and click on edit board.
 - Click on the row or column tab and click on the edit button to edit the row or column title
 - Type in the new row or column name and click the save button.
-- To edit the cells and use the new row and/or column titles, click on cells tab. Use the row and/or column drop down to associate the new row and/or column title to the attribute or alert. You also have the option of changing the attributes.
+- To edit the cells and use the new row and/or column titles, click on cells tab then click the edit button. Use the row and/or column drop down to associate the new row and/or column title to the attribute or alert. You also have the option of changing the attributes.
 - Click the cancel button to cancel editing.
 - Click the delete button to delete the row or column title.
 - Click the X icon in the upper right corner or anywhere outside the modal to exit edit mode.
