@@ -196,8 +196,7 @@ export default class HelpNerdlet extends React.Component {
                 </li>
                 <p>
                   To edit your row and/or column titles, go to the board that
-                  you'd like to edit and click on edit board. Note that cell
-                  editing functionality is not yet available at this time.
+                  you'd like to edit and click on edit board.
                 </p>
                 <ol className="instructions">
                   <li>
@@ -207,6 +206,13 @@ export default class HelpNerdlet extends React.Component {
                   <li>
                     Type in the new row or column name and click the save
                     button.
+                  </li>
+                  <li>
+                    To edit the cells and use the new row and/or column titles,
+                    click on cells tab. Use the row and/or column drop down to
+                    associate the new row and/or column title to the attribute
+                    or alert. You also have the option of changing the
+                    attributes.
                   </li>
                   <li>Click the cancel button to cancel editing.</li>
                   <li>
