@@ -12,7 +12,7 @@ This project is distributed under the [Apache 2 license](https://github.com/newr
 
 ## Dependencies
 
-Requires [`New Relic Alerts`](https://newrelic.com/alerts) and a webhook notification configured as described in the [New Relic Documentation](https://docs.newrelic.com/docs/alerts/new-relic-alerts/managing-notification-channels).
+Requires [`New Relic Alerts`](https://newrelic.com/alerts) and a webhook notification configured as described [here](../docs/alert_webhook_config.md).
 
 ## Getting started
 
@@ -32,6 +32,8 @@ nr1 nerdpack:serve
 ```
 
 Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerdpacks=local), navigate to the Nerdpack, and :sparkles:
+
+Get started with Neon using this [guide](../docs/getting_started.md)
 
 ## Deploying this Nerdpack
 
