@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/newrelic/nr1-neon/compare/v0.3.3...v0.4.0) (2020-09-09)
+
+
+### Features
+
+* Trigger minor release with GH Actions ([7193632](https://github.com/newrelic/nr1-neon/commit/71936322ea210bd6c4178569fe90b0f69cc5bf3a))
+
 ## [0.3.3](https://github.com/newrelic/nr1-neon/compare/v0.3.2...v0.3.3) (2020-09-03)
 
 
