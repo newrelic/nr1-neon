@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/newrelic/nr1-neon/compare/v0.4.0...v0.4.1) (2020-09-09)
+
+
+### Bug Fixes
+
+* address catalog documentation and image issues ([#48](https://github.com/newrelic/nr1-neon/issues/48)) ([c8bf025](https://github.com/newrelic/nr1-neon/commit/c8bf02525e2ea2d18ebf69f45fb16a4c2b59e100))
+
 # [0.4.0](https://github.com/newrelic/nr1-neon/compare/v0.3.3...v0.4.0) (2020-09-09)
 
 
