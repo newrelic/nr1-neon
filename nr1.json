@@ -1,6 +1,6 @@
 {
   "schemaType": "NERDPACK",
-  "id": "ab178aad-fd9e-488e-a03e-25272c20ac6a",
+  "id": "41b6a1e5-9d70-4af0-9209-9e377e73f1bf",
   "displayName": "Neon",
   "description": "Create a status board based on New Relic alert statuses or event values."
 }
