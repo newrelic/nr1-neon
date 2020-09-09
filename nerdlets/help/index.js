@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, GridItem, Stack, StackItem, Link } from 'nr1';
-import logo from '../../catalog/screenshots/logo.png';
-import neon1 from '../../catalog/screenshots/neon1.png';
-import neon2 from '../../catalog/screenshots/neon2.png';
+import logo from '../../docs/images/logo.png';
+import neon1 from '../../docs/images/neon1.png';
+import neon2 from '../../docs/images/neon2.png';
 
 // https://docs.newrelic.com/docs/new-relic-programmable-platform-introduction
 
