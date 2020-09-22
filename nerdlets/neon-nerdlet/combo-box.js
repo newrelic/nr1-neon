@@ -101,7 +101,7 @@ export default class ComboBox extends React.Component {
             <TextField
               placeholder={placeholder || ''}
               value={value || ''}
-              onChange={e => this.valueChange(e.target.value)}
+              onChange={e => this.valueChange(e)}
             />
           </div>
         </div>
