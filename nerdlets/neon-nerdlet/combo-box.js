@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Dropdown, DropdownItem, TextField } from 'nr1';
+import { TextField } from 'nr1';
 
 export default class ComboBox extends React.Component {
   static propTypes = {
@@ -101,7 +101,7 @@ export default class ComboBox extends React.Component {
             <TextField
               placeholder={placeholder || ''}
               value={value || ''}
-              onChange={e => this.valueChange(e.target.value)}
+              onChange={e => this.valueChange(e)}
             />
           </div>
         </div>
