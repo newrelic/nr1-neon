@@ -1,3 +1,10 @@
+## [0.4.2](https://github.com/newrelic/nr1-neon/compare/v0.4.1...v0.4.2) (2020-09-22)
+
+
+### Bug Fixes
+
+* enable text entry in event to monitor input field ([5930750](https://github.com/newrelic/nr1-neon/commit/5930750dbef410f3fc20624ab3d5695dc06bd70f))
+
 ## [0.4.1](https://github.com/newrelic/nr1-neon/compare/v0.4.0...v0.4.1) (2020-09-09)
 
 
