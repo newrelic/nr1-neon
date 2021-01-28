@@ -176,8 +176,7 @@ export default class MotherBoard extends React.Component {
             >
               <Icon
                 type={Icon.TYPE.INTERFACE__SIGN__PLUS}
-                sizeType={Icon.SIZE_TYPE.LARGE}
-                style={{ transform: 'scale(6)' }}
+                style={{ transform: 'scale(12)' }}
               />
             </a>
           </article>
