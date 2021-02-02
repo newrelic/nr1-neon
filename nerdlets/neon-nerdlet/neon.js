@@ -22,7 +22,6 @@ import logo from '../../catalog/screenshots/logo.png';
 import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
 import Board from './board.js';
-import AccountPicker from './account-picker.js';
 
 // Below is based on the Nerdpack Layout Standard component found in
 // https://github.com/newrelic/nr1-nerdpack-layout-standard/blob/main/nerdlets/nerdpack-layout-standard-nerdlet/index.js
@@ -193,18 +192,7 @@ export default class NeonNerdlet extends React.Component {
               fullWidth
               fullHeight
               verticalType={Stack.VERTICAL_TYPE.CENTER}
-            >
-              <StackItem>
-                <div className="toolbar-item">Account</div>
-              </StackItem>
-              <StackItem className="toolbar-account-picker">
-                <AccountPicker
-                  account={account}
-                  accounts={accounts}
-                  setAccount={this.accountChange}
-                />
-              </StackItem>
-            </Stack>
+            ></Stack>
           </StackItem>
           <Stack
             fullWidth

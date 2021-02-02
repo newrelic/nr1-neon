@@ -15,6 +15,7 @@ import {
   Button,
   navigation,
   PlatformStateContext,
+  nerdlet,
 } from 'nr1';
 
 import { EmptyState } from '@newrelic/nr1-community';
@@ -23,12 +24,12 @@ import logo from '../../docs/images/logo.png';
 import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
 import Board from './board.js';
-import AccountPicker from './account-picker.js';
 
 // Below is based on the Nerdpack Layout Standard component found in
 // https://github.com/newrelic/nr1-nerdpack-layout-standard/blob/main/nerdlets/nerdpack-layout-standard-nerdlet/index.js
 
 export default class NeonNerdlet extends React.Component {
+  static contextType = PlatformStateContext;
   static propTypes = {
     launcherUrlState: PropTypes.object,
     nerdletUrlState: PropTypes.object,
@@ -60,7 +61,13 @@ export default class NeonNerdlet extends React.Component {
   }
 
   componentDidMount() {
-    AccountsQuery.query().then(this.parseAccounts);
+    nerdlet.setConfig({
+      accountPicker: true,
+      accountPickerValues: [
+        nerdlet.ACCOUNT_PICKER_VALUE.CROSS_ACCOUNT,
+        ...nerdlet.ACCOUNT_PICKER_DEFAULT_VALUES,
+      ],
+    });
 
     const gql = `{ actor { user { email id name } } }`;
     NerdGraphQuery.query({
@@ -79,6 +86,14 @@ export default class NeonNerdlet extends React.Component {
             : {},
         });
     });
+  }
+
+  componentDidUpdate() {
+    if (this.context.accountId !== this.state.accountId) {
+      this.setState({ accountId: this.context.accountId }, () =>
+        this.getBoards()
+      );
+    }
   }
 
   parseAccounts(res) {
@@ -196,18 +211,7 @@ export default class NeonNerdlet extends React.Component {
                   fullWidth
                   fullHeight
                   verticalType={Stack.VERTICAL_TYPE.CENTER}
-                >
-                  <StackItem>
-                    <div className="toolbar-item">Account</div>
-                  </StackItem>
-                  <StackItem className="toolbar-item">
-                    <AccountPicker
-                      account={account}
-                      accounts={accounts}
-                      setAccount={this.accountChange}
-                    />
-                  </StackItem>
-                </Stack>
+                ></Stack>
               </StackItem>
               <Stack
                 fullWidth
@@ -244,7 +248,9 @@ export default class NeonNerdlet extends React.Component {
             >
               <GridItem className="primary-content-container" columnSpan={12}>
                 <main className="primary-content full-height">
-                  {!accountId && <BoxSpinner />}
+                  {(!accountId || accountId === 'cross-account') && (
+                    <BoxSpinner />
+                  )}
                   {noBoardsExist && !emptyStateHidden && (
                     <EmptyState
                       heading="Welcome to Neon!"
@@ -253,14 +259,14 @@ export default class NeonNerdlet extends React.Component {
                       buttonOnClick={this.hideEmptyState}
                     />
                   )}
-                  {accountId && !board && (
+                  {accountId && accountId !== 'cross-account' && !board && (
                     <MotherBoard
                       boards={boards || {}}
                       accountId={accountId}
                       onClicked={this.displayBoard}
                     />
                   )}
-                  {accountId && board && (
+                  {accountId && accountId !== 'cross-account' && board && (
                     <Board
                       board={board}
                       boards={boards}
