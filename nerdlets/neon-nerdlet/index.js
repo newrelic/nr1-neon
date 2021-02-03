@@ -220,7 +220,7 @@ export default class NeonNerdlet extends React.Component {
                 horizontalType={Stack.HORIZONTAL_TYPE.CENTER}
               >
                 <StackItem>
-                  <img className="neon-logo-main" src={logo} alt="Neon Logo" />
+                  {/* <img className="neon-logo-main" src={logo} alt="Neon Logo" /> */}
                 </StackItem>
               </Stack>
               <StackItem className="toolbar-section2">
