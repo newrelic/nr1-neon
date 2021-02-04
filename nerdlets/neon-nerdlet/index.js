@@ -10,6 +10,7 @@ import {
   NerdGraphQuery,
   Grid,
   GridItem,
+  HeadingText,
   Stack,
   StackItem,
   Button,
@@ -211,18 +212,18 @@ export default class NeonNerdlet extends React.Component {
                   fullWidth
                   fullHeight
                   verticalType={Stack.VERTICAL_TYPE.CENTER}
-                ></Stack>
+                >
+                  <HeadingText type={HeadingText.TYPE.HEADING_2}>
+                    Welcome to Neon!
+                  </HeadingText>
+                </Stack>
               </StackItem>
               <Stack
                 fullWidth
                 fullHeight
                 verticalType={Stack.VERTICAL_TYPE.CENTER}
                 horizontalType={Stack.HORIZONTAL_TYPE.CENTER}
-              >
-                <StackItem>
-                  {/* <img className="neon-logo-main" src={logo} alt="Neon Logo" /> */}
-                </StackItem>
-              </Stack>
+              ></Stack>
               <StackItem className="toolbar-section2">
                 <Stack
                   fullWidth
@@ -253,7 +254,7 @@ export default class NeonNerdlet extends React.Component {
                   )}
                   {noBoardsExist && !emptyStateHidden && (
                     <EmptyState
-                      heading="Welcome to Neon!"
+                      heading="Choose your account from the dropdown menu."
                       description="Looks like you have no boards so let's change that.                                       Before you begin, review the HELP documentation to understand dependencies and steps to getting started.  Ready to start?  Close this message and click the plus (+) icon to create a new board."
                       buttonText="Close"
                       buttonOnClick={this.hideEmptyState}
