@@ -211,11 +211,11 @@ export default class NeonNerdlet extends React.Component {
                   gapType={Stack.GAP_TYPE.NONE}
                   fullWidth
                   fullHeight
-                  verticalType={Stack.VERTICAL_TYPE.CENTER}
+                  verticalType={Stack.VERTICAL_TYPE.LEFT}
                 >
-                  <HeadingText type={HeadingText.TYPE.HEADING_2}>
-                    Welcome to Neon!
-                  </HeadingText>
+                  <StackItem>
+                    <img className="neon-logo" src={logo} alt="Neon Logo" />
+                  </StackItem>
                 </Stack>
               </StackItem>
               <Stack
