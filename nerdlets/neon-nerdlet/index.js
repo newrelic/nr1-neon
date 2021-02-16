@@ -194,6 +194,8 @@ export default class NeonNerdlet extends React.Component {
     const { launcherUrlState } = this.props;
     const noBoardsExist = Object.keys(boards).length === 0;
 
+    console.log(accountId);
+
     return (
       <PlatformStateContext.Consumer>
         {platformState => (
@@ -250,16 +252,26 @@ export default class NeonNerdlet extends React.Component {
               <GridItem className="primary-content-container" columnSpan={12}>
                 <main className="primary-content full-height">
                   {(!accountId || accountId === 'cross-account') && (
-                    <BoxSpinner />
+                    <>
+                      <BoxSpinner />
+                      <EmptyState
+                        heading="Welcome to Neon!"
+                        description="Choose your account from the drop down menu. Before you begin, review the HELP documentation to understand dependencies and steps to getting started."
+                        buttonText=""
+                      />
+                    </>
                   )}
-                  {noBoardsExist && !emptyStateHidden && (
-                    <EmptyState
-                      heading="Choose your account from the dropdown menu."
-                      description="Looks like you have no boards so let's change that.                                       Before you begin, review the HELP documentation to understand dependencies and steps to getting started.  Ready to start?  Close this message and click the plus (+) icon to create a new board."
-                      buttonText="Close"
-                      buttonOnClick={this.hideEmptyState}
-                    />
-                  )}
+                  {accountId &&
+                    accountId !== 'cross-account' &&
+                    noBoardsExist &&
+                    !emptyStateHidden && (
+                      <EmptyState
+                        heading="Looks like you have no boards so let's change that!"
+                        description="Review the HELP documentation to understand dependencies and steps to getting started.  Ready to start?  Close this message and click the plus (+) icon to create a new board."
+                        buttonText="Close"
+                        buttonOnClick={this.hideEmptyState}
+                      />
+                    )}
                   {accountId && accountId !== 'cross-account' && !board && (
                     <MotherBoard
                       boards={boards || {}}
