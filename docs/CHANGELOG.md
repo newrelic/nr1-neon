@@ -1,3 +1,10 @@
+## [0.4.3](https://github.com/newrelic/nr1-neon/compare/v0.4.2...v0.4.3) (2021-02-17)
+
+
+### Bug Fixes
+
+* Trigger release and changelog generation (via GH Actions) ([af74ddd](https://github.com/newrelic/nr1-neon/commit/af74ddd2c363d01ded5e72f0b23fb6a31b149d46))
+
 ## [0.4.2](https://github.com/newrelic/nr1-neon/compare/v0.4.1...v0.4.2) (2020-09-22)
 
 
