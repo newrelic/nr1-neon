@@ -256,7 +256,7 @@ export default class NeonNerdlet extends React.Component {
                       <BoxSpinner />
                       <EmptyState
                         heading="Welcome to Neon!"
-                        description="Choose your account from the drop down menu. Before you begin, review the HELP documentation to understand dependencies and steps to getting started."
+                        description="Seeing the spinner?  Let's make it stop.  Choose your account from the drop down menu on the upper left. Before you begin, review the HELP documentation to understand dependencies and steps to getting started."
                         buttonText=""
                       />
                     </>
