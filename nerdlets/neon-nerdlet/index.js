@@ -10,11 +10,13 @@ import {
   NerdGraphQuery,
   Grid,
   GridItem,
+  HeadingText,
   Stack,
   StackItem,
   Button,
   navigation,
   PlatformStateContext,
+  nerdlet,
 } from 'nr1';
 
 import { EmptyState } from '@newrelic/nr1-community';
@@ -23,12 +25,12 @@ import logo from '../../docs/images/logo.png';
 import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
 import Board from './board.js';
-import AccountPicker from './account-picker.js';
 
 // Below is based on the Nerdpack Layout Standard component found in
 // https://github.com/newrelic/nr1-nerdpack-layout-standard/blob/main/nerdlets/nerdpack-layout-standard-nerdlet/index.js
 
 export default class NeonNerdlet extends React.Component {
+  static contextType = PlatformStateContext;
   static propTypes = {
     launcherUrlState: PropTypes.object,
     nerdletUrlState: PropTypes.object,
@@ -60,7 +62,13 @@ export default class NeonNerdlet extends React.Component {
   }
 
   componentDidMount() {
-    AccountsQuery.query().then(this.parseAccounts);
+    nerdlet.setConfig({
+      accountPicker: true,
+      accountPickerValues: [
+        nerdlet.ACCOUNT_PICKER_VALUE.CROSS_ACCOUNT,
+        ...nerdlet.ACCOUNT_PICKER_DEFAULT_VALUES,
+      ],
+    });
 
     const gql = `{ actor { user { email id name } } }`;
     NerdGraphQuery.query({
@@ -79,6 +87,14 @@ export default class NeonNerdlet extends React.Component {
             : {},
         });
     });
+  }
+
+  componentDidUpdate() {
+    if (this.context.accountId !== this.state.accountId) {
+      this.setState({ accountId: this.context.accountId }, () =>
+        this.getBoards()
+      );
+    }
   }
 
   parseAccounts(res) {
@@ -178,6 +194,8 @@ export default class NeonNerdlet extends React.Component {
     const { launcherUrlState } = this.props;
     const noBoardsExist = Object.keys(boards).length === 0;
 
+    console.log(accountId);
+
     return (
       <PlatformStateContext.Consumer>
         {platformState => (
@@ -195,17 +213,10 @@ export default class NeonNerdlet extends React.Component {
                   gapType={Stack.GAP_TYPE.NONE}
                   fullWidth
                   fullHeight
-                  verticalType={Stack.VERTICAL_TYPE.CENTER}
+                  verticalType={Stack.VERTICAL_TYPE.LEFT}
                 >
                   <StackItem>
-                    <div className="toolbar-item">Account</div>
-                  </StackItem>
-                  <StackItem className="toolbar-item">
-                    <AccountPicker
-                      account={account}
-                      accounts={accounts}
-                      setAccount={this.accountChange}
-                    />
+                    <img className="neon-logo" src={logo} alt="Neon Logo" />
                   </StackItem>
                 </Stack>
               </StackItem>
@@ -214,11 +225,7 @@ export default class NeonNerdlet extends React.Component {
                 fullHeight
                 verticalType={Stack.VERTICAL_TYPE.CENTER}
                 horizontalType={Stack.HORIZONTAL_TYPE.CENTER}
-              >
-                <StackItem>
-                  <img className="neon-logo-main" src={logo} alt="Neon Logo" />
-                </StackItem>
-              </Stack>
+              ></Stack>
               <StackItem className="toolbar-section2">
                 <Stack
                   fullWidth
@@ -244,23 +251,35 @@ export default class NeonNerdlet extends React.Component {
             >
               <GridItem className="primary-content-container" columnSpan={12}>
                 <main className="primary-content full-height">
-                  {!accountId && <BoxSpinner />}
-                  {noBoardsExist && !emptyStateHidden && (
-                    <EmptyState
-                      heading="Welcome to Neon!"
-                      description="Looks like you have no boards so let's change that.                                       Before you begin, review the HELP documentation to understand dependencies and steps to getting started.  Ready to start?  Close this message and click the plus (+) icon to create a new board."
-                      buttonText="Close"
-                      buttonOnClick={this.hideEmptyState}
-                    />
+                  {(!accountId || accountId === 'cross-account') && (
+                    <>
+                      <BoxSpinner />
+                      <EmptyState
+                        heading="Welcome to Neon!"
+                        description="Seeing the spinner?  Let's make it stop.  Choose your account from the drop down menu on the upper left. Before you begin, review the HELP documentation to understand dependencies and steps to getting started."
+                        buttonText=""
+                      />
+                    </>
                   )}
-                  {accountId && !board && (
+                  {accountId &&
+                    accountId !== 'cross-account' &&
+                    noBoardsExist &&
+                    !emptyStateHidden && (
+                      <EmptyState
+                        heading="Looks like you have no boards so let's change that!"
+                        description="Review the HELP documentation to understand dependencies and steps to getting started.  Ready to start?  Close this message and click the plus (+) icon to create a new board."
+                        buttonText="Close"
+                        buttonOnClick={this.hideEmptyState}
+                      />
+                    )}
+                  {accountId && accountId !== 'cross-account' && !board && (
                     <MotherBoard
                       boards={boards || {}}
                       accountId={accountId}
                       onClicked={this.displayBoard}
                     />
                   )}
-                  {accountId && board && (
+                  {accountId && accountId !== 'cross-account' && board && (
                     <Board
                       board={board}
                       boards={boards}

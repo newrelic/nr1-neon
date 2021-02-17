@@ -90,6 +90,17 @@ h6 {
 }
 // /sidebar
 
+// top toolbar
+
+.neon-logo {
+  height: 50px;
+  width: 50px;
+  position: relative;
+  bottom: 10px;
+  left: 10px;
+}
+// /top toolbar
+
 // boards
 .board_list {
   display: flex;
