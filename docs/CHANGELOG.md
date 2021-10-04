@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/newrelic/nr1-neon/compare/v0.4.3...v0.5.0) (2021-10-04)
+
+
+### Features
+
+* update semantic release with node ([4ba9016](https://github.com/newrelic/nr1-neon/commit/4ba90168dcc6c4ee663320952edba04eb9a68395))
+
 ## [0.4.3](https://github.com/newrelic/nr1-neon/compare/v0.4.2...v0.4.3) (2021-02-17)
 
 
