@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/newrelic/nr1-neon/compare/v0.5.0...v0.6.0) (2021-10-15)
+
+
+### Features
+
+* add whats inside screenshots for nerdlets and launcher ([d34aeea](https://github.com/newrelic/nr1-neon/commit/d34aeea9d998f4487e59f7eab62b7f3ca205ee3e))
+
 # [0.5.0](https://github.com/newrelic/nr1-neon/compare/v0.4.3...v0.5.0) (2021-10-04)
 
 
