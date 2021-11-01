@@ -2,6 +2,8 @@
   "tagline": "Alerting status board",
   "repository": "https://github.com/newrelic/nr1-neon.git",
   "details": "Neon is an application that allows you to create a status at a glance visualization that can be scaled to track the health of entire business units or regions.\n\nStatuses are derived from existing New Relic alert policies or based on values from New Relic events.\n\nNeon makes it easy to configure the visualization to show exactly what you need to see.",
+  "categoryTerms": [],
+  "keywords": ["visualizations"],
   "support": {
     "issues": {
       "url": "https://github.com/newrelic/nr1-neon/issues"
