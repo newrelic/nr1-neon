@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/newrelic/nr1-neon/compare/v0.6.0...v0.7.0) (2021-11-05)
+
+
+### Features
+
+* add catalog keywords and categoryTerms ([fffb0e9](https://github.com/newrelic/nr1-neon/commit/fffb0e93f3a39e00780c95055113e9a2655a6e00))
+
 # [0.6.0](https://github.com/newrelic/nr1-neon/compare/v0.5.0...v0.6.0) (2021-10-15)
 
 
