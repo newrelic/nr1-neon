@@ -1,3 +1,10 @@
+## [0.7.1](https://github.com/newrelic/nr1-neon/compare/v0.7.0...v0.7.1) (2022-02-23)
+
+
+### Bug Fixes
+
+* app deprecations ([02da4fe](https://github.com/newrelic/nr1-neon/commit/02da4feb440b0bbb4bb1bd4bda3d0852083bfaba))
+
 # [0.7.0](https://github.com/newrelic/nr1-neon/compare/v0.6.0...v0.7.0) (2021-11-05)
 
 
