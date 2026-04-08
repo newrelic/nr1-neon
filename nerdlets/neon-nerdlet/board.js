@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  nerdlet,
   AccountStorageQuery,
   AccountStorageMutation,
   NerdGraphQuery,
@@ -79,8 +78,9 @@ export default class Board extends React.Component {
     if (!timeRange || !prevTimeRange) return;
     if (
       Object.keys(timeRange).every(
-        t =>
-          prevTimeRange.hasOwnProperty(t) && timeRange[t] === prevTimeRange[t]
+        (t) =>
+          Object.prototype.hasOwnProperty.call(prevTimeRange, t) &&
+          timeRange[t] === prevTimeRange[t]
       )
     )
       return;
@@ -104,17 +104,22 @@ export default class Board extends React.Component {
       collection: 'neondb-' + board.id,
       accountId: accountId,
       documentId: 'data',
-    }).then(res => {
-      const data = (res || {}).data || {};
-      this.setState(
-        {
-          cells: data && 'cells' in data ? data.cells : [],
-          cols: data && 'cols' in data ? data.cols : [],
-          rows: data && 'rows' in data ? data.rows : [],
-        },
-        this.fetchAlertStatuses(data.cells)
-      );
-    });
+    })
+      .then((res) => {
+        const data = (res || {}).data || {};
+        this.setState(
+          {
+            cells: data && 'cells' in data ? data.cells : [],
+            cols: data && 'cols' in data ? data.cols : [],
+            rows: data && 'rows' in data ? data.rows : [],
+          },
+          this.fetchAlertStatuses(data.cells)
+        );
+        return res;
+      })
+      .catch((err) => {
+        console.error('Error fetching board data', err);
+      });
   }
 
   openAdmin(e) {
@@ -154,20 +159,20 @@ export default class Board extends React.Component {
   }
 
   deleteBoard() {
-    const { boards, accountId, board, onClose, noBoards } = this.props;
+    const { boards, accountId, board, onClose } = this.props;
     delete boards[board.id];
     Object.entries(boards) === 0
       ? this.setState({ noBoards: false })
       : this.setState({ noBoards: true });
-    AccountStorageMutation.mutate({
+    return AccountStorageMutation.mutate({
       actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'neondb',
       accountId: accountId,
       documentId: 'boards',
       document: boards,
     })
-      .then(res => {
-        AccountStorageMutation.mutate({
+      .then(() => {
+        return AccountStorageMutation.mutate({
           actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
           collection: 'neondb-' + board.id,
           accountId: accountId,
@@ -175,11 +180,12 @@ export default class Board extends React.Component {
       })
       .then(() => {
         Toast.showToast({
-          title: 'Board Delted',
+          title: 'Board Deleted',
           type: Toast.TYPE.NORMAL,
         });
+        return true;
       })
-      .catch(err => {
+      .catch((err) => {
         Toast.showToast({
           title: 'Unable to delete board',
           description: err.message || '',
@@ -220,7 +226,7 @@ export default class Board extends React.Component {
     const { rows, cols, cells } = this.state;
     let newCells;
     if (type === 'rows') {
-      newCells = cells.map(cell => {
+      newCells = cells.map((cell) => {
         if (cell.row === rows[index]) {
           cell.row = value;
         }
@@ -228,7 +234,7 @@ export default class Board extends React.Component {
       });
       rows[index] = value;
     } else {
-      newCells = cells.map(cell => {
+      newCells = cells.map((cell) => {
         if (cell.col === cols[index]) {
           cell.col = value;
         }
@@ -276,7 +282,7 @@ export default class Board extends React.Component {
     if (fetching) return;
     const { board, accountId, timeRange } = this.props;
 
-    const { policies, attributes, data } = cells.reduce(
+    const { policies, attributes } = cells.reduce(
       (a, c) => {
         if (c.policy) a.policies.push("'" + c.policy + "'");
         if (c.details) a.attributes.push(c.details.str);
@@ -316,12 +322,15 @@ export default class Board extends React.Component {
       fetching: true,
     });
 
-    NerdGraphQuery.query({
+    return NerdGraphQuery.query({
       query: gql,
       fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
     })
-      .then(this.parseAlertStatuses)
-      .catch(err => {
+      .then((res) => {
+        this.parseAlertStatuses(res);
+        return res;
+      })
+      .catch(() => {
         this.setState({
           fetching: false,
         });
@@ -375,13 +384,18 @@ export default class Board extends React.Component {
       accountId: accountId,
       documentId: 'data',
       document: data,
-    }).then(() => {
-      this.setState(data);
-    });
+    })
+      .then(() => {
+        this.setState(data);
+        return data;
+      })
+      .catch((err) => {
+        console.error('Error persisting data', err);
+      });
   }
 
   humanizeNumber(value, style) {
-    if (!value && value != 0) return '';
+    if (!value && value !== 0) return '';
     value = Number(value);
     if (Number.isNaN(value)) return '';
     const formatter = new Intl.NumberFormat('en-US', {
@@ -403,7 +417,7 @@ export default class Board extends React.Component {
     const { cells, data, alerts } = this.state;
 
     const match = cells
-      .filter(cell => cell.row === row && cell.col === col)
+      .filter((cell) => cell.row === row && cell.col === col)
       .shift();
 
     if (!match) return <span className={'circle unknown'} />;
@@ -422,6 +436,7 @@ export default class Board extends React.Component {
         const comparator = `${num} ${
           is === 'more' ? '>' : is === 'less' ? '<' : '=='
         } ${value}`;
+        // eslint-disable-next-line no-eval
         status.class = eval(comparator) ? 'alert' : 'ok';
       }
       return (
@@ -436,7 +451,7 @@ export default class Board extends React.Component {
     const { cells } = this.state;
 
     const match = cells
-      .filter(cell => cell.row === row && cell.col === col)
+      .filter((cell) => cell.row === row && cell.col === col)
       .shift();
 
     if (match)
@@ -449,10 +464,8 @@ export default class Board extends React.Component {
   render() {
     const {
       rows,
-      rowName,
       rowForCell,
       cols,
-      colName,
       colForCell,
       cells,
       cellType,
@@ -472,8 +485,8 @@ export default class Board extends React.Component {
         <table className="board-table">
           <thead>
             <tr>
-              <th></th>
-              {cols.map(c => (
+              <th />
+              {cols.map((c) => (
                 <th className="rotate" key={c}>
                   <div>
                     <span>{c}</span>
@@ -483,10 +496,10 @@ export default class Board extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {rows.map(r => (
+            {rows.map((r) => (
               <tr key={r}>
                 <th className="row-header">{r}</th>
-                {cols.map(c => (
+                {cols.map((c) => (
                   <td
                     onClick={() => this.showCellDetails(r, c)}
                     key={r + '-' + c}
@@ -502,7 +515,7 @@ export default class Board extends React.Component {
           <a
             href="#"
             className="u-unstyledLink default"
-            onClick={e => this.openAdmin(e)}
+            onClick={(e) => this.openAdmin(e)}
           >
             setup board
           </a>
@@ -510,7 +523,7 @@ export default class Board extends React.Component {
           <a
             href="#"
             className="u-unstyledLink default"
-            onClick={e => this.closeBoard(e)}
+            onClick={(e) => this.closeBoard(e)}
           >
             view boards
           </a>
@@ -518,7 +531,7 @@ export default class Board extends React.Component {
           <a
             href="#"
             className="u-unstyledLink default"
-            onClick={e => this.openEditBoard(e)}
+            onClick={(e) => this.openEditBoard(e)}
           >
             edit board
           </a>

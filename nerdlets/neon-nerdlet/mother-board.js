@@ -41,14 +41,19 @@ export default class MotherBoard extends React.Component {
     NerdGraphQuery.query({
       query: gql,
       fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
-    }).then(res => {
-      const results =
-        (((((res || {}).data || {}).actor || {}).account || {}).nrql || {})
-          .results || [];
-      this.setState({
-        events: results.map(r => r.eventType),
+    })
+      .then((res) => {
+        const results =
+          (((((res || {}).data || {}).actor || {}).account || {}).nrql || {})
+            .results || [];
+        this.setState({
+          events: results.map((r) => r.eventType),
+        });
+        return results;
+      })
+      .catch((err) => {
+        console.error('Error fetching event types', err);
       });
-    });
   }
 
   boardClicked(e, id) {
@@ -103,15 +108,15 @@ export default class MotherBoard extends React.Component {
         team: '',
       };
 
-      AccountStorageMutation.mutate({
+      return AccountStorageMutation.mutate({
         actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
         collection: 'neondb',
         accountId: accountId,
         documentId: 'boards',
         document: boards,
       })
-        .then(res => {
-          AccountStorageMutation.mutate({
+        .then(() => {
+          return AccountStorageMutation.mutate({
             actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
             collection: 'neondb-' + id,
             accountId: accountId,
@@ -124,8 +129,9 @@ export default class MotherBoard extends React.Component {
             title: 'Board Added',
             type: Toast.TYPE.NORMAL,
           });
+          return true;
         })
-        .catch(err => {
+        .catch((err) => {
           Toast.showToast({
             title: 'Unable to save board',
             description: err.message || '',
@@ -156,12 +162,12 @@ export default class MotherBoard extends React.Component {
     return (
       <div>
         <section className="board_list">
-          {Object.keys(boards).map(boardId => (
+          {Object.keys(boards).map((boardId) => (
             <article className="board_card" key={boardId}>
               <a
                 className="u-unstyledLink"
                 href="#"
-                onClick={e => this.boardClicked(e, boardId)}
+                onClick={(e) => this.boardClicked(e, boardId)}
               >
                 <h2 className="board_name">{boards[boardId].name}</h2>
                 <span className="board_team">{boards[boardId].team || ''}</span>
@@ -172,7 +178,7 @@ export default class MotherBoard extends React.Component {
             <a
               className="u-unstyledLink"
               href="#"
-              onClick={e => this.showAddBoardModal(e)}
+              onClick={(e) => this.showAddBoardModal(e)}
             >
               <Icon
                 type={Icon.TYPE.INTERFACE__SIGN__PLUS}
@@ -193,7 +199,7 @@ export default class MotherBoard extends React.Component {
             <TextField
               label="Board Name"
               placeholder=""
-              onChange={e => this.textUpdated(e, 'board')}
+              onChange={(e) => this.textUpdated(e, 'board')}
               value={boardName || ''}
             />
             <ComboBox
@@ -201,7 +207,7 @@ export default class MotherBoard extends React.Component {
               placeholder="event to monitor"
               value={eventName || ''}
               options={events}
-              onChange={val => this.eventUpdated(val)}
+              onChange={(val) => this.eventUpdated(val)}
             />
             <Button
               iconType={Button.ICON_TYPE.INTERFACE__SIGN__PLUS}

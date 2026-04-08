@@ -54,13 +54,18 @@ export default class CellDetails extends React.Component {
       accountId: accountId,
       documentId: 'comments',
       document: comments,
-    }).then(() => {
-      this.setState({
-        timeline: timeline,
-        comments: comments,
-        comment: '',
+    })
+      .then(() => {
+        this.setState({
+          timeline: timeline,
+          comments: comments,
+          comment: '',
+        });
+        return true;
+      })
+      .catch((err) => {
+        console.error('Error saving comment', err);
       });
-    });
   }
 
   getCellDetails() {
@@ -92,7 +97,7 @@ export default class CellDetails extends React.Component {
       query: gql,
       fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
     })
-      .then(res => {
+      .then((res) => {
         const results =
           (((((res || {}).data || {}).actor || {}).account || {}).nrql || {})
             .results || [];
@@ -106,11 +111,13 @@ export default class CellDetails extends React.Component {
           },
           () => this.fetchComments()
         );
+        return res;
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           fetching: false,
         });
+        console.error('Error fetching cell details', err);
       });
   }
 
@@ -122,18 +129,24 @@ export default class CellDetails extends React.Component {
       collection: 'neondb-' + board.id,
       accountId: accountId,
       documentId: 'comments',
-    }).then(res => {
-      const results = (res || {}).data || {};
+    })
+      .then((res) => {
+        const results = (res || {}).data || {};
 
-      if (results)
-        this.setState({
-          comments: { ...comments, ...results },
-          timeline: Object.keys(results).reduce((a, c) => {
-            a[results[c].timestamp] = { comment: results[c] };
-            return a;
-          }, timeline),
-        });
-    });
+        if (results) {
+          this.setState({
+            comments: { ...comments, ...results },
+            timeline: Object.keys(results).reduce((a, c) => {
+              a[results[c].timestamp] = { comment: results[c] };
+              return a;
+            }, timeline),
+          });
+        }
+        return results;
+      })
+      .catch((err) => {
+        console.error('Error fetching comments', err);
+      });
   }
 
   render() {
@@ -150,7 +163,7 @@ export default class CellDetails extends React.Component {
             {Object.keys(timeline)
               .sort()
               .reverse()
-              .map(t => (
+              .map((t) => (
                 <li key={t}>
                   {'event' in timeline[t] && (
                     <div
@@ -215,10 +228,10 @@ export default class CellDetails extends React.Component {
             type="text"
             placeholder="Comment here..."
             value={comment}
-            onChange={e => {
+            onChange={(e) => {
               this.setState({ comment: e.target.value });
             }}
-            onKeyPress={e => {
+            onKeyPress={(e) => {
               if (e.key === 'Enter') this.saveComment();
             }}
           />
