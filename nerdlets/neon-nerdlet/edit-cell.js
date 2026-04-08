@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, TextField, Toast } from 'nr1';
+import { Button, TextField } from 'nr1';
 
 export default class EditCell extends React.Component {
   static propTypes = {
@@ -181,7 +181,6 @@ export default class EditCell extends React.Component {
       attributeName,
       isType,
       valueName,
-      value,
       editMode,
     } = this.state;
     const { rows, cols } = this.props;
@@ -201,7 +200,7 @@ export default class EditCell extends React.Component {
             <select
               style={selectStyle}
               value={rowForCell || ''}
-              onChange={e => this.changeHandler(e, 'rowForCell')}
+              onChange={(e) => this.changeHandler(e, 'rowForCell')}
             >
               <option value="">SELECT A ROW</option>
               {rows.map((r, i) => (
@@ -213,7 +212,7 @@ export default class EditCell extends React.Component {
             <select
               style={selectStyle}
               value={colForCell || ''}
-              onChange={e => this.changeHandler(e, 'colForCell')}
+              onChange={(e) => this.changeHandler(e, 'colForCell')}
             >
               <option value="">SELECT A COLUMN</option>
               {cols.map((c, i) => (
@@ -225,7 +224,7 @@ export default class EditCell extends React.Component {
             <select
               style={selectStyle}
               value={cellType || ''}
-              onChange={e => this.changeHandler(e, 'cellType')}
+              onChange={(e) => this.changeHandler(e, 'cellType')}
             >
               <option value="">SELECT DATA TYPE</option>
               <option value="alert">New Relic Alert</option>
@@ -235,7 +234,7 @@ export default class EditCell extends React.Component {
               <TextField
                 label="Alert Policy"
                 placeholder=""
-                onChange={e => this.changeHandler(e, 'policyName')}
+                onChange={(e) => this.changeHandler(e, 'policyName')}
                 value={policyName}
               />
             )}
@@ -244,7 +243,7 @@ export default class EditCell extends React.Component {
                 <TextField
                   label="Attribute Name"
                   placeholder=""
-                  onChange={e => this.changeHandler(e, 'attributeName')}
+                  onChange={(e) => this.changeHandler(e, 'attributeName')}
                   value={attributeName}
                 />
                 <div
@@ -257,7 +256,7 @@ export default class EditCell extends React.Component {
                 >
                   <select
                     value={isType || ''}
-                    onChange={e => this.changeHandler(e, 'isType')}
+                    onChange={(e) => this.changeHandler(e, 'isType')}
                     style={{ alignSelf: 'end', ...selectStyle }}
                   >
                     <option value="">COMPARISON</option>
@@ -268,7 +267,7 @@ export default class EditCell extends React.Component {
                   <TextField
                     label="Value"
                     placeholder=""
-                    onChange={e => this.changeHandler(e, 'valueName')}
+                    onChange={(e) => this.changeHandler(e, 'valueName')}
                     value={valueName}
                   />
                 </div>

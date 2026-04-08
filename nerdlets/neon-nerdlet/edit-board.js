@@ -23,14 +23,8 @@ export default class EditBoard extends React.Component {
   }
 
   render() {
-    const {
-      rows,
-      cols,
-      cells,
-      onDataDelete,
-      onDataSave,
-      onCellUpdate,
-    } = this.props;
+    const { rows, cols, cells, onDataDelete, onDataSave, onCellUpdate } =
+      this.props;
 
     return (
       <div>

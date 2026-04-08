@@ -5,8 +5,6 @@ import {
   Toast,
   AccountsQuery,
   AccountStorageQuery,
-  UserStorageQuery,
-  UserStorageMutation,
   NerdGraphQuery,
   Grid,
   GridItem,
@@ -14,9 +12,9 @@ import {
   StackItem,
   Button,
   navigation,
+  EmptyState,
 } from 'nr1';
 
-import { EmptyState } from '@newrelic/nr1-community';
 import logo from '../../catalog/screenshots/logo.png';
 
 import BoxSpinner from './box-spinner.js';
@@ -58,25 +56,31 @@ export default class NeonNerdlet extends React.Component {
   }
 
   componentDidMount() {
-    AccountsQuery.query().then(this.parseAccounts);
+    AccountsQuery.query()
+      .then(this.parseAccounts)
+      .catch((err) => console.error('Error fetching accounts', err));
 
     const gql = `{ actor { user { email id name } } }`;
     NerdGraphQuery.query({
       query: gql,
       fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
-    }).then(res => {
-      const user = (((res || {}).data || {}).actor || {}).user;
-      if (user)
-        this.setState({
-          currentUser: user
-            ? {
-                email: 'email' in user ? user.email : null,
-                id: 'id' in user ? user.id : null,
-                name: 'name' in user ? user.name : null,
-              }
-            : {},
-        });
-    });
+    })
+      .then((res) => {
+        const user = (((res || {}).data || {}).actor || {}).user;
+        if (user) {
+          this.setState({
+            currentUser: user
+              ? {
+                  email: 'email' in user ? user.email : null,
+                  id: 'id' in user ? user.id : null,
+                  name: 'name' in user ? user.name : null,
+                }
+              : {},
+          });
+        }
+        return user;
+      })
+      .catch((err) => console.error('Error fetching user info', err));
   }
 
   parseAccounts(res) {
@@ -97,7 +101,7 @@ export default class NeonNerdlet extends React.Component {
 
   accountChange(account) {
     const { accounts } = this.state;
-    const hasAccess = accounts.find(a => a.name == account.name);
+    const hasAccess = accounts.find((a) => a.name == account.name);
 
     if (hasAccess) {
       const accountId = account.id;
@@ -115,7 +119,6 @@ export default class NeonNerdlet extends React.Component {
   }
 
   hideEmptyState() {
-    const { emptyStateHidden } = this.state;
     this.setState({ emptyStateHidden: true });
   }
 
@@ -124,20 +127,21 @@ export default class NeonNerdlet extends React.Component {
   }
 
   getBoards() {
-    const { account, accountId } = this.state;
-    const accountName = account.name;
+    const { accountId } = this.state;
 
     AccountStorageQuery.query({
       collection: 'neondb',
       accountId: accountId,
       documentId: 'boards',
     })
-      .then(res => {
+      .then((res) => {
+        const boards = (res || {}).data || {};
         this.setState({
-          boards: (res || {}).data || {},
+          boards: boards,
         });
+        return boards;
       })
-      .catch(err => {
+      .catch((err) => {
         Toast.showToast({
           title: 'Unable to fetch data',
           description: err.message || '',
@@ -163,15 +167,8 @@ export default class NeonNerdlet extends React.Component {
   }
 
   render() {
-    const {
-      accounts,
-      account,
-      accountId,
-      boards,
-      board,
-      currentUser,
-      emptyStateHidden,
-    } = this.state;
+    const { accountId, boards, board, currentUser, emptyStateHidden } =
+      this.state;
 
     const { launcherUrlState } = this.props;
     const noBoardsExist = Object.keys(boards).length === 0;

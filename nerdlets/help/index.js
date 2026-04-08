@@ -65,7 +65,7 @@ export default class HelpNerdlet extends React.Component {
                   </Link>
                   <br />
                   Using Neon to monitor your events require that you know the
-                  attributes you'd like to keep track of. Learn more about
+                  attributes you&apos;d like to keep track of. Learn more about
                   attributes{' '}
                   <Link to="https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute">
                     here.
@@ -103,7 +103,7 @@ export default class HelpNerdlet extends React.Component {
                 </li>
                 <p>
                   To monitor the status of a <strong>New Relic alert </strong>
-                  make sure you've set up a{' '}
+                  make sure you&apos;ve set up a{' '}
                   <Link to="https://github.com/newrelic/nr1-neon/blob/main/docs/alert_webhook_config.md">
                     webhook notification channel.
                   </Link>
@@ -112,8 +112,8 @@ export default class HelpNerdlet extends React.Component {
                 </p>
                 <ol className="instructions">
                   <li>
-                    From the Neon home page, click on the board that you'd like
-                    to setup.
+                    From the Neon home page, click on the board that you&apos;d
+                    like to setup.
                   </li>
                   <li>
                     You will see a row of options underneath your board title.
@@ -139,8 +139,8 @@ export default class HelpNerdlet extends React.Component {
                   <li>
                     Click on the SELECT DATA TYPE dropdown and select New Relic
                     Alert. In the Alert Policy text field, enter the webhook
-                    policy name <i>exactly</i> as you've named it in New Relic
-                    Alerts.
+                    policy name <i>exactly</i> as you&apos;ve named it in New
+                    Relic Alerts.
                   </li>
                   <li>Click the + Add button to finish the board setup.</li>
                   <li>
@@ -166,8 +166,8 @@ export default class HelpNerdlet extends React.Component {
                     equals, or greater than.
                   </li>
                   <li>
-                    In the Value text field, type in the value that you'd like
-                    Neon to monitor.
+                    In the Value text field, type in the value that you&apos;d
+                    like Neon to monitor.
                   </li>
                   <li>
                     For example, Neon can inform you when the average duration
@@ -196,7 +196,7 @@ export default class HelpNerdlet extends React.Component {
                 </li>
                 <p>
                   To edit your row and/or column titles, go to the board that
-                  you'd like to edit and click on edit board.
+                  you&apos;d like to edit and click on edit board.
                 </p>
                 <ol className="instructions">
                   <li>

@@ -60,7 +60,7 @@ export default class BoardAdmin extends React.Component {
     const { rows, cols, cells } = this.props;
 
     if (type === 'row') {
-      if (rows.filter(r => r === rowName).length) return;
+      if (rows.filter((r) => r === rowName).length) return;
       rows.push(rowName);
       this.setState(
         {
@@ -70,7 +70,7 @@ export default class BoardAdmin extends React.Component {
         this.persistData(rows, cols, cells)
       );
     } else if (type === 'col') {
-      if (cols.filter(c => c === colName).length) return;
+      if (cols.filter((c) => c === colName).length) return;
       cols.push(colName);
       this.setState(
         {
@@ -151,7 +151,7 @@ export default class BoardAdmin extends React.Component {
       isType,
       valueName,
     } = this.state;
-    const { rows, cols, cells } = this.props;
+    const { rows, cols } = this.props;
 
     const selectStyle = {
       minWidth: '128px',
@@ -188,7 +188,7 @@ export default class BoardAdmin extends React.Component {
               <TextField
                 label="Title"
                 placeholder=""
-                onChange={e => this.changeHandler(e, 'rowName')}
+                onChange={(e) => this.changeHandler(e, 'rowName')}
                 value={rowName}
               />
               <Button
@@ -212,7 +212,7 @@ export default class BoardAdmin extends React.Component {
               <TextField
                 label="Title"
                 placeholder=""
-                onChange={e => this.changeHandler(e, 'colName')}
+                onChange={(e) => this.changeHandler(e, 'colName')}
                 value={colName}
               />
               <Button
@@ -236,7 +236,7 @@ export default class BoardAdmin extends React.Component {
               <select
                 style={selectStyle}
                 value={rowForCell || ''}
-                onChange={e => this.changeHandler(e, 'rowForCell')}
+                onChange={(e) => this.changeHandler(e, 'rowForCell')}
               >
                 <option value="">SELECT A ROW</option>
                 {rows.map((r, i) => (
@@ -248,7 +248,7 @@ export default class BoardAdmin extends React.Component {
               <select
                 style={selectStyle}
                 value={colForCell || ''}
-                onChange={e => this.changeHandler(e, 'colForCell')}
+                onChange={(e) => this.changeHandler(e, 'colForCell')}
               >
                 <option value="">SELECT A COLUMN</option>
                 {cols.map((c, i) => (
@@ -260,7 +260,7 @@ export default class BoardAdmin extends React.Component {
               <select
                 style={selectStyle}
                 value={cellType || ''}
-                onChange={e => this.changeHandler(e, 'cellType')}
+                onChange={(e) => this.changeHandler(e, 'cellType')}
               >
                 <option value="">SELECT DATA TYPE</option>
                 <option value="alert">New Relic Alert</option>
@@ -270,7 +270,7 @@ export default class BoardAdmin extends React.Component {
                 <TextField
                   label="Alert Policy"
                   placeholder=""
-                  onChange={e => this.changeHandler(e, 'policyName')}
+                  onChange={(e) => this.changeHandler(e, 'policyName')}
                   value={policyName}
                 />
               )}
@@ -279,7 +279,7 @@ export default class BoardAdmin extends React.Component {
                   <TextField
                     label="Attribute Name"
                     placeholder=""
-                    onChange={e => this.changeHandler(e, 'attributeName')}
+                    onChange={(e) => this.changeHandler(e, 'attributeName')}
                     value={attributeName}
                   />
                   <div
@@ -292,7 +292,7 @@ export default class BoardAdmin extends React.Component {
                   >
                     <select
                       value={isType || ''}
-                      onChange={e => this.changeHandler(e, 'isType')}
+                      onChange={(e) => this.changeHandler(e, 'isType')}
                       style={{ alignSelf: 'end', ...selectStyle }}
                     >
                       <option value="">COMPARISON</option>
@@ -303,7 +303,7 @@ export default class BoardAdmin extends React.Component {
                     <TextField
                       label="Value"
                       placeholder=""
-                      onChange={e => this.changeHandler(e, 'valueName')}
+                      onChange={(e) => this.changeHandler(e, 'valueName')}
                       value={valueName}
                     />
                   </div>

@@ -85,7 +85,7 @@ export default class ComboBox extends React.Component {
           {options && (
             <div>
               <select
-                onChange={e => this.valueChange(e)}
+                onChange={(e) => this.valueChange(e)}
                 style={{ alignSelf: 'end', ...selectStyle }}
               >
                 <option>Select</option>
@@ -101,7 +101,7 @@ export default class ComboBox extends React.Component {
             <TextField
               placeholder={placeholder || ''}
               value={value || ''}
-              onChange={e => this.valueChange(e)}
+              onChange={(e) => this.valueChange(e)}
             />
           </div>
         </div>
