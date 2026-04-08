@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Wed Apr 08 2026 10:47:27 GMT-0700 (Pacific Daylight Time)",
+  "lastUpdated": "Wed Apr 08 2026 11:18:23 GMT-0700 (Pacific Daylight Time)",
   "projectName": "nr1-neon",
   "projectUrl": "https://github.com/newrelic/nr1-neon",
   "includeDev": true,
@@ -10,7 +10,7 @@
       "version": "15.8.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/prop-types",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/prop-types/LICENSE",
+      "licenseFile": "node_modules/prop-types/LICENSE",
       "licenseTextSource": "file"
     },
     "react-dom@17.0.2": {
@@ -18,7 +18,7 @@
       "version": "17.0.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/react",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/react-dom/LICENSE",
+      "licenseFile": "node_modules/react-dom/LICENSE",
       "licenseTextSource": "file"
     },
     "react@17.0.2": {
@@ -26,7 +26,7 @@
       "version": "17.0.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/react",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/react/LICENSE",
+      "licenseFile": "node_modules/react/LICENSE",
       "licenseTextSource": "file"
     }
   },
@@ -36,7 +36,7 @@
       "version": "7.29.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/babel/babel",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/@babel/core/LICENSE",
+      "licenseFile": "node_modules/@babel/core/LICENSE",
       "licenseTextSource": "file"
     },
     "@babel/eslint-parser@7.28.6": {
@@ -44,7 +44,7 @@
       "version": "7.28.6",
       "licenses": "MIT",
       "repoUrl": "https://github.com/babel/babel",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/@babel/eslint-parser/LICENSE",
+      "licenseFile": "node_modules/@babel/eslint-parser/LICENSE",
       "licenseTextSource": "file"
     },
     "@babel/plugin-transform-class-properties@7.28.6": {
@@ -52,7 +52,7 @@
       "version": "7.28.6",
       "licenses": "MIT",
       "repoUrl": "https://github.com/babel/babel",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/@babel/plugin-transform-class-properties/LICENSE",
+      "licenseFile": "node_modules/@babel/plugin-transform-class-properties/LICENSE",
       "licenseTextSource": "file"
     },
     "@babel/preset-env@7.29.2": {
@@ -60,7 +60,7 @@
       "version": "7.29.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/babel/babel",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/@babel/preset-env/LICENSE",
+      "licenseFile": "node_modules/@babel/preset-env/LICENSE",
       "licenseTextSource": "file"
     },
     "@babel/preset-react@7.28.5": {
@@ -68,7 +68,7 @@
       "version": "7.28.5",
       "licenses": "MIT",
       "repoUrl": "https://github.com/babel/babel",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/@babel/preset-react/LICENSE",
+      "licenseFile": "node_modules/@babel/preset-react/LICENSE",
       "licenseTextSource": "file"
     },
     "@semantic-release/changelog@6.0.3": {
@@ -76,7 +76,7 @@
       "version": "6.0.3",
       "licenses": "MIT",
       "repoUrl": "https://github.com/semantic-release/changelog",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/@semantic-release/changelog/LICENSE",
+      "licenseFile": "node_modules/@semantic-release/changelog/LICENSE",
       "licenseTextSource": "file"
     },
     "@semantic-release/git@10.0.1": {
@@ -84,7 +84,7 @@
       "version": "10.0.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/semantic-release/git",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/@semantic-release/git/LICENSE",
+      "licenseFile": "node_modules/@semantic-release/git/LICENSE",
       "licenseTextSource": "file"
     },
     "eslint-config-prettier@9.1.2": {
@@ -92,7 +92,7 @@
       "version": "9.1.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/prettier/eslint-config-prettier",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/eslint-config-prettier/LICENSE",
+      "licenseFile": "node_modules/eslint-config-prettier/LICENSE",
       "licenseTextSource": "file"
     },
     "eslint-plugin-eslint-comments@3.2.0": {
@@ -100,7 +100,7 @@
       "version": "3.2.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/mysticatea/eslint-plugin-eslint-comments",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/eslint-plugin-eslint-comments/LICENSE",
+      "licenseFile": "node_modules/eslint-plugin-eslint-comments/LICENSE",
       "licenseTextSource": "file"
     },
     "eslint-plugin-import@2.32.0": {
@@ -108,7 +108,7 @@
       "version": "2.32.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/import-js/eslint-plugin-import",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/eslint-plugin-import/LICENSE",
+      "licenseFile": "node_modules/eslint-plugin-import/LICENSE",
       "licenseTextSource": "file"
     },
     "eslint-plugin-prettier@4.2.5": {
@@ -116,7 +116,7 @@
       "version": "4.2.5",
       "licenses": "MIT",
       "repoUrl": "https://github.com/prettier/eslint-plugin-prettier",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/eslint-plugin-prettier/LICENSE.md",
+      "licenseFile": "node_modules/eslint-plugin-prettier/LICENSE.md",
       "licenseTextSource": "file"
     },
     "eslint-plugin-promise@6.6.0": {
@@ -124,7 +124,7 @@
       "version": "6.6.0",
       "licenses": "ISC",
       "repoUrl": "https://github.com/eslint-community/eslint-plugin-promise",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/eslint-plugin-promise/LICENSE.md",
+      "licenseFile": "node_modules/eslint-plugin-promise/LICENSE.md",
       "licenseTextSource": "file"
     },
     "eslint-plugin-react@7.37.5": {
@@ -132,7 +132,7 @@
       "version": "7.37.5",
       "licenses": "MIT",
       "repoUrl": "https://github.com/jsx-eslint/eslint-plugin-react",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/eslint-plugin-react/LICENSE",
+      "licenseFile": "node_modules/eslint-plugin-react/LICENSE",
       "licenseTextSource": "file"
     },
     "eslint@8.57.1": {
@@ -140,7 +140,7 @@
       "version": "8.57.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/eslint/eslint",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/eslint/LICENSE",
+      "licenseFile": "node_modules/eslint/LICENSE",
       "licenseTextSource": "file"
     },
     "prettier@2.8.8": {
@@ -148,7 +148,7 @@
       "version": "2.8.8",
       "licenses": "MIT",
       "repoUrl": "https://github.com/prettier/prettier",
-      "licenseFile": "/Users/amit/Web/nr1-neon/node_modules/prettier/LICENSE",
+      "licenseFile": "node_modules/prettier/LICENSE",
       "licenseTextSource": "file"
     }
   }
