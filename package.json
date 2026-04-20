@@ -6,14 +6,15 @@
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",
-    "eslint-check": "eslint nerdlets/",
-    "eslint-fix": "eslint nerdlets/ --fix"
+    "eslint-check": "eslint nerdlets/ src/",
+    "eslint-fix": "eslint nerdlets/ src/ --fix"
   },
   "bugs": {
     "email": "opensource@newrelic.com"
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@newrelic/nr-labs-components": "^2.0.5",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"

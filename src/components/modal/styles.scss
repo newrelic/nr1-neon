@@ -1,0 +1,71 @@
+dialog.modal-dialog {
+  padding: 0;
+  border: none;
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    transition:
+      opacity .2s cubic-bezier(.23, 1, .32, 1)
+      display 0.2s allow-discrete,
+      overlay 0.2s allow-discrete,
+      background-color 0.2s;
+  }
+
+  .modal-frame {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 368px;
+    overflow: auto;
+    background: #fff;
+    padding: 80px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    &.slide-in {
+      animation: modal-frame-slide-in .2s cubic-bezier(.23, 1, .32, 1);
+    }
+    &.slide-out {
+      animation: modal-frame-slide-out .2s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    .modal-dialog-content {
+      // min-height: 100%;
+      // display: flex;
+      // flex-direction: column;
+      // justify-content: center;
+      // overflow: auto;
+      flex: 1; 
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      justify-content: flex-start;
+    }
+
+    .close-button {
+      position: fixed;
+      top: 16px;
+      right: 8px;
+    }
+  }
+}
+
+@keyframes modal-frame-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes modal-frame-slide-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "schemaType": "NERDLET",
+  "id": "nexus",
+  "displayName": "Nexus",
+  "description": "A central nexus for system health. Single-glance health checks for leadership and rapid-fire triage for engineering teams."
+}
