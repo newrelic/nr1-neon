@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/newrelic/nr1-neon/compare/v0.7.1...v0.8.0) (2026-04-21)
+
+
+### Features
+
+* set up nexus nerdlet ([59ae379](https://github.com/newrelic/nr1-neon/commit/59ae379e1664287eac6b2d188d0931147f92fa11))
+
 ## [0.7.1](https://github.com/newrelic/nr1-neon/compare/v0.7.0...v0.7.1) (2022-02-23)
 
 
