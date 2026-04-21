@@ -1,0 +1,24 @@
+.settings-modal {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .filter-bar {
+    padding-top: 8px;
+    padding-bottom: 16px;
+  }
+
+  .workloads-table {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  .buttons-bar {
+    flex-shrink: 0;
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+}

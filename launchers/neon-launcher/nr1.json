@@ -1,7 +1,7 @@
 {
   "schemaType": "LAUNCHER",
   "id": "neon-launcher",
-  "displayName": "Neon",
-  "description": "Status Board for Alerts",
-  "rootNerdletId": "neon-nerdlet"
+  "displayName": "Nexus (formerly Neon)",
+  "description": "A central nexus for system health. Single-glance health checks for leadership and rapid-fire triage for engineering teams.",
+  "rootNerdletId": "nexus"
 }
