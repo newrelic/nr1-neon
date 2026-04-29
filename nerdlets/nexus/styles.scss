@@ -1,2 +1,18 @@
 @import '../../src/components/styles.scss';
 @import '~@newrelic/nr-labs-components/dist/styles.css';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  width: 100%;
+}
+
+.top, .bottom {
+  flex-shrink: 0;
+}
+
+.main {
+  flex-grow: 1;
+  overflow-y: auto; 
+}

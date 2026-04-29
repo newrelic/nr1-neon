@@ -1,3 +1,5 @@
+import { ALERTING_SEVERITIES } from '../constants';
+
 const DEFAULT_COLLATOR = new Intl.Collator();
 
 export const keyValuesFromEntities = (entities, existingkeyValues) => {
@@ -83,3 +85,24 @@ export const filtersArrayToNrql = (filters = []) =>
       } ${operator} ${valueStr} ${conjunction}`;
     })
     .join(' ');
+
+export const alertingEntitiesByAccount = (nodes) => {
+  const entitiesByAccount = new Map();
+
+  const visit = (node) => {
+    if (!node) return;
+    const isWorkload = node.type === 'WORKLOAD' || node.children;
+    const isAlerting = ALERTING_SEVERITIES.has(node.alertSeverity);
+    if (!isWorkload && isAlerting && node.guid && node.accountId) {
+      if (!entitiesByAccount.has(node.accountId)) {
+        entitiesByAccount.set(node.accountId, []);
+      }
+      entitiesByAccount.get(node.accountId).push(node.guid);
+    }
+    if (node.children) {
+      node.children.forEach(visit);
+    }
+  };
+  nodes.forEach(visit);
+  return entitiesByAccount;
+};
