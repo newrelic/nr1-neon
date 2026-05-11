@@ -1,3 +1,10 @@
+# [0.9.0](https://github.com/newrelic/nr1-neon/compare/v0.8.0...v0.9.0) (2026-05-11)
+
+
+### Features
+
+* workloadgrid and workloadcard components; issues hook ([8e0ae01](https://github.com/newrelic/nr1-neon/commit/8e0ae011703ac5b5b7f6442e9c03b02855c762ae))
+
 # [0.8.0](https://github.com/newrelic/nr1-neon/compare/v0.7.1...v0.8.0) (2026-04-21)
 
 
