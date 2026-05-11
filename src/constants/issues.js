@@ -1,0 +1,22 @@
+export const ISSUE_FIELDS = `
+  acknowledgedAt
+  acknowledgedBy
+  activatedAt
+  closedAt
+  closedBy
+  createdAt
+  description
+  entityGuids
+  incidentIds
+  investigatedAt
+  investigatedBy
+  isCorrelated
+  isIdle
+  issueId
+  priority
+  state
+  title
+  unAcknowledgedAt
+  unAcknowledgedBy
+  updatedAt
+`;

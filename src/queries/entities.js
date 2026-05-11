@@ -7,6 +7,7 @@ export const ENTITY_FRAGMENT = `
       results {
         target {
           entity {
+            accountId
             alertSeverity
             domain
             goldenMetrics {
@@ -27,3 +28,8 @@ export const ENTITY_FRAGMENT = `
     }
   }
 `;
+
+export const queryFromGuids = (guids, idx) =>
+  `{ actor { idx_${idx}: entities(guids: ["${guids.join(
+    '", "'
+  )}"]) { ${ENTITY_FRAGMENT} } } }`;
