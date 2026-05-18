@@ -4,3 +4,6 @@ export { default as StatusDot } from './status-dot';
 export { default as IssuesButton } from './issues-button';
 export { default as WorkloadCard } from './workload-card';
 export { default as WorkloadGrid } from './workload-grid';
+export { default as BreadcrumbChip } from './breadcrumb-chip';
+export { default as BreadcrumbRow } from './breadcrumb-row';
+export { default as Breadcrumb } from './breadcrumb';
