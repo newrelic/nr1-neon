@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
@@ -16,7 +17,7 @@ import {
   useAccountStorageQuery,
 } from 'nr1';
 
-import { SettingsModal, WorkloadGrid } from '../../src/components';
+import { Breadcrumb, SettingsModal, WorkloadGrid } from '../../src/components';
 import { useAlertingEntitiesIssues, useDataManager } from '../../src/hooks';
 import { AppContext } from '../../src/contexts';
 import { mergeData } from '../../src/utils';
@@ -24,7 +25,12 @@ import { DOC_STORE } from '../../src/constants';
 
 const NexusNerdlet = () => {
   const [gridData, setGridData] = useState([]);
+  const [navigationStack, setNavigationStack] = useState([]);
   const [app, setApp] = useState({});
+  const gridDataRef = useRef([]);
+  gridDataRef.current = gridData;
+  const navStackRef = useRef([]);
+  navStackRef.current = navigationStack;
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const { accountId } = useContext(PlatformStateContext);
   const {
@@ -95,10 +101,10 @@ const NexusNerdlet = () => {
     });
   }, [openSettingsModal]);
 
-  useEffect(
-    () => setGridData(() => mergeData(data, issuesData)),
-    [data, issuesData]
-  );
+  useEffect(() => {
+    setGridData(() => mergeData(data, issuesData));
+    setNavigationStack([]);
+  }, [data, issuesData]);
 
   useEffect(() => {
     if (docError) console.log('Error fetching settings', docError);
@@ -112,10 +118,31 @@ const NexusNerdlet = () => {
         (c) => c.domain === 'NR1' && c.type === 'WORKLOAD'
       );
       if (!workloadChilds.length) return;
+      setNavigationStack((prev) => [
+        ...prev,
+        { items: gridDataRef.current, activeId: w.guid },
+      ]);
       setGridData(workloadChilds);
     },
     [issuesData]
   );
+
+  const breadcrumbChipClickHandler = useCallback((depth, w) => {
+    const workloadChilds = (w?.children || []).filter(
+      (c) => c.domain === 'NR1' && c.type === 'WORKLOAD'
+    );
+    if (workloadChilds.length) {
+      setNavigationStack((prev) => [
+        ...prev.slice(0, depth),
+        { items: prev[depth].items, activeId: w.guid },
+      ]);
+      setGridData(workloadChilds);
+    } else {
+      const items = navStackRef.current[depth]?.items ?? [];
+      setNavigationStack((prev) => prev.slice(0, depth));
+      setGridData(items);
+    }
+  }, []);
 
   const saveSettings = useCallback(
     async (workloads) => {
@@ -143,6 +170,10 @@ const NexusNerdlet = () => {
       return (
         <div className="container">
           <div className="main">
+            <Breadcrumb
+              levels={navigationStack}
+              onChipClick={breadcrumbChipClickHandler}
+            />
             <WorkloadGrid
               workloads={gridData}
               issuesLoading={dataLoading || issuesLoading}
@@ -166,9 +197,11 @@ const NexusNerdlet = () => {
     );
   }, [
     gridData,
+    navigationStack,
     dataLoading,
     issuesLoading,
     gridClickHandler,
+    breadcrumbChipClickHandler,
     openSettingsModal,
   ]);
 
