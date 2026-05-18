@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/newrelic/nr1-neon/compare/v0.9.0...v0.10.0) (2026-05-18)
+
+
+### Features
+
+* breadcrumb ([e6de8f5](https://github.com/newrelic/nr1-neon/commit/e6de8f5274a67c902741cecb1da2c4425a19e392))
+
 # [0.9.0](https://github.com/newrelic/nr1-neon/compare/v0.8.0...v0.9.0) (2026-05-11)
 
 
