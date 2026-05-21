@@ -8,7 +8,7 @@ const ANIMATION_CLASSES = {
   SLIDE_OUT: 'slide-out',
 };
 
-const Modal = ({ hidden, onClose, onHide, onShow, children }) => {
+const Modal = ({ hidden, onClose, onHide, onShow, style, children }) => {
   const [animClass, setAnimClass] = useState('');
   const dialogRef = useRef(null);
 
@@ -44,6 +44,7 @@ const Modal = ({ hidden, onClose, onHide, onShow, children }) => {
     <dialog ref={dialogRef} className="modal-dialog" onClick={clickHandler}>
       <div
         className={`modal-frame ${animClass}`}
+        style={style}
         onAnimationEnd={animationEndHandler}
       >
         <Button
@@ -63,6 +64,7 @@ const Modal = ({ hidden, onClose, onHide, onShow, children }) => {
 
 Modal.propTypes = {
   hidden: PropTypes.bool,
+  style: PropTypes.object,
   onClose: PropTypes.func,
   onHide: PropTypes.func,
   onShow: PropTypes.func,

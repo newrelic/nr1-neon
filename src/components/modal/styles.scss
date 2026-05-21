@@ -16,10 +16,10 @@ dialog.modal-dialog {
     top: 0;
     right: 0;
     bottom: 0;
-    width: 368px;
+    width: var(--modal-width, 368px);
     overflow: auto;
     background: #fff;
-    padding: 80px 40px 40px;
+    padding: var(--modal-padding, 80px 40px 40px);
     display: flex;
     flex-direction: column;
     overflow: hidden;

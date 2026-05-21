@@ -1,0 +1,127 @@
+
+$priority-medium:    #F5A623;
+$priority-medium-bg: #FCE8C8;
+
+.issues-list {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  color: #1D252C;
+
+  .header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 48px 16px 22px;
+    border-bottom: 1px solid #EBEEF0;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: $status-unknown;
+    }
+  }
+
+  &.critical {
+    .header { &::before { background: $status-critical; } }
+  }
+  &.warning  {
+    .header { &::before { background: $status-warning; } }
+  }
+  &.success  {
+    .header { &::before { background: $status-success; opacity: 0.85; } }
+  }
+  &.unknown  {
+    .header { &::before { background: $status-unknown; } }
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6B7682;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+
+    &.critical { color: $status-critical; background: $status-critical-bg; }
+    &.warning  { color: #8A6D00;          background: $status-warning-bg;  }
+    &.success  { color: $status-success;  background: $status-success-bg;  }
+    &.unknown  { color: #475059;          background: $status-unknown-bg;  }
+  }
+
+  .title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: #1D252C;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .subtitle {
+    font-size: 11.5px;
+    color: #6B7682;
+    line-height: 1.4;
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 16px 16px 0;
+    flex-shrink: 0;
+    // border-bottom: 1px solid #EBEEF0;
+    margin-bottom: 4px;
+  }
+
+  .issues {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+    padding: 8px 16px 16px;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 48px 24px;
+    color: #6B7682;
+
+    .icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+      opacity: 0.5;
+    }
+    .title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #475059;
+      margin-bottom: 4px;
+    }
+    .hint {
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+  }
+}

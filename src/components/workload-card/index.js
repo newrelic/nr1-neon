@@ -39,7 +39,7 @@ const WorkloadCard = ({
           unacknowledgedCount={unacknowledgedCount}
           onClick={(e) => {
             e.stopPropagation();
-            if (onIssuesClick) onIssuesClick(e);
+            if (onIssuesClick) onIssuesClick();
           }}
         />
       );
@@ -79,7 +79,7 @@ const WorkloadCard = ({
         <div className={`kpis ${kpisExpanded ? 'expanded' : ''}`}>
           <button
             type="button"
-            className="toggle-btn"
+            className="u-unstyledButton toggle-btn"
             aria-expanded={kpisExpanded}
             onClick={handleKpiToggleClick}
           >

@@ -12,3 +12,5 @@ export { default as GoldenTags } from './golden-tags';
 export { default as EntityRow } from './entity-row';
 export { default as EntitiesTable } from './entities-table';
 export { default as EntitiesView } from './entities-view';
+export { default as IssueRow } from './issue-row';
+export { default as IssuesList } from './issues-list';

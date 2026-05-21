@@ -5,7 +5,11 @@ const IssuesButton = ({ issuesCount, unacknowledgedCount, onClick }) => {
   const hasUnack = unacknowledgedCount > 0;
 
   return (
-    <button type="button" className="issues-button" onClick={onClick}>
+    <button
+      type="button"
+      className="u-unstyledButton issues-button"
+      onClick={onClick}
+    >
       <span className="issues-count">
         <span className="count">{issuesCount}</span>
         <span className="label">{issuesCount === 1 ? 'issue' : 'issues'}</span>
