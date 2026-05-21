@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/newrelic/nr1-neon/compare/v0.10.0...v0.11.0) (2026-05-21)
+
+
+### Features
+
+* display entities in workloads ([ce155a3](https://github.com/newrelic/nr1-neon/commit/ce155a3b22f52124839f2f81d09a186cb4a6bc83))
+
 # [0.10.0](https://github.com/newrelic/nr1-neon/compare/v0.9.0...v0.10.0) (2026-05-18)
 
 
