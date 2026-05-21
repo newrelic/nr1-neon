@@ -1,3 +1,10 @@
+# [0.12.0](https://github.com/newrelic/nr1-neon/compare/v0.11.0...v0.12.0) (2026-05-21)
+
+
+### Features
+
+* issues displayed in modal ([0d8e7df](https://github.com/newrelic/nr1-neon/commit/0d8e7df812ad5ebbf04bcf82bea39b0b9f96f082))
+
 # [0.11.0](https://github.com/newrelic/nr1-neon/compare/v0.10.0...v0.11.0) (2026-05-21)
 
 
