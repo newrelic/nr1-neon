@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import { Icon } from 'nr1';
+
 import BreadcrumbRow from '../breadcrumb-row';
 
 const EXIT_DURATION = 280;
 
-const Breadcrumb = ({ levels, onChipClick }) => {
+const Breadcrumb = ({ levels, onChipClick, onHomeClick }) => {
   const [displayedLevels, setDisplayedLevels] = useState(levels);
   const [leavingDepths, setLeavingDepths] = useState(new Set());
   const prevLevelCountRef = useRef(levels.length);
@@ -40,6 +42,19 @@ const Breadcrumb = ({ levels, onChipClick }) => {
 
   return (
     <div className="breadcrumb">
+      {typeof onHomeClick === 'function' && (
+        <div className="breadcrumb-home-row">
+          <button
+            type="button"
+            className="home-button"
+            onClick={onHomeClick}
+            aria-label="Reset to top level"
+            title="Reset to top level"
+          >
+            <Icon type={Icon.TYPE.LOCATION__LOCATION__HOME} />
+          </button>
+        </div>
+      )}
       {displayedLevels.map((level, depth) => {
         const isLeaving = leavingDepths.has(depth);
         const { height, fontSize } = rowDimensions(depth, visibleDepth);
@@ -63,6 +78,7 @@ const Breadcrumb = ({ levels, onChipClick }) => {
 Breadcrumb.propTypes = {
   levels: PropTypes.array,
   onChipClick: PropTypes.func,
+  onHomeClick: PropTypes.func,
 };
 
 export default Breadcrumb;

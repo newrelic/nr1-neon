@@ -149,6 +149,12 @@ const NexusNerdlet = () => {
     [issuesData]
   );
 
+  const breadcrumbHomeHandler = useCallback(() => {
+    setGridData(() => mergeData(data, issuesData));
+    setNavigationStack([]);
+    setEntities([]);
+  }, [data, issuesData]);
+
   const breadcrumbClickHandler = useCallback((depth, w) => {
     const workloadChilds = (w?.children || []).filter(
       (c) => c.domain === 'NR1' && c.type === 'WORKLOAD'
@@ -210,6 +216,7 @@ const NexusNerdlet = () => {
             <Breadcrumb
               levels={navigationStack}
               onChipClick={breadcrumbClickHandler}
+              onHomeClick={breadcrumbHomeHandler}
             />
             <WorkloadGrid
               workloads={gridData}
@@ -244,6 +251,7 @@ const NexusNerdlet = () => {
     issuesLoading,
     gridClickHandler,
     breadcrumbClickHandler,
+    breadcrumbHomeHandler,
     entityClickHandler,
     openSettingsModal,
     openIssuesModal,

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
+import { Icon } from 'nr1';
+
 import BreadcrumbChip from '../breadcrumb-chip';
 
 const BreadcrumbRow = ({
@@ -57,7 +59,7 @@ const BreadcrumbRow = ({
         onClick={() => scrollByDir(-1)}
         tabIndex={canScrollLeft ? 0 : -1}
       >
-        <ChevronLeftIcon />
+        <Icon type={Icon.TYPE.INTERFACE__CHEVRON__CHEVRON_LEFT} />
       </button>
 
       <div
@@ -89,7 +91,7 @@ const BreadcrumbRow = ({
         onClick={() => scrollByDir(1)}
         tabIndex={canScrollRight ? 0 : -1}
       >
-        <ChevronRightIcon />
+        <Icon type={Icon.TYPE.INTERFACE__CHEVRON__CHEVRON_RIGHT} />
       </button>
     </div>
   );
@@ -105,31 +107,3 @@ BreadcrumbRow.propTypes = {
 };
 
 export default BreadcrumbRow;
-
-function ChevronLeftIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-      <path
-        d="M10 4L6 8L10 12"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ChevronRightIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-      <path
-        d="M6 4L10 8L6 12"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
