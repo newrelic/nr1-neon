@@ -18,6 +18,11 @@ export const ENTITY_FRAGMENT = `
                 unit
               }
             }
+            goldenTags {
+              tags {
+                key
+              }
+            }
             guid
             name
             tags { key values }

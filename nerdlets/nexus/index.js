@@ -10,6 +10,7 @@ import React, {
 import {
   EmptyState,
   Icon,
+  navigation,
   nerdlet,
   PlatformStateContext,
   useAccountsQuery,
@@ -17,7 +18,12 @@ import {
   useAccountStorageQuery,
 } from 'nr1';
 
-import { Breadcrumb, SettingsModal, WorkloadGrid } from '../../src/components';
+import {
+  Breadcrumb,
+  EntitiesView,
+  SettingsModal,
+  WorkloadGrid,
+} from '../../src/components';
 import { useAlertingEntitiesIssues, useDataManager } from '../../src/hooks';
 import { AppContext } from '../../src/contexts';
 import { mergeData } from '../../src/utils';
@@ -25,6 +31,7 @@ import { DOC_STORE } from '../../src/constants';
 
 const NexusNerdlet = () => {
   const [gridData, setGridData] = useState([]);
+  const [entities, setEntities] = useState([]);
   const [navigationStack, setNavigationStack] = useState([]);
   const [app, setApp] = useState({});
   const gridDataRef = useRef([]);
@@ -104,6 +111,7 @@ const NexusNerdlet = () => {
   useEffect(() => {
     setGridData(() => mergeData(data, issuesData));
     setNavigationStack([]);
+    setEntities([]);
   }, [data, issuesData]);
 
   useEffect(() => {
@@ -114,20 +122,31 @@ const NexusNerdlet = () => {
 
   const gridClickHandler = useCallback(
     (w) => {
-      const workloadChilds = (w?.children || []).filter(
-        (c) => c.domain === 'NR1' && c.type === 'WORKLOAD'
+      const { workloadChilds, entityChilds } = (w?.children || []).reduce(
+        (acc, cur) =>
+          cur.domain === 'NR1' && cur.type === 'WORKLOAD'
+            ? {
+                ...acc,
+                workloadChilds: [...acc.workloadChilds, cur],
+              }
+            : {
+                ...acc,
+                entityChilds: [...acc.entityChilds, cur],
+              },
+        { workloadChilds: [], entityChilds: [] }
       );
-      if (!workloadChilds.length) return;
+      // if (!workloadChilds.length) return;
       setNavigationStack((prev) => [
         ...prev,
         { items: gridDataRef.current, activeId: w.guid },
       ]);
       setGridData(workloadChilds);
+      setEntities(entityChilds);
     },
     [issuesData]
   );
 
-  const breadcrumbChipClickHandler = useCallback((depth, w) => {
+  const breadcrumbClickHandler = useCallback((depth, w) => {
     const workloadChilds = (w?.children || []).filter(
       (c) => c.domain === 'NR1' && c.type === 'WORKLOAD'
     );
@@ -137,11 +156,17 @@ const NexusNerdlet = () => {
         { items: prev[depth].items, activeId: w.guid },
       ]);
       setGridData(workloadChilds);
+      setEntities([]);
     } else {
       const items = navStackRef.current[depth]?.items ?? [];
       setNavigationStack((prev) => prev.slice(0, depth));
       setGridData(items);
+      setEntities([]);
     }
+  }, []);
+
+  const entityClickHandler = useCallback((entity) => {
+    navigation.openStackedEntity(entity?.guid);
   }, []);
 
   const saveSettings = useCallback(
@@ -166,19 +191,23 @@ const NexusNerdlet = () => {
   const openSettingsModal = useCallback(() => setIsSettingsModalOpen(true), []);
 
   const currentView = useMemo(() => {
-    if (gridData?.length)
+    if (gridData?.length || entities?.length)
       return (
         <div className="container">
           <div className="main">
             <Breadcrumb
               levels={navigationStack}
-              onChipClick={breadcrumbChipClickHandler}
+              onChipClick={breadcrumbClickHandler}
             />
             <WorkloadGrid
               workloads={gridData}
               issuesLoading={dataLoading || issuesLoading}
               onCardClick={gridClickHandler}
               onIncidentClick={(w) => console.log(`Opening ${w.name}`)}
+            />
+            <EntitiesView
+              entities={entities}
+              onEntityClick={entityClickHandler}
             />
           </div>
         </div>
@@ -191,17 +220,19 @@ const NexusNerdlet = () => {
         type={EmptyState.TYPE.USER_CLEARED}
         illustrationType={EmptyState.ILLUSTRATION_TYPE.ILLUSTRATION_03}
         title="Nothing brewing. Yet."
-        description="Future home of Nexus"
+        description="No Workloads. To get started, click the Settings button."
         action={{ label: 'Settings', onClick: openSettingsModal }}
       />
     );
   }, [
     gridData,
+    entities,
     navigationStack,
     dataLoading,
     issuesLoading,
     gridClickHandler,
-    breadcrumbChipClickHandler,
+    breadcrumbClickHandler,
+    entityClickHandler,
     openSettingsModal,
   ]);
 

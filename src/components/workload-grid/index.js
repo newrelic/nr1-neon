@@ -63,7 +63,7 @@ const WorkloadGrid = ({ workloads, issuesLoading = false, onCardClick }) => {
     >
       {displayedWorkloads.length === 0 ? (
         <div className="workload-grid-empty">
-          <div className="title">No workloads to display</div>
+          <div className="title">No workloads</div>
         </div>
       ) : (
         <div className="workload-grid">
@@ -71,9 +71,8 @@ const WorkloadGrid = ({ workloads, issuesLoading = false, onCardClick }) => {
             const issues = workload.issues ?? [];
             const { issuesCount, unacknowledgedCount } =
               summarizeIssues(issues);
-            const clickable =
-              onCardClick &&
-              (workload?.children || []).some((w) => w.type === 'WORKLOAD');
+            const clickable = onCardClick && workload?.children?.length;
+            // (workload?.children || []).some((w) => w.type === 'WORKLOAD');
 
             return (
               <div

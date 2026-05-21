@@ -1,0 +1,4484 @@
+[
+  {
+    "displayName": "Compound Alert Condition",
+    "domain": "AIOPS",
+    "icon": "hardware-and-software--software--system",
+    "type": "COMPOUND_ALERT_CONDITION"
+  },
+  {
+    "displayName": "Alert Condition",
+    "domain": "AIOPS",
+    "icon": "interface--operations--alert",
+    "type": "CONDITION"
+  },
+  {
+    "displayName": "Destination",
+    "domain": "AIOPS",
+    "icon": "hardware-and-software--software--error-inbox",
+    "type": "DESTINATION"
+  },
+  {
+    "displayName": "Issue",
+    "domain": "AIOPS",
+    "icon": "interface--operations--alert",
+    "type": "ISSUE"
+  },
+  {
+    "displayName": "Alert Policy",
+    "domain": "AIOPS",
+    "icon": "interface--operations--alert",
+    "type": "POLICY"
+  },
+  {
+    "displayName": "Workflow",
+    "domain": "AIOPS",
+    "icon": "dataviz--dataviz--service-map-chart",
+    "type": "WORKFLOW"
+  },
+  {
+    "displayName": "Ai Agent",
+    "domain": "APM",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AI_AGENT"
+  },
+  {
+    "displayName": "Ai Model",
+    "domain": "APM",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AI_MODEL"
+  },
+  {
+    "displayName": "Ai Tool",
+    "domain": "APM",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AI_TOOL"
+  },
+  {
+    "displayName": "Service - APM",
+    "domain": "APM",
+    "icon": "hardware-and-software--software--service",
+    "type": "APPLICATION"
+  },
+  {
+    "displayName": "Browser application",
+    "domain": "BROWSER",
+    "icon": "hardware-and-software--software--browser",
+    "type": "APPLICATION"
+  },
+  {
+    "displayName": "Micro-frontend",
+    "domain": "BROWSER",
+    "icon": "hardware-and-software--software--micro-frontend",
+    "type": "MICRO_FRONTEND"
+  },
+  {
+    "displayName": "Service - eBPF",
+    "domain": "EBPF",
+    "icon": "hardware-and-software--software--eapm-intelligence",
+    "type": "SERVICE"
+  },
+  {
+    "displayName": "Access Point",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "ACCESS_POINT"
+  },
+  {
+    "displayName": "Aerospike",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AEROSPIKE"
+  },
+  {
+    "displayName": "Air conditioner",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "AIR_CONDITIONER"
+  },
+  {
+    "displayName": "Aix Oracle",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AIX_ORACLE"
+  },
+  {
+    "displayName": "Apache Mesos",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "APACHEMESOS_CLUSTER"
+  },
+  {
+    "displayName": "Apache Druid",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "APACHE_DRUID"
+  },
+  {
+    "displayName": "Argo CD",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "ARGOCD"
+  },
+  {
+    "displayName": "Audiocodes Gateway",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "AUDIOCODES_GATEWAY"
+  },
+  {
+    "displayName": "AWS Elemental",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "AWS_ELEMENTAL"
+  },
+  {
+    "displayName": "AWS Firehose Log Forwarder",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWS_FIREHOSE_LOG_FORWARDER"
+  },
+  {
+    "displayName": "AWS Lambda Log Forwarder",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWS_LAMBDA_LOG_FORWARDER"
+  },
+  {
+    "displayName": "Billable User",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "BILLABLE_USER"
+  },
+  {
+    "displayName": "Cacti",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "CACTI"
+  },
+  {
+    "displayName": "Calico",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "CALICO"
+  },
+  {
+    "displayName": "CDN",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CDN_GENERIC"
+  },
+  {
+    "displayName": "Cicd Provider",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CICD_PROVIDER"
+  },
+  {
+    "displayName": "Cisco APIC",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "CISCO_APIC"
+  },
+  {
+    "displayName": "Cisco Dcnm",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CISCO_DCNM"
+  },
+  {
+    "displayName": "Cisco UCS",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "CISCO_UCS"
+  },
+  {
+    "displayName": "Cloudflare Host",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CLOUDFLARE_HOST"
+  },
+  {
+    "displayName": "Cohesity",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "COHESITY"
+  },
+  {
+    "displayName": "CoreDNS",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "COREDNS"
+  },
+  {
+    "displayName": "Cox Generic",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "COX_GENERIC"
+  },
+  {
+    "displayName": "Customer Consumption",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CUSTOMER_CONSUMPTION"
+  },
+  {
+    "displayName": "Database",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DATABASE"
+  },
+  {
+    "displayName": "Databricks Cluster",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DATABRICKS_CLUSTER"
+  },
+  {
+    "displayName": "Databricks Workspace",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DATABRICKS_WORKSPACE"
+  },
+  {
+    "displayName": "DB2 Database",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DB2"
+  },
+  {
+    "displayName": "Dbt Failed Resource Run",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DBT_FAILED_RESOURCE_RUN"
+  },
+  {
+    "displayName": "Dbt Failed Test Row",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DBT_FAILED_TEST_ROW"
+  },
+  {
+    "displayName": "Dbt Job Run",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DBT_JOB_RUN"
+  },
+  {
+    "displayName": "DDI",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "DDI"
+  },
+  {
+    "displayName": "Deeper Connect",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DEEPER_CONNECT"
+  },
+  {
+    "displayName": "Dell Avamar",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DELL_AVAMAR"
+  },
+  {
+    "displayName": "Dell Compellent",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DELL_COMPELLENT"
+  },
+  {
+    "displayName": "Dell Datadomain",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DELL_DATADOMAIN"
+  },
+  {
+    "displayName": "Dell Recoverpoint",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DELL_RECOVERPOINT"
+  },
+  {
+    "displayName": "Dell Vmax",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DELL_VMAX"
+  },
+  {
+    "displayName": "Dell Vnx",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DELL_VNX"
+  },
+  {
+    "displayName": "Dell Vplex",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DELL_VPLEX"
+  },
+  {
+    "displayName": "Dell Xtremio",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DELL_XTREMIO"
+  },
+  {
+    "displayName": "Digitalordering",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DIGITALORDERING"
+  },
+  {
+    "displayName": "Dora",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "DORA"
+  },
+  {
+    "displayName": "Email gateway",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "EMAIL_GATEWAY"
+  },
+  {
+    "displayName": "Network endpoint",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "ENDPOINT"
+  },
+  {
+    "displayName": "Environment sensor",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "ENVIRONMENT_SENSOR"
+  },
+  {
+    "displayName": "Envoy",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "ENVOY"
+  },
+  {
+    "displayName": "Eprod",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "EPROD"
+  },
+  {
+    "displayName": "Factorio Game",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "FACTORIO_GAME"
+  },
+  {
+    "displayName": "Fastly datacenter",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "FASTLY_POP"
+  },
+  {
+    "displayName": "Fibre Channel Switch",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "FIBRE_CHANNEL_SWITCH"
+  },
+  {
+    "displayName": "Firewall",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "FIREWALL"
+  },
+  {
+    "displayName": "Flex Remote",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "FLEX_REMOTE"
+  },
+  {
+    "displayName": "Flow Device",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "FLOW_DEVICE"
+  },
+  {
+    "displayName": "Fluentbit Host",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "FLUENTBIT_HOST"
+  },
+  {
+    "displayName": "Fluent Bit - Kubernetes",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "FLUENTBIT_KUBERNETES"
+  },
+  {
+    "displayName": "Gatsby Build",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "GATSBY_BUILD"
+  },
+  {
+    "displayName": "Harborregistry",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "HARBORREGISTRY"
+  },
+  {
+    "displayName": "Hardware Security Module",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "HARDWARE_SECURITY_MODULE"
+  },
+  {
+    "displayName": "Hcp Vault",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "HCP_VAULT"
+  },
+  {
+    "displayName": "Host - External",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "HOST"
+  },
+  {
+    "displayName": "IBM MQ Manager",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "IBMMQMANAGER"
+  },
+  {
+    "displayName": "IBM MQ Queue",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "IBMMQQUEUE"
+  },
+  {
+    "displayName": "IBM DataPower",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "IBM_DATAPOWER"
+  },
+  {
+    "displayName": "Ibm Iseries",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "IBM_ISERIES"
+  },
+  {
+    "displayName": "IBM WGA",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "IBM_WGA"
+  },
+  {
+    "displayName": "iDRAC",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "IDRAC"
+  },
+  {
+    "displayName": "ILO",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "ILO"
+  },
+  {
+    "displayName": "Influxdb",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "INFLUXDB"
+  },
+  {
+    "displayName": "Isilon",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "ISILON"
+  },
+  {
+    "displayName": "Istio Service",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "ISTIO_SERVICE"
+  },
+  {
+    "displayName": "Jfrog Server",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "JFROG_SERVER"
+  },
+  {
+    "displayName": "Jnpr Icmp Device",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "JNPR_ICMP_DEVICE"
+  },
+  {
+    "displayName": "Keda",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "KEDA"
+  },
+  {
+    "displayName": "Kentik Default",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "KENTIK_DEFAULT"
+  },
+  {
+    "displayName": "Ping device",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "KENTIK_PING"
+  },
+  {
+    "displayName": "Key Transaction",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--traffic",
+    "type": "KEY_TRANSACTION"
+  },
+  {
+    "displayName": "Linkerd",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "LINKERD"
+  },
+  {
+    "displayName": "Load balancer",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "LOAD_BALANCER"
+  },
+  {
+    "displayName": "Media gateway",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "MEDIA_GATEWAY"
+  },
+  {
+    "displayName": "Media server",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "MEDIA_SERVER"
+  },
+  {
+    "displayName": "Meraki Device",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "MERAKI_DEVICE"
+  },
+  {
+    "displayName": "Meraki Network",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "MERAKI_NETWORK"
+  },
+  {
+    "displayName": "Meraki Organization",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "MERAKI_ORGANIZATION"
+  },
+  {
+    "displayName": "Mobility Controller",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "MOBILITY_CONTROLLER"
+  },
+  {
+    "displayName": "Mystore",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "MYSTORE"
+  },
+  {
+    "displayName": "NAS",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "NAS"
+  },
+  {
+    "displayName": "Netgear Readynas",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "NETGEAR_READYNAS"
+  },
+  {
+    "displayName": "Network Dhcp Service",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "NETWORK_DHCP_SERVICE"
+  },
+  {
+    "displayName": "Network Dns Service",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "NETWORK_DNS_SERVICE"
+  },
+  {
+    "displayName": "Network Synthetic",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "NETWORK_SYNTH"
+  },
+  {
+    "displayName": "Net-SNMP",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "NET_SNMP"
+  },
+  {
+    "displayName": "NGINX Ingress Controller",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "NGINX_INGRESS_CONTROLLER"
+  },
+  {
+    "displayName": "NVIDIA Jetson",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "NVIDIA_JETSON"
+  },
+  {
+    "displayName": "Nvml",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "NVML"
+  },
+  {
+    "displayName": "Ocsf",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "OCSF"
+  },
+  {
+    "displayName": "Packet broker",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "PACKET_BROKER"
+  },
+  {
+    "displayName": "PDU",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "PDU"
+  },
+  {
+    "displayName": "Pi-Hole",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "PIHOLE"
+  },
+  {
+    "displayName": "Pinecone Index",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "PINECONE_INDEX"
+  },
+  {
+    "displayName": "AMQP - Pixie",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--correlation",
+    "type": "PIXIE_AMQP"
+  },
+  {
+    "displayName": "Cassandra - Pixie",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--database",
+    "type": "PIXIE_CASSANDRA"
+  },
+  {
+    "displayName": "DNS - Pixie",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "PIXIE_DNS"
+  },
+  {
+    "displayName": "Kafka - Pixie",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "PIXIE_KAFKABROKER"
+  },
+  {
+    "displayName": "MySQL - Pixie",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--database",
+    "type": "PIXIE_MYSQL"
+  },
+  {
+    "displayName": "Postgres - Pixie",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--database",
+    "type": "PIXIE_POSTGRES"
+  },
+  {
+    "displayName": "Redis - Pixie",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--database",
+    "type": "PIXIE_REDIS"
+  },
+  {
+    "displayName": "Printer",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "PRINTER"
+  },
+  {
+    "displayName": "Prometheus Server",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "PROMETHEUS_SERVER"
+  },
+  {
+    "displayName": "Pure",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "PURE"
+  },
+  {
+    "displayName": "Ray",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "RAY"
+  },
+  {
+    "displayName": "Redis cluster",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "REDIS"
+  },
+  {
+    "displayName": "RF Scanner",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "RF_SCANNER"
+  },
+  {
+    "displayName": "OpMon Host",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "RHOST"
+  },
+  {
+    "displayName": "Router",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "ROUTER"
+  },
+  {
+    "displayName": "RService",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "RSERVICE"
+  },
+  {
+    "displayName": "Rservicev2",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "RSERVICEV2"
+  },
+  {
+    "displayName": "Rubrik",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "RUBRIK"
+  },
+  {
+    "displayName": "SAP ABAP Web Service",
+    "domain": "EXT",
+    "icon": "documents--documents--file",
+    "type": "SAP_ABAPWS"
+  },
+  {
+    "displayName": "SAP HANA DB",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--database",
+    "type": "SAP_HANA"
+  },
+  {
+    "displayName": "HTTP Destination",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "SAP_HTTPDEST"
+  },
+  {
+    "displayName": "IDOC",
+    "domain": "EXT",
+    "icon": "documents--documents--file",
+    "type": "SAP_IDOC"
+  },
+  {
+    "displayName": "App Server Instance",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--application--s-ok",
+    "type": "SAP_INSTANCE"
+  },
+  {
+    "displayName": "Background Job",
+    "domain": "EXT",
+    "icon": "date-and-time--date-and-time--time",
+    "type": "SAP_JOB"
+  },
+  {
+    "displayName": "SAP MaxDB",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--database",
+    "type": "SAP_MAXDB"
+  },
+  {
+    "displayName": "SAP SQLServer DB",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--database",
+    "type": "SAP_MSSQL"
+  },
+  {
+    "displayName": "SAP Oracle DB",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--database",
+    "type": "SAP_ORACLE"
+  },
+  {
+    "displayName": "RFC Queue",
+    "domain": "EXT",
+    "icon": "interface--view--layer-list",
+    "type": "SAP_QRFC"
+  },
+  {
+    "displayName": "RFC Destination",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--destinations",
+    "type": "SAP_RFCDEST"
+  },
+  {
+    "displayName": "System",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--all-entities",
+    "type": "SAP_SYSTEM"
+  },
+  {
+    "displayName": "SAP Transaction",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--application",
+    "type": "SAP_TRANSACTION"
+  },
+  {
+    "displayName": "Scanner",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SCANNER"
+  },
+  {
+    "displayName": "SD WAN",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "SD_WAN"
+  },
+  {
+    "displayName": "Service - OpenTelemetry",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--service",
+    "type": "SERVICE"
+  },
+  {
+    "displayName": "Service Level",
+    "domain": "EXT",
+    "icon": "dataviz--dataviz--stacked-horizontal-bar-chart",
+    "type": "SERVICE_LEVEL"
+  },
+  {
+    "displayName": "Sesame",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SESAME"
+  },
+  {
+    "displayName": "Shelled Spa",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SHELLED_SPA"
+  },
+  {
+    "displayName": "Site",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SITE"
+  },
+  {
+    "displayName": "SNMP appliance",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "SNMP_APPLIANCE"
+  },
+  {
+    "displayName": "Snowflake",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "SNOWFLAKE"
+  },
+  {
+    "displayName": "Solarwinds Network",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SOLARWINDS_NETWORK"
+  },
+  {
+    "displayName": "Solarwinds Other",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SOLARWINDS_OTHER"
+  },
+  {
+    "displayName": "Solarwinds Server",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SOLARWINDS_SERVER"
+  },
+  {
+    "displayName": "Ssl Certificate",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SSL_CERTIFICATE"
+  },
+  {
+    "displayName": "Store",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "STORE"
+  },
+  {
+    "displayName": "Switch",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "SWITCH"
+  },
+  {
+    "displayName": "Synology",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SYNOLOGY"
+  },
+  {
+    "displayName": "Team",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "TEAM"
+  },
+  {
+    "displayName": "Temporal self hosted",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "TEMPORAL"
+  },
+  {
+    "displayName": "Temporal Cloud",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "TEMPORALCLOUD_WORKFLOWS"
+  },
+  {
+    "displayName": "Tinyproxy",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "TINYPROXY"
+  },
+  {
+    "displayName": "Trap Device",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "TRAP_DEVICE"
+  },
+  {
+    "displayName": "NVIDIA Triton",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--entity",
+    "type": "TRITON"
+  },
+  {
+    "displayName": "Unix host",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "UNIX_HOST"
+  },
+  {
+    "displayName": "UPS",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "UPS"
+  },
+  {
+    "displayName": "VPC Network",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "VPC_NETWORK"
+  },
+  {
+    "displayName": "Web Application Firewall",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "WAF"
+  },
+  {
+    "displayName": "WAN Optimizer",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "WAN_OPTIMIZER"
+  },
+  {
+    "displayName": "Web gateway",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "WEB_GATEWAY"
+  },
+  {
+    "displayName": "Wireless Controller",
+    "domain": "EXT",
+    "icon": "hardware-and-software--hardware--network",
+    "type": "WIRELESS_CONTROLLER"
+  },
+  {
+    "displayName": "Zerto",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "ZERTO"
+  },
+  {
+    "displayName": "Zfs",
+    "domain": "EXT",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "ZFS"
+  },
+  {
+    "displayName": "Apache server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "APACHESERVER"
+  },
+  {
+    "displayName": "ELB application load balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSALB"
+  },
+  {
+    "displayName": "ELB application target group",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSALBTARGETGROUP"
+  },
+  {
+    "displayName": "API Gateway API",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSAPIGATEWAYAPI"
+  },
+  {
+    "displayName": "API Gateway resource",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSAPIGATEWAYRESOURCEWITHMETRICS"
+  },
+  {
+    "displayName": "API Gateway stage",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSAPIGATEWAYSTAGE"
+  },
+  {
+    "displayName": "AppStream",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSAPPSTREAM"
+  },
+  {
+    "displayName": "AppSync api",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSAPPSYNCAPI"
+  },
+  {
+    "displayName": "Athena workgroup",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSATHENAWORKGROUP"
+  },
+  {
+    "displayName": "AutoScaling group",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSAUTOSCALINGGROUP"
+  },
+  {
+    "displayName": "Backup",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSBACKUP"
+  },
+  {
+    "displayName": "Account Cost",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSBILLINGACCOUNTCOST"
+  },
+  {
+    "displayName": "Account Service Cost",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSBILLINGACCOUNTSERVICECOST"
+  },
+  {
+    "displayName": "Budget",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSBILLINGBUDGET"
+  },
+  {
+    "displayName": "Service Cost",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSBILLINGSERVICECOST"
+  },
+  {
+    "displayName": "Certificate Manager",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCERTIFICATEMANAGER"
+  },
+  {
+    "displayName": "Chatbot",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCHATBOT"
+  },
+  {
+    "displayName": "CloudFront distribution",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCLOUDFRONTDISTRIBUTION"
+  },
+  {
+    "displayName": "CloudSearch",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCLOUDSEARCH"
+  },
+  {
+    "displayName": "Cloudwatch Application Signals",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCLOUDWATCHAPPLICATIONSIGNALS"
+  },
+  {
+    "displayName": "CloudWatch Metric Stream",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCLOUDWATCHMETRICSTREAM"
+  },
+  {
+    "displayName": "CodeBuild",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCODEBUILD"
+  },
+  {
+    "displayName": "Cognito user pool",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCOGNITOUSERPOOL"
+  },
+  {
+    "displayName": "Connect contact flow",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCONNECTCONTACTFLOW"
+  },
+  {
+    "displayName": "Connect instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCONNECTINSTANCE"
+  },
+  {
+    "displayName": "Connect queue",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSCONNECTQUEUE"
+  },
+  {
+    "displayName": "DataSync",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSDATASYNC"
+  },
+  {
+    "displayName": "Direct Connect connection",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSDIRECTCONNECTCONNECTION"
+  },
+  {
+    "displayName": "Awsdirectconnectvirtualinterface",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSDIRECTCONNECTVIRTUALINTERFACE"
+  },
+  {
+    "displayName": "Database Migration Service Host",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSDMSHOST"
+  },
+  {
+    "displayName": "Database Migration Service Replication Task",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSDMSREPLICATIONTASK"
+  },
+  {
+    "displayName": "DocumentDB cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSDOCDBCLUSTER"
+  },
+  {
+    "displayName": "DocumentDB cluster by role",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSDOCDBCLUSTERBYROLE"
+  },
+  {
+    "displayName": "DocumentDB instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSDOCDBINSTANCE"
+  },
+  {
+    "displayName": "DynamoDB global secondary index",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSDYNAMODBGLOBALSECONDARYINDEX"
+  },
+  {
+    "displayName": "DynamoDB region",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSDYNAMODBREGION"
+  },
+  {
+    "displayName": "DynamoDB table",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSDYNAMODBTABLE"
+  },
+  {
+    "displayName": "EBS volume",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSEBSVOLUME"
+  },
+  {
+    "displayName": "Security Group",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSEC2SECURITYGROUP"
+  },
+  {
+    "displayName": "Subnet",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSEC2SUBNET"
+  },
+  {
+    "displayName": "VPC",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSEC2VPC"
+  },
+  {
+    "displayName": "Repository",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSECRREPOSITORY"
+  },
+  {
+    "displayName": "ECS cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSECSCLUSTER"
+  },
+  {
+    "displayName": "ECS service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSECSSERVICE"
+  },
+  {
+    "displayName": "Awsecstask",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSECSTASK"
+  },
+  {
+    "displayName": "ECS Task Definition",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSECSTASKDEFINITION"
+  },
+  {
+    "displayName": "EFS filesystem",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSEFSFILESYSTEM"
+  },
+  {
+    "displayName": "EFS Mount Target",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSEFSMOUNTTARGET"
+  },
+  {
+    "displayName": "Awsekscluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSEKSCLUSTER"
+  },
+  {
+    "displayName": "ElastiCache Memcached cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICACHEMEMCACHEDCLUSTER"
+  },
+  {
+    "displayName": "ElastiCache Memcached node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICACHEMEMCACHEDNODE"
+  },
+  {
+    "displayName": "Awselasticachememcachedserverless",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSELASTICACHEMEMCACHEDSERVERLESS"
+  },
+  {
+    "displayName": "ElastiCache Redis cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICACHEREDISCLUSTER"
+  },
+  {
+    "displayName": "ElastiCache Redis node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICACHEREDISNODE"
+  },
+  {
+    "displayName": "ElastiCache Redis Replication Group",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICACHEREDISREPLICATIONGROUP"
+  },
+  {
+    "displayName": "ElastiCache Redis Shard",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICACHEREDISSHARD"
+  },
+  {
+    "displayName": "ElastiCache Valkey cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICACHEVALKEYCLUSTER"
+  },
+  {
+    "displayName": "ElastiCache Valkey node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICACHEVALKEYNODE"
+  },
+  {
+    "displayName": "Awselasticachevalkeyreplicationgroup",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSELASTICACHEVALKEYREPLICATIONGROUP"
+  },
+  {
+    "displayName": "ElastiCache Valkey Serverless",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICACHEVALKEYSERVERLESS"
+  },
+  {
+    "displayName": "Elastic Beanstalk environment",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICBEANSTALKENVIRONMENT"
+  },
+  {
+    "displayName": "Elastic Beanstalk instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICBEANSTALKINSTANCE"
+  },
+  {
+    "displayName": "EMR cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICMAPREDUCECLUSTER"
+  },
+  {
+    "displayName": "Elasticsearch cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICSEARCHCLUSTER"
+  },
+  {
+    "displayName": "Elasticsearch node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICSEARCHNODE"
+  },
+  {
+    "displayName": "ElasticTranscoder",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELASTICTRANSCODER"
+  },
+  {
+    "displayName": "ELB classic load balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSELB"
+  },
+  {
+    "displayName": "Events Rule",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSEVENTSRULE"
+  },
+  {
+    "displayName": "All Events",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSEVENTSRULEALL"
+  },
+  {
+    "displayName": "FSxForLustre",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSFSXFORLUSTRE"
+  },
+  {
+    "displayName": "FSx Volume",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSFSXVOLUME"
+  },
+  {
+    "displayName": "FSx windows file server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSFSXWINDOWSFILESERVER"
+  },
+  {
+    "displayName": "GameLift",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSGAMELIFT"
+  },
+  {
+    "displayName": "Glue job",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSGLUEJOB"
+  },
+  {
+    "displayName": "Load Balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSGWLB"
+  },
+  {
+    "displayName": "Target Group",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSGWLBTARGETGROUP"
+  },
+  {
+    "displayName": "Inspector",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSINSPECTOR"
+  },
+  {
+    "displayName": "IOT broker",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSIOTBROKER"
+  },
+  {
+    "displayName": "IOT rule",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSIOTRULE"
+  },
+  {
+    "displayName": "IOT rule action",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSIOTRULEACTION"
+  },
+  {
+    "displayName": "IOTTWINMAKER",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSIOTTWINMAKER"
+  },
+  {
+    "displayName": "Address Manager",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSIPAM"
+  },
+  {
+    "displayName": "Pool",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSIPAMPOOL"
+  },
+  {
+    "displayName": "Scope",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSIPAMSCOPE"
+  },
+  {
+    "displayName": "Keyspaces",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSKEYSPACES"
+  },
+  {
+    "displayName": "Kinesis Data Analytics application",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSKINESISANALYTICSAPPLICATION"
+  },
+  {
+    "displayName": "Kinesis Data Analytics task",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSKINESISANALYTICSTASK"
+  },
+  {
+    "displayName": "Kinesis delivery stream",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSKINESISDELIVERYSTREAM"
+  },
+  {
+    "displayName": "Kinesis stream",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSKINESISSTREAM"
+  },
+  {
+    "displayName": "Kinesis shard",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSKINESISSTREAMSHARD"
+  },
+  {
+    "displayName": "Key",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSKMSKEY"
+  },
+  {
+    "displayName": "Lambda function",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSLAMBDAFUNCTION"
+  },
+  {
+    "displayName": "Lambda Function Alias",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSLAMBDAFUNCTIONALIAS"
+  },
+  {
+    "displayName": "Lambda Region",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSLAMBDAREGION"
+  },
+  {
+    "displayName": "Lex",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSLEX"
+  },
+  {
+    "displayName": "Logs",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSLOGS"
+  },
+  {
+    "displayName": "Elemental MediaConvert operation",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMEDIACONVERTOPERATION"
+  },
+  {
+    "displayName": "Elemental MediaConvert queue",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMEDIACONVERTQUEUE"
+  },
+  {
+    "displayName": "MediaPackage VOD packaging configuration",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMEDIAPACKAGEVODPACKAGINGCONFIGURATION"
+  },
+  {
+    "displayName": "Elemental MediaTailor",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMEDIATAILOR"
+  },
+  {
+    "displayName": "Cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMEMORYDBCLUSTER"
+  },
+  {
+    "displayName": "MQ broker",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMQBROKER"
+  },
+  {
+    "displayName": "MQ queue",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMQQUEUE"
+  },
+  {
+    "displayName": "MQ topic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMQTOPIC"
+  },
+  {
+    "displayName": "Managed Kafka broker",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMSKBROKER"
+  },
+  {
+    "displayName": "Managed Kafka cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMSKCLUSTER"
+  },
+  {
+    "displayName": "Managed Kafka topic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSMSKTOPIC"
+  },
+  {
+    "displayName": "VPC NAT Gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSNATGATEWAY"
+  },
+  {
+    "displayName": "Neptune cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSNEPTUNECLUSTER"
+  },
+  {
+    "displayName": "Neptune cluster by role",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSNEPTUNECLUSTERBYROLE"
+  },
+  {
+    "displayName": "Neptune database class",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSNEPTUNEDATABASECLASS"
+  },
+  {
+    "displayName": "Neptune instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSNEPTUNEINSTANCE"
+  },
+  {
+    "displayName": "Firewall",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSNETWORKFIREWALL"
+  },
+  {
+    "displayName": "ELB network load balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSNLB"
+  },
+  {
+    "displayName": "ELB network target group",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSNLBTARGETGROUP"
+  },
+  {
+    "displayName": "Outpost",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSOUTPOST"
+  },
+  {
+    "displayName": "Polly (Lexicon)",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSPOLLYLEXICON"
+  },
+  {
+    "displayName": "Polly (Operation)",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSPOLLYOPERATION"
+  },
+  {
+    "displayName": "Private Link Endpoint",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSPRIVATELINKENDPOINT"
+  },
+  {
+    "displayName": "Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSPRIVATELINKSERVICE"
+  },
+  {
+    "displayName": "Rule Group",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSPROMETHEUSRULEGROUP"
+  },
+  {
+    "displayName": "Workspace",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSPROMETHEUSWORKSPACE"
+  },
+  {
+    "displayName": "QLDB ledger",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSQLDBLEDGER"
+  },
+  {
+    "displayName": "RDS cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSRDSDBCLUSTER"
+  },
+  {
+    "displayName": "RDS instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSRDSDBINSTANCE"
+  },
+  {
+    "displayName": "RDS Proxy",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSRDSPROXY"
+  },
+  {
+    "displayName": "Redshift cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSREDSHIFTCLUSTER"
+  },
+  {
+    "displayName": "Redshift node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSREDSHIFTNODE"
+  },
+  {
+    "displayName": "Rekognition",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSREKOGNITION"
+  },
+  {
+    "displayName": "Rekognition Operation",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSREKOGNITIONOPERATION"
+  },
+  {
+    "displayName": "Route 53 health check",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSROUTE53HEALTHCHECK"
+  },
+  {
+    "displayName": "Awsroute53hostedzone",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSROUTE53HOSTEDZONE"
+  },
+  {
+    "displayName": "Route53 Record Set",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSROUTE53RECORDSET"
+  },
+  {
+    "displayName": "Route53 Resolver endpoint",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSROUTE53RESOLVERENDPOINT"
+  },
+  {
+    "displayName": "S3 bucket",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSS3BUCKET"
+  },
+  {
+    "displayName": "SageMaker",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSAGEMAKER"
+  },
+  {
+    "displayName": "Manager",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSECRETSMANAGER"
+  },
+  {
+    "displayName": "SES region",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSESREGION"
+  },
+  {
+    "displayName": "SimpleWorkFlow",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSIMPLEWORKFLOW"
+  },
+  {
+    "displayName": "SNS topic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSNSTOPIC"
+  },
+  {
+    "displayName": "SQS queue",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSQSQUEUE"
+  },
+  {
+    "displayName": "Step Functions activity",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSTATESACTIVITY"
+  },
+  {
+    "displayName": "Step Functions apiusage",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSTATESAPIUSAGE"
+  },
+  {
+    "displayName": "Step Functions lambdafunction",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSTATESLAMBDAFUNCTION"
+  },
+  {
+    "displayName": "Step Functions service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSTATESSERVICE"
+  },
+  {
+    "displayName": "Step Functions serviceintegration",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSTATESSERVICEINTEGRATION"
+  },
+  {
+    "displayName": "Step Functions statemachine",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSTATESSTATEMACHINE"
+  },
+  {
+    "displayName": "Awsstatesstatemachinestate",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSSTATESSTATEMACHINESTATE"
+  },
+  {
+    "displayName": "Storage Gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSTORAGEGATEWAY"
+  },
+  {
+    "displayName": "Textract",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSTEXTRACT"
+  },
+  {
+    "displayName": "Timestream Database",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSTIMESTREAMDATABASE"
+  },
+  {
+    "displayName": "Timestream Table",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSTIMESTREAMTABLE"
+  },
+  {
+    "displayName": "Transcribe",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSTRANSCRIBE"
+  },
+  {
+    "displayName": "TransferFamily",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSTRANSFERFAMILY"
+  },
+  {
+    "displayName": "Transit Gateway transit gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSTRANSITGATEWAYTRANSITGATEWAY"
+  },
+  {
+    "displayName": "Translate",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSTRANSLATE"
+  },
+  {
+    "displayName": "Category",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSTRUSTEDADVISORCATEGORY"
+  },
+  {
+    "displayName": "Check",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSTRUSTEDADVISORCHECK"
+  },
+  {
+    "displayName": "Service Limit",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSTRUSTEDADVISORSERVICELIMIT"
+  },
+  {
+    "displayName": "Usage",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSUSAGE"
+  },
+  {
+    "displayName": "Awsvpclatticeservice",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSVPCLATTICESERVICE"
+  },
+  {
+    "displayName": "VPC Network Interface",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSVPCNETWORKINTERFACE"
+  },
+  {
+    "displayName": "VPC VPN tunnel",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSVPCVPNTUNNEL"
+  },
+  {
+    "displayName": "Awsvpn",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSVPN"
+  },
+  {
+    "displayName": "VPN Connection",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSVPNCONNECTION"
+  },
+  {
+    "displayName": "WAFV2 rule group",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSWAFV2RULEGROUP"
+  },
+  {
+    "displayName": "WAFV2 web acl",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSWAFV2WEBACL"
+  },
+  {
+    "displayName": "WAF web ACL",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSWAFWEBACL"
+  },
+  {
+    "displayName": "Workmail",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSWORKMAIL"
+  },
+  {
+    "displayName": "WorkSpaces",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSWORKSPACES"
+  },
+  {
+    "displayName": "WorkSpacesWeb",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSWORKSPACESWEB"
+  },
+  {
+    "displayName": "API Gateway Integration",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWS_API_GATEWAY_INTEGRATION"
+  },
+  {
+    "displayName": "Aws Mediaconnect Flow",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWS_MEDIACONNECT_FLOW"
+  },
+  {
+    "displayName": "Aws Mediaconnect Output",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWS_MEDIACONNECT_OUTPUT"
+  },
+  {
+    "displayName": "Aws Mediaconnect Source",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWS_MEDIACONNECT_SOURCE"
+  },
+  {
+    "displayName": "Aws Medialive Channel",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWS_MEDIALIVE_CHANNEL"
+  },
+  {
+    "displayName": "Aws Mediapackage Live Egress",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWS_MEDIAPACKAGE_LIVE_EGRESS"
+  },
+  {
+    "displayName": "Aws Mediapackage Live Ingest",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWS_MEDIAPACKAGE_LIVE_INGEST"
+  },
+  {
+    "displayName": "Transit Gateway Attachment",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWS_TRANSIT_GATEWAY_TRANSIT_GATEWAY_ATTACHMENT"
+  },
+  {
+    "displayName": "VPC Link",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWS_VPCLINK"
+  },
+  {
+    "displayName": "VPC Peering Connection",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWS_VPC_PEERING_CONNECTION"
+  },
+  {
+    "displayName": "AI Foundry",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAIFOUNDRY"
+  },
+  {
+    "displayName": "API Management Gateways",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAPIMANAGEMENTGATEWAYS"
+  },
+  {
+    "displayName": "API Management service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAPIMANAGEMENTSERVICE"
+  },
+  {
+    "displayName": "App Configuration",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAPPCONFIGURATION"
+  },
+  {
+    "displayName": "App Gateway application gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAPPLICATIONGATEWAY"
+  },
+  {
+    "displayName": "Application Insight",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAPPLICATIONINSIGHT"
+  },
+  {
+    "displayName": "App Service Environment",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAPPSERVICEENVIRONMENT"
+  },
+  {
+    "displayName": "App Service Plan",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAPPSERVICEPLAN"
+  },
+  {
+    "displayName": "App Service web app",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAPPSERVICEWEBAPP"
+  },
+  {
+    "displayName": "Automation Account",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAUTOMATIONACCOUNT"
+  },
+  {
+    "displayName": "Autoscale Setting",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREAUTOSCALESETTING"
+  },
+  {
+    "displayName": "Bastion Host",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREBASTIONHOST"
+  },
+  {
+    "displayName": "Batch Account",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREBATCHACCOUNT"
+  },
+  {
+    "displayName": "Bing Search",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREBINGSEARCH"
+  },
+  {
+    "displayName": "CDN profile",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECDNPROFILE"
+  },
+  {
+    "displayName": "Cloud Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECLOUDSERVICE"
+  },
+  {
+    "displayName": "Cognitive Search",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECOGNITIVESEARCH"
+  },
+  {
+    "displayName": "Cognitive Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECOGNITIVESERVICE"
+  },
+  {
+    "displayName": "Container App",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECONTAINERAPPS"
+  },
+  {
+    "displayName": "Container Apps Job",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECONTAINERAPPSJOB"
+  },
+  {
+    "displayName": "Container Apps Managed Environment",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECONTAINERAPPSMANAGEDENVIRONMENT"
+  },
+  {
+    "displayName": "Containers instance group",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECONTAINERSINSTANCEGROUP"
+  },
+  {
+    "displayName": "Containers managed cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECONTAINERSMANAGEDCLUSTER"
+  },
+  {
+    "displayName": "Containers registry",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECONTAINERSREGISTRY"
+  },
+  {
+    "displayName": "Cosmos DB account",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECOSMOSDBACCOUNT"
+  },
+  {
+    "displayName": "Cosmos DB collection",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECOSMOSDBCOLLECTION"
+  },
+  {
+    "displayName": "Cosmos DB database",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURECOSMOSDBDATABASE"
+  },
+  {
+    "displayName": "Data Box Edge",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDATABOXEDGE"
+  },
+  {
+    "displayName": "Data Explorer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDATAEXPLORER"
+  },
+  {
+    "displayName": "Data Factory data factory",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDATAFACTORYDATAFACTORY"
+  },
+  {
+    "displayName": "Data Factory factory",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDATAFACTORYFACTORY"
+  },
+  {
+    "displayName": "Data Lake Analytic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDATALAKEANALYTIC"
+  },
+  {
+    "displayName": "Data Lake Storage",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDATALAKESTORAGE"
+  },
+  {
+    "displayName": "Data Share",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDATASHARE"
+  },
+  {
+    "displayName": "Device Provisioning Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDEVICEPROVISIONINGSERVICE"
+  },
+  {
+    "displayName": "Azuredisksaccess",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AZUREDISKSACCESS"
+  },
+  {
+    "displayName": "Disk Storage",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDISKSTORAGE"
+  },
+  {
+    "displayName": "DNS Resolver",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDNSRESOLVER"
+  },
+  {
+    "displayName": "DNS Zone",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREDNSZONE"
+  },
+  {
+    "displayName": "Elastic SAN",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREELASTICSAN"
+  },
+  {
+    "displayName": "Event Grid Domain",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEVENTGRIDDOMAIN"
+  },
+  {
+    "displayName": "Event Grid Namespace",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEVENTGRIDNAMESPACE"
+  },
+  {
+    "displayName": "Event Grid Partner Namespace",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEVENTGRIDPARTNERNAMESPACE"
+  },
+  {
+    "displayName": "Event Grid Partner Topic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEVENTGRIDPARTNERTOPIC"
+  },
+  {
+    "displayName": "Event Grid Subscription",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEVENTGRIDSUBSCRIPTION"
+  },
+  {
+    "displayName": "Event Grid System Topic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEVENTGRIDSYSTEMTOPIC"
+  },
+  {
+    "displayName": "Event Grid Topic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEVENTGRIDTOPIC"
+  },
+  {
+    "displayName": "Event Hub cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEVENTHUBCLUSTER"
+  },
+  {
+    "displayName": "Event Hub namespace",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEVENTHUBNAMESPACE"
+  },
+  {
+    "displayName": "Express Route circuit",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEXPRESSROUTECIRCUIT"
+  },
+  {
+    "displayName": "Express Route connection",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEXPRESSROUTECONNECTION"
+  },
+  {
+    "displayName": "Express Route gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREEXPRESSROUTEGATEWAY"
+  },
+  {
+    "displayName": "Firewalls azure firewall entity",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREFIREWALL"
+  },
+  {
+    "displayName": "Front Door front door",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREFRONTDOORFRONTDOOR"
+  },
+  {
+    "displayName": "Azure Function",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREFUNCTIONSAPP"
+  },
+  {
+    "displayName": "Functions Workflow",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREFUNCTIONSWORKFLOW"
+  },
+  {
+    "displayName": "HDInsight",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREHDINSIGHT"
+  },
+  {
+    "displayName": "Integration Service Environment",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREINTEGRATIONSERVICEENVIRONMENT"
+  },
+  {
+    "displayName": "IoT Central Application",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREIOTCENTRALAPPLICATION"
+  },
+  {
+    "displayName": "IoT Hub",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREIOTHUB"
+  },
+  {
+    "displayName": "Key Vault vault",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREKEYVAULTVAULT"
+  },
+  {
+    "displayName": "Load balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURELOADBALANCER"
+  },
+  {
+    "displayName": "Log Analytics Workspace",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURELOGANALYTICSWORKSPACE"
+  },
+  {
+    "displayName": "Logic Apps integration service environment",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURELOGICAPPSINTEGRATIONSERVICEENVIRONMENT"
+  },
+  {
+    "displayName": "Logic Apps workflow",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURELOGICAPPSWORKFLOW"
+  },
+  {
+    "displayName": "Machine Learning Deployment",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMACHINELEARNINGDEPLOYMENT"
+  },
+  {
+    "displayName": "Machine Learning Endpoints",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMACHINELEARNINGENDPOINTS"
+  },
+  {
+    "displayName": "Machine Learning workspace",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMACHINELEARNINGWORKSPACE"
+  },
+  {
+    "displayName": "Map",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMAP"
+  },
+  {
+    "displayName": "MariaDB Server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMARIADBSERVER"
+  },
+  {
+    "displayName": "Media Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMEDIASERVICE"
+  },
+  {
+    "displayName": "Media Services Live Event",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMEDIASERVICESLIVEEVENT"
+  },
+  {
+    "displayName": "Media Services Streaming Endpoint",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMEDIASERVICESSTREAMINGENDPOINT"
+  },
+  {
+    "displayName": "Media Services Video Analyzer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMEDIASERVICESVIDEOANALYZER"
+  },
+  {
+    "displayName": "MySQL Flexible Server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMYSQLFLEXIBLESERVER"
+  },
+  {
+    "displayName": "MySQL Server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREMYSQLSERVER"
+  },
+  {
+    "displayName": "NAT Gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURENATGATEWAY"
+  },
+  {
+    "displayName": "NetApp Capacity Pool",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURENETAPPCAPACITYPOOL"
+  },
+  {
+    "displayName": "NetApp File",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURENETAPPFILE"
+  },
+  {
+    "displayName": "Azurenetworkinterfaces",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AZURENETWORKINTERFACES"
+  },
+  {
+    "displayName": "Private Endpoint",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURENETWORKPRIVATEENDPOINT"
+  },
+  {
+    "displayName": "Network Watcher",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURENETWORKWATCHER"
+  },
+  {
+    "displayName": "Notification Hub",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURENOTIFICATIONHUB"
+  },
+  {
+    "displayName": "P2S VPN Gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREP2SVPNGATEWAY"
+  },
+  {
+    "displayName": "Peering",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREPEERING"
+  },
+  {
+    "displayName": "Peering Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREPEERINGSERVICE"
+  },
+  {
+    "displayName": "PostgreSQL Flexible Server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREPOSTGRESQLFLEXIBLESERVER"
+  },
+  {
+    "displayName": "PostgreSQL Server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREPOSTGRESQLSERVER"
+  },
+  {
+    "displayName": "Azure Cosmos DB for PostgreSQL",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREPOSTGRESQLSERVERGROUPSV2"
+  },
+  {
+    "displayName": "Power BI Dedicated capacity",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREPOWERBIDEDICATEDCAPACITY"
+  },
+  {
+    "displayName": "Private DNS Zone",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREPRIVATEDNSZONE"
+  },
+  {
+    "displayName": "Purview",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREPURVIEW"
+  },
+  {
+    "displayName": "Recovery Services Vaults",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURERECOVERYSERVICESVAULTS"
+  },
+  {
+    "displayName": "Redis cache",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREREDISCACHE"
+  },
+  {
+    "displayName": "Redis shard",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREREDISCACHESHARD"
+  },
+  {
+    "displayName": "Redis Enterprise cache",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREREDISENTERPRISECACHE"
+  },
+  {
+    "displayName": "Relay",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURERELAY"
+  },
+  {
+    "displayName": "Service Bus namespace",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESERVICEBUSNAMESPACE"
+  },
+  {
+    "displayName": "SignalR",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESIGNALR"
+  },
+  {
+    "displayName": "Spring App",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESPRINGAPP"
+  },
+  {
+    "displayName": "SQL database",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESQLDATABASE"
+  },
+  {
+    "displayName": "SQL ElasticPool",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESQLELASTICPOOL"
+  },
+  {
+    "displayName": "SQL Managed instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESQLMANAGEDINSTANCE"
+  },
+  {
+    "displayName": "Azure SQL Server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESQLSERVER"
+  },
+  {
+    "displayName": "Static Web App",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESTATICSITE"
+  },
+  {
+    "displayName": "Storage account",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESTORAGEACCOUNT"
+  },
+  {
+    "displayName": "Storage Blob Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESTORAGEACCOUNTBLOBSERVICE"
+  },
+  {
+    "displayName": "Storage File Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESTORAGEACCOUNTFILESERVICE"
+  },
+  {
+    "displayName": "Storage Queue Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESTORAGEACCOUNTQUEUESERVICE"
+  },
+  {
+    "displayName": "Storage Table Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESTORAGEACCOUNTTABLESERVICE"
+  },
+  {
+    "displayName": "Storage Sync",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESTORAGESYNC"
+  },
+  {
+    "displayName": "Stream Analytic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESTREAMANALYTIC"
+  },
+  {
+    "displayName": "Synapse Analytic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESYNAPSEANALYTIC"
+  },
+  {
+    "displayName": "Synapse Workspace SQL Pool",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURESYNAPSEWORKSPACESQLPOOL"
+  },
+  {
+    "displayName": "Time Series Insight",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURETIMESERIESINSIGHT"
+  },
+  {
+    "displayName": "Traffic Manager",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZURETRAFFICMANAGER"
+  },
+  {
+    "displayName": "Virtual Hub",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREVIRTUALHUB"
+  },
+  {
+    "displayName": "Virtual machine scale set",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREVIRTUALMACHINESCALESET"
+  },
+  {
+    "displayName": "Virtual Network(VNet)",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREVIRTUALNETWORKS"
+  },
+  {
+    "displayName": "Virtual Network public IP address",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREVIRTUALNETWORKSPUBLICIPADDRESS"
+  },
+  {
+    "displayName": "Subnet",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREVIRTUALNETWORKSSUBNET"
+  },
+  {
+    "displayName": "Azurevirtualwan",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AZUREVIRTUALWAN"
+  },
+  {
+    "displayName": "VPN Gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREVPNGATEWAY"
+  },
+  {
+    "displayName": "Virtual Network Gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREVPNGATEWAYSVPNGATEWAY"
+  },
+  {
+    "displayName": "Web App",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREWEBAPP"
+  },
+  {
+    "displayName": "Web App Slot",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AZUREWEBAPPSLOT"
+  },
+  {
+    "displayName": "Cassandra node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "CASSANDRANODE"
+  },
+  {
+    "displayName": "Kafka cluster - Confluent Cloud",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "CONFLUENTCLOUDCLUSTER"
+  },
+  {
+    "displayName": "Kafka topic - Confluent Cloud",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "CONFLUENTCLOUDKAFKATOPIC"
+  },
+  {
+    "displayName": "Consul agent",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "CONSULAGENT"
+  },
+  {
+    "displayName": "Container",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--container",
+    "type": "CONTAINER"
+  },
+  {
+    "displayName": "Couchbase bucket",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "COUCHBASEBUCKET"
+  },
+  {
+    "displayName": "Couchbase cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "COUCHBASECLUSTER"
+  },
+  {
+    "displayName": "Couchbase node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "COUCHBASENODE"
+  },
+  {
+    "displayName": "Elasticsearch cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "ELASTICSEARCHCLUSTER"
+  },
+  {
+    "displayName": "Elasticsearch node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "ELASTICSEARCHNODE"
+  },
+  {
+    "displayName": "ETCD cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "ETCD_CLUSTER"
+  },
+  {
+    "displayName": "F5 node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "F5NODE"
+  },
+  {
+    "displayName": "F5 pool",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "F5POOL"
+  },
+  {
+    "displayName": "F5 poolMember",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "F5POOLMEMBER"
+  },
+  {
+    "displayName": "F5 system",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "F5SYSTEM"
+  },
+  {
+    "displayName": "F5 virtual server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "F5VIRTUALSERVER"
+  },
+  {
+    "displayName": "VertexAI Endpoint",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPAIPLATFORMENDPOINT"
+  },
+  {
+    "displayName": "VertexAI Feature Online Store",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPAIPLATFORMFEATUREONLINESTORE"
+  },
+  {
+    "displayName": "VertexAI Feature Store",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPAIPLATFORMFEATURESTORE"
+  },
+  {
+    "displayName": "VertexAI Index",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPAIPLATFORMINDEX"
+  },
+  {
+    "displayName": "VertexAI Location",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPAIPLATFORMLOCATION"
+  },
+  {
+    "displayName": "VertexAI Pipeline Job",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPAIPLATFORMPIPELINEJOB"
+  },
+  {
+    "displayName": "AlloyDB Cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--hardware--cluster",
+    "type": "GCPALLOYDBCLUSTER"
+  },
+  {
+    "displayName": "AlloyDB Database",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--database",
+    "type": "GCPALLOYDBDATABASE"
+  },
+  {
+    "displayName": "AlloyDB Instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPALLOYDBINSTANCE"
+  },
+  {
+    "displayName": "API Gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPAPIGATEWAY"
+  },
+  {
+    "displayName": "App Engine service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPAPPENGINESERVICE"
+  },
+  {
+    "displayName": "Big Query dataset",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPBIGQUERYDATASET"
+  },
+  {
+    "displayName": "Big Query project",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPBIGQUERYPROJECT"
+  },
+  {
+    "displayName": "Big Query table",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPBIGQUERYTABLE"
+  },
+  {
+    "displayName": "Bigtable cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPBIGTABLECLUSTER"
+  },
+  {
+    "displayName": "Bigtable table",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPBIGTABLETABLE"
+  },
+  {
+    "displayName": "Cloud Function",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPCLOUDFUNCTION"
+  },
+  {
+    "displayName": "Cloud SQL",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPCLOUDSQL"
+  },
+  {
+    "displayName": "Cloud tasks queue",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPCLOUDTASKSQUEUE"
+  },
+  {
+    "displayName": "Composer environment",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPCOMPOSERENVIRONMENT"
+  },
+  {
+    "displayName": "Composer workflow",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPCOMPOSERWORKFLOW"
+  },
+  {
+    "displayName": "Dataflow job",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPDATAFLOWJOB"
+  },
+  {
+    "displayName": "Dataproc cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPDATAPROCCLUSTER"
+  },
+  {
+    "displayName": "Datastore request",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPDATASTOREREQUEST"
+  },
+  {
+    "displayName": "External Load Balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPEXTERNALLOADBALANCER"
+  },
+  {
+    "displayName": "Firebase Database namespace",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPFIREBASEDATABASENAMESPACE"
+  },
+  {
+    "displayName": "Firebase Hosting domain",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPFIREBASEHOSTINGDOMAIN"
+  },
+  {
+    "displayName": "Firebase Storage bucket",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPFIREBASESTORAGEBUCKET"
+  },
+  {
+    "displayName": "Firestore instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPFIRESTOREINSTANCE"
+  },
+  {
+    "displayName": "Firestore request",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPFIRESTOREREQUEST"
+  },
+  {
+    "displayName": "HTTP External Regional Load Balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPHTTPEXTERNALREGIONALLOADBALANCER"
+  },
+  {
+    "displayName": "HTTP load balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPHTTPLOADBALANCER"
+  },
+  {
+    "displayName": "Interconnect attachment",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPINTERCONNECTATTACHMENT"
+  },
+  {
+    "displayName": "Interconnect",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPINTERCONNECTINTERCONNECT"
+  },
+  {
+    "displayName": "HTTP Internal Load Balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPINTERNALHTTPLOADBALANCER"
+  },
+  {
+    "displayName": "Internal Load Balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPINTERNALLOADBALANCER"
+  },
+  {
+    "displayName": "Kubernetes Container",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPKUBERNETESCONTAINER"
+  },
+  {
+    "displayName": "Kubernetes node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPKUBERNETESNODE"
+  },
+  {
+    "displayName": "Memcache memcache node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPMEMCACHEMEMCACHENODE"
+  },
+  {
+    "displayName": "Pub/Sub subscription",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPPUBSUBSUBSCRIPTION"
+  },
+  {
+    "displayName": "Pub/Sub topic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPPUBSUBTOPIC"
+  },
+  {
+    "displayName": "Redis instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPREDISINSTANCE"
+  },
+  {
+    "displayName": "Router cloud router",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPROUTERCLOUDROUTER"
+  },
+  {
+    "displayName": "Router nat gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPROUTERNATGATEWAY"
+  },
+  {
+    "displayName": "Run revision",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPRUNREVISION"
+  },
+  {
+    "displayName": "Spanner database",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPSPANNERDATABASE"
+  },
+  {
+    "displayName": "Spanner instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPSPANNERINSTANCE"
+  },
+  {
+    "displayName": "Storage bucket",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPSTORAGEBUCKET"
+  },
+  {
+    "displayName": "TCP SSL Proxy Load Balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPTCPSSLPROXYLOADBALANCER"
+  },
+  {
+    "displayName": "Virtual Machine Disk",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPVIRTUALMACHINEDISK"
+  },
+  {
+    "displayName": "VPC Access connector",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "GCPVPCACCESSCONNECTOR"
+  },
+  {
+    "displayName": "Host",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--hardware--server",
+    "type": "HOST"
+  },
+  {
+    "displayName": "IBM MQ Manager",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "IBMMQ_MANAGER"
+  },
+  {
+    "displayName": "IBM MQ Queue",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "IBMMQ_QUEUE"
+  },
+  {
+    "displayName": "Juniper Mist Access Point",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--gateway",
+    "type": "JUNIPER_MIST_ACCESS_POINT"
+  },
+  {
+    "displayName": "Juniper Mist Gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--gateway",
+    "type": "JUNIPER_MIST_GATEWAY"
+  },
+  {
+    "displayName": "Juniper Mist Site",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "JUNIPER_MIST_SITE"
+  },
+  {
+    "displayName": "Juniper Mist Switch",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--gateway",
+    "type": "JUNIPER_MIST_SWITCH"
+  },
+  {
+    "displayName": "Kafka broker",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "KAFKABROKER"
+  },
+  {
+    "displayName": "Kafka cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "KAFKACLUSTER"
+  },
+  {
+    "displayName": "Kafka topic",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "KAFKATOPIC"
+  },
+  {
+    "displayName": "Kubernetes Cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--kubernetes--k8s-cluster",
+    "type": "KUBERNETESCLUSTER"
+  },
+  {
+    "displayName": "Kubernetes API Server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "KUBERNETES_APISERVER"
+  },
+  {
+    "displayName": "Kubernetes CronJob",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--kubernetes--k8s-pod",
+    "type": "KUBERNETES_CRONJOB"
+  },
+  {
+    "displayName": "Kubernetes DaemonSet",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--kubernetes--k8s-daemonset",
+    "type": "KUBERNETES_DAEMONSET"
+  },
+  {
+    "displayName": "Kubernetes Deployment",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--kubernetes--k8s-deployment",
+    "type": "KUBERNETES_DEPLOYMENT"
+  },
+  {
+    "displayName": "Kubernetes Job",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--kubernetes--k8s-pod",
+    "type": "KUBERNETES_JOB"
+  },
+  {
+    "displayName": "Kubernetes Namespace",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--entity",
+    "type": "KUBERNETES_NAMESPACE"
+  },
+  {
+    "displayName": "Kubernetes PersistentVolume",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--database",
+    "type": "KUBERNETES_PERSISTENTVOLUME"
+  },
+  {
+    "displayName": "Kubernetes PersistentVolumeClaim",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--database",
+    "type": "KUBERNETES_PERSISTENTVOLUMECLAIM"
+  },
+  {
+    "displayName": "Kubernetes Pod",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--kubernetes--k8s-pod",
+    "type": "KUBERNETES_POD"
+  },
+  {
+    "displayName": "Kubernetes ReplicaSet",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--entity",
+    "type": "KUBERNETES_REPLICASET"
+  },
+  {
+    "displayName": "Kubernetes StatefulSet",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--kubernetes--k8s-statefulset",
+    "type": "KUBERNETES_STATEFULSET"
+  },
+  {
+    "displayName": "Memcached instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "MEMCACHEDINSTANCE"
+  },
+  {
+    "displayName": "MongoDB Collection",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "MONGODB_COLLECTION"
+  },
+  {
+    "displayName": "MongoDB Database",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "MONGODB_DATABASE"
+  },
+  {
+    "displayName": "MongoDB Instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "MONGODB_INSTANCE"
+  },
+  {
+    "displayName": "MSSQL instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "MSSQLINSTANCE"
+  },
+  {
+    "displayName": "MySQL node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "MYSQLNODE"
+  },
+  {
+    "displayName": "NGINX server",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "NGINXSERVER"
+  },
+  {
+    "displayName": "API Gateway",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCIAPIGATEWAY"
+  },
+  {
+    "displayName": "Autonomous Database",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCIAUTONOMOUSDATABASE"
+  },
+  {
+    "displayName": "Block Volume",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCIBLOCKSTORE"
+  },
+  {
+    "displayName": "Connector",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCICONNECTOR"
+  },
+  {
+    "displayName": "Container Instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCICONTAINERINSTANCE"
+  },
+  {
+    "displayName": "Functions",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCIFUNCTION"
+  },
+  {
+    "displayName": "Health Checks",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCIHEALTHCHECK"
+  },
+  {
+    "displayName": "Instance Pool",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCIINSTANCEPOOL"
+  },
+  {
+    "displayName": "Kubernetes Engine",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCIKUBERNETES"
+  },
+  {
+    "displayName": "Load Balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCILOADBALANCER"
+  },
+  {
+    "displayName": "Network Load Balancer",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCINLB"
+  },
+  {
+    "displayName": "Bucket",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCIOBJECTSTORAGEBUCKET"
+  },
+  {
+    "displayName": "PostgreSQL Database",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCIPOSTGRESQLDATABASE"
+  },
+  {
+    "displayName": "Queue",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCIQUEUE"
+  },
+  {
+    "displayName": "Stream",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "OCISTREAMING"
+  },
+  {
+    "displayName": "Oracledb instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "ORACLEDBINSTANCE"
+  },
+  {
+    "displayName": "PostgreSQL instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "POSTGRESQLINSTANCE"
+  },
+  {
+    "displayName": "PowerDNS Authoritative",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "POWERDNS_AUTHORITATIVE"
+  },
+  {
+    "displayName": "PowerDNS Recursor",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "POWERDNS_RECURSOR"
+  },
+  {
+    "displayName": "Rabbitmq cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "RABBITMQCLUSTER"
+  },
+  {
+    "displayName": "RabbitMQ exchange",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "RABBITMQEXCHANGE"
+  },
+  {
+    "displayName": "RabbitMQ node",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "RABBITMQNODE"
+  },
+  {
+    "displayName": "RabbitMQ queue",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "RABBITMQQUEUE"
+  },
+  {
+    "displayName": "Redis instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "REDISINSTANCE"
+  },
+  {
+    "displayName": "Squid Cache manager",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "SQUID_CACHEMGR"
+  },
+  {
+    "displayName": "Varnish instance",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "VARNISHINSTANCE"
+  },
+  {
+    "displayName": "vSphere cluster",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "VSPHERECLUSTER"
+  },
+  {
+    "displayName": "vSphere datacenter",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "VSPHEREDATACENTER"
+  },
+  {
+    "displayName": "vSphere datastore",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "VSPHEREDATASTORE"
+  },
+  {
+    "displayName": "vSphere host",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--hardware--server",
+    "type": "VSPHEREHOST"
+  },
+  {
+    "displayName": "vSphere resource pool",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "VSPHERERESOURCEPOOL"
+  },
+  {
+    "displayName": "vSphere virtual machine",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "VSPHEREVM"
+  },
+  {
+    "displayName": "Legacy Windows Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "WINDOWSSERVICE"
+  },
+  {
+    "displayName": "Windows Service",
+    "domain": "INFRA",
+    "icon": "hardware-and-software--software--plugin",
+    "type": "WIN_SERVICE"
+  },
+  {
+    "displayName": "Video player",
+    "domain": "MEDIA_STREAMING",
+    "icon": "hardware-and-software--software--media-streaming",
+    "type": "VIDEO"
+  },
+  {
+    "displayName": "Application",
+    "domain": "MLOPS",
+    "icon": "hardware-and-software--machine-learning--models",
+    "type": "LLM_APPLICATION"
+  },
+  {
+    "displayName": "Endpoint",
+    "domain": "MLOPS",
+    "icon": "hardware-and-software--machine-learning--endpoints",
+    "type": "MACHINE_LEARNING_ENDPOINT"
+  },
+  {
+    "displayName": "Model",
+    "domain": "MLOPS",
+    "icon": "hardware-and-software--machine-learning--models",
+    "type": "MACHINE_LEARNING_MODEL"
+  },
+  {
+    "displayName": "Model Inference Data",
+    "domain": "MLOPS",
+    "icon": "hardware-and-software--machine-learning--inference-data",
+    "type": "MACHINE_LEARNING_MODEL_DATA"
+  },
+  {
+    "displayName": "Mobile application",
+    "domain": "MOBILE",
+    "icon": "hardware-and-software--hardware--mobile",
+    "type": "APPLICATION"
+  },
+  {
+    "displayName": "Agent",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AGENT"
+  },
+  {
+    "displayName": "Agent Configuration",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AGENT_CONFIGURATION"
+  },
+  {
+    "displayName": "Agent Configuration Version",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AGENT_CONFIGURATION_VERSION"
+  },
+  {
+    "displayName": "Agent Definition",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AGENT_DEFINITION"
+  },
+  {
+    "displayName": "Agent Effective Configuration",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AGENT_EFFECTIVE_CONFIGURATION"
+  },
+  {
+    "displayName": "Agent Type Definition",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AGENT_TYPE_DEFINITION"
+  },
+  {
+    "displayName": "Ai Agent",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AI_AGENT"
+  },
+  {
+    "displayName": "Ai Capable",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AI_CAPABLE"
+  },
+  {
+    "displayName": "Ai Evaluation Config",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AI_EVALUATION_CONFIG"
+  },
+  {
+    "displayName": "Ai Tool",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AI_TOOL"
+  },
+  {
+    "displayName": "Application Settings",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "APPLICATION_SETTINGS"
+  },
+  {
+    "displayName": "Aws Connection",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWS_CONNECTION"
+  },
+  {
+    "displayName": "Budget",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "BUDGET"
+  },
+  {
+    "displayName": "Cisco Meraki Connection",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CISCO_MERAKI_CONNECTION"
+  },
+  {
+    "displayName": "Component",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "COMPONENT"
+  },
+  {
+    "displayName": "Configuration Definition",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CONFIGURATION_DEFINITION"
+  },
+  {
+    "displayName": "Confluence Connection",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CONFLUENCE_CONNECTION"
+  },
+  {
+    "displayName": "Confluence Integration",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CONFLUENCE_INTEGRATION"
+  },
+  {
+    "displayName": "Confluence Rag Settings",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CONFLUENCE_RAG_SETTINGS"
+  },
+  {
+    "displayName": "Correlation Internal Source Config",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CORRELATION_INTERNAL_SOURCE_CONFIG"
+  },
+  {
+    "displayName": "Correlation Link",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CORRELATION_LINK"
+  },
+  {
+    "displayName": "Correlation Linking Rule",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CORRELATION_LINKING_RULE"
+  },
+  {
+    "displayName": "Correlation Normalizer",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CORRELATION_NORMALIZER"
+  },
+  {
+    "displayName": "Customer Impact",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CUSTOMER_IMPACT"
+  },
+  {
+    "displayName": "Customer Impact Query",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CUSTOMER_IMPACT_QUERY"
+  },
+  {
+    "displayName": "Event Bridge Rule",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "EVENT_BRIDGE_RULE"
+  },
+  {
+    "displayName": "Federated Logs Partition",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "FEDERATED_LOGS_PARTITION"
+  },
+  {
+    "displayName": "Federated Logs Setup",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "FEDERATED_LOGS_SETUP"
+  },
+  {
+    "displayName": "Fleet Deployment",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "FLEET_DEPLOYMENT"
+  },
+  {
+    "displayName": "Flows",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--pathway",
+    "type": "FLOW"
+  },
+  {
+    "displayName": "Github Connection",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "GITHUB_CONNECTION"
+  },
+  {
+    "displayName": "Git Repository",
+    "domain": "NGEP",
+    "icon": "",
+    "type": "GIT_REPOSITORY"
+  },
+  {
+    "displayName": "Incident",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "INCIDENT"
+  },
+  {
+    "displayName": "Incident Link",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "INCIDENT_LINK"
+  },
+  {
+    "displayName": "Incident Message",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "INCIDENT_MESSAGE"
+  },
+  {
+    "displayName": "Incident Profile",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "INCIDENT_PROFILE"
+  },
+  {
+    "displayName": "Incident Timeline",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "INCIDENT_TIMELINE"
+  },
+  {
+    "displayName": "Jira Connection",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "JIRA_CONNECTION"
+  },
+  {
+    "displayName": "Jira Sync Configuration",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "JIRA_SYNC_CONFIGURATION"
+  },
+  {
+    "displayName": "Jira Sync Configuration V2",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "JIRA_SYNC_CONFIGURATION_V2"
+  },
+  {
+    "displayName": "Juniper Mist Connection",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "JUNIPER_MIST_CONNECTION"
+  },
+  {
+    "displayName": "Maintenance Window",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "MAINTENANCE_WINDOW"
+  },
+  {
+    "displayName": "Managed Evaluations",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "MANAGED_EVALUATIONS"
+  },
+  {
+    "displayName": "Mcp Server",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "MCP_SERVER"
+  },
+  {
+    "displayName": "New Relic Connection",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "NEW_RELIC_CONNECTION"
+  },
+  {
+    "displayName": "Notebook",
+    "domain": "NGEP",
+    "icon": "documents--documents--notes",
+    "type": "NOTEBOOK"
+  },
+  {
+    "displayName": "Nrql Macro",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "NRQL_MACRO"
+  },
+  {
+    "displayName": "Nr Ai Agent",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "NR_AI_AGENT"
+  },
+  {
+    "displayName": "Operation",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--service",
+    "type": "OPERATION"
+  },
+  {
+    "displayName": "Operation Metrics",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "OPERATION_METRICS"
+  },
+  {
+    "displayName": "Performance Inbox Setting",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "PERFORMANCE_INBOX_SETTING"
+  },
+  {
+    "displayName": "Pipeline Cloud Rule",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "PIPELINE_CLOUD_RULE"
+  },
+  {
+    "displayName": "Rag Document",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "RAG_DOCUMENT"
+  },
+  {
+    "displayName": "Knowledge Base",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--machine-learning--models",
+    "type": "RAG_TOOL"
+  },
+  {
+    "displayName": "React Native Sourcemap",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "REACT_NATIVE_SOURCEMAP"
+  },
+  {
+    "displayName": "REST API Contract",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--destinations",
+    "type": "REST_API_CONTRACT"
+  },
+  {
+    "displayName": "Scorecard",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--scorecard",
+    "type": "SCORECARD"
+  },
+  {
+    "displayName": "Scorecard Rule",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--scorecard",
+    "type": "SCORECARD_RULE"
+  },
+  {
+    "displayName": "Security Finding",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SECURITY_FINDING"
+  },
+  {
+    "displayName": "Segment Terms",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SEGMENT_TERMS"
+  },
+  {
+    "displayName": "Service Now Connection",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SERVICE_NOW_CONNECTION"
+  },
+  {
+    "displayName": "Service Now Integration",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SERVICE_NOW_INTEGRATION"
+  },
+  {
+    "displayName": "Slack Connection",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SLACK_CONNECTION"
+  },
+  {
+    "displayName": "Slack Sync Configuration",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SLACK_SYNC_CONFIGURATION"
+  },
+  {
+    "displayName": "Status Page Incident",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "STATUS_PAGE_INCIDENT"
+  },
+  {
+    "displayName": "Team",
+    "domain": "NGEP",
+    "icon": "profiles--users--team",
+    "type": "TEAM"
+  },
+  {
+    "displayName": "User",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "USER"
+  },
+  {
+    "displayName": "Workflow Automation",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--workflow",
+    "type": "WORKFLOW_DEFINITION"
+  },
+  {
+    "displayName": "Workflow Schedule",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "WORKFLOW_SCHEDULE"
+  },
+  {
+    "displayName": "",
+    "domain": "NGEP",
+    "icon": "",
+    "type": "WORK_ITEM"
+  },
+  {
+    "displayName": "Work Item Link",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "WORK_ITEM_LINK"
+  },
+  {
+    "displayName": "Work Item Link V2",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "WORK_ITEM_LINK_V2"
+  },
+  {
+    "displayName": "Work Item Message",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "WORK_ITEM_MESSAGE"
+  },
+  {
+    "displayName": "Work Item Message V2",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "WORK_ITEM_MESSAGE_V2"
+  },
+  {
+    "displayName": "Work Item V2",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "WORK_ITEM_V2"
+  },
+  {
+    "displayName": "Zoom Connection",
+    "domain": "NGEP",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "ZOOM_CONNECTION"
+  },
+  {
+    "displayName": "Repository",
+    "domain": "NR1",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "REPOSITORY"
+  },
+  {
+    "displayName": "Test",
+    "domain": "NR1",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "TEST"
+  },
+  {
+    "displayName": "Workitem",
+    "domain": "NR1",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "WORKITEM"
+  },
+  {
+    "displayName": "Workload",
+    "domain": "NR1",
+    "icon": "hardware-and-software--software--workloads",
+    "type": "WORKLOAD"
+  },
+  {
+    "displayName": "Build Artifact",
+    "domain": "REF",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "BUILD_ARTIFACT"
+  },
+  {
+    "displayName": "Repository",
+    "domain": "REF",
+    "icon": "",
+    "type": "REPOSITORY"
+  },
+  {
+    "displayName": "Scheduled Report",
+    "domain": "REPORT",
+    "icon": "documents--documents--email",
+    "type": "SCHEDULED_REPORT"
+  },
+  {
+    "displayName": "Synthetic monitor",
+    "domain": "SYNTH",
+    "icon": "hardware-and-software--software--synthetics-monitor",
+    "type": "MONITOR"
+  },
+  {
+    "displayName": "Monitor Downtime",
+    "domain": "SYNTH",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "MONITOR_DOWNTIME"
+  },
+  {
+    "displayName": "Private location",
+    "domain": "SYNTH",
+    "icon": "location--location--world",
+    "type": "PRIVATE_LOCATION"
+  },
+  {
+    "displayName": "Runtime Validation",
+    "domain": "SYNTH",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "RUNTIME_VALIDATION"
+  },
+  {
+    "displayName": "Secure credential",
+    "domain": "SYNTH",
+    "icon": "interface--state--lock",
+    "type": "SECURE_CRED"
+  },
+  {
+    "displayName": "Screendevice",
+    "domain": "TVS",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "SCREENDEVICE"
+  },
+  {
+    "displayName": "Awsappsyncapi",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSAPPSYNCAPI"
+  },
+  {
+    "displayName": "Awsdocdbinstance",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSDOCDBINSTANCE"
+  },
+  {
+    "displayName": "Awsdynamodbtable",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSDYNAMODBTABLE"
+  },
+  {
+    "displayName": "Awsec2",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSEC2"
+  },
+  {
+    "displayName": "Awselasticsearchcluster",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSELASTICSEARCHCLUSTER"
+  },
+  {
+    "displayName": "Awskinesisdeliverystream",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSKINESISDELIVERYSTREAM"
+  },
+  {
+    "displayName": "Awskinesisstream",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSKINESISSTREAM"
+  },
+  {
+    "displayName": "Uninstrumented Lambda Function Alias",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSLAMBDAALIAS"
+  },
+  {
+    "displayName": "Uninstrumented Lambda Function",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSLAMBDAFUNCTION"
+  },
+  {
+    "displayName": "Awsredshiftcluster",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSREDSHIFTCLUSTER"
+  },
+  {
+    "displayName": "Awsroute53recordset",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AWSROUTE53RECORDSET"
+  },
+  {
+    "displayName": "Uninstrumented S3 bucket",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSS3BUCKET"
+  },
+  {
+    "displayName": "Uninstrumented SNS topic",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSNSTOPIC"
+  },
+  {
+    "displayName": "Uninstrumented SQS queue",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--cloud",
+    "type": "AWSSQSQUEUE"
+  },
+  {
+    "displayName": "Azureappserviceplan",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AZUREAPPSERVICEPLAN"
+  },
+  {
+    "displayName": "Azurerediscache",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AZUREREDISCACHE"
+  },
+  {
+    "displayName": "Azureredisenterprisecache",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AZUREREDISENTERPRISECACHE"
+  },
+  {
+    "displayName": "Azureservicebusnamespace",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "AZURESERVICEBUSNAMESPACE"
+  },
+  {
+    "displayName": "Uninstrumented container",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--container",
+    "type": "CONTAINER"
+  },
+  {
+    "displayName": "Uninstrumented database",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--database",
+    "type": "DATABASE"
+  },
+  {
+    "displayName": "Ebpfclient",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "EBPFCLIENT"
+  },
+  {
+    "displayName": "Ebpfserver",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "EBPFSERVER"
+  },
+  {
+    "displayName": "Elasticsearchcluster",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "ELASTICSEARCHCLUSTER"
+  },
+  {
+    "displayName": "Uninstrumented Git Repository",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "GIT_REPOSITORY"
+  },
+  {
+    "displayName": "Uninstrumented host",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--hardware--server",
+    "type": "HOST"
+  },
+  {
+    "displayName": "Uninstrumented HTTP service",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--service",
+    "type": "HTTPSERVICE"
+  },
+  {
+    "displayName": "Kafkatopic",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "KAFKATOPIC"
+  },
+  {
+    "displayName": "Uninstrumented kubernetes cluster",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--hardware--server",
+    "type": "KUBERNETESCLUSTER"
+  },
+  {
+    "displayName": "Memcached",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "MEMCACHED"
+  },
+  {
+    "displayName": "Mqbroker",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "MQBROKER"
+  },
+  {
+    "displayName": "Redis",
+    "domain": "UNINSTRUMENTED",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "REDIS"
+  },
+  {
+    "displayName": "Browser Video",
+    "domain": "VIDEO",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "BROWSER_VIDEO"
+  },
+  {
+    "displayName": "Connected TV Device",
+    "domain": "VIDEO",
+    "icon": "hardware-and-software--hardware--memory",
+    "type": "CONNECTED_DEVICE_SYSTEM"
+  },
+  {
+    "displayName": "Conviva",
+    "domain": "VIDEO",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "CONVIVA"
+  },
+  {
+    "displayName": "Mobile Video",
+    "domain": "VIDEO",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "MOBILE_VIDEO"
+  },
+  {
+    "displayName": "Connected TV Device",
+    "domain": "VIDEO",
+    "icon": "hardware-and-software--hardware--memory",
+    "type": "ROKU_SYSTEM"
+  },
+  {
+    "displayName": "Roku Video",
+    "domain": "VIDEO",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "ROKU_VIDEO"
+  },
+  {
+    "displayName": "Telestream Probe Sabr",
+    "domain": "VIDEO",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "TELESTREAM_PROBE_SABR"
+  },
+  {
+    "displayName": "Telestream Probe Sabr Session",
+    "domain": "VIDEO",
+    "icon": "hardware-and-software--software--synthesized-entity",
+    "type": "TELESTREAM_PROBE_SABR_SESSION"
+  },
+  {
+    "displayName": "Dashboard",
+    "domain": "VIZ",
+    "icon": "dataviz--dataviz--dashboard",
+    "type": "DASHBOARD"
+  }
+]
