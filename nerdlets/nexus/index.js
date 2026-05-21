@@ -21,6 +21,8 @@ import {
 import {
   Breadcrumb,
   EntitiesView,
+  IssuesList,
+  Modal,
   SettingsModal,
   WorkloadGrid,
 } from '../../src/components';
@@ -39,6 +41,7 @@ const NexusNerdlet = () => {
   const navStackRef = useRef([]);
   navStackRef.current = navigationStack;
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [issuesWorkload, setIssuesWorkload] = useState(null);
   const { accountId } = useContext(PlatformStateContext);
   const {
     loading: docLoading,
@@ -169,6 +172,13 @@ const NexusNerdlet = () => {
     navigation.openStackedEntity(entity?.guid);
   }, []);
 
+  const issueClickHandler = useCallback((issue) => {
+    navigation.openStackedNerdlet({
+      id: 'alerts.issue',
+      urlState: { stateParams: { id: issue?.issueId } },
+    });
+  }, []);
+
   const saveSettings = useCallback(
     async (workloads) => {
       const { error } = await docWrite({
@@ -190,6 +200,8 @@ const NexusNerdlet = () => {
 
   const openSettingsModal = useCallback(() => setIsSettingsModalOpen(true), []);
 
+  const openIssuesModal = useCallback((w) => setIssuesWorkload(w), []);
+
   const currentView = useMemo(() => {
     if (gridData?.length || entities?.length)
       return (
@@ -203,7 +215,7 @@ const NexusNerdlet = () => {
               workloads={gridData}
               issuesLoading={dataLoading || issuesLoading}
               onCardClick={gridClickHandler}
-              onIncidentClick={(w) => console.log(`Opening ${w.name}`)}
+              onIssuesClick={openIssuesModal}
             />
             <EntitiesView
               entities={entities}
@@ -234,6 +246,7 @@ const NexusNerdlet = () => {
     breadcrumbClickHandler,
     entityClickHandler,
     openSettingsModal,
+    openIssuesModal,
   ]);
 
   if (isAcctsLoading || docLoading || dataLoading)
@@ -254,6 +267,16 @@ const NexusNerdlet = () => {
         isSettingsModalOpen={isSettingsModalOpen}
         setIsSettingsModalOpen={setIsSettingsModalOpen}
       />
+      <Modal
+        hidden={!issuesWorkload}
+        onClose={() => setIssuesWorkload(null)}
+        style={{ '--modal-width': '480px', '--modal-padding': '0' }}
+      >
+        <IssuesList
+          workload={issuesWorkload}
+          onIssueClick={issueClickHandler}
+        />
+      </Modal>
     </AppContext.Provider>
   );
 };

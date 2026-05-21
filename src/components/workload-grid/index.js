@@ -17,7 +17,12 @@ const summarizeIssues = (issues = []) => {
   return { issuesCount, unacknowledgedCount };
 };
 
-const WorkloadGrid = ({ workloads, issuesLoading = false, onCardClick }) => {
+const WorkloadGrid = ({
+  workloads,
+  issuesLoading = false,
+  onCardClick,
+  onIssuesClick,
+}) => {
   const [displayedWorkloads, setDisplayedWorkloads] = useState(workloads);
   const [fadePhase, setFadePhase] = useState(FADE_PHASES.IDLE);
   const displayedWorkloadsRef = useRef(displayedWorkloads);
@@ -72,7 +77,6 @@ const WorkloadGrid = ({ workloads, issuesLoading = false, onCardClick }) => {
             const { issuesCount, unacknowledgedCount } =
               summarizeIssues(issues);
             const clickable = onCardClick && workload?.children?.length;
-            // (workload?.children || []).some((w) => w.type === 'WORKLOAD');
 
             return (
               <div
@@ -93,6 +97,7 @@ const WorkloadGrid = ({ workloads, issuesLoading = false, onCardClick }) => {
                   issuesLoading={issuesLoading}
                   kpis={[]}
                   onClick={clickable ? () => onCardClick(workload) : undefined}
+                  onIssuesClick={() => onIssuesClick?.(workload)}
                 />
               </div>
             );
@@ -107,6 +112,7 @@ WorkloadGrid.propTypes = {
   workloads: PropTypes.array,
   issuesLoading: PropTypes.bool,
   onCardClick: PropTypes.func,
+  onIssuesClick: PropTypes.func,
 };
 
 export default WorkloadGrid;
