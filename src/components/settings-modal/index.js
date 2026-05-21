@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -11,7 +17,6 @@ import {
   DataTableHeaderCell,
   DataTableRow,
   HeadingText,
-  Icon,
   useEntitySearchQuery,
 } from 'nr1';
 import { FilterBar } from '@newrelic/nr-labs-components';
@@ -102,7 +107,9 @@ const SettingsModal = ({
   const selectedList = useMemo(
     () =>
       [...selectedGuids].map(
-        (guid) => entityByGuid.get(guid) ?? savedByGuid.get(guid) ?? { guid, name: guid }
+        (guid) =>
+          entityByGuid.get(guid) ??
+          savedByGuid.get(guid) ?? { guid, name: guid }
       ),
     [selectedGuids, entityByGuid, savedByGuid]
   );
@@ -120,7 +127,11 @@ const SettingsModal = ({
       .map((guid) => {
         const e = entityByGuid.get(guid) ?? savedByGuid.get(guid);
         if (!e) return null;
-        return { accountId: e.accountId ?? e.account?.id, guid: e.guid, name: e.name };
+        return {
+          accountId: e.accountId ?? e.account?.id,
+          guid: e.guid,
+          name: e.name,
+        };
       })
       .filter(Boolean);
     onSave?.(toSave);
@@ -224,7 +235,9 @@ const SettingsModal = ({
                     <Button
                       variant={Button.VARIANT.TERTIARY}
                       sizeType={Button.SIZE_TYPE.SMALL}
-                      iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__CLOSE__SIZE_8}
+                      iconType={
+                        Button.ICON_TYPE.INTERFACE__OPERATIONS__CLOSE__SIZE_8
+                      }
                       onClick={() => removeFromSelection(w.guid)}
                       ariaLabel={`Remove ${w.name}`}
                     />
