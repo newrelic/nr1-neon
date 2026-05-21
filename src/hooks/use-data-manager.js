@@ -97,6 +97,7 @@ const useDataManager = (topLevelGuids) => {
           title: gm.title,
           unit: gm.unit,
         })),
+        goldenTags: (entity?.goldenTags?.tags || []).map((gt) => gt?.key),
       };
     };
 

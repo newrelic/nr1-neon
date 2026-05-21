@@ -1,0 +1,133 @@
+.golden-tags {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  align-items: center;
+  overflow: hidden;
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 1px 5px;
+    background: #F4F5F6;
+    border-radius: 3px;
+    font-size: 10.5px;
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+    max-width: 140px;
+    flex-shrink: 0;
+
+    .key {
+      color: #8E99A4;
+      font-weight: 500;
+    }
+
+    .value {
+      color: #1D252C;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+  }
+
+  .overflow {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 5px;
+    background: transparent;
+    border: 1px dashed #D1D6DA;
+    border-radius: 3px;
+    font-size: 10.5px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #6B7682;
+    cursor: help;
+    flex-shrink: 0;
+  }
+}
+
+.tags-popover {
+  margin: 0;
+  border: 1px solid #D1D6DA;
+  background: #FFFFFF;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.12);
+  padding: 8px;
+  min-width: 220px;
+  max-width: 320px;
+  color: #1D252C;
+  font-family: inherit;
+  font-size: 12px;
+
+  position: absolute;
+  position-area: bottom span-right;
+  margin-top: 4px;
+
+  position-try-fallbacks:
+    flip-block,           // try above
+    flip-inline,          // try aligning right
+    flip-block flip-inline; // try above-right
+
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 140ms ease-out,
+    transform 140ms ease-out,
+    overlay 140ms ease-out allow-discrete,
+    display 140ms ease-out allow-discrete;
+
+  &:popover-open {
+    opacity: 1;
+    transform: translateY(0);
+
+    @starting-style {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  .title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6B7682;
+    margin: 0 0 6px 0;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 3px 0;
+      font-size: 11.5px;
+
+      .key {
+        color: #6B7682;
+        font-weight: 500;
+      }
+
+      .value {
+        color: #1D252C;
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}
