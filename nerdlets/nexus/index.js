@@ -266,6 +266,7 @@ const NexusNerdlet = () => {
         onSave={saveSettings}
         isSettingsModalOpen={isSettingsModalOpen}
         setIsSettingsModalOpen={setIsSettingsModalOpen}
+        savedWorkloads={docData?.start ?? []}
       />
       <Modal
         hidden={!issuesWorkload}
