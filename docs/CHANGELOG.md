@@ -1,3 +1,10 @@
+## [0.12.1](https://github.com/newrelic/nr1-neon/compare/v0.12.0...v0.12.1) (2026-05-22)
+
+
+### Bug Fixes
+
+* update settings modal to display existing selections ([cd3b32d](https://github.com/newrelic/nr1-neon/commit/cd3b32d943e243d95666f02cb5655782faeedbb4))
+
 # [0.12.0](https://github.com/newrelic/nr1-neon/compare/v0.11.0...v0.12.0) (2026-05-21)
 
 
