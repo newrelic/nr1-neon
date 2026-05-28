@@ -50,6 +50,7 @@ const NexusNerdlet = () => {
   } = useAccountStorageQuery({
     accountId,
     ...DOC_STORE,
+    skip: !accountId,
   });
   const [docWrite] = useAccountStorageMutation({
     actionType: useAccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
@@ -108,6 +109,7 @@ const NexusNerdlet = () => {
           onClick: openSettingsModal,
         },
       ],
+      timePicker: false,
     });
   }, [openSettingsModal]);
 
