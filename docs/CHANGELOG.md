@@ -1,3 +1,10 @@
+# [0.13.0](https://github.com/newrelic/nr1-neon/compare/v0.12.3...v0.13.0) (2026-05-28)
+
+
+### Features
+
+* add ability to hide unacknowledged count ([0494ec7](https://github.com/newrelic/nr1-neon/commit/0494ec77e8de6862c06ef3a06c637eb50c03e4b7))
+
 ## [0.12.3](https://github.com/newrelic/nr1-neon/compare/v0.12.2...v0.12.3) (2026-05-28)
 
 
