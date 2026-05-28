@@ -3,6 +3,9 @@ import { useNerdGraphQuery } from 'nr1';
 
 import { getWorkloadsStatusQuery, queryFromGuids } from '../queries';
 
+const MAX_TREE_DEPTH = 10;
+const LOG_PREFIX = '[useDataManager]';
+
 const useDataManager = (topLevelGuids) => {
   const [result, setResult] = useState({
     data: [],
@@ -13,10 +16,12 @@ const useDataManager = (topLevelGuids) => {
 
   const allWorkloadGuids = useRef(new Set());
   const allAccountIds = useRef(new Set());
+  const visitedGuids = useRef(new Set());
   const isFetching = useRef(false);
   const dataTree = useRef([]);
   const guidLookup = useRef({});
   const treeLevel = useRef(1);
+  const startedSigRef = useRef(null);
 
   const { error: queryError, data: queryData } = useNerdGraphQuery({
     query: query || '{ actor { user { timeZoneName } } }',
@@ -24,11 +29,20 @@ const useDataManager = (topLevelGuids) => {
   });
 
   useEffect(() => {
-    if (topLevelGuids?.length && treeLevel.current === 1) {
-      isFetching.current = true;
-      setQuery(queryFromGuids(topLevelGuids, treeLevel.current));
-      setResult((r) => ({ ...r, loading: true }));
-    }
+    if (!topLevelGuids?.length || treeLevel.current !== 1) return;
+
+    const sig = topLevelGuids.join('|');
+    if (startedSigRef.current === sig) return;
+    startedSigRef.current = sig;
+
+    isFetching.current = true;
+    topLevelGuids.forEach((g) => visitedGuids.current.add(g));
+    // eslint-disable-next-line no-console
+    console.log(
+      `${LOG_PREFIX} starting fetch: ${topLevelGuids.length} top-level workloads`
+    );
+    setQuery(queryFromGuids(topLevelGuids, treeLevel.current));
+    setResult((r) => ({ ...r, loading: true }));
   }, [topLevelGuids]);
 
   useEffect(() => {
@@ -59,6 +73,10 @@ const useDataManager = (topLevelGuids) => {
       });
 
       isFetching.current = false;
+      // eslint-disable-next-line no-console
+      console.log(
+        `${LOG_PREFIX} done: ${allWorkloadGuids.current.size} workloads across ${allAccountIds.current.size} accounts, max depth ${treeLevel.current}`
+      );
       setResult({
         data: [...dataTree.current],
         loading: false,
@@ -73,6 +91,7 @@ const useDataManager = (topLevelGuids) => {
     if (!currentEntities || currentEntities.length === 0) return;
 
     const nextLevelWorkloadGuids = [];
+    let skippedDuplicates = 0;
     const formatEntity = (entity) => {
       if (entity?.type === 'WORKLOAD' && entity.guid) {
         allWorkloadGuids.current.add(entity.guid);
@@ -101,6 +120,15 @@ const useDataManager = (topLevelGuids) => {
       };
     };
 
+    const enqueueChild = (guid) => {
+      if (visitedGuids.current.has(guid)) {
+        skippedDuplicates += 1;
+        return;
+      }
+      visitedGuids.current.add(guid);
+      nextLevelWorkloadGuids.push(guid);
+    };
+
     if (treeLevel.current === 1) {
       dataTree.current = currentEntities.map((parent, pIdx) => {
         allWorkloadGuids.current.add(parent.guid);
@@ -115,8 +143,7 @@ const useDataManager = (topLevelGuids) => {
         children.forEach((child, cIdx) => {
           if (child.guid) {
             guidLookup.current[child.guid] = [pIdx, cIdx];
-            if (child.type === 'WORKLOAD')
-              nextLevelWorkloadGuids.push(child.guid);
+            if (child.type === 'WORKLOAD') enqueueChild(child.guid);
           }
         });
 
@@ -153,16 +180,27 @@ const useDataManager = (topLevelGuids) => {
               const newPath = [...pathArray, ncIdx];
               guidLookup.current[newChild.guid] = newPath;
 
-              if (newChild.type === 'WORKLOAD') {
-                nextLevelWorkloadGuids.push(newChild.guid);
-              }
+              if (newChild.type === 'WORKLOAD') enqueueChild(newChild.guid);
             }
           });
         }
       });
     }
 
-    if (nextLevelWorkloadGuids.length > 0) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `${LOG_PREFIX} level ${treeLevel.current}: processed ${currentEntities.length}, next ${nextLevelWorkloadGuids.length}, skipped ${skippedDuplicates} duplicate(s)`
+    );
+
+    const atDepthCap = treeLevel.current >= MAX_TREE_DEPTH;
+    if (atDepthCap && nextLevelWorkloadGuids.length > 0) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `${LOG_PREFIX} hit MAX_TREE_DEPTH (${MAX_TREE_DEPTH}); ${nextLevelWorkloadGuids.length} workload(s) not expanded`
+      );
+    }
+
+    if (nextLevelWorkloadGuids.length > 0 && !atDepthCap) {
       treeLevel.current += 1;
       setQuery(queryFromGuids(nextLevelWorkloadGuids, treeLevel.current));
     } else if (allWorkloadGuids.current.size > 0) {
@@ -184,6 +222,11 @@ const useDataManager = (topLevelGuids) => {
 
   useEffect(() => {
     if (queryError) {
+      // eslint-disable-next-line no-console
+      console.error(
+        `${LOG_PREFIX} query error at level ${treeLevel.current}`,
+        queryError
+      );
       setResult((prev) => ({ ...prev, loading: false, error: queryError }));
     }
   }, [queryError]);
