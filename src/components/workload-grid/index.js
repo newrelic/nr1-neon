@@ -61,51 +61,46 @@ const WorkloadGrid = ({
     return () => clearTimeout(timer);
   }, [workloads]);
 
+  if (displayedWorkloads.length === 0) return null;
+
   return (
     <div
       className={`grid-wrapper ${
         fadePhase !== FADE_PHASES.IDLE ? fadePhase : ''
       }`}
     >
-      {displayedWorkloads.length === 0 ? (
-        <div className="workload-grid-empty">
-          <div className="title">No workloads</div>
-        </div>
-      ) : (
-        <div className="workload-grid">
-          {displayedWorkloads.map((workload, index) => {
-            const issues = workload.issues ?? [];
-            const { issuesCount, unacknowledgedCount } =
-              summarizeIssues(issues);
-            const clickable = onCardClick && workload?.children?.length;
+      <div className="workload-grid">
+        {displayedWorkloads.map((workload, index) => {
+          const issues = workload.issues ?? [];
+          const { issuesCount, unacknowledgedCount } = summarizeIssues(issues);
+          const clickable = onCardClick && workload?.children?.length;
 
-            return (
-              <div
-                key={getWorkloadId(workload, index)}
-                className="grid-item"
-                ref={(el) => {
-                  const id = getWorkloadId(workload, index);
-                  if (el) itemRefs.current.set(id, el);
-                  else itemRefs.current.delete(id);
-                }}
-              >
-                <WorkloadCard
-                  name={workload.name}
-                  status={workload.status}
-                  issuesCount={issuesCount}
-                  unacknowledgedCount={unacknowledgedCount}
-                  hideUnacknowledged={hideUnacknowledged}
-                  issues={issues}
-                  issuesLoading={issuesLoading}
-                  kpis={[]}
-                  onClick={clickable ? () => onCardClick(workload) : undefined}
-                  onIssuesClick={() => onIssuesClick?.(workload)}
-                />
-              </div>
-            );
-          })}
-        </div>
-      )}
+          return (
+            <div
+              key={getWorkloadId(workload, index)}
+              className="grid-item"
+              ref={(el) => {
+                const id = getWorkloadId(workload, index);
+                if (el) itemRefs.current.set(id, el);
+                else itemRefs.current.delete(id);
+              }}
+            >
+              <WorkloadCard
+                name={workload.name}
+                status={workload.status}
+                issuesCount={issuesCount}
+                unacknowledgedCount={unacknowledgedCount}
+                hideUnacknowledged={hideUnacknowledged}
+                issues={issues}
+                issuesLoading={issuesLoading}
+                kpis={[]}
+                onClick={clickable ? () => onCardClick(workload) : undefined}
+                onIssuesClick={() => onIssuesClick?.(workload)}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
