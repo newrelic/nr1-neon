@@ -17,6 +17,7 @@ import {
   DataTableHeaderCell,
   DataTableRow,
   HeadingText,
+  Switch,
   useEntitySearchQuery,
 } from 'nr1';
 import { FilterBar } from '@newrelic/nr-labs-components';
@@ -32,11 +33,15 @@ const SettingsModal = ({
   isSettingsModalOpen,
   setIsSettingsModalOpen,
   savedWorkloads = [],
+  savedHideUnacknowledged = false,
 }) => {
   const [filterOptions, setFilterOptions] = useState([
     { option: 'name', type: 'string', values: [] },
   ]);
   const [selectedGuids, setSelectedGuids] = useState(() => new Set());
+  const [hideUnacknowledged, setHideUnacknowledged] = useState(
+    savedHideUnacknowledged
+  );
   const [entitySearchFilter, setEntitySearchFilter] = useState(WORKLOAD_FILTER);
   const { account, accounts } = useContext(AppContext);
   const {
@@ -50,8 +55,10 @@ const SettingsModal = ({
 
   // Reset selection to saved state each time the modal opens.
   useEffect(() => {
-    if (isSettingsModalOpen)
+    if (isSettingsModalOpen) {
       setSelectedGuids(new Set(savedWorkloads.map((w) => w.guid)));
+      setHideUnacknowledged(savedHideUnacknowledged);
+    }
   }, [isSettingsModalOpen]);
 
   const savedGuids = useMemo(
@@ -134,8 +141,8 @@ const SettingsModal = ({
         };
       })
       .filter(Boolean);
-    onSave?.(toSave);
-  }, [selectedGuids, entityByGuid, savedByGuid, onSave]);
+    onSave?.({ workloads: toSave, hideUnacknowledged });
+  }, [selectedGuids, entityByGuid, savedByGuid, hideUnacknowledged, onSave]);
 
   const filterWorkloads = useCallback((selectedFilters) => {
     const filtersStr = filtersArrayToNrql(selectedFilters);
@@ -245,6 +252,13 @@ const SettingsModal = ({
                 ))
               )}
             </div>
+            <div className="display-options">
+              <Switch
+                label="Hide unacknowledged count"
+                checked={hideUnacknowledged}
+                onChange={(e) => setHideUnacknowledged(e.target.checked)}
+              />
+            </div>
             <div className="buttons-bar">
               <Button onClick={closeHandler}>Cancel</Button>
               <Button type={Button.TYPE.PRIMARY} onClick={handleSave}>
@@ -263,6 +277,7 @@ SettingsModal.propTypes = {
   isSettingsModalOpen: PropTypes.bool,
   setIsSettingsModalOpen: PropTypes.func,
   savedWorkloads: PropTypes.arrayOf(PropTypes.object),
+  savedHideUnacknowledged: PropTypes.bool,
 };
 
 export default SettingsModal;

@@ -13,6 +13,7 @@ const WorkloadCard = ({
   entityCount,
   issuesCount = 0,
   unacknowledgedCount = 0,
+  hideUnacknowledged = false,
   issuesLoading,
   kpis,
   kpisDefaultExpanded = true,
@@ -37,6 +38,7 @@ const WorkloadCard = ({
         <IssuesButton
           issuesCount={issuesCount}
           unacknowledgedCount={unacknowledgedCount}
+          hideUnacknowledged={hideUnacknowledged}
           onClick={(e) => {
             e.stopPropagation();
             if (onIssuesClick) onIssuesClick();
@@ -44,7 +46,13 @@ const WorkloadCard = ({
         />
       );
     return <span className="no-issues">No active issues</span>;
-  }, [issuesLoading, issuesCount, unacknowledgedCount, onIssuesClick]);
+  }, [
+    issuesLoading,
+    issuesCount,
+    unacknowledgedCount,
+    hideUnacknowledged,
+    onIssuesClick,
+  ]);
 
   const handleKpiToggleClick = (e) => {
     e.stopPropagation();
@@ -110,6 +118,7 @@ WorkloadCard.propTypes = {
   entityCount: PropTypes.number,
   issuesCount: PropTypes.number,
   unacknowledgedCount: PropTypes.number,
+  hideUnacknowledged: PropTypes.bool,
   issuesLoading: PropTypes.bool,
   kpis: PropTypes.array,
   kpisDefaultExpanded: PropTypes.bool,

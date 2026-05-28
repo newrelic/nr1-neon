@@ -189,7 +189,7 @@ const NexusNerdlet = () => {
   }, []);
 
   const saveSettings = useCallback(
-    async (workloads) => {
+    async ({ workloads, hideUnacknowledged }) => {
       const { error } = await docWrite({
         accountId,
         ...DOC_STORE,
@@ -199,6 +199,7 @@ const NexusNerdlet = () => {
             guid,
             name,
           })),
+          hideUnacknowledged: !!hideUnacknowledged,
         },
       });
 
@@ -224,6 +225,7 @@ const NexusNerdlet = () => {
             <WorkloadGrid
               workloads={gridData}
               issuesLoading={dataLoading || issuesLoading}
+              hideUnacknowledged={!!docData?.hideUnacknowledged}
               onCardClick={gridClickHandler}
               onIssuesClick={openIssuesModal}
             />
@@ -252,6 +254,7 @@ const NexusNerdlet = () => {
     navigationStack,
     dataLoading,
     issuesLoading,
+    docData?.hideUnacknowledged,
     gridClickHandler,
     breadcrumbClickHandler,
     breadcrumbHomeClickHandler,
@@ -278,6 +281,7 @@ const NexusNerdlet = () => {
         isSettingsModalOpen={isSettingsModalOpen}
         setIsSettingsModalOpen={setIsSettingsModalOpen}
         savedWorkloads={docData?.start ?? []}
+        savedHideUnacknowledged={!!docData?.hideUnacknowledged}
       />
       <Modal
         hidden={!issuesWorkload}

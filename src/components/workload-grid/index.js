@@ -20,6 +20,7 @@ const summarizeIssues = (issues = []) => {
 const WorkloadGrid = ({
   workloads,
   issuesLoading = false,
+  hideUnacknowledged = false,
   onCardClick,
   onIssuesClick,
 }) => {
@@ -89,6 +90,7 @@ const WorkloadGrid = ({
                 status={workload.status}
                 issuesCount={issuesCount}
                 unacknowledgedCount={unacknowledgedCount}
+                hideUnacknowledged={hideUnacknowledged}
                 issues={issues}
                 issuesLoading={issuesLoading}
                 kpis={[]}
@@ -106,6 +108,7 @@ const WorkloadGrid = ({
 WorkloadGrid.propTypes = {
   workloads: PropTypes.array,
   issuesLoading: PropTypes.bool,
+  hideUnacknowledged: PropTypes.bool,
   onCardClick: PropTypes.func,
   onIssuesClick: PropTypes.func,
 };
