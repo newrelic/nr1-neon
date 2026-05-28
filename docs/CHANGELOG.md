@@ -1,3 +1,10 @@
+## [0.12.2](https://github.com/newrelic/nr1-neon/compare/v0.12.1...v0.12.2) (2026-05-28)
+
+
+### Bug Fixes
+
+* add back home button in breadcrumb ([9c68729](https://github.com/newrelic/nr1-neon/commit/9c687296c3163e349b1ea54ae44479ab3ecb55f0))
+
 ## [0.12.1](https://github.com/newrelic/nr1-neon/compare/v0.12.0...v0.12.1) (2026-05-22)
 
 
