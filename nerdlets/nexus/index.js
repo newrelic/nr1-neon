@@ -109,6 +109,7 @@ const NexusNerdlet = () => {
           onClick: openSettingsModal,
         },
       ],
+      timePicker: false,
     });
   }, [openSettingsModal]);
 
