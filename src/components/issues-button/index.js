@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const IssuesButton = ({ issuesCount, unacknowledgedCount, onClick }) => {
-  const hasUnack = unacknowledgedCount > 0;
+const IssuesButton = ({
+  issuesCount,
+  unacknowledgedCount,
+  hideUnacknowledged,
+  onClick,
+}) => {
+  const showUnack = !hideUnacknowledged && unacknowledgedCount > 0;
 
   return (
     <button
@@ -14,7 +19,7 @@ const IssuesButton = ({ issuesCount, unacknowledgedCount, onClick }) => {
         <span className="count">{issuesCount}</span>
         <span className="label">{issuesCount === 1 ? 'issue' : 'issues'}</span>
       </span>
-      {hasUnack && (
+      {showUnack && (
         <span className="unack">{unacknowledgedCount} unacknowledged</span>
       )}
     </button>
@@ -24,6 +29,7 @@ const IssuesButton = ({ issuesCount, unacknowledgedCount, onClick }) => {
 IssuesButton.propTypes = {
   issuesCount: PropTypes.number,
   unacknowledgedCount: PropTypes.number,
+  hideUnacknowledged: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
