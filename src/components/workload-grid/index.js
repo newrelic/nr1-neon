@@ -74,11 +74,6 @@ const WorkloadGrid = ({
           const issues = workload.issues ?? [];
           const { issuesCount, unacknowledgedCount } = summarizeIssues(issues);
           const clickable = onCardClick && workload?.children?.length;
-      <div className="workload-grid">
-        {displayedWorkloads.map((workload, index) => {
-          const issues = workload.issues ?? [];
-          const { issuesCount, unacknowledgedCount } = summarizeIssues(issues);
-          const clickable = onCardClick && workload?.children?.length;
 
           return (
             <div
