@@ -1,3 +1,10 @@
+## [0.13.2](https://github.com/newrelic/nr1-neon/compare/v0.13.1...v0.13.2) (2026-05-28)
+
+
+### Bug Fixes
+
+* issue with entities going over the limit when fetching; improved settings change handling ([2df0e49](https://github.com/newrelic/nr1-neon/commit/2df0e49385a93289699c770a339e0a5ae679cca5))
+
 ## [0.13.1](https://github.com/newrelic/nr1-neon/compare/v0.13.0...v0.13.1) (2026-05-28)
 
 
