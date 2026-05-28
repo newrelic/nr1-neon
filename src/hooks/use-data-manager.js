@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNerdGraphQuery } from 'nr1';
 
-import { getWorkloadsStatusQuery, queryFromGuids } from '../queries';
+import {
+  ENTITIES_BATCH_ALIAS_PREFIX,
+  getWorkloadsStatusQuery,
+  queryFromGuids,
+} from '../queries';
 
 const MAX_TREE_DEPTH = 10;
 const LOG_PREFIX = '[useDataManager]';
@@ -29,20 +33,28 @@ const useDataManager = (topLevelGuids) => {
   });
 
   useEffect(() => {
-    if (!topLevelGuids?.length || treeLevel.current !== 1) return;
+    if (!topLevelGuids?.length) return;
 
     const sig = topLevelGuids.join('|');
     if (startedSigRef.current === sig) return;
     startedSigRef.current = sig;
 
+    // Reset all per-fetch state so a re-selection starts clean.
+    treeLevel.current = 1;
+    allWorkloadGuids.current = new Set();
+    allAccountIds.current = new Set();
+    visitedGuids.current = new Set();
+    guidLookup.current = {};
+    dataTree.current = [];
     isFetching.current = true;
+
     topLevelGuids.forEach((g) => visitedGuids.current.add(g));
     // eslint-disable-next-line no-console
     console.log(
       `${LOG_PREFIX} starting fetch: ${topLevelGuids.length} top-level workloads`
     );
     setQuery(queryFromGuids(topLevelGuids, treeLevel.current));
-    setResult((r) => ({ ...r, loading: true }));
+    setResult({ data: [], loading: true, error: null });
   }, [topLevelGuids]);
 
   useEffect(() => {
@@ -85,8 +97,11 @@ const useDataManager = (topLevelGuids) => {
       return;
     }
 
-    const currentKey = `idx_${treeLevel.current}`;
-    const currentEntities = queryData?.actor?.[currentKey];
+    const batchPrefix = ENTITIES_BATCH_ALIAS_PREFIX(treeLevel.current);
+    const actor = queryData?.actor || {};
+    const currentEntities = Object.keys(actor)
+      .filter((k) => k.startsWith(batchPrefix))
+      .flatMap((k) => actor[k] || []);
 
     if (!currentEntities || currentEntities.length === 0) return;
 

@@ -43,6 +43,8 @@ const SettingsModal = ({
     savedHideUnacknowledged
   );
   const [entitySearchFilter, setEntitySearchFilter] = useState(WORKLOAD_FILTER);
+  const [saveError, setSaveError] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
   const { account, accounts } = useContext(AppContext);
   const {
     data: { count = 0, entities = [] } = {},
@@ -58,6 +60,7 @@ const SettingsModal = ({
     if (isSettingsModalOpen) {
       setSelectedGuids(new Set(savedWorkloads.map((w) => w.guid)));
       setHideUnacknowledged(savedHideUnacknowledged);
+      setSaveError(null);
     }
   }, [isSettingsModalOpen]);
 
@@ -129,7 +132,7 @@ const SettingsModal = ({
     });
   }, []);
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     const toSave = [...selectedGuids]
       .map((guid) => {
         const e = entityByGuid.get(guid) ?? savedByGuid.get(guid);
@@ -141,8 +144,27 @@ const SettingsModal = ({
         };
       })
       .filter(Boolean);
-    onSave?.({ workloads: toSave, hideUnacknowledged });
-  }, [selectedGuids, entityByGuid, savedByGuid, hideUnacknowledged, onSave]);
+
+    setSaveError(null);
+    setIsSaving(true);
+    try {
+      const result = await onSave?.({ workloads: toSave, hideUnacknowledged });
+      if (result?.error) {
+        setSaveError(result.error);
+        return;
+      }
+      setIsSettingsModalOpen?.(false);
+    } finally {
+      setIsSaving(false);
+    }
+  }, [
+    selectedGuids,
+    entityByGuid,
+    savedByGuid,
+    hideUnacknowledged,
+    onSave,
+    setIsSettingsModalOpen,
+  ]);
 
   const filterWorkloads = useCallback((selectedFilters) => {
     const filtersStr = filtersArrayToNrql(selectedFilters);
@@ -259,9 +281,22 @@ const SettingsModal = ({
                 onChange={(e) => setHideUnacknowledged(e.target.checked)}
               />
             </div>
+            {saveError && (
+              <div className="save-error" role="alert">
+                Couldn&apos;t save settings:{' '}
+                {saveError.message || 'Unknown error'}
+              </div>
+            )}
             <div className="buttons-bar">
-              <Button onClick={closeHandler}>Cancel</Button>
-              <Button type={Button.TYPE.PRIMARY} onClick={handleSave}>
+              <Button onClick={closeHandler} disabled={isSaving}>
+                Cancel
+              </Button>
+              <Button
+                type={Button.TYPE.PRIMARY}
+                onClick={handleSave}
+                loading={isSaving}
+                disabled={isSaving}
+              >
                 Save
               </Button>
             </div>
