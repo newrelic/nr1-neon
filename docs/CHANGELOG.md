@@ -1,3 +1,12 @@
+## [0.12.3](https://github.com/newrelic/nr1-neon/compare/v0.12.2...v0.12.3) (2026-05-28)
+
+
+### Bug Fixes
+
+* data loading issues ([52e7b89](https://github.com/newrelic/nr1-neon/commit/52e7b892036c33214da1f7e4a1d4fb9977acae32))
+* hide time picker ([9cdb4ca](https://github.com/newrelic/nr1-neon/commit/9cdb4ca1ff90ce1d96da9a4829065e162bfaf894))
+* remove no-workloads message in grid ([838d00c](https://github.com/newrelic/nr1-neon/commit/838d00cfac039a5c1afdc7b9245868def9f1b9c0))
+
 ## [0.12.2](https://github.com/newrelic/nr1-neon/compare/v0.12.1...v0.12.2) (2026-05-28)
 
 

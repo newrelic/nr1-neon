@@ -1,7 +1,7 @@
 import { threeDaysAgo } from './datetime';
-import { ENTITY_BATCH_SIZE, ISSUE_FIELDS } from '../constants';
+import { ISSUE_FIELDS } from '../constants';
 
-const chunk = (arr, size) => {
+export const chunk = (arr, size) => {
   const chunks = [];
   for (let i = 0; i < arr.length; i += size) {
     chunks.push(arr.slice(i, i + size));
@@ -9,63 +9,25 @@ const chunk = (arr, size) => {
   return chunks;
 };
 
-export const composeIssuesQuery = (accountEntities) => {
-  const accountFragments = [];
-  let accountIdx = 0;
-
-  for (const [accountId, guids] of accountEntities.entries()) {
-    accountIdx += 1;
-    const guidChunks = chunk(guids, ENTITY_BATCH_SIZE);
-    const issueFragments = guidChunks
-      .map((batch, batchIdx) => {
-        const guidList = batch.map((g) => `"${g}"`).join(', ');
-        return `
-          e${batchIdx + 1}: issues(
-            cursor: null
-            filter: { entityGuids: [${guidList}] }
-            timeWindow: {endTime: ${Date.now()}, startTime: ${threeDaysAgo()}}
+export const composeAccountIssuesQuery = (accountId, guids, cursor) => {
+  const guidList = guids.map((g) => `"${g}"`).join(', ');
+  const cursorArg = cursor ? `"${cursor}"` : 'null';
+  return `{
+    actor {
+      account(id: ${accountId}) {
+        aiIssues {
+          issues(
+            cursor: ${cursorArg}
+            filter: { entityGuids: [${guidList}], states: [ACTIVATED] }
+            timeWindow: { endTime: ${Date.now()}, startTime: ${threeDaysAgo()} }
           ) {
             issues { ${ISSUE_FIELDS} }
             nextCursor
           }
-        `;
-      })
-      .join('\n');
-
-    accountFragments.push(`
-      a${accountIdx}: account(id: ${accountId}) {
-        aiIssues {
-          ${issueFragments}
         }
       }
-    `);
-  }
-
-  return `{ actor { ${accountFragments.join('\n')} } }`;
-};
-
-export const extractIssues = (queryData) => {
-  const issues = [];
-  let hasNext = false;
-
-  const accounts = queryData?.actor || {};
-  Object.keys(accounts).forEach((accountKey) => {
-    if (!accountKey.startsWith('a')) return;
-    const aiIssues = accounts[accountKey]?.aiIssues || {};
-    Object.keys(aiIssues).forEach((entityKey) => {
-      if (!entityKey.startsWith('e')) return;
-      const block = aiIssues[entityKey];
-      if (block?.nextCursor) hasNext = true;
-      (block?.issues || []).forEach((issue) => issues.push(issue));
-    });
-  });
-
-  if (hasNext) {
-    // eslint-disable-next-line no-console
-    console.warn('Not all issues have been accounted for...');
-  }
-
-  return issues;
+    }
+  }`;
 };
 
 export const issuesByEntity = (issues) => {
