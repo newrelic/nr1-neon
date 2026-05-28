@@ -120,6 +120,15 @@
     border-top: 1px solid #F4F5F6;
   }
 
+  .save-error {
+    flex-shrink: 0;
+    padding: 8px;
+    font-size: 12px;
+    color: #B0271D;
+    background: #FBE9E7;
+    border-radius: 4px;
+  }
+
   .buttons-bar {
     flex-shrink: 0;
     padding-top: 8px;

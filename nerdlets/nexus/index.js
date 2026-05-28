@@ -55,6 +55,9 @@ const NexusNerdlet = () => {
   const [docWrite] = useAccountStorageMutation({
     actionType: useAccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
   });
+  const [docDelete] = useAccountStorageMutation({
+    actionType: useAccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
+  });
   const { data: accts = [], loading: isAcctsLoading } = useAccountsQuery();
   const workloadGuids = useMemo(
     () => docData?.start?.map(({ guid }) => guid) || [],
@@ -124,6 +127,22 @@ const NexusNerdlet = () => {
     if (dataError) console.log('Error fetching statuses', dataError);
     if (issuesError) console.log('Error fetching issues', issuesError);
   }, [docError, dataError, issuesError]);
+
+  useEffect(() => {
+    if (!accountId) return;
+    window.__neonResetSettings = async () => {
+      const { error } = await docDelete({ accountId, ...DOC_STORE });
+      if (error) {
+        console.error('[neon] failed to reset settings', error);
+        return error;
+      }
+      console.log('[neon] settings document deleted; reload to take effect');
+      return null;
+    };
+    return () => {
+      delete window.__neonResetSettings;
+    };
+  }, [accountId, docDelete]);
 
   const gridClickHandler = useCallback(
     (w) => {
@@ -204,6 +223,7 @@ const NexusNerdlet = () => {
       });
 
       if (error) console.error('Unable to save settings', error);
+      return { error };
     },
     [accountId, docWrite]
   );
