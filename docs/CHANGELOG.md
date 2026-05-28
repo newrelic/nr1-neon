@@ -1,3 +1,10 @@
+## [0.13.1](https://github.com/newrelic/nr1-neon/compare/v0.13.0...v0.13.1) (2026-05-28)
+
+
+### Bug Fixes
+
+* data manager issues; adds logging ([d6bb6ad](https://github.com/newrelic/nr1-neon/commit/d6bb6ad600bfb6fe5bfdfadd87d4fde810a268d8))
+
 # [0.13.0](https://github.com/newrelic/nr1-neon/compare/v0.12.3...v0.13.0) (2026-05-28)
 
 
