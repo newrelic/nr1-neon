@@ -1,3 +1,11 @@
+## [0.13.3](https://github.com/newrelic/nr1-neon/compare/v0.13.2...v0.13.3) (2026-05-29)
+
+
+### Bug Fixes
+
+* move close button on top in modal ([4b089ec](https://github.com/newrelic/nr1-neon/commit/4b089ec4826e6c27c416878d81eab21c037211dd))
+* switch to nrql to load issues ([0a2a7b2](https://github.com/newrelic/nr1-neon/commit/0a2a7b2d4e6ae5cca7702e01fd7de7dc090d38b2))
+
 ## [0.13.2](https://github.com/newrelic/nr1-neon/compare/v0.13.1...v0.13.2) (2026-05-28)
 
 
