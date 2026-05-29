@@ -200,13 +200,6 @@ const NexusNerdlet = () => {
     navigation.openStackedEntity(entity?.guid);
   }, []);
 
-  const issueClickHandler = useCallback((issue) => {
-    navigation.openStackedNerdlet({
-      id: 'alerts.issue',
-      urlState: { stateParams: { id: issue?.issueId } },
-    });
-  }, []);
-
   const saveSettings = useCallback(
     async ({ workloads, hideUnacknowledged }) => {
       const { error } = await docWrite({
@@ -308,10 +301,7 @@ const NexusNerdlet = () => {
         onClose={() => setIssuesWorkload(null)}
         style={{ '--modal-width': '480px', '--modal-padding': '0' }}
       >
-        <IssuesList
-          workload={issuesWorkload}
-          onIssueClick={issueClickHandler}
-        />
+        <IssuesList workload={issuesWorkload} />
       </Modal>
     </AppContext.Provider>
   );

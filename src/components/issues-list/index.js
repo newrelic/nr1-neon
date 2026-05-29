@@ -26,7 +26,7 @@ const priorityRank = (priority) => {
   return { CRITICAL: 4, HIGH: 3, MEDIUM: 2, LOW: 1 }[priority] ?? 0;
 };
 
-const IssuesList = ({ workload, onIssueClick }) => {
+const IssuesList = ({ workload }) => {
   const [unackOnly, setUnackOnly] = useState(false);
 
   const status = mapStatus(workload?.status);
@@ -76,11 +76,15 @@ const IssuesList = ({ workload, onIssueClick }) => {
           <EmptyState hasAnyIssues={allIssues.length > 0} />
         ) : (
           visibleIssues.map((issue) => (
-            <IssueRow
+            <a
               key={issue.issueId}
-              issue={issue}
-              onClick={() => onIssueClick?.(issue)}
-            />
+              href={issue.issueLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="u-unstyledLink issue-row-link"
+            >
+              <IssueRow issue={issue} />
+            </a>
           ))
         )}
       </div>
@@ -90,7 +94,6 @@ const IssuesList = ({ workload, onIssueClick }) => {
 
 IssuesList.propTypes = {
   workload: PropTypes.object,
-  onIssueClick: PropTypes.func,
 };
 
 const EmptyState = ({ hasAnyIssues }) => {
