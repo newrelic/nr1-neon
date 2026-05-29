@@ -26,11 +26,11 @@ const ISSUE_NRQL_PROJECTION = [
 
 export const composeIssuesNrqlQuery = (accountId) => {
   const nrql = `SELECT ${ISSUE_NRQL_PROJECTION} FROM NrAiIssue SINCE 3 days ago FACET issueId LIMIT MAX`;
-  const escaped = nrql.replace(/"/g, '\\"');
+  const serializedNrql = JSON.stringify(nrql);
   return `{
     actor {
       account(id: ${accountId}) {
-        nrql(query: "${escaped}") {
+        nrql(query: ${serializedNrql}) {
           results
         }
       }
