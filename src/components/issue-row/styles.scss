@@ -7,20 +7,18 @@
   border: 1px solid #E3E6E8;
   border-radius: 4px;
   padding: 8px 16px;
-  margin-top: 4px;
   cursor: pointer;
   text-align: left;
   font: inherit;
   font-size: inherit;
   color: inherit;
   width: 100%;
+  box-sizing: border-box;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
   transition:
     background 120ms ease-out,
     border-color 120ms ease-out,
     box-shadow 120ms ease-out;
-
-  &:first-child { margin-top: 0; }
 
   &:hover {
     background: #FAFBFB;

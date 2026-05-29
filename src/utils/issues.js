@@ -1,6 +1,3 @@
-import { threeDaysAgo } from './datetime';
-import { ISSUE_FIELDS } from '../constants';
-
 export const chunk = (arr, size) => {
   const chunks = [];
   for (let i = 0; i < arr.length; i += size) {
@@ -9,26 +6,58 @@ export const chunk = (arr, size) => {
   return chunks;
 };
 
-export const composeAccountIssuesQuery = (accountId, guids, cursor) => {
-  const guidList = guids.map((g) => `"${g}"`).join(', ');
-  const cursorArg = cursor ? `"${cursor}"` : 'null';
+const ISSUE_NRQL_PROJECTION = [
+  'latest(event) AS event',
+  'latest(issueLink) AS issueLink',
+  'latest(title) AS title',
+  'latest(priority) AS priority',
+  'latest(muted) AS muted',
+  'latest(closeCause) AS closeCause',
+  'latest(acknowledgeTime) AS acknowledgeTime',
+  'latest(activateTime) AS activateTime',
+  'latest(createTime) AS createTime',
+  'latest(closeTime) AS closeTime',
+  'latest(`entity.guids`) AS entityGuids',
+  'latest(incidentIds) AS incidentIds',
+  'latest(isIdle) AS isIdle',
+  'latest(correlated) AS correlated',
+  'latest(timestamp) AS lastEventAt',
+].join(', ');
+
+export const composeIssuesNrqlQuery = (accountId) => {
+  const nrql = `SELECT ${ISSUE_NRQL_PROJECTION} FROM NrAiIssue SINCE 3 days ago FACET issueId LIMIT MAX`;
+  const serializedNrql = JSON.stringify(nrql);
   return `{
     actor {
       account(id: ${accountId}) {
-        aiIssues {
-          issues(
-            cursor: ${cursorArg}
-            filter: { entityGuids: [${guidList}], states: [ACTIVATED] }
-            timeWindow: { endTime: ${Date.now()}, startTime: ${threeDaysAgo()} }
-          ) {
-            issues { ${ISSUE_FIELDS} }
-            nextCursor
-          }
+        nrql(query: ${serializedNrql}) {
+          results
         }
       }
     }
   }`;
 };
+
+const toMs = (n) => (typeof n === 'number' && n > 0 ? n : null);
+
+export const mapNrqlRowToIssue = (row, accountId) => ({
+  issueId: row?.facet,
+  issueLink: row?.issueLink,
+  title: row?.title,
+  priority: row?.priority,
+  muted: row?.muted,
+  closeCause: row?.closeCause,
+  acknowledgedAt: toMs(row?.acknowledgeTime),
+  activatedAt: toMs(row?.activateTime),
+  createdAt: toMs(row?.createTime),
+  closedAt: toMs(row?.closeTime),
+  entityGuids: Array.isArray(row?.entityGuids) ? row.entityGuids : [],
+  incidentIds: Array.isArray(row?.incidentIds) ? row.incidentIds : [],
+  isCorrelated: !!row?.correlated,
+  isIdle: !!row?.isIdle,
+  state: row?.event === 'close' ? 'CLOSED' : 'ACTIVATED',
+  accountId,
+});
 
 export const issuesByEntity = (issues) => {
   const map = new Map();

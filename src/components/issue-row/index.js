@@ -17,7 +17,7 @@ const formatDuration = (activatedAt) => {
   return 'just now';
 };
 
-const IssueRow = ({ issue, onClick }) => {
+const IssueRow = ({ issue }) => {
   const priority = (issue.priority ?? 'low').toLowerCase();
   const isAcked = !!issue.acknowledgedAt;
   const title = Array.isArray(issue.title)
@@ -28,11 +28,7 @@ const IssueRow = ({ issue, onClick }) => {
   const duration = formatDuration(issue.activatedAt);
 
   return (
-    <button
-      type="button"
-      className={`u-unstyledButton issue-row ${priority}`}
-      onClick={onClick}
-    >
+    <div className={`issue-row ${priority}`}>
       <div className="details">
         <div className="title">{title}</div>
         <div className="meta">
@@ -80,13 +76,12 @@ const IssueRow = ({ issue, onClick }) => {
       <span className="chevron">
         <Icon type={Icon.TYPE.INTERFACE__CHEVRON__CHEVRON_RIGHT} />
       </span>
-    </button>
+    </div>
   );
 };
 
 IssueRow.propTypes = {
   issue: PropTypes.object,
-  onClick: PropTypes.func,
 };
 
 export default IssueRow;

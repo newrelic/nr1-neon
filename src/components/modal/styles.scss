@@ -43,6 +43,7 @@ dialog.modal-dialog {
       position: fixed;
       top: 16px;
       right: 8px;
+      z-index: 1;
     }
   }
 }
