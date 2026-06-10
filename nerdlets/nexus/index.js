@@ -178,9 +178,23 @@ const NexusNerdlet = () => {
   }, []);
 
   const breadcrumbClickHandler = useCallback((depth, w) => {
-    const workloadChilds = (w?.children || []).filter(
-      (c) => c.domain === 'NR1' && c.type === 'WORKLOAD'
+    const { workloadChilds, entityChilds } = (w?.children || []).reduce(
+      (acc, cur) =>
+        cur.domain === 'NR1' && cur.type === 'WORKLOAD'
+          ? { ...acc, workloadChilds: [...acc.workloadChilds, cur] }
+          : { ...acc, entityChilds: [...acc.entityChilds, cur] },
+      { workloadChilds: [], entityChilds: [] }
     );
+    const isLastRow = depth === navStackRef.current.length - 1;
+    if (isLastRow) {
+      setNavigationStack((prev) => [
+        ...prev.slice(0, depth),
+        { items: prev[depth].items, activeId: w.guid },
+      ]);
+      setGridData(workloadChilds);
+      setEntities(entityChilds);
+      return;
+    }
     if (workloadChilds.length) {
       setNavigationStack((prev) => [
         ...prev.slice(0, depth),
