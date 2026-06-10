@@ -1,3 +1,10 @@
+## [0.13.4](https://github.com/newrelic/nr1-neon/compare/v0.13.3...v0.13.4) (2026-06-10)
+
+
+### Bug Fixes
+
+* change how last row breadcrumb clicks work ([5a68a19](https://github.com/newrelic/nr1-neon/commit/5a68a19b05f195430775ce03c7fa380bf81bd3e9))
+
 ## [0.13.3](https://github.com/newrelic/nr1-neon/compare/v0.13.2...v0.13.3) (2026-05-29)
 
 
