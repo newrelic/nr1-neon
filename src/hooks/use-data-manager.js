@@ -24,7 +24,9 @@ const collectBrokenWorkloads = (tree, guidsWithStatus) => {
       if (!node) continue;
       const isWorkload = depth === 0 || node.type === 'WORKLOAD';
       if (!isWorkload) continue;
-      const childCount = Array.isArray(node.children) ? node.children.length : 0;
+      const childCount = Array.isArray(node.children)
+        ? node.children.length
+        : 0;
       const hasStatus = guidsWithStatus.has(node.guid);
       if (childCount === 0 && !hasStatus) {
         out.push({ guid: node.guid, name: node.name, depth });
@@ -239,9 +241,10 @@ const useDataManager = (topLevelGuids) => {
       console.log(
         `${LOG_PREFIX} done: ${allWorkloadGuids.current.size} workloads across ${allAccountIds.current.size} accounts, max depth ${treeLevel.current}, status applied to ${guidsWithStatus.size}/${allWorkloadGuids.current.size}`
       );
-      const totalNullRelated = Object.values(
-        nullRelatedByLevel.current
-      ).reduce((acc, list) => acc + list.length, 0);
+      const totalNullRelated = Object.values(nullRelatedByLevel.current).reduce(
+        (acc, list) => acc + list.length,
+        0
+      );
       const totalEmptyResults = Object.values(
         emptyResultsByLevel.current
       ).reduce((acc, list) => acc + list.length, 0);
@@ -266,10 +269,7 @@ const useDataManager = (topLevelGuids) => {
           guidsMissingStatus
         );
       }
-      const broken = collectBrokenWorkloads(
-        dataTree.current,
-        guidsWithStatus
-      );
+      const broken = collectBrokenWorkloads(dataTree.current, guidsWithStatus);
       if (broken.length > 0) {
         // eslint-disable-next-line no-console
         console.warn(

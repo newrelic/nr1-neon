@@ -21,8 +21,7 @@ const WorkloadCard = ({
   onClick,
   onIssuesClick,
 }) => {
-  const isStatusKnown =
-    !!status && status !== WORKLOAD_STATUSES.UNKNOWN;
+  const isStatusKnown = !!status && status !== WORKLOAD_STATUSES.UNKNOWN;
   // Card is "no data" if it can't be drilled into AND we don't have a status
   // for it either. With known status, we still mute the card but keep the
   // real status badge so users see useful info.
