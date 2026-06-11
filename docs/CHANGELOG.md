@@ -1,3 +1,10 @@
+## [0.13.5](https://github.com/newrelic/nr1-neon/compare/v0.13.4...v0.13.5) (2026-06-11)
+
+
+### Bug Fixes
+
+* multiple fixes to surface data issues ([722b2b5](https://github.com/newrelic/nr1-neon/commit/722b2b509dc9f57310d522efcc6eb8b43320a7a4))
+
 ## [0.13.4](https://github.com/newrelic/nr1-neon/compare/v0.13.3...v0.13.4) (2026-06-10)
 
 
