@@ -51,6 +51,15 @@
   &.unknown {
     &::before  { background: $status-unknown; }
   }
+  &.no-data {
+    background: #FAFBFC;
+    border-style: dashed;
+    border-color: #D9DEE2;
+
+    &::before { background: #C1C7CD; }
+
+    .header .name { color: #6B7682; }
+  }
 
   .header {
     display: flex;
@@ -114,6 +123,10 @@
       &.unknown {
         color: #475059;
         background: $status-unknown-bg;
+      }
+      &.no-data {
+        color: #6B7682;
+        background: #EEF1F3;
       }
     }
 

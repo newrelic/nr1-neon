@@ -17,9 +17,16 @@ const WorkloadCard = ({
   issuesLoading,
   kpis,
   kpisDefaultExpanded = true,
+  isUnclickable = false,
   onClick,
   onIssuesClick,
 }) => {
+  const isStatusKnown =
+    !!status && status !== WORKLOAD_STATUSES.UNKNOWN;
+  // Card is "no data" if it can't be drilled into AND we don't have a status
+  // for it either. With known status, we still mute the card but keep the
+  // real status badge so users see useful info.
+  const showNoDataBadge = isUnclickable && !isStatusKnown;
   const [kpisExpanded, setKpisExpanded] = useState(kpisDefaultExpanded);
   const hasKpis = useMemo(() => Array.isArray(kpis) && kpis.length > 0, [kpis]);
 
@@ -61,8 +68,17 @@ const WorkloadCard = ({
 
   return (
     <div
-      className={`workload-card ${onClick ? 'clickable' : ''} ${statusClass}`}
+      className={`workload-card ${onClick ? 'clickable' : ''} ${statusClass}${
+        isUnclickable ? ' no-data' : ''
+      }`}
       onClick={onClick}
+      title={
+        isUnclickable
+          ? showNoDataBadge
+            ? 'No data returned for this workload from NerdGraph. Try clicking Refresh; if it persists, the workload may have no constituents or be in a stale state.'
+            : 'This workload returned no children from NerdGraph, so it can’t be drilled into. Status is shown above. Try clicking Refresh.'
+          : undefined
+      }
     >
       <div className="header">
         <h3 className="name" title={name}>
@@ -71,9 +87,13 @@ const WorkloadCard = ({
       </div>
 
       <div className="meta">
-        <span className={`badge status ${statusClass}`}>
-          {status ?? 'UNKNOWN'}
-        </span>
+        {showNoDataBadge ? (
+          <span className="badge status no-data">NO DATA</span>
+        ) : (
+          <span className={`badge status ${statusClass}`}>
+            {status ?? 'UNKNOWN'}
+          </span>
+        )}
         {typeof entityCount === 'number' && (
           <span className="entity-count">
             {entityCount} {entityCount === 1 ? 'entity' : 'entities'}
@@ -122,6 +142,7 @@ WorkloadCard.propTypes = {
   issuesLoading: PropTypes.bool,
   kpis: PropTypes.array,
   kpisDefaultExpanded: PropTypes.bool,
+  isUnclickable: PropTypes.bool,
   onClick: PropTypes.func,
   onIssuesClick: PropTypes.func,
 };

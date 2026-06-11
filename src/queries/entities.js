@@ -37,6 +37,7 @@ export const ENTITY_FRAGMENT = `
 `;
 
 export const ENTITIES_BATCH_ALIAS_PREFIX = (idx) => `idx_${idx}_b`;
+export const RETRY_BATCH_ALIAS_PREFIX = 'idx_retry_b';
 
 export const queryFromGuids = (guids, idx) => {
   const fragments = [];
@@ -48,5 +49,15 @@ export const queryFromGuids = (guids, idx) => {
       )}"]) { ${ENTITY_FRAGMENT} }`
     );
   }
+  return `{ actor { ${fragments.join('\n')} } }`;
+};
+
+// Single-guid-per-alias query, used to retry workloads that returned empty
+// relatedEntities in the batched levels. Avoids any per-batch failure mode.
+export const queryForRetry = (guids) => {
+  const fragments = guids.map(
+    (g, i) =>
+      `${RETRY_BATCH_ALIAS_PREFIX}${i}: entities(guids: ["${g}"]) { ${ENTITY_FRAGMENT} }`
+  );
   return `{ actor { ${fragments.join('\n')} } }`;
 };

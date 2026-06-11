@@ -73,7 +73,13 @@ const WorkloadGrid = ({
         {displayedWorkloads.map((workload, index) => {
           const issues = workload.issues ?? [];
           const { issuesCount, unacknowledgedCount } = summarizeIssues(issues);
-          const clickable = onCardClick && workload?.children?.length;
+          const hasChildren = (workload?.children?.length ?? 0) > 0;
+          // Any workload with no children can't be drilled into — flag it so
+          // the card visually indicates that. The badge inside WorkloadCard
+          // still shows the real status when known; only the card chrome and
+          // tooltip change.
+          const isUnclickable = !issuesLoading && !hasChildren;
+          const clickable = onCardClick && hasChildren;
 
           return (
             <div
@@ -94,6 +100,7 @@ const WorkloadGrid = ({
                 issues={issues}
                 issuesLoading={issuesLoading}
                 kpis={[]}
+                isUnclickable={isUnclickable}
                 onClick={clickable ? () => onCardClick(workload) : undefined}
                 onIssuesClick={() => onIssuesClick?.(workload)}
               />
