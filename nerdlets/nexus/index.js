@@ -67,6 +67,7 @@ const NexusNerdlet = () => {
     loading: dataLoading,
     error: dataError,
     data,
+    refresh: refreshData,
   } = useDataManager(workloadGuids);
   const {
     data: issuesData,
@@ -106,6 +107,12 @@ const NexusNerdlet = () => {
       actionControls: true,
       actionControlButtons: [
         {
+          label: 'Refresh',
+          hint: 'Reload all workload data',
+          iconType: Icon.TYPE.INTERFACE__OPERATIONS__REDO,
+          onClick: refreshData,
+        },
+        {
           label: 'Settings',
           hint: 'Edit settings for the board',
           iconType: Icon.TYPE.INTERFACE__OPERATIONS__CONFIGURE,
@@ -114,7 +121,7 @@ const NexusNerdlet = () => {
       ],
       timePicker: false,
     });
-  }, [openSettingsModal]);
+  }, [openSettingsModal, refreshData]);
 
   useEffect(() => {
     setGridData(() => mergeData(data, issuesData));
@@ -240,7 +247,7 @@ const NexusNerdlet = () => {
   const openIssuesModal = useCallback((w) => setIssuesWorkload(w), []);
 
   const currentView = useMemo(() => {
-    if (gridData?.length || entities?.length)
+    if (gridData?.length || entities?.length || navigationStack.length > 0)
       return (
         <div className="container">
           <div className="main">
