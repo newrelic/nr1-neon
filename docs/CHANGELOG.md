@@ -1,3 +1,15 @@
+# [0.14.0](https://github.com/newrelic/nr1-neon/compare/v0.13.5...v0.14.0) (2026-06-17)
+
+
+### Bug Fixes
+
+* data issue experiment ([f086ee1](https://github.com/newrelic/nr1-neon/commit/f086ee1a74a0b474b5f516516af9b1b750b4659a))
+
+
+### Features
+
+* switch entity fetch to cached members path + lazy-hydrate entity views ([130fa8c](https://github.com/newrelic/nr1-neon/commit/130fa8c4c854464147b554c15fea65bd4fa495e5))
+
 ## [0.13.5](https://github.com/newrelic/nr1-neon/compare/v0.13.4...v0.13.5) (2026-06-11)
 
 
