@@ -16,6 +16,7 @@ import {
   useAccountsQuery,
   useAccountStorageMutation,
   useAccountStorageQuery,
+  useEntitiesByGuidsQuery,
 } from 'nr1';
 
 import {
@@ -29,7 +30,7 @@ import {
 import { useAlertingEntitiesIssues, useDataManager } from '../../src/hooks';
 import { AppContext } from '../../src/contexts';
 import { mergeData } from '../../src/utils';
-import { DOC_STORE } from '../../src/constants';
+import { DOC_STORE, ENTITY_FRAGMENT_EXTENSION } from '../../src/constants';
 
 const NexusNerdlet = () => {
   const [gridData, setGridData] = useState([]);
@@ -77,6 +78,41 @@ const NexusNerdlet = () => {
     data,
     skip: dataLoading || !data || data.length === 0,
   });
+  const entityGuids = useMemo(
+    () => (entities || []).map((e) => e?.guid).filter(Boolean),
+    [entities]
+  );
+  const { loading: entitiesHydrating, data: hydratedEntitiesData } =
+    useEntitiesByGuidsQuery({
+      entityGuids,
+      skip: entityGuids.length === 0,
+      entityFragmentExtension: ENTITY_FRAGMENT_EXTENSION,
+    });
+
+  const hydratedEntities = useMemo(
+    () =>
+      (hydratedEntitiesData?.entities ?? []).map((entity) => ({
+        alertSeverity: entity?.alertSeverity,
+        domain: entity?.domain,
+        guid: entity?.guid,
+        name: entity?.name,
+        type: entity?.type,
+        accountId: entity?.accountId,
+        status: 'UNKNOWN',
+        tags: (entity?.tags || []).map((tag) => ({
+          key: tag.key,
+          values: tag.values,
+        })),
+        goldenMetrics: (entity?.goldenMetrics?.metrics || []).map((gm) => ({
+          name: gm.name,
+          query: gm.query,
+          title: gm.title,
+          unit: gm.unit,
+        })),
+        goldenTags: (entity?.goldenTags?.tags || []).map((gt) => gt?.key),
+      })),
+    [hydratedEntitiesData]
+  );
 
   useEffect(() => {
     if (!isAcctsLoading) {
@@ -264,7 +300,8 @@ const NexusNerdlet = () => {
               onIssuesClick={openIssuesModal}
             />
             <EntitiesView
-              entities={entities}
+              entities={hydratedEntities}
+              loading={entitiesHydrating}
               onEntityClick={entityClickHandler}
             />
           </div>
@@ -285,6 +322,8 @@ const NexusNerdlet = () => {
   }, [
     gridData,
     entities,
+    hydratedEntities,
+    entitiesHydrating,
     navigationStack,
     dataLoading,
     issuesLoading,

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { Tabs, TabsItem } from 'nr1';
+import { Spinner, Tabs, TabsItem } from 'nr1';
 
 import EntitiesTable from '../entities-table';
 import { ENTITIES_TYPES_ARRAY } from '../../constants';
@@ -53,12 +53,21 @@ const SEVERITY_RANK = {
 
 const EntitiesView = ({
   entities,
+  loading,
   onEntityClick,
   defaultType,
   onTabChange,
 }) => {
   const groups = useMemo(() => groupByType(entities ?? []), [entities]);
   const types = useMemo(() => sortTypes(groups), [groups]);
+
+  if (loading) {
+    return (
+      <div className="entities-view loading">
+        <Spinner />
+      </div>
+    );
+  }
 
   if (types.length === 0) {
     return null;
@@ -98,6 +107,7 @@ const EntitiesView = ({
 
 EntitiesView.propTypes = {
   entities: PropTypes.array,
+  loading: PropTypes.bool,
   onEntityClick: PropTypes.func,
   defaultType: PropTypes.string,
   onTabChange: PropTypes.func,
