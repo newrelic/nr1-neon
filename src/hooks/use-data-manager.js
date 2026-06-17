@@ -15,6 +15,10 @@ const MAX_TREE_DEPTH = 10;
 // EntitySearch returns at most 200 entities per page; we don't paginate yet,
 // so log when we hit it as a signal that pagination may need adding.
 const ENTITY_SEARCH_PAGE_LIMIT = 200;
+// NerdGraph caps a single query at 225 fields. With the trimmed
+// ENTITY_FRAGMENT we spend ~18-20 fields per workload entity, so 10 per
+// chunk keeps us comfortably under the limit with margin.
+const ENTITY_LEVEL_CHUNK_SIZE = 10;
 const LOG_PREFIX = '[useDataManager]';
 
 const logOutgoingQuery = (label, queryString) => {
@@ -55,7 +59,6 @@ const useDataManager = (topLevelGuids) => {
   const allWorkloadGuids = useRef(new Set());
   const allAccountIds = useRef(new Set());
   const visitedGuids = useRef(new Set());
-  const isFetching = useRef(false);
   const dataTree = useRef([]);
   const guidLookup = useRef({});
   const treeLevel = useRef(1);
@@ -71,10 +74,47 @@ const useDataManager = (topLevelGuids) => {
   const pendingNextLevel = useRef([]);
   // Phase 1 result handed to Phase 2: ordered [{ guid, query }, …].
   const pendingSearches = useRef([]);
+  // A level may need more than one GraphQL request to stay under the
+  // 225-field cap. levelChunks holds the partitioned guid lists for the
+  // current level; currentChunkIdx tracks which one is in flight.
+  const levelChunks = useRef([]);
+  const currentChunkIdx = useRef(0);
+  // Accumulate findings across chunks so we make one fallback/advance
+  // decision after the entire level has been processed.
+  const nextLevelAccumulator = useRef([]);
+  const emptiesAccumulator = useRef([]);
 
   const refresh = useCallback(() => {
     setRefreshKey((k) => k + 1);
   }, []);
+
+  // Partition `guids` into chunks of ENTITY_LEVEL_CHUNK_SIZE, store the
+  // chunks in refs, and fire the first chunk's query. Subsequent chunks are
+  // fired from inside the queryData effect after each response is processed.
+  const chunkAndFireLevel = (guids, level) => {
+    treeLevel.current = level;
+    const chunks = [];
+    for (let i = 0; i < guids.length; i += ENTITY_LEVEL_CHUNK_SIZE) {
+      chunks.push(guids.slice(i, i + ENTITY_LEVEL_CHUNK_SIZE));
+    }
+    levelChunks.current = chunks;
+    currentChunkIdx.current = 0;
+    nextLevelAccumulator.current = [];
+    emptiesAccumulator.current = [];
+
+    if (chunks.length === 0) return;
+
+    const firstChunk = chunks[0];
+    lastQueriedGuids.current = firstChunk;
+    currentPhase.current = 'fetching-level';
+    const query = queryFromGuids(firstChunk, level);
+    const label =
+      chunks.length > 1
+        ? `level ${level} chunk 1/${chunks.length}`
+        : `level ${level}`;
+    logOutgoingQuery(label, query);
+    setQuery(query);
+  };
 
   const { error: queryError, data: queryData } = useNerdGraphQuery({
     query: query || '{ actor { user { timeZoneName } } }',
@@ -103,28 +143,29 @@ const useDataManager = (topLevelGuids) => {
     currentPhase.current = 'fetching-level';
     pendingNextLevel.current = [];
     pendingSearches.current = [];
-    isFetching.current = true;
+    levelChunks.current = [];
+    currentChunkIdx.current = 0;
+    nextLevelAccumulator.current = [];
+    emptiesAccumulator.current = [];
 
     topLevelGuids.forEach((g) => visitedGuids.current.add(g));
     // eslint-disable-next-line no-console
     console.log(
       `${LOG_PREFIX} starting fetch: ${topLevelGuids.length} top-level workloads`
     );
-    const initialQuery = queryFromGuids(topLevelGuids, treeLevel.current);
-    logOutgoingQuery(`level ${treeLevel.current}`, initialQuery);
-    setQuery(initialQuery);
+    chunkAndFireLevel(topLevelGuids, 1);
     setResult({ data: [], loading: true, error: null });
   }, [topLevelGuids, refreshKey]);
 
   useEffect(() => {
     // ----- helpers (closures over refs) -----
     const finalizeLoad = () => {
-      isFetching.current = false;
       currentPhase.current = 'idle';
 
-      const totalNullRelated = Object.values(
-        nullRelatedByLevel.current
-      ).reduce((acc, list) => acc + list.length, 0);
+      const totalNullRelated = Object.values(nullRelatedByLevel.current).reduce(
+        (acc, list) => acc + list.length,
+        0
+      );
       const totalEmptyResults = Object.values(
         emptyResultsByLevel.current
       ).reduce((acc, list) => acc + list.length, 0);
@@ -136,14 +177,14 @@ const useDataManager = (topLevelGuids) => {
       if (totalNullRelated > 0) {
         // eslint-disable-next-line no-console
         console.warn(
-          `${LOG_PREFIX} ${totalNullRelated} workload(s) had null relatedEntities. Per-level breakdown:`,
+          `${LOG_PREFIX} ${totalNullRelated} workload(s) had null collection. Per-level breakdown:`,
           nullRelatedByLevel.current
         );
       }
       if (totalEmptyResults > 0) {
         // eslint-disable-next-line no-console
         console.warn(
-          `${LOG_PREFIX} ${totalEmptyResults} workload(s) had empty relatedEntities (entitySearchQuery fallback may have recovered some). Per-level breakdown:`,
+          `${LOG_PREFIX} ${totalEmptyResults} workload(s) had empty members (entitySearchQuery fallback may have recovered some). Per-level breakdown:`,
           emptyResultsByLevel.current
         );
       }
@@ -175,17 +216,15 @@ const useDataManager = (topLevelGuids) => {
       }
 
       if (combined.length > 0 && !atDepthCap) {
-        treeLevel.current += 1;
-        lastQueriedGuids.current = combined;
-        currentPhase.current = 'fetching-level';
-        const nextQuery = queryFromGuids(combined, treeLevel.current);
-        logOutgoingQuery(`level ${treeLevel.current}`, nextQuery);
-        setQuery(nextQuery);
+        chunkAndFireLevel(combined, treeLevel.current + 1);
       } else {
         finalizeLoad();
       }
     };
 
+    // Entities at the tree level only need navigation-essential fields.
+    // Heavy fields (tags, goldenMetrics, goldenTags) are lazy-fetched in
+    // EntitiesView via useEntitiesByGuidsQuery.
     const formatEntity = (entity) => {
       if (entity?.type === 'WORKLOAD' && entity.guid) {
         allWorkloadGuids.current.add(entity.guid);
@@ -199,17 +238,6 @@ const useDataManager = (topLevelGuids) => {
         type: entity?.type,
         accountId: entity?.accountId,
         status: entity?.workloadStatus?.statusValue || 'UNKNOWN',
-        tags: (entity?.tags || []).map((tag) => ({
-          key: tag.key,
-          values: tag.values,
-        })),
-        goldenMetrics: (entity?.goldenMetrics?.metrics || []).map((gm) => ({
-          name: gm.name,
-          query: gm.query,
-          title: gm.title,
-          unit: gm.unit,
-        })),
-        goldenTags: (entity?.goldenTags?.tags || []).map((gt) => gt?.key),
       };
     };
 
@@ -345,14 +373,35 @@ const useDataManager = (topLevelGuids) => {
       return;
     }
 
-    // ----- Default: a level (relatedEntities) response -----
+    // ----- Default: a level (entity.collection.members) response -----
     const batchPrefix = ENTITIES_BATCH_ALIAS_PREFIX(treeLevel.current);
     const actor = queryData?.actor || {};
-    const currentEntities = Object.keys(actor)
-      .filter((k) => k.startsWith(batchPrefix))
-      .flatMap((k) => actor[k] || []);
 
-    if (!currentEntities || currentEntities.length === 0) return;
+    // Each alias `idx_<level>_b<i>` holds a single entity (or null if NerdGraph
+    // didn't return one for that guid). Walk lastQueriedGuids in order so we
+    // can map back from absent/null aliases to the original guid.
+    const currentEntities = [];
+    const missingFromResponse = [];
+    lastQueriedGuids.current.forEach((g, i) => {
+      const aliasKey = `${batchPrefix}${i}`;
+      const entity = actor[aliasKey];
+      if (entity == null) {
+        // Entity is missing or queryData hasn't caught up yet — distinguish
+        // those at the guard below.
+        if (Object.prototype.hasOwnProperty.call(actor, aliasKey)) {
+          missingFromResponse.push(g);
+        }
+      } else {
+        currentEntities.push(entity);
+      }
+    });
+
+    // Guard: if no aliases for this level are in the response at all, the
+    // queryData is stale (still showing a previous level/phase response).
+    const hasAnyAlias = Object.keys(actor).some((k) =>
+      k.startsWith(batchPrefix)
+    );
+    if (!hasAnyAlias) return;
 
     const nextLevelWorkloadGuids = [];
     let skippedDuplicates = 0;
@@ -360,13 +409,18 @@ const useDataManager = (topLevelGuids) => {
     const emptyResultsAtThisLevel = [];
 
     const noteRelatedEntitiesShape = (entity) => {
-      if (entity?.relatedEntities == null) {
+      // null collection → workload returned but its CollectionEntity facet
+      // was missing; empty results → collection.members exists but has no
+      // entities. Both produce empty children downstream.
+      if (entity?.collection == null) {
         nullRelatedAtThisLevel.push({
           guid: entity?.guid,
           name: entity?.name,
           accountId: entity?.accountId,
         });
-      } else if ((entity.relatedEntities.results?.length ?? 0) === 0) {
+      } else if (
+        (entity.collection.members?.results?.entities?.length ?? 0) === 0
+      ) {
         emptyResultsAtThisLevel.push({
           guid: entity?.guid,
           name: entity?.name,
@@ -390,9 +444,9 @@ const useDataManager = (topLevelGuids) => {
         if (parent.accountId) allAccountIds.current.add(parent.accountId);
         noteRelatedEntitiesShape(parent);
 
-        const children = (parent.relatedEntities?.results || []).map((res) =>
-          formatEntity(res.target?.entity)
-        );
+        const children = (
+          parent.collection?.members?.results?.entities || []
+        ).map((e) => formatEntity(e));
 
         guidLookup.current[parent.guid] = pIdx;
 
@@ -437,9 +491,9 @@ const useDataManager = (topLevelGuids) => {
         targetNode.accountId = entityData.accountId;
         targetNode.status =
           entityData?.workloadStatus?.statusValue || 'UNKNOWN';
-        targetNode.children = (entityData.relatedEntities?.results || []).map(
-          (res) => formatEntity(res.target?.entity)
-        );
+        targetNode.children = (
+          entityData.collection?.members?.results?.entities || []
+        ).map((e) => formatEntity(e));
 
         targetNode.children.forEach((newChild, ncIdx) => {
           if (newChild.guid) {
@@ -452,10 +506,6 @@ const useDataManager = (topLevelGuids) => {
     }
 
     const expectedCount = lastQueriedGuids.current.length;
-    const returnedGuids = new Set(currentEntities.map((e) => e?.guid));
-    const missingFromResponse = lastQueriedGuids.current.filter(
-      (g) => !returnedGuids.has(g)
-    );
 
     if (nullRelatedAtThisLevel.length) {
       nullRelatedByLevel.current[treeLevel.current] = nullRelatedAtThisLevel;
@@ -464,9 +514,13 @@ const useDataManager = (topLevelGuids) => {
       emptyResultsByLevel.current[treeLevel.current] = emptyResultsAtThisLevel;
     }
 
+    const chunkLabel =
+      levelChunks.current.length > 1
+        ? ` chunk ${currentChunkIdx.current + 1}/${levelChunks.current.length}`
+        : '';
     // eslint-disable-next-line no-console
     console.log(
-      `${LOG_PREFIX} level ${treeLevel.current}: processed ${currentEntities.length}/${expectedCount}, next ${nextLevelWorkloadGuids.length}, skipped ${skippedDuplicates} duplicate(s), ${nullRelatedAtThisLevel.length} null relatedEntities, ${emptyResultsAtThisLevel.length} empty results`
+      `${LOG_PREFIX} level ${treeLevel.current}${chunkLabel}: processed ${currentEntities.length}/${expectedCount}, next ${nextLevelWorkloadGuids.length}, skipped ${skippedDuplicates} duplicate(s), ${nullRelatedAtThisLevel.length} null collection, ${emptyResultsAtThisLevel.length} empty members`
     );
 
     if (missingFromResponse.length) {
@@ -479,27 +533,53 @@ const useDataManager = (topLevelGuids) => {
     if (nullRelatedAtThisLevel.length) {
       // eslint-disable-next-line no-console
       console.warn(
-        `${LOG_PREFIX} level ${treeLevel.current}: ${nullRelatedAtThisLevel.length} workload(s) returned null relatedEntities (likely transient; will appear unclickable)`,
+        `${LOG_PREFIX} level ${treeLevel.current}: ${nullRelatedAtThisLevel.length} workload(s) returned null collection (CollectionEntity facet missing)`,
         nullRelatedAtThisLevel
       );
     }
     if (emptyResultsAtThisLevel.length) {
       // eslint-disable-next-line no-console
       console.warn(
-        `${LOG_PREFIX} level ${treeLevel.current}: ${emptyResultsAtThisLevel.length} workload(s) returned empty results (will fall back to entitySearchQuery)`,
+        `${LOG_PREFIX} level ${treeLevel.current}: ${emptyResultsAtThisLevel.length} workload(s) returned empty members (will fall back to entitySearchQuery)`,
         emptyResultsAtThisLevel
       );
     }
 
-    // Decide what's next. Empties with a known accountId trigger a fallback
-    // pass; the regular nextLevelWorkloadGuids waits for that to complete
-    // before advancing so all newly-discovered children flow into one query.
-    const fallbackTargets = emptyResultsAtThisLevel.filter(
+    // Accumulate this chunk's findings; the fallback / advance decision
+    // waits until every chunk at the current level has been processed.
+    nextLevelAccumulator.current.push(...nextLevelWorkloadGuids);
+    emptiesAccumulator.current.push(...emptyResultsAtThisLevel);
+
+    if (currentChunkIdx.current + 1 < levelChunks.current.length) {
+      currentChunkIdx.current += 1;
+      const nextChunk = levelChunks.current[currentChunkIdx.current];
+      lastQueriedGuids.current = nextChunk;
+      const chunkQuery = queryFromGuids(nextChunk, treeLevel.current);
+      logOutgoingQuery(
+        `level ${treeLevel.current} chunk ${currentChunkIdx.current + 1}/${
+          levelChunks.current.length
+        }`,
+        chunkQuery
+      );
+      setQuery(chunkQuery);
+      return;
+    }
+
+    // All chunks at this level done. Empties with a known accountId trigger
+    // a fallback pass; the accumulated next-level guids wait for that to
+    // complete before advancing so all newly-discovered children flow into
+    // the next level's queries.
+    const accumulatedNext = nextLevelAccumulator.current;
+    const accumulatedEmpties = emptiesAccumulator.current;
+    nextLevelAccumulator.current = [];
+    emptiesAccumulator.current = [];
+
+    const fallbackTargets = accumulatedEmpties.filter(
       (e) => e.accountId != null
     );
 
     if (fallbackTargets.length > 0) {
-      pendingNextLevel.current = nextLevelWorkloadGuids;
+      pendingNextLevel.current = accumulatedNext;
 
       const workloadsByAccount = {};
       for (const e of fallbackTargets) {
@@ -518,23 +598,15 @@ const useDataManager = (topLevelGuids) => {
     }
 
     const atDepthCap = treeLevel.current >= MAX_TREE_DEPTH;
-    if (atDepthCap && nextLevelWorkloadGuids.length > 0) {
+    if (atDepthCap && accumulatedNext.length > 0) {
       // eslint-disable-next-line no-console
       console.warn(
-        `${LOG_PREFIX} hit MAX_TREE_DEPTH (${MAX_TREE_DEPTH}); ${nextLevelWorkloadGuids.length} workload(s) not expanded`
+        `${LOG_PREFIX} hit MAX_TREE_DEPTH (${MAX_TREE_DEPTH}); ${accumulatedNext.length} workload(s) not expanded`
       );
     }
 
-    if (nextLevelWorkloadGuids.length > 0 && !atDepthCap) {
-      treeLevel.current += 1;
-      lastQueriedGuids.current = nextLevelWorkloadGuids;
-      currentPhase.current = 'fetching-level';
-      const nextQuery = queryFromGuids(
-        nextLevelWorkloadGuids,
-        treeLevel.current
-      );
-      logOutgoingQuery(`level ${treeLevel.current}`, nextQuery);
-      setQuery(nextQuery);
+    if (accumulatedNext.length > 0 && !atDepthCap) {
+      chunkAndFireLevel(accumulatedNext, treeLevel.current + 1);
     } else {
       finalizeLoad();
     }
