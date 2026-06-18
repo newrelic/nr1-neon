@@ -254,7 +254,13 @@ const NexusNerdlet = () => {
   }, []);
 
   const entityClickHandler = useCallback((entity) => {
-    navigation.openStackedEntity(entity?.guid);
+    const link = navigation.getOpenEntityLocation(entity?.guid, {
+      platformState: { accountId: entity?.accountId },
+    });
+    const ancestors = window.location.ancestorOrigins;
+    const origin = ancestors[ancestors.length - 1];
+    const url = `${origin}${link.pathname}${link.search || ''}`;
+    window.open(url, '_blank');
   }, []);
 
   const saveSettings = useCallback(
