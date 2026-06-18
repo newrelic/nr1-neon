@@ -1,3 +1,10 @@
+## [0.14.1](https://github.com/newrelic/nr1-neon/compare/v0.14.0...v0.14.1) (2026-06-18)
+
+
+### Bug Fixes
+
+* open entity links in new tab ([5ccd61d](https://github.com/newrelic/nr1-neon/commit/5ccd61d725258721a144cafe7c1be27e67f987f1))
+
 # [0.14.0](https://github.com/newrelic/nr1-neon/compare/v0.13.5...v0.14.0) (2026-06-17)
 
 
