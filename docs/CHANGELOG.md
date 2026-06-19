@@ -1,3 +1,11 @@
+## [0.14.2](https://github.com/newrelic/nr1-neon/compare/v0.14.1...v0.14.2) (2026-06-19)
+
+
+### Bug Fixes
+
+* missing tabs on pages with too many entities ([df7091f](https://github.com/newrelic/nr1-neon/commit/df7091f11d6a1902efbbd6125b8593799bf6a680))
+* remove padding from empty entity table rows ([df335d2](https://github.com/newrelic/nr1-neon/commit/df335d2e4f4fcb0eb27e1e97a775441a5b21f26e))
+
 ## [0.14.1](https://github.com/newrelic/nr1-neon/compare/v0.14.0...v0.14.1) (2026-06-18)
 
 
