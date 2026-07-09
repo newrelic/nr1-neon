@@ -50,10 +50,8 @@ const NexusNerdlet = () => {
   navStackRef.current = navigationStack;
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [issuesWorkload, setIssuesWorkload] = useState(null);
-  const {
-    data: userPrefs,
-    loading: userPrefsLoading,
-  } = useUserStorageQuery(USER_PREFS_STORE);
+  const { data: userPrefs, loading: userPrefsLoading } =
+    useUserStorageQuery(USER_PREFS_STORE);
   const [writeUserPrefs] = useUserStorageMutation({
     actionType: useUserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
   });
@@ -388,18 +386,17 @@ const NexusNerdlet = () => {
     openIssuesModal,
   ]);
 
-  const nexusBanner = !userPrefsLoading &&
-    !userPrefs?.nexusBannerDismissed && (
-      <SectionMessage
-        title="Welcome to Nexus."
-        description="Prefer the original Neon experience? You can switch back at any time."
-        type={SectionMessage.TYPE.INFO}
-        actions={[
-          { label: 'Switch to Neon', onClick: switchToNeon },
-          { label: 'Do not show again', onClick: dismissNexusBanner },
-        ]}
-      />
-    );
+  const nexusBanner = !userPrefsLoading && !userPrefs?.nexusBannerDismissed && (
+    <SectionMessage
+      title="Welcome to Nexus."
+      description="Prefer the original Neon experience? You can switch back at any time."
+      type={SectionMessage.TYPE.INFO}
+      actions={[
+        { label: 'Switch to Neon', onClick: switchToNeon },
+        { label: 'Do not show again', onClick: dismissNexusBanner },
+      ]}
+    />
+  );
 
   if (isAcctsLoading || docLoading || dataLoading)
     return (

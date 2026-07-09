@@ -226,8 +226,7 @@ export default class NeonNerdlet extends React.Component {
     } = this.state;
 
     const noBoardsExist = Object.keys(boards).length === 0;
-    const showNexusBanner =
-      userPrefsLoaded && !userPrefs?.neonBannerDismissed;
+    const showNexusBanner = userPrefsLoaded && !userPrefs?.neonBannerDismissed;
 
     console.log(accountId);
 
