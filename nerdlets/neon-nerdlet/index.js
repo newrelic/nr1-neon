@@ -14,9 +14,14 @@ import {
   PlatformStateContext,
   nerdlet,
   EmptyState,
+  SectionMessage,
+  UserStorageMutation,
+  UserStorageQuery,
 } from 'nr1';
 
 import logo from '../../docs/images/logo.png';
+
+import { USER_PREFS_STORE } from '../../src/constants';
 
 import BoxSpinner from './box-spinner.js';
 import MotherBoard from './mother-board.js';
@@ -45,6 +50,8 @@ export default class NeonNerdlet extends React.Component {
     this.displayBoard = this.displayBoard.bind(this);
     this.closeBoard = this.closeBoard.bind(this);
     this.updateBoards = this.updateBoards.bind(this);
+    this.switchToNexus = this.switchToNexus.bind(this);
+    this.dismissNexusBanner = this.dismissNexusBanner.bind(this);
 
     this.state = {
       accounts: [],
@@ -54,6 +61,8 @@ export default class NeonNerdlet extends React.Component {
       boards: {},
       board: null,
       emptyStateHidden: false,
+      userPrefs: {},
+      userPrefsLoaded: false,
     };
   }
 
@@ -65,6 +74,15 @@ export default class NeonNerdlet extends React.Component {
         ...nerdlet.ACCOUNT_PICKER_DEFAULT_VALUES,
       ],
     });
+
+    UserStorageQuery.query(USER_PREFS_STORE)
+      .then((res) =>
+        this.setState({
+          userPrefs: (res || {}).data || {},
+          userPrefsLoaded: true,
+        })
+      )
+      .catch(() => this.setState({ userPrefsLoaded: true }));
 
     const gql = `{ actor { user { email id name } } }`;
     NerdGraphQuery.query({
@@ -180,11 +198,35 @@ export default class NeonNerdlet extends React.Component {
     this.setState({ boards: boards });
   }
 
+  switchToNexus() {
+    navigation.openNerdlet({ id: 'nexus' });
+  }
+
+  dismissNexusBanner() {
+    const { userPrefs } = this.state;
+    const nextPrefs = { ...userPrefs, neonBannerDismissed: true };
+    UserStorageMutation.mutate({
+      actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+      ...USER_PREFS_STORE,
+      document: nextPrefs,
+    })
+      .then(() => this.setState({ userPrefs: nextPrefs }))
+      .catch((err) => console.error('Unable to dismiss banner', err));
+  }
+
   render() {
-    const { accountId, boards, board, currentUser, emptyStateHidden } =
-      this.state;
+    const {
+      accountId,
+      boards,
+      board,
+      currentUser,
+      emptyStateHidden,
+      userPrefs,
+      userPrefsLoaded,
+    } = this.state;
 
     const noBoardsExist = Object.keys(boards).length === 0;
+    const showNexusBanner = userPrefsLoaded && !userPrefs?.neonBannerDismissed;
 
     console.log(accountId);
 
@@ -192,6 +234,20 @@ export default class NeonNerdlet extends React.Component {
       <PlatformStateContext.Consumer>
         {(platformState) => (
           <>
+            {showNexusBanner && (
+              <SectionMessage
+                title="Try Nexus, a new experience."
+                description="Nexus is a different take on this data. You can always come back to Neon."
+                type={SectionMessage.TYPE.INFO}
+                actions={[
+                  { label: 'Open Nexus', onClick: this.switchToNexus },
+                  {
+                    label: 'Do not show again',
+                    onClick: this.dismissNexusBanner,
+                  },
+                ]}
+              />
+            )}
             <Stack
               className="toolbar-container"
               fullWidth
