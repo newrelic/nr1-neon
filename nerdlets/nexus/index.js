@@ -13,10 +13,13 @@ import {
   navigation,
   nerdlet,
   PlatformStateContext,
+  SectionMessage,
   useAccountsQuery,
   useAccountStorageMutation,
   useAccountStorageQuery,
   useEntitiesByGuidsQuery,
+  useUserStorageMutation,
+  useUserStorageQuery,
 } from 'nr1';
 
 import {
@@ -30,7 +33,11 @@ import {
 import { useAlertingEntitiesIssues, useDataManager } from '../../src/hooks';
 import { AppContext } from '../../src/contexts';
 import { mergeData } from '../../src/utils';
-import { DOC_STORE, ENTITY_FRAGMENT_EXTENSION } from '../../src/constants';
+import {
+  DOC_STORE,
+  ENTITY_FRAGMENT_EXTENSION,
+  USER_PREFS_STORE,
+} from '../../src/constants';
 
 const NexusNerdlet = () => {
   const [gridData, setGridData] = useState([]);
@@ -43,6 +50,16 @@ const NexusNerdlet = () => {
   navStackRef.current = navigationStack;
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [issuesWorkload, setIssuesWorkload] = useState(null);
+  const {
+    data: userPrefs,
+    loading: userPrefsLoading,
+  } = useUserStorageQuery(USER_PREFS_STORE);
+  const [writeUserPrefs] = useUserStorageMutation({
+    actionType: useUserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+  });
+  const [deleteUserPrefs] = useUserStorageMutation({
+    actionType: useUserStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
+  });
   const { accountId } = useContext(PlatformStateContext);
   const {
     loading: docLoading,
@@ -187,6 +204,21 @@ const NexusNerdlet = () => {
     };
   }, [accountId, docDelete]);
 
+  useEffect(() => {
+    window.__neonResetUserPrefs = async () => {
+      const { error } = await deleteUserPrefs(USER_PREFS_STORE);
+      if (error) {
+        console.error('[neon] failed to reset user prefs', error);
+        return error;
+      }
+      console.log('[neon] user prefs document deleted; reload to take effect');
+      return null;
+    };
+    return () => {
+      delete window.__neonResetUserPrefs;
+    };
+  }, [deleteUserPrefs]);
+
   const gridClickHandler = useCallback(
     (w) => {
       const { workloadChilds, entityChilds } = (w?.children || []).reduce(
@@ -288,6 +320,20 @@ const NexusNerdlet = () => {
 
   const openIssuesModal = useCallback((w) => setIssuesWorkload(w), []);
 
+  const switchToNeon = useCallback(
+    () => navigation.openNerdlet({ id: 'neon-nerdlet' }),
+    []
+  );
+
+  const dismissNexusBanner = useCallback(
+    () =>
+      writeUserPrefs({
+        ...USER_PREFS_STORE,
+        document: { ...(userPrefs || {}), nexusBannerDismissed: true },
+      }),
+    [userPrefs, writeUserPrefs]
+  );
+
   const currentView = useMemo(() => {
     if (gridData?.length || entities?.length || navigationStack.length > 0)
       return (
@@ -342,18 +388,35 @@ const NexusNerdlet = () => {
     openIssuesModal,
   ]);
 
+  const nexusBanner = !userPrefsLoading &&
+    !userPrefs?.nexusBannerDismissed && (
+      <SectionMessage
+        title="Welcome to Nexus."
+        description="Prefer the original Neon experience? You can switch back at any time."
+        type={SectionMessage.TYPE.INFO}
+        actions={[
+          { label: 'Switch to Neon', onClick: switchToNeon },
+          { label: 'Do not show again', onClick: dismissNexusBanner },
+        ]}
+      />
+    );
+
   if (isAcctsLoading || docLoading || dataLoading)
     return (
-      <EmptyState
-        fullHeight
-        fullWidth
-        title="Setting up..."
-        type={EmptyState.TYPE.LOADING}
-      />
+      <>
+        {nexusBanner}
+        <EmptyState
+          fullHeight
+          fullWidth
+          title="Setting up..."
+          type={EmptyState.TYPE.LOADING}
+        />
+      </>
     );
 
   return (
     <AppContext.Provider value={app}>
+      {nexusBanner}
       {currentView}
       <SettingsModal
         onSave={saveSettings}
