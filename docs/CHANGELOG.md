@@ -1,3 +1,10 @@
+# [0.15.0](https://github.com/newrelic/nr1-neon/compare/v0.14.2...v0.15.0) (2026-07-09)
+
+
+### Features
+
+* nerdlet switch banner ([f40a3c7](https://github.com/newrelic/nr1-neon/commit/f40a3c7a370b4e3034464080f6837f166fd6cf6e))
+
 ## [0.14.2](https://github.com/newrelic/nr1-neon/compare/v0.14.1...v0.14.2) (2026-06-19)
 
 
