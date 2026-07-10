@@ -1,113 +1,76 @@
 [![New Relic One Catalog Project header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/New_Relic_One_Catalog_Project.png)](https://opensource.newrelic.com/oss-category/#new-relic-one-catalog-project)
 
-# Neon
+# Nexus (formerly Neon)
 
 ![CI](https://github.com/newrelic/nr1-neon/workflows/CI/badge.svg) ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-neon?include_prereleases) [![Snyk](https://snyk.io/test/github/newrelic/nr1-neon/badge.svg)](https://snyk.io/test/github/newrelic/nr1-neon)
 
+Nexus is an **executive dashboard** for New Relic that rolls up the health of your entire estate into a single view. Aggregate Workloads across teams, business units, or regions onto one board: leadership gets a single-glance health check, and engineering teams get rapid-fire triage into the issues underneath.
+
+> ✨ Neon has been rebuilt and is now **Nexus**. If you're arriving from Neon, you're in the right place; the nerdpack repository name is unchanged.
+
+![Nexus](catalog/screenshots/nexus-01.png)
+
 ## Usage
 
-Create a single dashboard to track the health of entire business units or regions. Neon lets you create a status board based on New Relic alert status, or the values from New Relic events.
+Nexus is driven by [New Relic Workloads](https://docs.newrelic.com/docs/new-relic-solutions/new-relic-one/core-concepts/workloads-isolate-resolve-incidents-faster/). Before you set up a board, make sure the Workloads you want to monitor already exist in your account.
 
-![Home Page](catalog/screenshots/nr1-neon-1.png)
+To set up your dashboard:
 
-![A Sample Board](catalog/screenshots/nr1-neon-2.png)
+1. Launch **Nexus** from the [New Relic Apps page](https://one.newrelic.com/catalog/app-directory).
+2. Click the **Settings** button in the toolbar (on first launch, an empty-state prompt will point you at it directly).
+3. In the Settings panel, filter or search the list of Workloads in your account and select the ones you want on the board.
+4. (Optional) Toggle **Hide unacknowledged count** if you'd rather not surface unacknowledged issue counts on the board.
+5. Click **Save**. Your selected Workloads appear on the board with their current alert severity and open-issue counts.
 
-## Open Source License
+To add or remove Workloads later, reopen the Settings panel from the toolbar at any time.
 
-This project is distributed under the [Apache 2 license](./LICENSE).
+## Dependencies
 
-## What do you need to make this work?
+Nexus is driven by [New Relic Workloads](https://docs.newrelic.com/docs/new-relic-solutions/new-relic-one/core-concepts/workloads-isolate-resolve-incidents-faster/). You'll need at least one Workload defined in the account you want to monitor before setting up a board.
 
-In order to view status of New Relic alerts, you'll need to set up a webhook notification channel for the alert policies.
+## Enabling this App
 
-See [Creat Alert Webhook Notification Channel](docs/alert_webhook_config.md)
+Nexus is available via the New Relic Catalog.
 
-## Getting started
+To enable it in your account:
 
-First, ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [NPM](https://www.npmjs.com/get-npm) and the [New Relic One CLI](https://developer.newrelic.com/build-tools/new-relic-one-applications/cli) installed. If you're unsure whether you have these installed, run the following command(s). If you have them installed these commands will return a version number, if not, the commands won't be recognized.
+1. Go to [`Integrations & Agents`](https://one.newrelic.com/marketplace), then click the `Apps & Visualizations` link at the top of the page and search for "Nexus"
+2. Click the `Nexus` card, then click the `Add this App` button to add it to your account(s)
+3. Click `Open App` to launch the app (note: on first access, you may be prompted to enable it)
 
-```bash
-git --version
-npm -v
-nr1 --version
-```
+Once you have added your accounts, you can also open the app by:
 
-Next, clone this repository and run the following scripts:
+1. Opening the `Apps` left-hand navigation menu item (you may need to click on the `Add More` ellipsis if it doesn't show up by default)
+2. In the `Your Apps` section, locating and clicking the `Nexus` card to open the app
 
-```bash
-nr1 nerdpack:clone -r https://github.com/newrelic/nr1-neon.git
-cd nr1-neon
-nr1 nerdpack:uuid -gf
-npm install
-npm start
-```
+#### Manual Deployment
 
-What you have just installed is a local version of neon.
-
-To test the nerdpack, go to https://one.newrelic.com/?nerdpacks=local and click on the Neon icon to launch the application.
-
-![Screenshot #1](catalog/screenshots/nr1-neon-logo.png)
-
-Close the Welcome screen and click the plus icon (+) to create your first board.
-
-![Screenshot #2](catalog/screenshots/nr1-neon-home.png)
-
-Click the HELP button for documentation on getting started.
-
-To stop the application from running on your local machine, run control-C.
-
-To re-run the application on your local machine, run
-
-```bash
-npm start
-```
-
-## Publish and Deploy this Nerdpack
-
-Once you've modified and tested Neon to your requirements, you are ready to publish and deploy in in your New Relic account so others can have access to this application.
-
-The instructions below assume that you have created a profile with an associated API key. If you haven't done this step, please review the publish and Deploy details found in [developer.newrelic.com](https://developer.newrelic.com/build-tools/new-relic-one-applications/publish-deploy)
-
-Open a command prompt in the nerdpack's directory and run the following commands.
-
-```bash
-To create a new uuid for the nerdpack so that you can deploy it to your account:
-nr1 nerdpack:uuid -gf [--profile=your_profile_name]
-
-To see a list of APIkeys / profiles available in your development environment:
-nr1 profiles:list
-
-nr1 nerdpack:publish [--profile=your_profile_name]
-nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
-nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
-```
-
-Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
+If you need to customize the app, fork the codebase and follow the instructions on how to [Customize a Nerdpack](https://docs.newrelic.com/docs/new-relic-solutions/tutorials/customize-nerdpacks/). If you have a change you feel everyone can benefit from, please submit a PR!
 
 ## Support
 
-New Relic has open-sourced this project. This project is provided AS-IS WITHOUT WARRANTY OR SUPPORT, although you can report issues and contribute to the project here on GitHub.
+Should you need assistance with Nexus, please leverage one of the following channels:
 
-_Please do not report issues with this software to New Relic Global Technical Support._
+If you have a question about how to use the app, please review the [catalog documentation](catalog/documentation.md). If you are still unsure, feel free to open a question for us in the [Discussions forum](../../discussions).
 
-### Community
+If you have identified a bug, or if you have a feature request, please file a [Github issue](../../issues).
 
-New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
+You can also reach out to [New Relic Technical Support](https://support.newrelic.com/) 24/7/365 ticketed support. Read more about our [Technical Support Offerings](https://docs.newrelic.com/docs/licenses/license-information/general-usage-licenses/support-plan).
 
-[https://discuss.newrelic.com/c/build-on-new-relic](https://discuss.newrelic.com/t/neon-alerting-nerdpack/83272)
-
-### Issues / Enhancement Requests
-
-Issues and enhancement requests can be submitted in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
+We also encourage you to bring your experiences and questions to the [Explorers Hub](https://discuss.newrelic.com) where our community members collaborate on solutions and new ideas.
 
 ## Security
 
 As noted in our [security policy](https://github.com/newrelic/nr1-neon/security/policy), New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
 
-If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through [HackerOne](https://hackerone.com/newrelic).
+If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate [you reporting](https://docs.newrelic.com/docs/security/security-privacy/information-security/report-security-vulnerabilities/) it to New Relic.
 
 ## Contributing
 
-Contributions are welcome (and if you submit an Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](./CONTRIBUTING.md).
+Contributions are welcome (and if you submit an Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](CONTRIBUTING.md).
 
 Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource+nr1-neon@newrelic.com.
+
+## Open Source License
+
+This project is distributed under the [Apache 2 license](./LICENSE).
