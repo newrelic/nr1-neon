@@ -1,9 +1,16 @@
 {
-  "tagline": "Alerting status board",
+  "tagline": "Executive dashboard for workload health",
   "repository": "https://github.com/newrelic/nr1-neon.git",
-  "details": "Neon is an application that allows you to create a status at a glance visualization that can be scaled to track the health of entire business units or regions.\n\nStatuses are derived from existing New Relic alert policies or based on values from New Relic events.\n\nNeon makes it easy to configure the visualization to show exactly what you need to see.",
+  "details": "Nexus (formerly Neon) is an executive dashboard for New Relic that rolls up the health of your entire estate into a single view. Aggregate Workloads across teams, business units, or regions onto one board: leadership gets a single-glance health check, and engineering teams get rapid-fire triage into the issues underneath.\n\nSelect any set of Workloads from your account in the Settings panel and Nexus will surface each one's current alert severity and open-issue counts side by side, so you always know where to look first.",
   "categoryTerms": [],
-  "keywords": ["visualizations"],
+  "keywords": [
+    "executive dashboard",
+    "workloads",
+    "alerts",
+    "issues",
+    "status board",
+    "visualizations"
+  ],
   "support": {
     "issues": {
       "url": "https://github.com/newrelic/nr1-neon/issues"
@@ -15,5 +22,5 @@
       "url": "https://discuss.newrelic.com/t/neon-alerting-nerdpack/83272"
     }
   },
-  "whatsNew": "\n- Fix: Edit state when edit modal is closed\n -Feature: Edit cells capability\n -Feature: User feedback via Toast added when saving edits\n"
+  "whatsNew": "\n- Neon is now Nexus: rebuilt around New Relic Workloads with a new executive-dashboard experience\n- Fix: Edit state when edit modal is closed\n- Feature: Edit cells capability\n- Feature: User feedback via Toast added when saving edits\n"
 }
