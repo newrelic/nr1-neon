@@ -34,7 +34,7 @@ Nexus is available via the New Relic Catalog.
 
 To enable it in your account:
 
-1. Go to [`Integrations & Agents`](https://one.newrelic.com/marketplace), then click the `Apps & Visualizations` link at the top of the page and search for "Nexus"
+1. Go to [`Integrations & Agents`](https://one.newrelic.com/marketplace), then click the `Apps & Visualizations` link at the top of the page and search for `Nexus`
 2. Click the `Nexus` card, then click the `Add this App` button to add it to your account(s)
 3. Click `Open App` to launch the app (note: on first access, you may be prompted to enable it)
 
