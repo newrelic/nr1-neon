@@ -1,10 +1,23 @@
 {
-  "lastUpdated": "Wed Apr 08 2026 11:18:23 GMT-0700 (Pacific Daylight Time)",
+  "lastUpdated": "Fri Jul 10 2026 13:32:44 GMT-0700 (Pacific Daylight Time)",
   "projectName": "nr1-neon",
   "projectUrl": "https://github.com/newrelic/nr1-neon",
-  "includeDev": true,
   "includeOptDeps": false,
+  "includeDev": true,
   "dependencies": {
+    "@newrelic/nr-labs-components@2.0.5": {
+      "name": "@newrelic/nr-labs-components",
+      "version": "2.0.5",
+      "range": "^2.0.5",
+      "licenses": "Apache-2.0",
+      "repoUrl": "https://github.com/newrelic/nr-labs-components",
+      "versionedRepoUrl": "https://github.com/newrelic/nr-labs-components/tree/v2.0.5",
+      "licenseFile": "node_modules/@newrelic/nr-labs-components/LICENSE",
+      "licenseUrl": "https://github.com/newrelic/nr-labs-components/blob/v2.0.5/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "New Relic Labs - Viz",
+      "url": "https://github.com/orgs/newrelic/teams/labs-viz"
+    },
     "prop-types@15.8.1": {
       "name": "prop-types",
       "version": "15.8.1",
@@ -87,6 +100,58 @@
       "licenseFile": "node_modules/@semantic-release/git/LICENSE",
       "licenseTextSource": "file"
     },
+    "@testing-library/jest-dom@6.9.1": {
+      "name": "@testing-library/jest-dom",
+      "version": "6.9.1",
+      "range": "^6.9.1",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/testing-library/jest-dom",
+      "versionedRepoUrl": "https://github.com/testing-library/jest-dom/tree/v6.9.1",
+      "licenseFile": "node_modules/@testing-library/jest-dom/LICENSE",
+      "licenseUrl": "https://github.com/testing-library/jest-dom/blob/v6.9.1/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Ernesto Garcia",
+      "email": "gnapse@gmail.com",
+      "url": "http://gnapse.github.io"
+    },
+    "@testing-library/react@12.1.5": {
+      "name": "@testing-library/react",
+      "version": "12.1.5",
+      "range": "^12.1.5",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/testing-library/react-testing-library",
+      "versionedRepoUrl": "https://github.com/testing-library/react-testing-library/tree/v12.1.5",
+      "licenseFile": "node_modules/@testing-library/react/LICENSE",
+      "licenseUrl": "https://github.com/testing-library/react-testing-library/blob/v12.1.5/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Kent C. Dodds",
+      "email": "me@kentcdodds.com",
+      "url": "https://kentcdodds.com"
+    },
+    "@testing-library/user-event@14.6.1": {
+      "name": "@testing-library/user-event",
+      "version": "14.6.1",
+      "range": "^14.6.1",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/testing-library/user-event",
+      "versionedRepoUrl": "https://github.com/testing-library/user-event/tree/v14.6.1",
+      "licenseFile": "node_modules/@testing-library/user-event/LICENSE",
+      "licenseUrl": "https://github.com/testing-library/user-event/blob/v14.6.1/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Giorgio Polvara",
+      "email": "polvara@gmail.com"
+    },
+    "babel-jest@29.7.0": {
+      "name": "babel-jest",
+      "version": "29.7.0",
+      "range": "^29.7.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/jestjs/jest",
+      "versionedRepoUrl": "https://github.com/jestjs/jest/tree/v29.7.0",
+      "licenseFile": "node_modules/babel-jest/LICENSE",
+      "licenseUrl": "https://github.com/jestjs/jest/blob/v29.7.0/LICENSE",
+      "licenseTextSource": "file"
+    },
     "eslint-config-prettier@9.1.2": {
       "name": "eslint-config-prettier",
       "version": "9.1.2",
@@ -141,6 +206,42 @@
       "licenses": "MIT",
       "repoUrl": "https://github.com/eslint/eslint",
       "licenseFile": "node_modules/eslint/LICENSE",
+      "licenseTextSource": "file"
+    },
+    "identity-obj-proxy@3.0.0": {
+      "name": "identity-obj-proxy",
+      "version": "3.0.0",
+      "range": "^3.0.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/keyanzhang/identity-obj-proxy",
+      "versionedRepoUrl": "https://github.com/keyanzhang/identity-obj-proxy/tree/v3.0.0",
+      "licenseFile": "node_modules/identity-obj-proxy/LICENSE",
+      "licenseUrl": "https://github.com/keyanzhang/identity-obj-proxy/blob/v3.0.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Keyan Zhang",
+      "email": "root@keyanzhang.com",
+      "url": "http://keya.nz"
+    },
+    "jest-environment-jsdom@29.7.0": {
+      "name": "jest-environment-jsdom",
+      "version": "29.7.0",
+      "range": "^29.7.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/jestjs/jest",
+      "versionedRepoUrl": "https://github.com/jestjs/jest/tree/v29.7.0",
+      "licenseFile": "node_modules/jest-environment-jsdom/LICENSE",
+      "licenseUrl": "https://github.com/jestjs/jest/blob/v29.7.0/LICENSE",
+      "licenseTextSource": "file"
+    },
+    "jest@29.7.0": {
+      "name": "jest",
+      "version": "29.7.0",
+      "range": "^29.7.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/jestjs/jest",
+      "versionedRepoUrl": "https://github.com/jestjs/jest/tree/v29.7.0",
+      "licenseFile": "node_modules/jest/LICENSE",
+      "licenseUrl": "https://github.com/jestjs/jest/blob/v29.7.0/LICENSE",
       "licenseTextSource": "file"
     },
     "prettier@2.8.8": {

@@ -2,7 +2,7 @@
 
 Nexus (formerly Neon) is an executive dashboard for New Relic that rolls up the health of your entire estate into a single view. Aggregate Workloads across teams, business units, or regions onto one board: leadership gets a single-glance health check, and engineering teams get rapid-fire triage into the issues underneath.
 
-Nexus is driven by [New Relic Workloads](https://docs.newrelic.com/docs/new-relic-solutions/new-relic-one/core-concepts/workloads-isolate-resolve-incidents-faster/). Before you set up a board, make sure the Workloads you want to monitor already exist in your account.
+Nexus is driven by [New Relic Workloads](https://docs.newrelic.com/docs/new-relic-solutions/new-relic-one/workloads/workloads-isolate-resolve-alert-events-faster/). Before you set up a board, make sure the Workloads you want to monitor already exist in your account.
 
 To set up your dashboard:
 
@@ -16,7 +16,7 @@ To add or remove Workloads later, reopen the Settings panel from the toolbar at 
 
 ## Dependencies
 
-Nexus is driven by [New Relic Workloads](https://docs.newrelic.com/docs/new-relic-solutions/new-relic-one/core-concepts/workloads-isolate-resolve-incidents-faster/). You'll need at least one Workload defined in the account you want to monitor before setting up a board.
+Nexus is driven by [New Relic Workloads](https://docs.newrelic.com/docs/new-relic-solutions/new-relic-one/workloads/workloads-isolate-resolve-alert-events-faster/). You'll need at least one Workload defined in the account you want to monitor before setting up a board.
 
 ## Enabling this App
 
