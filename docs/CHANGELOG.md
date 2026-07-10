@@ -1,3 +1,17 @@
+# [1.0.0](https://github.com/newrelic/nr1-neon/compare/v0.15.0...v1.0.0) (2026-07-10)
+
+
+* feat!: rebrand Neon to Nexus for catalog release ([ee50051](https://github.com/newrelic/nr1-neon/commit/ee500516885e7e1f259649c135b72903957a5ccd))
+
+
+### BREAKING CHANGES
+
+* Neon has been rebuilt as Nexus. The catalog listing,
+tagline, and setup flow have changed; existing users should follow the
+new Settings-panel-based setup to select Workloads for their board.
+
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
+
 # [0.15.0](https://github.com/newrelic/nr1-neon/compare/v0.14.2...v0.15.0) (2026-07-09)
 
 
