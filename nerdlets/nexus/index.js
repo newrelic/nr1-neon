@@ -151,6 +151,8 @@ const NexusNerdlet = () => {
     }
   }, [accountId, accts, isAcctsLoading]);
 
+  const openSettingsModal = useCallback(() => setIsSettingsModalOpen(true), []);
+
   useEffect(() => {
     nerdlet.setConfig({
       accountPicker: true,
@@ -313,8 +315,6 @@ const NexusNerdlet = () => {
     },
     [accountId, docWrite]
   );
-
-  const openSettingsModal = useCallback(() => setIsSettingsModalOpen(true), []);
 
   const openIssuesModal = useCallback((w) => setIssuesWorkload(w), []);
 
