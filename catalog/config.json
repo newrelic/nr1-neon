@@ -1,5 +1,5 @@
 {
-  "tagline": "Executive dashboard for workload health",
+  "tagline": "Executive workload dashboard",
   "repository": "https://github.com/newrelic/nr1-neon.git",
   "details": "Nexus (formerly Neon) is an executive dashboard for New Relic that rolls up the health of your entire estate into a single view. Aggregate Workloads across teams, business units, or regions onto one board: leadership gets a single-glance health check, and engineering teams get rapid-fire triage into the issues underneath.\n\nSelect any set of Workloads from your account in the Settings panel and Nexus will surface each one's current alert severity and open-issue counts side by side, so you always know where to look first.",
   "categoryTerms": [],
