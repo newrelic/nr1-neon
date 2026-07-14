@@ -22,6 +22,7 @@ on:
       url:
         description: "If action == `add`, must supply URL of repo"
         required: false
+
 permissions:
   contents: read
 jobs:
