@@ -2,6 +2,9 @@ name: NR1 Library Deprecation Checks
 
 on: [push, workflow_dispatch]
 
+permissions:
+  contents: read
+
 jobs:
   nr1_lib_deprecations:
     name: Run NR1 Library Deprecation Checks
