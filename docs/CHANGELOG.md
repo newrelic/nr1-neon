@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/newrelic/nr1-neon/compare/v1.0.1...v1.0.2) (2026-07-14)
+
+
+### Bug Fixes
+
+* minor updates in workflows ([839576b](https://github.com/newrelic/nr1-neon/commit/839576b87f90b3172419b6e94941d8672035991b))
+
 ## [1.0.1](https://github.com/newrelic/nr1-neon/compare/v1.0.0...v1.0.1) (2026-07-10)
 
 
