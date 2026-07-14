@@ -7,6 +7,10 @@ on:
   repository_dispatch:
     types: [semantic-release]
 
+permissions:
+  contents: read
+  actions: read
+
 env:
   THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+bot@newrelic.com
   THIRD_PARTY_GIT_AUTHOR_NAME: nr-opensource-bot
