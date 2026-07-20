@@ -24,9 +24,11 @@ const EntitiesTable = ({ entityType, entities, onEntityClick }) => {
     );
   }
 
+  // NR1 guarantees all entities of the same type share the same golden metrics schema, so the first entity is representative.
   const sampleMetrics = entities[0]?.goldenMetrics ?? [];
   const metricCount = Math.min(sampleMetrics.length, 3);
 
+  // gridTemplate is passed to both the header row and each EntityRow so columns align without a real CSS grid parent.
   const gridTemplate =
     metricCount > 0 ? `220px ${'1fr '.repeat(metricCount).trim()}` : '1fr';
 

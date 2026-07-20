@@ -16,7 +16,7 @@ const KpiRow = ({ kpi = {} }) => {
     if (
       typeof compareValue !== 'number' ||
       typeof value !== 'number' ||
-      compareValue === 0
+      compareValue === 0 // guard against division by zero in the percentage calculation below
     ) {
       return null;
     }

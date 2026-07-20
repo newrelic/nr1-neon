@@ -28,6 +28,7 @@ const BreadcrumbRow = ({
     const el = trackRef.current;
     if (!el) return;
     el.addEventListener('scroll', updateScrollState, { passive: true });
+    // ResizeObserver catches container size changes (e.g. window resize) that don't fire a scroll event.
     const ro = new ResizeObserver(updateScrollState);
     ro.observe(el);
     return () => {
@@ -39,7 +40,7 @@ const BreadcrumbRow = ({
   const scrollByDir = (direction) => {
     const el = trackRef.current;
     if (!el) return;
-    const delta = el.clientWidth * 0.8 * direction;
+    const delta = el.clientWidth * 0.8 * direction; // scroll 80% of visible width to keep one chip in view for context
     el.scrollBy({ left: delta, behavior: 'smooth' });
   };
 

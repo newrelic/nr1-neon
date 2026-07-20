@@ -20,6 +20,7 @@ const formatDuration = (activatedAt) => {
 const IssueRow = ({ issue }) => {
   const priority = (issue.priority ?? 'low').toLowerCase();
   const isAcked = !!issue.acknowledgedAt;
+  // The NR1 issues API returns title as an array when multiple conditions contributed to the issue.
   const title = Array.isArray(issue.title)
     ? issue.title.join(' · ')
     : issue.title;

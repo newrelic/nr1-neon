@@ -18,6 +18,7 @@ const Modal = ({ hidden, onClose, onHide, onShow, style, children }) => {
 
     if (!hidden) {
       dialog.showModal?.();
+      // showModal() auto-focuses the first focusable element; defer a blur so the slide-in animation isn't interrupted.
       setTimeout(() => dialog.querySelector?.(':focus')?.blur?.());
       setAnimClass(ANIMATION_CLASSES.SLIDE_IN);
     } else {
@@ -26,6 +27,7 @@ const Modal = ({ hidden, onClose, onHide, onShow, style, children }) => {
     }
   }, [hidden]);
 
+  // A click on the <dialog> element itself (not the inner frame) means the user clicked the backdrop.
   const clickHandler = (e) => {
     if (e.target === dialogRef.current) onClose?.();
   };
@@ -34,6 +36,7 @@ const Modal = ({ hidden, onClose, onHide, onShow, style, children }) => {
     if (animClass === ANIMATION_CLASSES.SLIDE_IN) {
       onShow?.();
     } else if (animClass === ANIMATION_CLASSES.SLIDE_OUT) {
+      // Close is deferred to animationEnd so the slide-out animation plays before the dialog is removed from the a11y tree.
       onHide?.();
       dialogRef.current?.close?.();
     }

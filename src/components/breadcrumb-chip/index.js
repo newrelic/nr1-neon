@@ -10,9 +10,9 @@ const summarizeIssueSeverity = (issues = []) => {
   let criticalCount = 0;
   let warningCount = 0;
   for (const issue of issues) {
-    if (issue.state !== 'ACTIVATED') continue;
+    if (issue.state !== 'ACTIVATED') continue; // only count open issues; resolved/closed still appear in the array
     if (issue.priority === 'CRITICAL') criticalCount += 1;
-    else if (issue.priority === 'HIGH' || issue.priority === 'MEDIUM')
+    else if (issue.priority === 'HIGH' || issue.priority === 'MEDIUM') // HIGH/MEDIUM both map to the warning bucket
       warningCount += 1;
   }
   return { criticalCount, warningCount };

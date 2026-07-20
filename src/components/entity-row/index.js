@@ -15,6 +15,7 @@ function mapStatus(entity) {
 const EntityRow = ({ entity, gridTemplate, metricCount, onClick }) => {
   const status = mapStatus(entity);
   const metrics = (entity.goldenMetrics ?? []).slice(0, 3);
+  // goldenTags on the entity is an array of key strings; filter the full tags array down to only those keys.
   const goldenTagKeys = new Set(entity.goldenTags ?? []);
   const goldenTags = goldenTagKeys.size
     ? (entity.tags ?? []).filter(({ key }) => goldenTagKeys.has(key))
@@ -58,7 +59,7 @@ const EntityRow = ({ entity, gridTemplate, metricCount, onClick }) => {
             key={metric.name}
             className="metric"
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation(); // prevent sparkline clicks from bubbling up to the row's entity-open handler
             }}
           >
             <Sparkline accountId={entity.accountId} query={metric.query} />

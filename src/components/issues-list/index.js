@@ -5,6 +5,8 @@ import { Switch } from 'nr1';
 
 import IssueRow from '../issue-row';
 
+// Workload status comes in two forms: the generic alert form (CRITICAL/WARNING) and the operational
+// form (DISRUPTED/DEGRADED/OPERATIONAL). Both need to be mapped to CSS classes.
 const mapStatus = (status) => {
   const s = (status ?? '').toUpperCase();
   if (s === 'CRITICAL' || s === 'DISRUPTED') return 'critical';

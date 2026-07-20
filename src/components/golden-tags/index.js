@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
+// Module-level counter generates stable unique IDs; lazy init via useRef avoids reassigning on re-render.
 let goldenTagsIdCounter = 0;
 
 const GoldenTags = ({ tags, inlineCount = 1 }) => {
@@ -8,6 +9,7 @@ const GoldenTags = ({ tags, inlineCount = 1 }) => {
   if (idRef.current === null) {
     idRef.current = `gt-${++goldenTagsIdCounter}`;
   }
+  // CSS anchor positioning requires the anchor-name value to start with `--`.
   const anchorName = `--${idRef.current}`;
   const popoverId = `${idRef.current}-popover`;
 
@@ -17,6 +19,7 @@ const GoldenTags = ({ tags, inlineCount = 1 }) => {
   const overflow = tags.slice(inlineCount);
   const hasOverflow = overflow.length > 0;
 
+  // stop prevents clicks inside the popover from bubbling up to the entity row's click handler.
   const stop = (e) => e.stopPropagation();
 
   return (

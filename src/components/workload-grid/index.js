@@ -43,6 +43,7 @@ const WorkloadGrid = ({
       prevIds.size === nextIds.size &&
       [...prevIds].every((id) => nextIds.has(id));
 
+    // Same workload IDs means a status/issues update only — swap data in-place with no fade animation.
     if (sameSet) {
       setDisplayedWorkloads(workloads);
       return;
@@ -53,6 +54,7 @@ const WorkloadGrid = ({
       setDisplayedWorkloads(workloads);
       setFadePhase(FADE_PHASES.ENTERING);
 
+      // Two rAFs are needed: the first lets the browser paint ENTERING, the second lets CSS transitions pick up the class change.
       requestAnimationFrame(() => {
         requestAnimationFrame(() => setFadePhase(FADE_PHASES.IDLE));
       });
