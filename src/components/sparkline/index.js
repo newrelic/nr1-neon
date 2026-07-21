@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { useNrqlQuery } from 'nr1';
 
-const PAD = 4;
-const W = 100;
+const PAD = 4; // vertical padding in SVG units to keep the line from touching the top/bottom edges
+const W = 100; // viewBox width in SVG units; using 100 makes svgX values equal percentages, simplifying HTML overlay positioning
 
 function buildPaths(pts, height) {
   let linePath = '';
@@ -50,7 +50,7 @@ const Sparkline = ({ accountId, query, height = 44 }) => {
     if (!vals.length) return [];
     const minY = Math.min(...vals);
     const maxY = Math.max(...vals);
-    const yRange = maxY - minY || 1;
+    const yRange = maxY - minY || 1; // guard against division by zero when all values are identical (flat line)
     return series.map((d, i) => ({
       svgX: (i / (series.length - 1)) * W,
       svgY:
@@ -95,7 +95,7 @@ const SparklineSvg = ({ pts, height }) => {
     setHover(closest);
   };
 
-  const tooltipLeft = hover ? Math.min(Math.max(hover.svgX, 5), 95) : 0;
+  const tooltipLeft = hover ? Math.min(Math.max(hover.svgX, 5), 95) : 0; // clamp so the tooltip never overflows the container edges
 
   return (
     <div
@@ -104,6 +104,7 @@ const SparklineSvg = ({ pts, height }) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setHover(null)}
     >
+      {/* preserveAspectRatio="none" lets the SVG stretch freely to fill the container, which is correct for a sparkline */}
       <svg viewBox={`0 0 ${W} ${height}`} preserveAspectRatio="none">
         {areaPath && <path d={areaPath} className="area" />}
         <path d={linePath} className="line" />

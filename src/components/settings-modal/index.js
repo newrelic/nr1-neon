@@ -91,6 +91,7 @@ const SettingsModal = ({
   }, [entities, savedGuids]);
 
   // Index-based selection for DataTable, derived from selectedGuids.
+  // DataTable requires row-index keys; we convert back to guid-based state in handleSelectionChange.
   const selection = useMemo(() => {
     const s = {};
     sortedEntities.forEach((e, i) => {
@@ -114,6 +115,7 @@ const SettingsModal = ({
   );
 
   // Right panel: all selected workloads, using full entity data where available.
+  // Falls back to savedByGuid so selections survive the filter being applied (entity disappears from the left panel).
   const selectedList = useMemo(
     () =>
       [...selectedGuids].map(

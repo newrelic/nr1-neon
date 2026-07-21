@@ -5,6 +5,7 @@ import { Button } from 'nr1';
 
 import BreadcrumbRow from '../breadcrumb-row';
 
+// Must match the CSS transition duration on .breadcrumb-row so rows finish animating before being unmounted.
 const EXIT_DURATION = 280;
 
 const Breadcrumb = ({ levels, onChipClick, onHomeClick }) => {
@@ -38,6 +39,7 @@ const Breadcrumb = ({ levels, onChipClick, onHomeClick }) => {
 
   if (displayedLevels.length === 0) return null;
 
+  // visibleDepth excludes departing rows so remaining rows resize immediately while departing rows fade out.
   const visibleDepth = displayedLevels.length - leavingDepths.size;
 
   return (

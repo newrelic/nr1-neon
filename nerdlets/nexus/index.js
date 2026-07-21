@@ -44,6 +44,7 @@ const NexusNerdlet = () => {
   const [entities, setEntities] = useState([]);
   const [navigationStack, setNavigationStack] = useState([]);
   const [app, setApp] = useState({});
+  // Refs mirror state so callbacks can read current values without listing them in dep arrays.
   const gridDataRef = useRef([]);
   gridDataRef.current = gridData;
   const navStackRef = useRef([]);
@@ -178,7 +179,7 @@ const NexusNerdlet = () => {
 
   useEffect(() => {
     setGridData(() => mergeData(data, issuesData));
-    setNavigationStack([]);
+    setNavigationStack([]); // clear drill-down on every data refresh so stale nav state doesn't survive account switches
     setEntities([]);
   }, [data, issuesData]);
 
@@ -190,6 +191,7 @@ const NexusNerdlet = () => {
 
   useEffect(() => {
     if (!accountId) return;
+    // Dev escape-hatch: call window.__neonResetSettings() from the browser console to wipe saved board settings.
     window.__neonResetSettings = async () => {
       const { error } = await docDelete({ accountId, ...DOC_STORE });
       if (error) {
@@ -205,6 +207,7 @@ const NexusNerdlet = () => {
   }, [accountId, docDelete]);
 
   useEffect(() => {
+    // Dev escape-hatch: call window.__neonResetUserPrefs() from the browser console to reset per-user preferences.
     window.__neonResetUserPrefs = async () => {
       const { error } = await deleteUserPrefs(USER_PREFS_STORE);
       if (error) {
@@ -289,6 +292,7 @@ const NexusNerdlet = () => {
     const link = navigation.getOpenEntityLocation(entity?.guid, {
       platformState: { accountId: entity?.accountId },
     });
+    // The nerdlet runs inside an NR1 iframe; ancestorOrigins provides the host origin needed to build an absolute URL.
     const ancestors = window.location.ancestorOrigins;
     const origin = ancestors[ancestors.length - 1];
     const url = `${origin}${link.pathname}${link.search || ''}`;
