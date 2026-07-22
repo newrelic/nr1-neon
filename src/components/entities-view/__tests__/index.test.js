@@ -98,19 +98,7 @@ describe('EntitiesView', () => {
       expect(screen.getByTitle('1 warning')).toBeInTheDocument();
     });
 
-    it('buckets NOT_ALERTING and NOT_CONFIGURED together into the healthy badge', () => {
-      render(
-        <EntitiesView
-          entities={[
-            entity({ guid: '1', alertSeverity: 'NOT_ALERTING' }),
-            entity({ guid: '2', alertSeverity: 'NOT_CONFIGURED' }),
-          ]}
-        />
-      );
-      expect(screen.getByTitle('2 healthy')).toBeInTheDocument();
-    });
-
-    it('shows all three badges when each severity bucket has entities', () => {
+    it('shows both badges when critical and warning entities are present', () => {
       render(
         <EntitiesView
           entities={[
@@ -122,10 +110,22 @@ describe('EntitiesView', () => {
       );
       expect(screen.getByTitle('1 critical')).toBeInTheDocument();
       expect(screen.getByTitle('1 warning')).toBeInTheDocument();
-      expect(screen.getByTitle('1 healthy')).toBeInTheDocument();
     });
 
-    it('omits a badge when that severity bucket is empty', () => {
+    it('shows no badges when all entities are healthy', () => {
+      render(
+        <EntitiesView
+          entities={[
+            entity({ guid: '1', alertSeverity: 'NOT_ALERTING' }),
+            entity({ guid: '2', alertSeverity: 'NOT_CONFIGURED' }),
+          ]}
+        />
+      );
+      expect(screen.queryByTitle(/critical/)).toBeNull();
+      expect(screen.queryByTitle(/warning/)).toBeNull();
+    });
+
+    it('omits the warning badge when there are no WARNING entities', () => {
       render(
         <EntitiesView
           entities={[entity({ guid: '1', alertSeverity: 'CRITICAL' })]}
@@ -133,7 +133,6 @@ describe('EntitiesView', () => {
       );
       expect(screen.getByTitle('1 critical')).toBeInTheDocument();
       expect(screen.queryByTitle(/warning/)).toBeNull();
-      expect(screen.queryByTitle(/healthy/)).toBeNull();
     });
   });
 
@@ -161,9 +160,8 @@ describe('EntitiesView', () => {
     const labels = screen
       .getAllByTestId(/nr1-Tab-label-/)
       .map((el) => el.textContent);
-    // First label should be for the HOST tab (contains "Host") since it's more severe.
-    expect(labels[0]).toMatch(/1/); // 1 entity in the first group
-    // The APPLICATION group ("APM Application" / Service - APM) is second.
-    expect(labels[1]).toMatch(/1/);
+    // HOST (CRITICAL) should sort before APPLICATION (NOT_ALERTING).
+    expect(labels[0]).toMatch(/[Hh]ost/);
+    expect(labels[1]).toMatch(/[Aa]pplication|Service/);
   });
 });

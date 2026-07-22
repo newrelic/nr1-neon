@@ -61,11 +61,6 @@ $min-height: 320px;
         background: $status-warning;
         color: #5A4500;
       }
-      &.healthy {
-        background: transparent;
-        color: #687076;
-        border: 1px solid #C1C7CD;
-      }
     }
   }
 }

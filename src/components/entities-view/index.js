@@ -54,37 +54,33 @@ const SEVERITY_RANK = {
 const summarizeSeverity = (entities) => {
   let critical = 0;
   let warning = 0;
-  let healthy = 0;
   for (const e of entities) {
     if (e?.alertSeverity === 'CRITICAL') critical++;
     else if (e?.alertSeverity === 'WARNING') warning++;
-    else healthy++; // NOT_ALERTING, NOT_CONFIGURED, and any unknown value
   }
-  return { critical, warning, healthy };
+  return { critical, warning };
 };
 
 const TabLabel = ({ text, entities }) => {
-  const { critical, warning, healthy } = summarizeSeverity(entities);
+  const { critical, warning } = summarizeSeverity(entities);
+  const hasBadges = critical > 0 || warning > 0;
   return (
     <span className="tab-label">
       <span className="tab-label-name">{text}</span>
-      <span className="badges">
-        {critical > 0 && (
-          <span className="badge critical" title={`${critical} critical`}>
-            {critical}
-          </span>
-        )}
-        {warning > 0 && (
-          <span className="badge warning" title={`${warning} warning`}>
-            {warning}
-          </span>
-        )}
-        {healthy > 0 && (
-          <span className="badge healthy" title={`${healthy} healthy`}>
-            {healthy}
-          </span>
-        )}
-      </span>
+      {hasBadges && (
+        <span className="badges">
+          {critical > 0 && (
+            <span className="badge critical" title={`${critical} critical`}>
+              {critical}
+            </span>
+          )}
+          {warning > 0 && (
+            <span className="badge warning" title={`${warning} warning`}>
+              {warning}
+            </span>
+          )}
+        </span>
+      )}
     </span>
   );
 };
