@@ -75,6 +75,68 @@ describe('EntitiesView', () => {
     expect(screen.queryByText('Ghost')).toBeNull();
   });
 
+  describe('tab badges', () => {
+    it('shows a critical badge with the count of CRITICAL entities', () => {
+      render(
+        <EntitiesView
+          entities={[
+            entity({ guid: '1', alertSeverity: 'CRITICAL' }),
+            entity({ guid: '2', alertSeverity: 'CRITICAL' }),
+            entity({ guid: '3', alertSeverity: 'NOT_ALERTING' }),
+          ]}
+        />
+      );
+      expect(screen.getByTitle('2 critical')).toBeInTheDocument();
+    });
+
+    it('shows a warning badge for WARNING entities', () => {
+      render(
+        <EntitiesView
+          entities={[entity({ guid: '1', alertSeverity: 'WARNING' })]}
+        />
+      );
+      expect(screen.getByTitle('1 warning')).toBeInTheDocument();
+    });
+
+    it('buckets NOT_ALERTING and NOT_CONFIGURED together into the healthy badge', () => {
+      render(
+        <EntitiesView
+          entities={[
+            entity({ guid: '1', alertSeverity: 'NOT_ALERTING' }),
+            entity({ guid: '2', alertSeverity: 'NOT_CONFIGURED' }),
+          ]}
+        />
+      );
+      expect(screen.getByTitle('2 healthy')).toBeInTheDocument();
+    });
+
+    it('shows all three badges when each severity bucket has entities', () => {
+      render(
+        <EntitiesView
+          entities={[
+            entity({ guid: '1', alertSeverity: 'CRITICAL' }),
+            entity({ guid: '2', alertSeverity: 'WARNING' }),
+            entity({ guid: '3', alertSeverity: 'NOT_ALERTING' }),
+          ]}
+        />
+      );
+      expect(screen.getByTitle('1 critical')).toBeInTheDocument();
+      expect(screen.getByTitle('1 warning')).toBeInTheDocument();
+      expect(screen.getByTitle('1 healthy')).toBeInTheDocument();
+    });
+
+    it('omits a badge when that severity bucket is empty', () => {
+      render(
+        <EntitiesView
+          entities={[entity({ guid: '1', alertSeverity: 'CRITICAL' })]}
+        />
+      );
+      expect(screen.getByTitle('1 critical')).toBeInTheDocument();
+      expect(screen.queryByTitle(/warning/)).toBeNull();
+      expect(screen.queryByTitle(/healthy/)).toBeNull();
+    });
+  });
+
   it('sorts groups so higher-severity types come first', () => {
     render(
       <EntitiesView
