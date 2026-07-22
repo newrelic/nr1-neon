@@ -75,6 +75,67 @@ describe('EntitiesView', () => {
     expect(screen.queryByText('Ghost')).toBeNull();
   });
 
+  describe('tab badges', () => {
+    it('shows a critical badge with the count of CRITICAL entities', () => {
+      render(
+        <EntitiesView
+          entities={[
+            entity({ guid: '1', alertSeverity: 'CRITICAL' }),
+            entity({ guid: '2', alertSeverity: 'CRITICAL' }),
+            entity({ guid: '3', alertSeverity: 'NOT_ALERTING' }),
+          ]}
+        />
+      );
+      expect(screen.getByTitle('2 critical')).toBeInTheDocument();
+    });
+
+    it('shows a warning badge for WARNING entities', () => {
+      render(
+        <EntitiesView
+          entities={[entity({ guid: '1', alertSeverity: 'WARNING' })]}
+        />
+      );
+      expect(screen.getByTitle('1 warning')).toBeInTheDocument();
+    });
+
+    it('shows both badges when critical and warning entities are present', () => {
+      render(
+        <EntitiesView
+          entities={[
+            entity({ guid: '1', alertSeverity: 'CRITICAL' }),
+            entity({ guid: '2', alertSeverity: 'WARNING' }),
+            entity({ guid: '3', alertSeverity: 'NOT_ALERTING' }),
+          ]}
+        />
+      );
+      expect(screen.getByTitle('1 critical')).toBeInTheDocument();
+      expect(screen.getByTitle('1 warning')).toBeInTheDocument();
+    });
+
+    it('shows no badges when all entities are healthy', () => {
+      render(
+        <EntitiesView
+          entities={[
+            entity({ guid: '1', alertSeverity: 'NOT_ALERTING' }),
+            entity({ guid: '2', alertSeverity: 'NOT_CONFIGURED' }),
+          ]}
+        />
+      );
+      expect(screen.queryByTitle(/critical/)).toBeNull();
+      expect(screen.queryByTitle(/warning/)).toBeNull();
+    });
+
+    it('omits the warning badge when there are no WARNING entities', () => {
+      render(
+        <EntitiesView
+          entities={[entity({ guid: '1', alertSeverity: 'CRITICAL' })]}
+        />
+      );
+      expect(screen.getByTitle('1 critical')).toBeInTheDocument();
+      expect(screen.queryByTitle(/warning/)).toBeNull();
+    });
+  });
+
   it('sorts groups so higher-severity types come first', () => {
     render(
       <EntitiesView
@@ -99,9 +160,8 @@ describe('EntitiesView', () => {
     const labels = screen
       .getAllByTestId(/nr1-Tab-label-/)
       .map((el) => el.textContent);
-    // First label should be for the HOST tab (contains "Host") since it's more severe.
-    expect(labels[0]).toMatch(/1/); // 1 entity in the first group
-    // The APPLICATION group ("APM Application" / Service - APM) is second.
-    expect(labels[1]).toMatch(/1/);
+    // HOST (CRITICAL) should sort before APPLICATION (NOT_ALERTING).
+    expect(labels[0]).toMatch(/[Hh]ost/);
+    expect(labels[1]).toMatch(/[Aa]pplication|Service/);
   });
 });

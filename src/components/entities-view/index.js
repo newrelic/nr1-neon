@@ -51,6 +51,45 @@ const SEVERITY_RANK = {
   NOT_CONFIGURED: 0,
 };
 
+const summarizeSeverity = (entities) => {
+  let critical = 0;
+  let warning = 0;
+  for (const e of entities) {
+    if (e?.alertSeverity === 'CRITICAL') critical++;
+    else if (e?.alertSeverity === 'WARNING') warning++;
+  }
+  return { critical, warning };
+};
+
+const TabLabel = ({ text, entities }) => {
+  const { critical, warning } = summarizeSeverity(entities);
+  const hasBadges = critical > 0 || warning > 0;
+  return (
+    <span className="tab-label">
+      <span className="tab-label-name">{text}</span>
+      {hasBadges && (
+        <span className="badges">
+          {critical > 0 && (
+            <span className="badge critical" title={`${critical} critical`}>
+              {critical}
+            </span>
+          )}
+          {warning > 0 && (
+            <span className="badge warning" title={`${warning} warning`}>
+              {warning}
+            </span>
+          )}
+        </span>
+      )}
+    </span>
+  );
+};
+
+TabLabel.propTypes = {
+  text: PropTypes.string.isRequired,
+  entities: PropTypes.array.isRequired,
+};
+
 const EntitiesView = ({
   entities,
   loading,
@@ -87,7 +126,12 @@ const EntitiesView = ({
           <TabsItem
             key={type}
             value={type}
-            label={`${entityTypeLabel(type)} (${groups.get(type).length})`}
+            label={
+              <TabLabel
+                text={entityTypeLabel(type)}
+                entities={groups.get(type)}
+              />
+            }
           >
             <div className="panel">
               <EntitiesTable
