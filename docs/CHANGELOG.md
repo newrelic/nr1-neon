@@ -1,3 +1,11 @@
+## [1.0.3](https://github.com/newrelic/nr1-neon/compare/v1.0.2...v1.0.3) (2026-07-22)
+
+
+### Bug Fixes
+
+* add badges to tab labels in entities view ([896ceb7](https://github.com/newrelic/nr1-neon/commit/896ceb7ecda6784570e97fcda620839e7c2156ca))
+* remove badges for healthy entities in entities view tabs ([af0eae0](https://github.com/newrelic/nr1-neon/commit/af0eae04b536fe4a223a7613739f5011e7079d22))
+
 ## [1.0.2](https://github.com/newrelic/nr1-neon/compare/v1.0.1...v1.0.2) (2026-07-14)
 
 
