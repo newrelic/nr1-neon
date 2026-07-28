@@ -44,9 +44,9 @@ describe('Breadcrumb', () => {
         levels={[
           level(
             [
-              wl('a', 'A'),                            // no issues
-              wl('b', 'B', { issues: [critical] }),    // 1 critical
-              wl('c', 'C', { issues: [warning] }),     // 1 warning
+              wl('a', 'A'), // no issues
+              wl('b', 'B', { issues: [critical] }), // 1 critical
+              wl('c', 'C', { issues: [warning] }), // 1 warning
             ],
             'a' // A is active
           ),

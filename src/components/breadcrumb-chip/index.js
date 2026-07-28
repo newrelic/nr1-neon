@@ -19,7 +19,14 @@ const summarizeIssueSeverity = (issues = []) => {
   return { criticalCount, warningCount };
 };
 
-const BreadcrumbChip = ({ workload, isActive, height, fontSize, isCurrentSelection, onClick }) => {
+const BreadcrumbChip = ({
+  workload,
+  isActive,
+  height,
+  fontSize,
+  isCurrentSelection,
+  onClick,
+}) => {
   const [status, setStatus] = useState('');
   const [criticalCount, setCriticalCount] = useState(0);
   const [warningCount, setWarningCount] = useState(0);
@@ -39,7 +46,9 @@ const BreadcrumbChip = ({ workload, isActive, height, fontSize, isCurrentSelecti
   return (
     <button
       type="button"
-      className={`u-unstyledButton breadcrumb-chip ${status}${isActive ? ' active' : ''}${isCurrentSelection ? ' current-selection' : ''}`}
+      className={`u-unstyledButton breadcrumb-chip ${status}${
+        isActive ? ' active' : ''
+      }${isCurrentSelection ? ' current-selection' : ''}`}
       style={{ height, fontSize }}
       onClick={() => onClick && onClick(workload)}
       title={workload.name}
