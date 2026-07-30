@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/newrelic/nr1-neon/compare/v1.0.3...v1.0.4) (2026-07-30)
+
+
+### Bug Fixes
+
+* updated breadcrumb design ([f833654](https://github.com/newrelic/nr1-neon/commit/f83365428db8ea4f4d2045c8ea19b9441e9e88d8))
+
 ## [1.0.3](https://github.com/newrelic/nr1-neon/compare/v1.0.2...v1.0.3) (2026-07-22)
 
 
