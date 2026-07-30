@@ -1,11 +1,47 @@
 .breadcrumb {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 6px;
+  margin-bottom: 20px;
+}
 
-  .back-home {
-    align-self: flex-start;
-    display: inline-flex;
+// Stalk + full-width baseline + end ticks, styled to match the L-arrows.
+.breadcrumb-connector {
+  position: relative;
+  height: 16px;
+  transition: opacity 200ms ease-out;
+
+  // Vertical stalk — drops from the chip row down to the baseline
+  &::before {
+    content: '';
+    position: absolute;
+    left: var(--stem-x);
+    top: 0;
+    width: 1.5px;
+    height: 10.75px; // reaches the centerline of the baseline (10 + 0.75)
+    background: #C5CBD0;
   }
+
+  // Full-width horizontal baseline
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10px;
+    height: 1.5px;
+    background: #C5CBD0;
+  }
+}
+
+// Short downward ticks at the left and right ends of the baseline
+.bc-tick {
+  position: absolute;
+  top: 11.5px; // baseline top (10px) + baseline height (1.5px)
+  width: 1.5px;
+  height: 4.5px; // reaches connector bottom (16 - 11.5 = 4.5)
+  background: #C5CBD0;
+
+  &--left  { left: 0; }
+  &--right { right: 0; }
 }

@@ -67,6 +67,14 @@
     }
   }
 
+  // The leaf-level active chip is the currently displayed workload — clicking it
+  // is a no-op, so suppress all interaction cues.
+  &.current-selection {
+    pointer-events: none;
+    cursor: default;
+  }
+
+
   .name {
     font-weight: 500;
     letter-spacing: -0.005em;

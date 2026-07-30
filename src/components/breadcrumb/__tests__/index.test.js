@@ -7,12 +7,21 @@ const level = (items, activeId) => ({ items, activeId });
 const wl = (guid, name, extras = {}) => ({ guid, name, ...extras });
 
 describe('Breadcrumb', () => {
-  it('renders nothing when there are no levels', () => {
-    const { container } = render(<Breadcrumb levels={[]} />);
-    expect(container.firstChild).toBeNull();
+  it('renders only the home button when there are no levels', () => {
+    render(<Breadcrumb levels={[]} onHomeClick={jest.fn()} />);
+    expect(screen.getByLabelText('Back to home')).toBeInTheDocument();
+    // No workload chips should be present
+    expect(document.querySelectorAll('.breadcrumb-chip').length).toBe(0);
   });
 
-  it('renders the back-to-home button and one row per level', () => {
+  it('calls onHomeClick when the home button is clicked at the top level', () => {
+    const onHomeClick = jest.fn();
+    render(<Breadcrumb levels={[]} onHomeClick={onHomeClick} />);
+    fireEvent.click(screen.getByLabelText('Back to home'));
+    expect(onHomeClick).toHaveBeenCalled();
+  });
+
+  it('renders the home button and one row per level', () => {
     render(
       <Breadcrumb
         levels={[
@@ -25,6 +34,29 @@ describe('Breadcrumb', () => {
     expect(screen.getByText('A')).toBeInTheDocument();
     expect(screen.getByText('B')).toBeInTheDocument();
     expect(screen.getByText('C')).toBeInTheDocument();
+  });
+
+  it('renders the active chip first, followed by chips sorted by issue severity', () => {
+    const critical = { state: 'ACTIVATED', priority: 'CRITICAL' };
+    const warning = { state: 'ACTIVATED', priority: 'HIGH' };
+    render(
+      <Breadcrumb
+        levels={[
+          level(
+            [
+              wl('a', 'A'), // no issues
+              wl('b', 'B', { issues: [critical] }), // 1 critical
+              wl('c', 'C', { issues: [warning] }), // 1 warning
+            ],
+            'a' // A is active
+          ),
+        ]}
+      />
+    );
+    const chips = document.querySelectorAll('.breadcrumb-chip .name');
+    expect(chips[0].textContent).toBe('A'); // active first
+    expect(chips[1].textContent).toBe('B'); // then most critical
+    expect(chips[2].textContent).toBe('C'); // then warning
   });
 
   it('marks the active chip as active', () => {
