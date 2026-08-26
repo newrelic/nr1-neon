@@ -91,6 +91,31 @@ describe('WorkloadGrid', () => {
     }
   });
 
+  it('renders an owning-team badge when tagsByGuid has a "team" tag for the card', () => {
+    render(
+      <WorkloadGrid
+        workloads={[workload({ guid: 'a', name: 'Alpha' })]}
+        tagsByGuid={{ a: [{ key: 'team', values: ['payments'] }] }}
+      />
+    );
+    expect(screen.getByText('payments')).toBeInTheDocument();
+  });
+
+  it('does not render an owning-team badge when tagsByGuid has no "team" tag', () => {
+    render(
+      <WorkloadGrid
+        workloads={[workload({ guid: 'a', name: 'Alpha' })]}
+        tagsByGuid={{ a: [{ key: 'env', values: ['prod'] }] }}
+      />
+    );
+    expect(
+      screen
+        .getByText('Alpha')
+        .closest('.workload-card')
+        .querySelector('.badge.team')
+    ).toBeNull();
+  });
+
   it('does not animate when the id set is unchanged (only object identity changes)', () => {
     const first = [workload({ guid: 'a', name: 'A', status: 'OPERATIONAL' })];
     const second = [workload({ guid: 'a', name: 'A', status: 'DEGRADED' })];

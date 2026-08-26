@@ -30,7 +30,11 @@ import {
   SettingsModal,
   WorkloadGrid,
 } from '../../src/components';
-import { useAlertingEntitiesIssues, useDataManager } from '../../src/hooks';
+import {
+  useAlertingEntitiesIssues,
+  useDataManager,
+  useWorkloadTags,
+} from '../../src/hooks';
 import { AppContext } from '../../src/contexts';
 import { mergeData } from '../../src/utils';
 import {
@@ -104,6 +108,12 @@ const NexusNerdlet = () => {
       skip: entityGuids.length === 0,
       entityFragmentExtension: ENTITY_FRAGMENT_EXTENSION,
     });
+
+  const workloadGuidsInView = useMemo(
+    () => (gridData || []).map((w) => w?.guid).filter(Boolean),
+    [gridData]
+  );
+  const { data: tagsByGuid } = useWorkloadTags(workloadGuidsInView);
 
   const hydratedEntities = useMemo(
     () =>
@@ -350,6 +360,7 @@ const NexusNerdlet = () => {
               workloads={gridData}
               issuesLoading={dataLoading || issuesLoading}
               hideUnacknowledged={!!docData?.hideUnacknowledged}
+              tagsByGuid={tagsByGuid}
               onCardClick={gridClickHandler}
               onIssuesClick={openIssuesModal}
             />
@@ -382,6 +393,7 @@ const NexusNerdlet = () => {
     dataLoading,
     issuesLoading,
     docData?.hideUnacknowledged,
+    tagsByGuid,
     gridClickHandler,
     breadcrumbClickHandler,
     breadcrumbHomeClickHandler,

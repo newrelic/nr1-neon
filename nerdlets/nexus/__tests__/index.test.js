@@ -6,6 +6,7 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 jest.mock('../../../src/hooks', () => ({
   useDataManager: jest.fn(),
   useAlertingEntitiesIssues: jest.fn(),
+  useWorkloadTags: jest.fn(),
 }));
 
 import * as hooksModule from '../../../src/hooks';
@@ -21,6 +22,7 @@ const stableDataManagerReturn = {
   refresh: stableRefresh,
 };
 const stableIssuesReturn = { data: [], loading: false, error: null };
+const stableWorkloadTagsReturn = { data: {}, loading: false, error: null };
 
 const setHookDefaults = (overrides = {}) => {
   hooksModule.useDataManager.mockReturnValue({
@@ -30,6 +32,10 @@ const setHookDefaults = (overrides = {}) => {
   hooksModule.useAlertingEntitiesIssues.mockReturnValue({
     ...stableIssuesReturn,
     ...(overrides.useAlertingEntitiesIssues || {}),
+  });
+  hooksModule.useWorkloadTags.mockReturnValue({
+    ...stableWorkloadTagsReturn,
+    ...(overrides.useWorkloadTags || {}),
   });
 };
 

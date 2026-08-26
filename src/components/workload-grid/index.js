@@ -21,6 +21,7 @@ const WorkloadGrid = ({
   workloads,
   issuesLoading = false,
   hideUnacknowledged = false,
+  tagsByGuid = {},
   onCardClick,
   onIssuesClick,
 }) => {
@@ -102,6 +103,7 @@ const WorkloadGrid = ({
                 issues={issues}
                 issuesLoading={issuesLoading}
                 kpis={[]}
+                tags={tagsByGuid?.[workload.guid]}
                 isUnclickable={isUnclickable}
                 onClick={clickable ? () => onCardClick(workload) : undefined}
                 onIssuesClick={() => onIssuesClick?.(workload)}
@@ -118,6 +120,7 @@ WorkloadGrid.propTypes = {
   workloads: PropTypes.array,
   issuesLoading: PropTypes.bool,
   hideUnacknowledged: PropTypes.bool,
+  tagsByGuid: PropTypes.object,
   onCardClick: PropTypes.func,
   onIssuesClick: PropTypes.func,
 };

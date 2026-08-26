@@ -128,6 +128,13 @@
         color: #6B7682;
         background: #EEF1F3;
       }
+      &.team {
+        svg {
+          width: 11px;
+          height: 11px;
+          display: block;
+        }
+      }
     }
 
     .entity-count {
