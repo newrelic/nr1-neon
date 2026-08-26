@@ -63,8 +63,8 @@ const Breadcrumb = ({ levels, onChipClick, onHomeClick }) => {
     return () => clearTimeout(timer);
   }, [levels]);
 
-  // Top-level state: workloads exist but none selected yet. Show only the home
-  // button and the connector so the UI is consistent from the first interaction.
+  // Top-most level: nothing to navigate back to, so the home button is
+  // disabled — clicking it would otherwise clear the current grid data.
   if (displayedLevels.length === 0) {
     return (
       <div className="breadcrumb">
@@ -77,6 +77,7 @@ const Breadcrumb = ({ levels, onChipClick, onHomeClick }) => {
           depth={0}
           onChipClick={() => {}}
           onHomeClick={onHomeClick}
+          homeDisabled
         />
         <BreadcrumbConnector stemX={ARROW_STEM_OFFSET} isLeaving={false} />
       </div>
