@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/newrelic/nr1-neon/compare/v1.1.0...v1.1.1) (2026-08-26)
+
+
+### Bug Fixes
+
+* disable home button when displaying the top level workloads ([a95c4a9](https://github.com/newrelic/nr1-neon/commit/a95c4a95b8728ed6749425959b04b97e85b64200))
+
 # [1.1.0](https://github.com/newrelic/nr1-neon/compare/v1.0.4...v1.1.0) (2026-08-26)
 
 
