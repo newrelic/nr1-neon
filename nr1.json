@@ -1,6 +1,6 @@
 {
   "schemaType": "NERDPACK",
   "id": "ab178aad-fd9e-488e-a03e-25272c20ac6a",
-  "displayName": "Neon",
-  "description": "Create a status board based on New Relic alert statuses or event values."
+  "displayName": "Nexus (formerly Neon)",
+  "description": "A central nexus for system health. Single-glance health checks for leadership and rapid-fire triage for engineering teams."
 }
