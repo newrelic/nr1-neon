@@ -23,6 +23,7 @@ const BreadcrumbRow = ({
   depth,
   isLastRow,
   onHomeClick,
+  homeDisabled,
 }) => {
   const trackRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -78,8 +79,9 @@ const BreadcrumbRow = ({
         {depth === 0 ? (
           <button
             type="button"
-            className="row-home"
-            onClick={onHomeClick}
+            className={`row-home${homeDisabled ? ' row-home--disabled' : ''}`}
+            onClick={homeDisabled ? undefined : onHomeClick}
+            disabled={homeDisabled}
             aria-label="Back to home"
           >
             <HomeIcon />
@@ -175,6 +177,7 @@ BreadcrumbRow.propTypes = {
   depth: PropTypes.number,
   isLastRow: PropTypes.bool,
   onHomeClick: PropTypes.func,
+  homeDisabled: PropTypes.bool,
 };
 
 export default BreadcrumbRow;

@@ -14,11 +14,13 @@ describe('Breadcrumb', () => {
     expect(document.querySelectorAll('.breadcrumb-chip').length).toBe(0);
   });
 
-  it('calls onHomeClick when the home button is clicked at the top level', () => {
+  it('disables the home button at the top-most level', () => {
     const onHomeClick = jest.fn();
     render(<Breadcrumb levels={[]} onHomeClick={onHomeClick} />);
-    fireEvent.click(screen.getByLabelText('Back to home'));
-    expect(onHomeClick).toHaveBeenCalled();
+    const homeButton = screen.getByLabelText('Back to home');
+    expect(homeButton).toBeDisabled();
+    fireEvent.click(homeButton);
+    expect(onHomeClick).not.toHaveBeenCalled();
   });
 
   it('renders the home button and one row per level', () => {

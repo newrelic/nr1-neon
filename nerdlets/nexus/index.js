@@ -249,7 +249,8 @@ const NexusNerdlet = () => {
   );
 
   const breadcrumbHomeClickHandler = useCallback(() => {
-    const items = navStackRef.current[0]?.items ?? [];
+    if (!navStackRef.current.length) return; // already at the top-most level
+    const items = navStackRef.current[0].items;
     setNavigationStack([]);
     setGridData(items);
     setEntities([]);
