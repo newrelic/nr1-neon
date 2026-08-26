@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/newrelic/nr1-neon/compare/v1.0.4...v1.1.0) (2026-08-26)
+
+
+### Features
+
+* rename nerdpack ([ce78d55](https://github.com/newrelic/nr1-neon/commit/ce78d55b2c2254fb6e849dead3151dd25573ac2a))
+
 ## [1.0.4](https://github.com/newrelic/nr1-neon/compare/v1.0.3...v1.0.4) (2026-07-30)
 
 
