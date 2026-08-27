@@ -111,6 +111,15 @@ const SectionMessage = ({ title, description, actions }) =>
 SectionMessage.displayName = 'SectionMessage';
 attachEnums(SectionMessage, ['TYPE']);
 
+const InlineMessage = ({ label, type }) =>
+  React.createElement(
+    'div',
+    { 'data-testid': 'nr1-InlineMessage', 'data-type': type },
+    label
+  );
+InlineMessage.displayName = 'InlineMessage';
+attachEnums(InlineMessage, ['TYPE']);
+
 const HeadingText = ({ children }) =>
   React.createElement('h2', { 'data-testid': 'nr1-HeadingText' }, children);
 HeadingText.displayName = 'HeadingText';
@@ -313,6 +322,7 @@ module.exports = {
   EmptyState,
   HeadingText,
   Icon,
+  InlineMessage,
   navigation,
   nerdlet,
   PlatformStateContext,

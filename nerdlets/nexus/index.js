@@ -51,6 +51,7 @@ const NexusNerdlet = () => {
   navStackRef.current = navigationStack;
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [issuesWorkload, setIssuesWorkload] = useState(null);
+  const [issuesEntity, setIssuesEntity] = useState(null);
   const { data: userPrefs, loading: userPrefsLoading } =
     useUserStorageQuery(USER_PREFS_STORE);
   const [writeUserPrefs] = useUserStorageMutation({
@@ -105,6 +106,13 @@ const NexusNerdlet = () => {
       entityFragmentExtension: ENTITY_FRAGMENT_EXTENSION,
     });
 
+  // `entities` (pre-hydration) already carries per-entity `.issues` from the mergeData/issuesTree
+  // pass, but hydratedEntitiesData (from useEntitiesByGuidsQuery) doesn't — look issues up by guid.
+  const entityIssuesByGuid = useMemo(
+    () => new Map((entities || []).map((e) => [e?.guid, e?.issues ?? []])),
+    [entities]
+  );
+
   const hydratedEntities = useMemo(
     () =>
       (hydratedEntitiesData?.entities ?? []).map((entity) => ({
@@ -115,6 +123,7 @@ const NexusNerdlet = () => {
         type: entity?.type,
         accountId: entity?.accountId,
         status: 'UNKNOWN',
+        issues: entityIssuesByGuid.get(entity?.guid) ?? [],
         tags: (entity?.tags || []).map((tag) => ({
           key: tag.key,
           values: tag.values,
@@ -127,7 +136,7 @@ const NexusNerdlet = () => {
         })),
         goldenTags: (entity?.goldenTags?.tags || []).map((gt) => gt?.key),
       })),
-    [hydratedEntitiesData]
+    [hydratedEntitiesData, entityIssuesByGuid]
   );
 
   useEffect(() => {
@@ -289,7 +298,7 @@ const NexusNerdlet = () => {
     }
   }, []);
 
-  const entityClickHandler = useCallback((entity) => {
+  const openEntityInNewTab = useCallback((entity) => {
     const link = navigation.getOpenEntityLocation(entity?.guid, {
       platformState: { accountId: entity?.accountId },
     });
@@ -299,6 +308,11 @@ const NexusNerdlet = () => {
     const url = `${origin}${link.pathname}${link.search || ''}`;
     window.open(url, '_blank');
   }, []);
+
+  const entityClickHandler = useCallback(
+    (entity) => setIssuesEntity(entity),
+    []
+  );
 
   const saveSettings = useCallback(
     async ({ workloads, hideUnacknowledged }) => {
@@ -433,6 +447,17 @@ const NexusNerdlet = () => {
         style={{ '--modal-width': '480px', '--modal-padding': '0' }}
       >
         <IssuesList workload={issuesWorkload} />
+      </Modal>
+      <Modal
+        hidden={!issuesEntity}
+        onClose={() => setIssuesEntity(null)}
+        style={{ '--modal-width': '480px', '--modal-padding': '0' }}
+      >
+        <IssuesList
+          workload={{ ...issuesEntity, status: issuesEntity?.alertSeverity }}
+          subjectLabel="Entity"
+          onOpenEntity={() => openEntityInNewTab(issuesEntity)}
+        />
       </Modal>
     </AppContext.Provider>
   );
