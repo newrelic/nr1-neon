@@ -85,6 +85,10 @@ $priority-medium-bg: #FCE8C8;
     line-height: 1.4;
   }
 
+  .header-actions {
+    margin-top: 8px;
+  }
+
   .toolbar {
     display: flex;
     align-items: center;
@@ -103,6 +107,10 @@ $priority-medium-bg: #FCE8C8;
     padding: 8px 16px 16px;
   }
 
+  .empty-message {
+    padding: 8px;
+  }
+
   .issue-row-link {
     display: block;
     color: inherit;
@@ -119,11 +127,6 @@ $priority-medium-bg: #FCE8C8;
     padding: 48px 24px;
     color: #6B7682;
 
-    .icon {
-      font-size: 28px;
-      margin-bottom: 8px;
-      opacity: 0.5;
-    }
     .title {
       font-size: 13px;
       font-weight: 600;
