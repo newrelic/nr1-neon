@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/newrelic/nr1-neon/compare/v1.1.2...v1.1.3) (2026-08-27)
+
+
+### Bug Fixes
+
+* issue button that stands out from the workload card ([90e778f](https://github.com/newrelic/nr1-neon/commit/90e778fed4c1c384ce7671863641fc3595ba3d9b))
+
 ## [1.1.2](https://github.com/newrelic/nr1-neon/compare/v1.1.1...v1.1.2) (2026-08-27)
 
 
