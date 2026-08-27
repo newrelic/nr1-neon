@@ -1,67 +1,59 @@
-.issues-button {
-  display: inline-flex;
+.issues-row {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  background: #FAFBFB;
-  border: 1px solid #D1D6DA;
-  padding: 4px 8px 4px 10px;
-  margin: 0;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 5px 6px 5px 10px;
+  background: #F6F7F8;
+  border: 1px solid #E9EBED;
+  border-radius: 5px;
   cursor: pointer;
-  font: inherit;
-  color: #1D252C;
-  border-radius: 4px;
-  font-variant-numeric: tabular-nums;
-  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
-  transition: border-color 120ms ease-out, background 120ms ease-out,
-              box-shadow 120ms ease-out, transform 80ms ease-out;
+  transition: background 120ms ease-out, border-color 120ms ease-out;
 
   &:hover {
-    border-color: #0F7AE5;
     background: #F4F8FD;
-    box-shadow: 0 1px 2px rgba(15, 122, 229, 0.15);
-  }
-
-  &:active {
-    transform: translateY(0.5px);
-    box-shadow: 0 0 0 rgba(15, 122, 229, 0.15);
-  }
-
-  &:focus-visible {
-    outline: none;
     border-color: #0F7AE5;
-    box-shadow: 0 0 0 2px rgba(15, 122, 229, 0.25);
   }
 
-  .icon {
-    display: inline-flex;
+  .summary {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    color: $status-critical;
-    flex-shrink: 0;
-    margin-right: 1px;
+    gap: 6px;
+    min-width: 0;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
   }
 
   .issues-count {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
+    color: #475059;
+    font-weight: 600;
+    white-space: nowrap;
+  }
 
-    .count {
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-    .label {
-      color: #475059;
-    }
+  .sep {
+    width: 2px;
+    height: 2px;
+    background: #C9CDD3;
+    border-radius: 50%;
+    flex-shrink: 0;
   }
 
   .unack {
-    margin-left: 4px;
-    padding-left: 6px;
-    border-left: 1px solid #E3E6E8;
-    font-size: 11px;
-    font-weight: 600;
     color: $status-critical;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .view-button {
+    flex-shrink: 0;
+
+    // The row itself already has a hover treatment — suppress the Button's
+    // own hover background so we don't get a double effect. NR1's platform
+    // CSS sets this, so !important is needed to reliably win here.
+    &:hover {
+      background-color: transparent !important;
+      box-shadow: none !important;
+    }
   }
 }
