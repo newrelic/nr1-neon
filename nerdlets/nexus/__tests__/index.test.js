@@ -196,6 +196,95 @@ describe('NexusNerdlet', () => {
     );
   });
 
+  it('clicking an entity row opens an issues modal instead of a new tab, and "Open Entity" opens the entity', () => {
+    jest.useFakeTimers();
+    try {
+      const issue = {
+        issueId: 'i-1',
+        issueLink: 'https://example.com/i-1',
+        priority: 'CRITICAL',
+        title: ['Something broke'],
+        activatedAt: Date.now(),
+      };
+      const workloads = [
+        {
+          guid: 'root',
+          name: 'Root WL',
+          status: 'OPERATIONAL',
+          children: [
+            {
+              guid: 'ent-1',
+              name: 'My Entity',
+              domain: 'APM',
+              type: 'APPLICATION',
+              accountId: 1,
+              alertSeverity: 'CRITICAL',
+            },
+          ],
+        },
+      ];
+      const issuesTree = [{ issues: [], children: [{ issues: [issue] }] }];
+      setHookDefaults({
+        useDataManager: { data: workloads },
+        useAlertingEntitiesIssues: { data: issuesTree },
+      });
+      nr1.useEntitiesByGuidsQuery.mockReturnValue({
+        loading: false,
+        data: {
+          entities: [
+            {
+              guid: 'ent-1',
+              name: 'My Entity',
+              domain: 'APM',
+              type: 'APPLICATION',
+              accountId: 1,
+              alertSeverity: 'CRITICAL',
+              tags: [],
+              goldenMetrics: { metrics: [] },
+              goldenTags: { tags: [] },
+            },
+          ],
+        },
+      });
+      renderWithPlatform(<NexusNerdlet />);
+
+      const rootCard = screen.getByText('Root WL').closest('.workload-card');
+      act(() => {
+        fireEvent.click(rootCard);
+      });
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
+
+      const entityRow = screen.getByText('My Entity').closest('.entity-row');
+      expect(entityRow).toBeTruthy();
+      fireEvent.click(entityRow);
+
+      // Opens the issues modal for the entity rather than a new tab.
+      expect(nr1.navigation.getOpenEntityLocation).not.toHaveBeenCalled();
+      expect(screen.getByText('Entity issues')).toBeInTheDocument();
+      expect(screen.getByText('Something broke')).toBeInTheDocument();
+
+      const openEntityButton = screen.getByText('Open Entity');
+      const openSpy = jest.spyOn(window, 'open').mockImplementation(() => {});
+      // jsdom's Location doesn't implement ancestorOrigins; define it so the nerdlet's iframe-origin lookup works.
+      Object.defineProperty(window.location, 'ancestorOrigins', {
+        value: ['https://one.newrelic.com'],
+        configurable: true,
+      });
+      fireEvent.click(openEntityButton);
+      expect(nr1.navigation.getOpenEntityLocation).toHaveBeenCalledWith(
+        'ent-1',
+        { platformState: { accountId: 1 } }
+      );
+      expect(openSpy).toHaveBeenCalled();
+      openSpy.mockRestore();
+      delete window.location.ancestorOrigins;
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
   it('clicking a workload card with children navigates in and shows the child', () => {
     jest.useFakeTimers();
     try {
