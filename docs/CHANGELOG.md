@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/newrelic/nr1-neon/compare/v1.1.1...v1.1.2) (2026-08-27)
+
+
+### Bug Fixes
+
+* display issues list for entities on click ([500ca5f](https://github.com/newrelic/nr1-neon/commit/500ca5f59f98b69ee47026d011533ac7b6a35ba0))
+
 ## [1.1.1](https://github.com/newrelic/nr1-neon/compare/v1.1.0...v1.1.1) (2026-08-26)
 
 
