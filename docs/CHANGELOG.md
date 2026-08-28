@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/newrelic/nr1-neon/compare/v1.1.3...v1.2.0) (2026-08-28)
+
+
+### Features
+
+* support multiple boards ([a9be51b](https://github.com/newrelic/nr1-neon/commit/a9be51b895650b2d4c42a8949d5dcf3f9f125538))
+
 ## [1.1.3](https://github.com/newrelic/nr1-neon/compare/v1.1.2...v1.1.3) (2026-08-27)
 
 
