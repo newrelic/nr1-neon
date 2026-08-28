@@ -176,6 +176,29 @@ describe('NexusNerdlet (router)', () => {
     );
   });
 
+  it('redirects to the default board when no boardId is in urlState', () => {
+    setDefaults({ userPrefs: { defaultBoardId: 'board-42' } });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
+      boardId: 'board-42',
+    });
+  });
+
+  it('does not redirect when a boardId is already present in urlState', () => {
+    setDefaults({
+      userPrefs: { defaultBoardId: 'board-42' },
+      nerdletState: { boardId: 'board-123' },
+    });
+    setStorage({ board: { id: 'board-123', title: 'My board' } });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
+  it('does not redirect when there is no default board set', () => {
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
   it('does nothing when there is no legacy settings doc', async () => {
     setStorage({ legacy: null, boards: [] });
     await act(async () => {

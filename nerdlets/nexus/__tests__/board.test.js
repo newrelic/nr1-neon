@@ -166,6 +166,35 @@ describe('Board', () => {
     );
   });
 
+  it('marks the board as default via onSetDefaultBoard', async () => {
+    const onSetDefaultBoard = jest.fn(async () => ({}));
+    renderBoard({ onSetDefaultBoard, defaultBoardId: null });
+    openViaButton('Settings');
+    fireEvent.click(
+      within(document.querySelector('.settings-panel')).getByLabelText(
+        'Set as default board'
+      )
+    );
+    await act(async () => {
+      fireEvent.click(
+        within(document.querySelector('.settings-panel')).getByText('Save')
+      );
+    });
+    expect(onSetDefaultBoard).toHaveBeenCalledWith('b-1');
+  });
+
+  it('shows the current default board name when a different board is default', () => {
+    renderBoard({ defaultBoardId: 'other-board', defaultBoardTitle: 'Payments' });
+    openViaButton('Settings');
+    const description = within(
+      document.querySelector('.settings-panel')
+    )
+      .getByLabelText('Set as default board')
+      .closest('label')
+      .querySelector('[data-testid="nr1-Switch-description"]');
+    expect(description.textContent).toMatch(/Current default board: Payments/);
+  });
+
   it('saving workloads writes the selected workloads to the board doc', async () => {
     renderBoard();
     openViaButton('Workloads');

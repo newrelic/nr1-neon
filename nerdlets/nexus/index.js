@@ -67,6 +67,26 @@ const NexusNerdlet = () => {
   const migratedAccounts = useRef(new Set());
 
   const favorites = useMemo(() => userPrefs?.favoriteBoards || {}, [userPrefs]);
+  const defaultBoardId = userPrefs?.defaultBoardId || null;
+  const defaultBoardTitle = useMemo(() => {
+    if (!defaultBoardId) return null;
+    const match = normalizeBoards(boardsData).find(
+      (b) => b.id === defaultBoardId
+    );
+    return match?.title || null;
+  }, [defaultBoardId, boardsData]);
+
+  // On first load, if the URL didn't specify a board, jump straight to the
+  // user's default board. Only applies once per mount so navigating back to
+  // the listing (or picking a different board) later doesn't keep re-redirecting.
+  const appliedDefaultBoard = useRef(false);
+  useEffect(() => {
+    if (appliedDefaultBoard.current || userPrefsLoading) return;
+    appliedDefaultBoard.current = true;
+    if (!boardId && defaultBoardId) {
+      setNerdletState({ boardId: defaultBoardId });
+    }
+  }, [userPrefsLoading, defaultBoardId, boardId, setNerdletState]);
 
   useEffect(() => {
     if (!isAcctsLoading) {
@@ -193,6 +213,17 @@ const NexusNerdlet = () => {
     [userPrefs, writeUserPrefs]
   );
 
+  const setDefaultBoardId = useCallback(
+    async (id) => {
+      const { error } = await writeUserPrefs({
+        ...USER_PREFS_STORE,
+        document: { ...(userPrefs || {}), defaultBoardId: id },
+      });
+      return { error };
+    },
+    [userPrefs, writeUserPrefs]
+  );
+
   const switchToNeon = useCallback(
     () => navigation.openNerdlet({ id: 'neon-nerdlet' }),
     []
@@ -236,7 +267,13 @@ const NexusNerdlet = () => {
     <AppContext.Provider value={app}>
       {nexusBanner}
       {boardId ? (
-        <Board boardId={boardId} onBack={backToList} />
+        <Board
+          boardId={boardId}
+          onBack={backToList}
+          defaultBoardId={defaultBoardId}
+          defaultBoardTitle={defaultBoardTitle}
+          onSetDefaultBoard={setDefaultBoardId}
+        />
       ) : (
         <BoardsList
           accountId={accountId}
