@@ -77,16 +77,49 @@ const NexusNerdlet = () => {
   }, [defaultBoardId, boardsData]);
 
   // On first load, if the URL didn't specify a board, jump straight to the
-  // user's default board. Only applies once per mount so navigating back to
-  // the listing (or picking a different board) later doesn't keep re-redirecting.
+  // user's default board — or, absent a default, into the only board that
+  // exists. The default board is a per-user pref, not scoped to an account, so
+  // it's only honored when it actually exists among this account's boards;
+  // otherwise it'd send the user straight to a "Board not found" page after an
+  // account switch. Only applies once per mount so navigating back to the
+  // listing (or picking a different board) later doesn't keep re-redirecting.
   const appliedDefaultBoard = useRef(false);
   useEffect(() => {
-    if (appliedDefaultBoard.current || userPrefsLoading) return;
+    if (appliedDefaultBoard.current) return;
+    if (!accountId || userPrefsLoading || boardsLoading) return;
     appliedDefaultBoard.current = true;
-    if (!boardId && defaultBoardId) {
+    if (boardId) return;
+    const boards = normalizeBoards(boardsData);
+    if (defaultBoardId && boards.some((b) => b.id === defaultBoardId)) {
       setNerdletState({ boardId: defaultBoardId });
+      return;
     }
-  }, [userPrefsLoading, defaultBoardId, boardId, setNerdletState]);
+    if (boards.length === 1) {
+      setNerdletState({ boardId: boards[0].id });
+    }
+  }, [
+    accountId,
+    userPrefsLoading,
+    boardsLoading,
+    defaultBoardId,
+    boardId,
+    boardsData,
+    setNerdletState,
+  ]);
+
+  // Boards are scoped to an account, so a board open under one account almost
+  // certainly doesn't exist under another. If the platform account picker
+  // switches accounts while a board is open, bail out to that account's
+  // listing rather than showing "Board not found". `undefined` on the first
+  // run just means accountId hasn't resolved yet — not a real switch.
+  const prevAccountId = useRef(undefined);
+  useEffect(() => {
+    const prev = prevAccountId.current;
+    prevAccountId.current = accountId;
+    if (prev !== undefined && prev !== accountId && boardId) {
+      setNerdletState({ boardId: null });
+    }
+  }, [accountId, boardId, setNerdletState]);
 
   useEffect(() => {
     if (!isAcctsLoading) {
