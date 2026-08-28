@@ -3,3 +3,4 @@ export * from './workloads';
 export * from './kpi';
 export * from './issues';
 export * from './datetime';
+export * from './boards';

@@ -130,6 +130,42 @@ const Spinner = () =>
 Spinner.displayName = 'Spinner';
 attachEnums(Spinner, ['TYPE']);
 
+const Tooltip = ({ text, opened, children }) =>
+  React.createElement(
+    'div',
+    {
+      'data-testid': 'nr1-Tooltip',
+      'data-opened': opened ? 'true' : 'false',
+      'data-tooltip-text': text,
+    },
+    children
+  );
+Tooltip.displayName = 'Tooltip';
+
+const TextField = ({ label, value, placeholder, onChange, name, type }) =>
+  React.createElement('input', {
+    'data-testid': 'nr1-TextField',
+    'aria-label': label,
+    'data-type': typeof type === 'string' ? type : undefined,
+    name,
+    value: value ?? '',
+    placeholder,
+    onChange,
+  });
+TextField.displayName = 'TextField';
+attachEnums(TextField, ['TYPE']);
+
+const MultilineTextField = ({ label, value, placeholder, onChange, name }) =>
+  React.createElement('textarea', {
+    'data-testid': 'nr1-MultilineTextField',
+    'aria-label': label,
+    name,
+    value: value ?? '',
+    placeholder,
+    onChange,
+  });
+MultilineTextField.displayName = 'MultilineTextField';
+
 const Switch = ({ label, checked, onChange }) =>
   React.createElement(
     'label',
@@ -248,17 +284,13 @@ const useAccountsQuery = jest.fn(() => _accountsQueryDefault);
 const _accountStorageQueryDefault = { data: null, loading: false, error: null };
 const useAccountStorageQuery = jest.fn(() => _accountStorageQueryDefault);
 
-// Mutation hooks: same mutation function returned each call unless a test
-// overrides. Using module-level fns keeps identity stable across renders.
+// Mutation hooks: dispatch to a stable fn by actionType so multiple callers each
+// get the right fn regardless of call order. Module-level fns keep identity stable.
 const _docWriteFn = jest.fn(async () => ({}));
 const _docDeleteFn = jest.fn(async () => ({}));
-const _mutationCallSequence = { count: 0 };
-const useAccountStorageMutation = jest.fn(() => {
-  // Return one fn per call — the two calls in nexus (docWrite, docDelete)
-  // should each get a distinct stable fn.
-  _mutationCallSequence.count += 1;
-  return [_mutationCallSequence.count % 2 === 1 ? _docWriteFn : _docDeleteFn];
-});
+const useAccountStorageMutation = jest.fn((opts) => [
+  opts?.actionType === 'DELETE_DOCUMENT' ? _docDeleteFn : _docWriteFn,
+]);
 useAccountStorageMutation.ACTION_TYPE = {
   WRITE_DOCUMENT: 'WRITE_DOCUMENT',
   DELETE_DOCUMENT: 'DELETE_DOCUMENT',
@@ -269,17 +301,29 @@ const useUserStorageQuery = jest.fn(() => _userPrefsDefault);
 
 const _writePrefsFn = jest.fn(async () => ({}));
 const _deletePrefsFn = jest.fn(async () => ({}));
-const _userMutationCallSequence = { count: 0 };
-const useUserStorageMutation = jest.fn(() => {
-  _userMutationCallSequence.count += 1;
-  return [
-    _userMutationCallSequence.count % 2 === 1 ? _writePrefsFn : _deletePrefsFn,
-  ];
-});
+const useUserStorageMutation = jest.fn((opts) => [
+  opts?.actionType === 'DELETE_DOCUMENT' ? _deletePrefsFn : _writePrefsFn,
+]);
 useUserStorageMutation.ACTION_TYPE = {
   WRITE_DOCUMENT: 'WRITE_DOCUMENT',
   DELETE_DOCUMENT: 'DELETE_DOCUMENT',
 };
+
+// urlState hook: default returns an empty state + a stable setter. Tests override
+// via useNerdletState.mockReturnValue([{ boardId: '...' }, fn]) to pick a view.
+const _setNerdletStateFn = jest.fn();
+const _nerdletStateDefault = {};
+const useNerdletState = jest.fn(() => [
+  _nerdletStateDefault,
+  _setNerdletStateFn,
+]);
+
+const _userQueryDefault = {
+  data: { id: 'u-1', name: 'Test User', email: 'test@example.com' },
+  loading: false,
+  error: null,
+};
+const useUserQuery = jest.fn(() => _userQueryDefault);
 
 const _entitiesByGuidsDefault = { data: STABLE_EMPTY_ENTITIES, loading: false };
 const useEntitiesByGuidsQuery = jest.fn(() => _entitiesByGuidsDefault);
@@ -296,6 +340,7 @@ const useNrqlQuery = jest.fn(() => _nrqlDefault);
 // --- Singletons ---
 const navigation = {
   openNerdlet: jest.fn(),
+  getOpenNerdletLocation: jest.fn((config) => ({ type: 'NERDLET', ...config })),
   getOpenEntityLocation: jest.fn(() => ({ pathname: '/entity/x', search: '' })),
 };
 
@@ -304,11 +349,9 @@ const nerdlet = {
   ACCOUNT_PICKER_DEFAULT_VALUES: [],
 };
 
-// Reset helper for tests
-const __resetMutationCounters = () => {
-  _mutationCallSequence.count = 0;
-  _userMutationCallSequence.count = 0;
-};
+// Reset helper for tests (kept for backwards-compat; mutation dispatch is now by
+// actionType so there are no counters to reset).
+const __resetMutationCounters = () => {};
 
 module.exports = {
   AutoSizer,
@@ -323,6 +366,7 @@ module.exports = {
   HeadingText,
   Icon,
   InlineMessage,
+  MultilineTextField,
   navigation,
   nerdlet,
   PlatformStateContext,
@@ -331,12 +375,16 @@ module.exports = {
   Switch,
   Tabs,
   TabsItem,
+  TextField,
+  Tooltip,
   useAccountsQuery,
   useAccountStorageMutation,
   useAccountStorageQuery,
   useEntitiesByGuidsQuery,
   useEntitySearchQuery,
+  useNerdletState,
   useNrqlQuery,
+  useUserQuery,
   useUserStorageMutation,
   useUserStorageQuery,
   __resetMutationCounters,
@@ -344,4 +392,5 @@ module.exports = {
   __docDeleteFn: _docDeleteFn,
   __writePrefsFn: _writePrefsFn,
   __deletePrefsFn: _deletePrefsFn,
+  __setNerdletStateFn: _setNerdletStateFn,
 };

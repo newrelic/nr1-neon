@@ -134,5 +134,133 @@
     padding-top: 8px;
     display: flex;
     justify-content: space-between;
+
+    &.split {
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .right-buttons {
+      display: flex;
+      gap: 8px;
+    }
+  }
+}
+
+// Board settings modal: a two-panel horizontal slider (settings ⇄ delete confirm).
+.board-settings {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+
+  .settings-slider {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    width: 200%;
+    min-height: 0;
+    transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+
+    &.show-confirm {
+      transform: translateX(-50%);
+    }
+  }
+
+  .slide-panel {
+    width: 50%;
+    flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 0;
+  }
+
+  // Heading stays pinned at the top, buttons pinned at the bottom, and only the
+  // body between them scrolls.
+  .settings-panel {
+    .panel-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 12px; // breathing room below the "Settings" heading
+    }
+  }
+
+  // Unsaved-changes hint, right-aligned over the Save button and pulled tight
+  // against the buttons bar (negative margin cancels the panel's 16px gap).
+  .unsaved-hint {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: -16px;
+  }
+
+  // Delete confirmation content is centered vertically within the panel.
+  .confirm-panel {
+    justify-content: center;
+  }
+
+  .meta-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    // The edit/close toggle lives in the label row so it stays put whether the
+    // field is in view or edit mode (no vertical jump when switching).
+    .meta-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      min-height: 24px;
+    }
+
+    .meta-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #6B7682;
+    }
+
+    // The label TextField/MultilineTextField renders is redundant here (the
+    // persistent .meta-label already names the field) — hide it accessibly.
+    label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .meta-text {
+      flex: 1;
+      min-width: 0;
+      font-size: 13px;
+      color: #1D252C;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.muted {
+        color: #8E99A4;
+        font-style: italic;
+      }
+    }
+  }
+
+  .confirm-text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #475059;
   }
 }
