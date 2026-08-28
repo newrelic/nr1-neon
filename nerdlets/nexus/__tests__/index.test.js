@@ -1,65 +1,17 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 
-// Mock the internal hooks module — we don't want to test the data manager
-// or issues fetching from nexus tests.
-jest.mock('../../../src/hooks', () => ({
-  useDataManager: jest.fn(),
-  useAlertingEntitiesIssues: jest.fn(),
-}));
+// Board is exercised in its own test; here we only care that the router picks it.
+jest.mock('../board', () => {
+  const MockReact = require('react');
+  const fn = jest.fn(({ boardId }) =>
+    MockReact.createElement('div', { 'data-testid': 'mock-board' }, boardId)
+  );
+  return { __esModule: true, default: fn };
+});
 
-import * as hooksModule from '../../../src/hooks';
 import * as nr1 from 'nr1';
 import NexusNerdlet from '../index';
-
-// Stable refs so consumers don't see new identities each render.
-const stableRefresh = jest.fn();
-const stableDataManagerReturn = {
-  data: [],
-  loading: false,
-  error: null,
-  refresh: stableRefresh,
-};
-const stableIssuesReturn = { data: [], loading: false, error: null };
-
-const setHookDefaults = (overrides = {}) => {
-  hooksModule.useDataManager.mockReturnValue({
-    ...stableDataManagerReturn,
-    ...(overrides.useDataManager || {}),
-  });
-  hooksModule.useAlertingEntitiesIssues.mockReturnValue({
-    ...stableIssuesReturn,
-    ...(overrides.useAlertingEntitiesIssues || {}),
-  });
-};
-
-const stableAccountsData = [{ id: 42, name: 'Acct 42' }];
-const stableDocData = { start: [], hideUnacknowledged: false };
-const stableUserPrefs = { nexusBannerDismissed: false };
-
-const setNr1Defaults = ({
-  accounts = stableAccountsData,
-  accountsLoading = false,
-  docData = stableDocData,
-  docLoading = false,
-  userPrefs = stableUserPrefs,
-  userPrefsLoading = false,
-} = {}) => {
-  nr1.useAccountsQuery.mockReturnValue({
-    data: accounts,
-    loading: accountsLoading,
-  });
-  nr1.useAccountStorageQuery.mockReturnValue({
-    data: docData,
-    loading: docLoading,
-    error: null,
-  });
-  nr1.useUserStorageQuery.mockReturnValue({
-    data: userPrefs,
-    loading: userPrefsLoading,
-    error: null,
-  });
-};
 
 const renderWithPlatform = (ui, { accountId = 42 } = {}) =>
   render(
@@ -68,89 +20,91 @@ const renderWithPlatform = (ui, { accountId = 42 } = {}) =>
     </nr1.PlatformStateContext.Provider>
   );
 
+// Route account-storage queries by their args: the legacy `settings` doc, the
+// boards collection (no documentId), or a single board by documentId.
+const setStorage = ({ legacy = null, boards = null, board = null } = {}) => {
+  nr1.useAccountStorageQuery.mockImplementation((opts) => {
+    if (opts?.documentId === 'settings')
+      return { data: legacy, loading: false, error: null };
+    if (!opts?.documentId) return { data: boards, loading: false, error: null };
+    return { data: board, loading: false, error: null };
+  });
+};
+
+const setDefaults = ({
+  accounts = [{ id: 42, name: 'Acct 42' }],
+  accountsLoading = false,
+  userPrefs = { nexusBannerDismissed: false },
+  userPrefsLoading = false,
+  nerdletState = {},
+} = {}) => {
+  nr1.useAccountsQuery.mockReturnValue({
+    data: accounts,
+    loading: accountsLoading,
+  });
+  nr1.useUserStorageQuery.mockReturnValue({
+    data: userPrefs,
+    loading: userPrefsLoading,
+    error: null,
+  });
+  nr1.useNerdletState.mockReturnValue([nerdletState, nr1.__setNerdletStateFn]);
+  setStorage();
+};
+
 beforeEach(() => {
   jest.clearAllMocks();
-  nr1.__resetMutationCounters?.();
-  setHookDefaults();
-  setNr1Defaults();
+  setDefaults();
 });
 
-describe('NexusNerdlet', () => {
-  it('shows the loading empty state when accounts are loading', () => {
-    setNr1Defaults({ accounts: [], accountsLoading: true });
-    renderWithPlatform(<NexusNerdlet />);
-    const title = screen.getByTestId('nr1-EmptyState-title');
-    expect(title.textContent).toBe('Setting up...');
-  });
-
-  it('shows the loading empty state when doc storage is loading', () => {
-    setNr1Defaults({ docData: null, docLoading: true });
+describe('NexusNerdlet (router)', () => {
+  it('shows the loading empty state while accounts load', () => {
+    setDefaults({ accounts: [], accountsLoading: true });
     renderWithPlatform(<NexusNerdlet />);
     expect(screen.getByTestId('nr1-EmptyState-title').textContent).toBe(
       'Setting up...'
     );
   });
 
-  it('shows the loading empty state when workload data is loading', () => {
-    setHookDefaults({ useDataManager: { loading: true } });
+  it('renders the boards list (empty state) when no board is selected', () => {
     renderWithPlatform(<NexusNerdlet />);
     expect(screen.getByTestId('nr1-EmptyState-title').textContent).toBe(
-      'Setting up...'
+      'No boards yet.'
     );
+    expect(screen.queryByTestId('mock-board')).toBeNull();
   });
 
-  it('shows the "nothing brewing" empty state when there are no workloads', () => {
+  it('renders a board when boardId is present in urlState', () => {
+    setDefaults({ nerdletState: { boardId: 'board-123' } });
+    setStorage({ board: { id: 'board-123', title: 'My board' } });
     renderWithPlatform(<NexusNerdlet />);
-    expect(screen.getByTestId('nr1-EmptyState-title').textContent).toBe(
-      'Nothing brewing. Yet.'
-    );
+    expect(screen.getByTestId('mock-board').textContent).toBe('board-123');
   });
 
-  it('renders a workload grid with cards for each workload when data is present', () => {
-    const workloads = [
-      { guid: 'wl-1', name: 'API', status: 'OPERATIONAL', children: [] },
-      { guid: 'wl-2', name: 'Web', status: 'DEGRADED', children: [] },
-    ];
-    setHookDefaults({ useDataManager: { data: workloads } });
+  it('configures the listing shell without action buttons', () => {
     renderWithPlatform(<NexusNerdlet />);
-    expect(screen.getByText('API')).toBeInTheDocument();
-    expect(screen.getByText('Web')).toBeInTheDocument();
-  });
-
-  it('configures the nerdlet with account picker and action buttons on mount', () => {
-    renderWithPlatform(<NexusNerdlet />);
-    expect(nr1.nerdlet.setConfig).toHaveBeenCalled();
     const cfg = nr1.nerdlet.setConfig.mock.calls.slice(-1)[0][0];
     expect(cfg.accountPicker).toBe(true);
-    expect(cfg.actionControls).toBe(true);
     expect(cfg.timePicker).toBe(false);
-    expect(cfg.actionControlButtons).toHaveLength(2);
-    expect(cfg.actionControlButtons[0].label).toBe('Refresh');
-    expect(cfg.actionControlButtons[1].label).toBe('Settings');
+    expect(cfg.actionControlButtons).toEqual([]);
+    // Board-specific header fields are cleared so the platform title reverts.
+    expect(cfg.headerTitle).toBe('Nexus');
+    expect(cfg.headerParentTitle).toBeUndefined();
   });
 
-  it('wires the Refresh action button to the data manager refresh function', () => {
+  it('shows the nexus banner when not dismissed', () => {
     renderWithPlatform(<NexusNerdlet />);
-    const cfg = nr1.nerdlet.setConfig.mock.calls.slice(-1)[0][0];
-    cfg.actionControlButtons[0].onClick();
-    expect(stableRefresh).toHaveBeenCalled();
-  });
-
-  it('shows the nexus banner when user has not dismissed it', () => {
-    renderWithPlatform(<NexusNerdlet />);
-    expect(screen.getByTestId('nr1-SectionMessage')).toBeInTheDocument();
     expect(screen.getByTestId('nr1-SectionMessage-title').textContent).toBe(
       'Welcome to Nexus.'
     );
   });
 
-  it('hides the nexus banner when user has dismissed it', () => {
-    setNr1Defaults({ userPrefs: { nexusBannerDismissed: true } });
+  it('hides the nexus banner when dismissed', () => {
+    setDefaults({ userPrefs: { nexusBannerDismissed: true } });
     renderWithPlatform(<NexusNerdlet />);
     expect(screen.queryByTestId('nr1-SectionMessage')).toBeNull();
   });
 
-  it('nexus banner "Switch to Neon" action opens the neon-nerdlet', () => {
+  it('banner "Switch to Neon" opens the neon nerdlet', () => {
     renderWithPlatform(<NexusNerdlet />);
     fireEvent.click(screen.getByTestId('nr1-SectionMessage-action-0'));
     expect(nr1.navigation.openNerdlet).toHaveBeenCalledWith({
@@ -158,167 +112,76 @@ describe('NexusNerdlet', () => {
     });
   });
 
-  it('nexus banner "Do not show again" writes the dismissal to user storage', () => {
+  it('banner "Do not show again" writes dismissal to the preferences doc', () => {
     renderWithPlatform(<NexusNerdlet />);
     fireEvent.click(screen.getByTestId('nr1-SectionMessage-action-1'));
     expect(nr1.__writePrefsFn).toHaveBeenCalledWith(
       expect.objectContaining({
         collection: 'nexus',
-        documentId: 'userPrefs',
+        documentId: 'preferences',
         document: expect.objectContaining({ nexusBannerDismissed: true }),
       })
     );
   });
 
-  it('exposes __neonResetSettings on window and calls docDelete for the current account', async () => {
-    renderWithPlatform(<NexusNerdlet />);
-    expect(typeof window.__neonResetSettings).toBe('function');
-    await act(async () => {
-      await window.__neonResetSettings();
-    });
-    expect(nr1.__docDeleteFn).toHaveBeenCalledWith(
-      expect.objectContaining({
-        accountId: 42,
-        collection: 'nexus',
-        documentId: 'settings',
-      })
-    );
-  });
-
-  it('exposes __neonResetUserPrefs on window and calls deletePrefs', async () => {
+  it('exposes __neonResetUserPrefs which deletes the preferences doc', async () => {
     renderWithPlatform(<NexusNerdlet />);
     expect(typeof window.__neonResetUserPrefs).toBe('function');
     await act(async () => {
       await window.__neonResetUserPrefs();
     });
     expect(nr1.__deletePrefsFn).toHaveBeenCalledWith(
-      expect.objectContaining({ collection: 'nexus', documentId: 'userPrefs' })
+      expect.objectContaining({
+        collection: 'nexus',
+        documentId: 'preferences',
+      })
     );
   });
 
-  it('clicking an entity row opens an issues modal instead of a new tab, and "Open Entity" opens the entity', () => {
-    jest.useFakeTimers();
-    try {
-      const issue = {
-        issueId: 'i-1',
-        issueLink: 'https://example.com/i-1',
-        priority: 'CRITICAL',
-        title: ['Something broke'],
-        activatedAt: Date.now(),
-      };
-      const workloads = [
-        {
-          guid: 'root',
-          name: 'Root WL',
-          status: 'OPERATIONAL',
-          children: [
-            {
-              guid: 'ent-1',
-              name: 'My Entity',
-              domain: 'APM',
-              type: 'APPLICATION',
-              accountId: 1,
-              alertSeverity: 'CRITICAL',
-            },
-          ],
-        },
-      ];
-      const issuesTree = [{ issues: [], children: [{ issues: [issue] }] }];
-      setHookDefaults({
-        useDataManager: { data: workloads },
-        useAlertingEntitiesIssues: { data: issuesTree },
-      });
-      nr1.useEntitiesByGuidsQuery.mockReturnValue({
-        loading: false,
-        data: {
-          entities: [
-            {
-              guid: 'ent-1',
-              name: 'My Entity',
-              domain: 'APM',
-              type: 'APPLICATION',
-              accountId: 1,
-              alertSeverity: 'CRITICAL',
-              tags: [],
-              goldenMetrics: { metrics: [] },
-              goldenTags: { tags: [] },
-            },
-          ],
-        },
-      });
+  it('migrates a populated legacy settings doc into a board, then deletes it', async () => {
+    setStorage({
+      legacy: {
+        start: [{ accountId: 42, guid: 'wl-1', name: 'API' }],
+        hideUnacknowledged: true,
+      },
+      boards: [],
+    });
+    await act(async () => {
       renderWithPlatform(<NexusNerdlet />);
-
-      const rootCard = screen.getByText('Root WL').closest('.workload-card');
-      act(() => {
-        fireEvent.click(rootCard);
-      });
-      act(() => {
-        jest.advanceTimersByTime(200);
-      });
-
-      const entityRow = screen.getByText('My Entity').closest('.entity-row');
-      expect(entityRow).toBeTruthy();
-      fireEvent.click(entityRow);
-
-      // Opens the issues modal for the entity rather than a new tab.
-      expect(nr1.navigation.getOpenEntityLocation).not.toHaveBeenCalled();
-      expect(screen.getByText('Entity issues')).toBeInTheDocument();
-      expect(screen.getByText('Something broke')).toBeInTheDocument();
-
-      const openEntityButton = screen.getByText('Open Entity');
-      const openSpy = jest.spyOn(window, 'open').mockImplementation(() => {});
-      // jsdom's Location doesn't implement ancestorOrigins; define it so the nerdlet's iframe-origin lookup works.
-      Object.defineProperty(window.location, 'ancestorOrigins', {
-        value: ['https://one.newrelic.com'],
-        configurable: true,
-      });
-      fireEvent.click(openEntityButton);
-      expect(nr1.navigation.getOpenEntityLocation).toHaveBeenCalledWith(
-        'ent-1',
-        { platformState: { accountId: 1 } }
-      );
-      expect(openSpy).toHaveBeenCalled();
-      openSpy.mockRestore();
-      delete window.location.ancestorOrigins;
-    } finally {
-      jest.useRealTimers();
-    }
+    });
+    expect(nr1.__docWriteFn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        accountId: 42,
+        collection: 'nexus',
+        document: expect.objectContaining({
+          title: 'Migrated board',
+          start: [{ accountId: 42, guid: 'wl-1', name: 'API' }],
+          hideUnacknowledged: true,
+        }),
+      })
+    );
+    expect(nr1.__docDeleteFn).toHaveBeenCalledWith(
+      expect.objectContaining({ collection: 'nexus', documentId: 'settings' })
+    );
   });
 
-  it('clicking a workload card with children navigates in and shows the child', () => {
-    jest.useFakeTimers();
-    try {
-      const workloads = [
-        {
-          guid: 'root',
-          name: 'Root WL',
-          status: 'OPERATIONAL',
-          children: [
-            {
-              guid: 'child-wl',
-              name: 'Child WL',
-              domain: 'NR1',
-              type: 'WORKLOAD',
-              status: 'OPERATIONAL',
-              children: [],
-            },
-          ],
-        },
-      ];
-      setHookDefaults({ useDataManager: { data: workloads } });
+  it('deletes an empty legacy settings doc without creating a board', async () => {
+    setStorage({ legacy: { start: [] }, boards: [] });
+    await act(async () => {
       renderWithPlatform(<NexusNerdlet />);
-      const rootCard = screen.getByText('Root WL').closest('.workload-card');
-      expect(rootCard).toBeTruthy();
-      act(() => {
-        fireEvent.click(rootCard);
-      });
-      // WorkloadGrid fades out for 160ms before swapping to the new children.
-      act(() => {
-        jest.advanceTimersByTime(200);
-      });
-      expect(screen.getByText('Child WL')).toBeInTheDocument();
-    } finally {
-      jest.useRealTimers();
-    }
+    });
+    expect(nr1.__docWriteFn).not.toHaveBeenCalled();
+    expect(nr1.__docDeleteFn).toHaveBeenCalledWith(
+      expect.objectContaining({ collection: 'nexus', documentId: 'settings' })
+    );
+  });
+
+  it('does nothing when there is no legacy settings doc', async () => {
+    setStorage({ legacy: null, boards: [] });
+    await act(async () => {
+      renderWithPlatform(<NexusNerdlet />);
+    });
+    expect(nr1.__docWriteFn).not.toHaveBeenCalled();
+    expect(nr1.__docDeleteFn).not.toHaveBeenCalled();
   });
 });
