@@ -178,7 +178,9 @@ describe('NexusNerdlet (router)', () => {
 
   it('redirects to the default board when no boardId is in urlState', () => {
     setDefaults({ userPrefs: { defaultBoardId: 'board-42' } });
-    setStorage({ boards: [{ id: 'board-42', document: { title: 'Default' } }] });
+    setStorage({
+      boards: [{ id: 'board-42', document: { title: 'Default' } }],
+    });
     renderWithPlatform(<NexusNerdlet />);
     expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
       boardId: 'board-42',
@@ -242,7 +244,9 @@ describe('NexusNerdlet (router)', () => {
 
   it('prefers the default board over the only-board fallback when both apply', () => {
     setDefaults({ userPrefs: { defaultBoardId: 'board-42' } });
-    setStorage({ boards: [{ id: 'board-42', document: { title: 'Default' } }] });
+    setStorage({
+      boards: [{ id: 'board-42', document: { title: 'Default' } }],
+    });
     renderWithPlatform(<NexusNerdlet />);
     expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
       boardId: 'board-42',

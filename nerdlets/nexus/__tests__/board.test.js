@@ -184,11 +184,12 @@ describe('Board', () => {
   });
 
   it('shows the current default board name when a different board is default', () => {
-    renderBoard({ defaultBoardId: 'other-board', defaultBoardTitle: 'Payments' });
+    renderBoard({
+      defaultBoardId: 'other-board',
+      defaultBoardTitle: 'Payments',
+    });
     openViaButton('Settings');
-    const description = within(
-      document.querySelector('.settings-panel')
-    )
+    const description = within(document.querySelector('.settings-panel'))
       .getByLabelText('Set as default board')
       .closest('label')
       .querySelector('[data-testid="nr1-Switch-description"]');
