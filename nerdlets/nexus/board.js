@@ -44,6 +44,12 @@ const Board = ({ boardId, onBack }) => {
   gridDataRef.current = gridData;
   const navStackRef = useRef([]);
   navStackRef.current = navigationStack;
+  // Tracks the (data, issuesData) that gridData currently reflects. gridData is
+  // populated by an effect that runs *after* render, so there's a render right
+  // after `data` resolves where gridData is still empty; comparing against this
+  // ref lets us keep showing the loading state until that effect catches up
+  // (otherwise the empty grid briefly flashes the "nothing brewing" state).
+  const syncedSourceRef = useRef({ data: null, issuesData: null });
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isWorkloadsModalOpen, setIsWorkloadsModalOpen] = useState(false);
   const [issuesWorkload, setIssuesWorkload] = useState(null);
@@ -202,7 +208,15 @@ const Board = ({ boardId, onBack }) => {
     setGridData(() => mergeData(data, issuesData));
     setNavigationStack([]); // clear drill-down on every data refresh so stale nav state doesn't survive account switches
     setEntities([]);
+    syncedSourceRef.current = { data, issuesData };
   }, [data, issuesData]);
+
+  // True once the effect above has rebuilt gridData from the current data. While
+  // false, gridData is stale/empty relative to `data`, so we should still show
+  // the loading state rather than render an empty grid.
+  const gridSynced =
+    syncedSourceRef.current.data === data &&
+    syncedSourceRef.current.issuesData === issuesData;
 
   useEffect(() => {
     if (docError) console.log('Error fetching board', docError);
@@ -401,7 +415,14 @@ const Board = ({ boardId, onBack }) => {
     openIssuesModal,
   ]);
 
-  if (docLoading || (dataLoading && !boardMissing))
+  // Show the loading state until the board is genuinely ready: the doc is
+  // loading, data is loading, or the board has workloads whose grid hasn't been
+  // built yet. That last case covers the render between `data` resolving and the
+  // gridData effect running, which would otherwise flash the empty-grid state.
+  const preparingContent =
+    !boardMissing && (dataLoading || (workloadGuids.length > 0 && !gridSynced));
+
+  if (docLoading || preparingContent)
     return (
       <EmptyState
         fullHeight
