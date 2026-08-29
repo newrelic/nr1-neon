@@ -349,6 +349,11 @@ const nerdlet = {
   ACCOUNT_PICKER_DEFAULT_VALUES: [],
 };
 
+const Toast = {
+  showToast: jest.fn(),
+  TYPE: { NORMAL: 'NORMAL', CRITICAL: 'CRITICAL' },
+};
+
 // Reset helper for tests (kept for backwards-compat; mutation dispatch is now by
 // actionType so there are no counters to reset).
 const __resetMutationCounters = () => {};
@@ -376,6 +381,7 @@ module.exports = {
   Tabs,
   TabsItem,
   TextField,
+  Toast,
   Tooltip,
   useAccountsQuery,
   useAccountStorageMutation,

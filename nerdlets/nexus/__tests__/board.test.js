@@ -182,9 +182,16 @@ describe('Board', () => {
     );
   });
 
-  it('confirming delete removes the board doc and returns to the listing', async () => {
-    const onBack = jest.fn();
-    renderBoard({ onBack });
+  it('confirming delete delegates to onDeleteBoard with the current board doc', async () => {
+    const onDeleteBoard = jest.fn(async () => ({}));
+    setBoardDoc({
+      id: 'b-1',
+      title: 'My Board',
+      description: 'desc',
+      start: [],
+      hideUnacknowledged: false,
+    });
+    renderBoard({ onDeleteBoard });
     openViaButton('Settings');
     // Two "Delete board" buttons (settings trigger + confirm); click trigger then confirm.
     fireEvent.click(
@@ -199,10 +206,15 @@ describe('Board', () => {
         )
       );
     });
-    expect(nr1.__docDeleteFn).toHaveBeenCalledWith(
-      expect.objectContaining({ collection: 'nexus', documentId: 'b-1' })
+    // Board no longer deletes directly; the parent owns redirect + soft-delete.
+    expect(onDeleteBoard).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'b-1',
+        title: 'My Board',
+        description: 'desc',
+      })
     );
-    expect(onBack).toHaveBeenCalled();
+    expect(nr1.__docDeleteFn).not.toHaveBeenCalled();
   });
 
   it('clicking an entity row opens the issues modal and "Open Entity" opens the entity', () => {

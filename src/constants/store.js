@@ -18,3 +18,13 @@ export const USER_PREFS_STORE = {
   collection: 'nexus',
   documentId: 'preferences',
 };
+
+// Soft-deleted boards. Deleting a board moves its document here (keyed by the
+// same board uuid) wrapped in a { board, deletedAt, deletedBy } envelope, so a
+// delete is undoable. Documents are purged after DELETED_BOARDS_TTL_MS.
+export const DELETED_BOARDS_STORE = {
+  collection: 'nexus-deleted-boards',
+};
+
+// How long a soft-deleted board is retained before it's permanently purged.
+export const DELETED_BOARDS_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days

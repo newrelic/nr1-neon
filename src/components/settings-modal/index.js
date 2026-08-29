@@ -246,9 +246,8 @@ const SettingsModal = ({
               Delete board?
             </HeadingText>
             <p className="confirm-text">
-              This permanently deletes{' '}
-              <strong>{savedTitle || 'this board'}</strong> and its settings.
-              This can&apos;t be undone.
+              Are you sure you want to delete{' '}
+              <strong>{savedTitle || 'this board'}</strong> and its settings?
             </p>
 
             {deleteError && (
