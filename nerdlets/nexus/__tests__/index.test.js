@@ -20,10 +20,18 @@ const renderWithPlatform = (ui, { accountId = 42 } = {}) =>
     </nr1.PlatformStateContext.Provider>
   );
 
-// Route account-storage queries by their args: the legacy `settings` doc, the
-// boards collection (no documentId), or a single board by documentId.
-const setStorage = ({ legacy = null, boards = null, board = null } = {}) => {
+// Route account-storage queries by their args: the deleted-boards collection,
+// the legacy `settings` doc, the boards collection (no documentId), or a single
+// board by documentId.
+const setStorage = ({
+  legacy = null,
+  boards = null,
+  board = null,
+  deleted = null,
+} = {}) => {
   nr1.useAccountStorageQuery.mockImplementation((opts) => {
+    if (opts?.collection === 'nexus-deleted-boards')
+      return { data: deleted, loading: false, error: null };
     if (opts?.documentId === 'settings')
       return { data: legacy, loading: false, error: null };
     if (!opts?.documentId) return { data: boards, loading: false, error: null };
@@ -289,5 +297,129 @@ describe('NexusNerdlet (router)', () => {
     });
     expect(nr1.__docWriteFn).not.toHaveBeenCalled();
     expect(nr1.__docDeleteFn).not.toHaveBeenCalled();
+  });
+
+  // Grab the onDeleteBoard prop the router hands to the (mocked) Board.
+  const renderBoardView = ({ board } = {}) => {
+    setDefaults({ nerdletState: { boardId: board.id } });
+    setStorage({
+      board,
+      boards: [{ id: board.id, document: board }],
+    });
+    const boardModule = require('../board');
+    renderWithPlatform(<NexusNerdlet />);
+    const calls = boardModule.default.mock.calls;
+    return calls[calls.length - 1][0].onDeleteBoard;
+  };
+
+  it('soft-deletes a board: redirects, archives it first, removes the original, and offers undo', async () => {
+    const board = { id: 'b-9', title: 'Doomed' };
+    const onDeleteBoard = renderBoardView({ board });
+    await act(async () => {
+      await onDeleteBoard(board);
+    });
+
+    // Redirect to the listing happens immediately.
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({ boardId: null });
+    // Archived to the deleted collection with deletion metadata...
+    expect(nr1.__docWriteFn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: 'nexus-deleted-boards',
+        documentId: 'b-9',
+        document: expect.objectContaining({
+          board: expect.objectContaining({ id: 'b-9', title: 'Doomed' }),
+          deletedBy: expect.objectContaining({ email: 'test@example.com' }),
+          deletedAt: expect.any(String),
+        }),
+      })
+    );
+    // ...then the original is deleted from the boards collection.
+    expect(nr1.__docDeleteFn).toHaveBeenCalledWith(
+      expect.objectContaining({ collection: 'nexus', documentId: 'b-9' })
+    );
+    // Undoable toast.
+    const toast = nr1.Toast.showToast.mock.calls.slice(-1)[0][0];
+    expect(toast.title).toBe('Board deleted');
+    expect(toast.type).toBe('NORMAL');
+    expect(toast.actions[0].label).toBe('Undo');
+  });
+
+  it('undo restores the board and removes the archive', async () => {
+    const board = { id: 'b-9', title: 'Doomed' };
+    const onDeleteBoard = renderBoardView({ board });
+    await act(async () => {
+      await onDeleteBoard(board);
+    });
+    const toast = nr1.Toast.showToast.mock.calls.slice(-1)[0][0];
+
+    nr1.__docWriteFn.mockClear();
+    nr1.__docDeleteFn.mockClear();
+    await act(async () => {
+      await toast.actions[0].onClick();
+    });
+
+    // Written back to the boards collection...
+    expect(nr1.__docWriteFn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: 'nexus',
+        documentId: 'b-9',
+        document: expect.objectContaining({ id: 'b-9', title: 'Doomed' }),
+      })
+    );
+    // ...and the archive copy removed.
+    expect(nr1.__docDeleteFn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: 'nexus-deleted-boards',
+        documentId: 'b-9',
+      })
+    );
+  });
+
+  it('shows a retryable critical toast and keeps the board when the archive write fails', async () => {
+    const board = { id: 'b-9', title: 'Doomed' };
+    const onDeleteBoard = renderBoardView({ board });
+    nr1.__docWriteFn.mockResolvedValueOnce({ error: { message: 'nope' } });
+    await act(async () => {
+      await onDeleteBoard(board);
+    });
+
+    const toast = nr1.Toast.showToast.mock.calls.slice(-1)[0][0];
+    expect(toast.type).toBe('CRITICAL');
+    expect(toast.actions[0].label).toBe('Retry');
+    // The original board is never deleted when archiving failed.
+    expect(nr1.__docDeleteFn).not.toHaveBeenCalledWith(
+      expect.objectContaining({ collection: 'nexus', documentId: 'b-9' })
+    );
+  });
+
+  it('purges deleted boards older than the retention window on load', async () => {
+    const dayMs = 24 * 60 * 60 * 1000;
+    const stale = new Date(Date.now() - 31 * dayMs).toISOString();
+    const recent = new Date(Date.now() - dayMs).toISOString();
+    setStorage({
+      boards: [],
+      deleted: [
+        { id: 'old-1', document: { board: { id: 'old-1' }, deletedAt: stale } },
+        {
+          id: 'fresh-1',
+          document: { board: { id: 'fresh-1' }, deletedAt: recent },
+        },
+      ],
+    });
+    await act(async () => {
+      renderWithPlatform(<NexusNerdlet />);
+    });
+    expect(nr1.__docDeleteFn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: 'nexus-deleted-boards',
+        documentId: 'old-1',
+      })
+    );
+    expect(nr1.__docDeleteFn).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: 'nexus-deleted-boards',
+        documentId: 'fresh-1',
+      })
+    );
   });
 });

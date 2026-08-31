@@ -35,6 +35,27 @@ export const normalizeBoards = (data) => {
     .filter(Boolean);
 };
 
+// Normalize the `nexus-deleted-boards` collection into archived-board records:
+// { id, board, deletedAt, deletedBy }. `id` is the documentId (the original
+// board's uuid). Mirrors normalizeBoards' tolerance of bare vs. `{id, document}`
+// entries. Entries without an embedded board are skipped defensively.
+export const normalizeDeletedBoards = (data) => {
+  if (!Array.isArray(data)) return [];
+  return data
+    .map((entry) => {
+      const doc = entry?.document ?? entry;
+      const id = entry?.id ?? doc?.board?.id;
+      if (!id || !doc?.board) return null;
+      return {
+        id,
+        board: doc.board,
+        deletedAt: doc.deletedAt ?? null,
+        deletedBy: doc.deletedBy ?? null,
+      };
+    })
+    .filter(Boolean);
+};
+
 // "Created by Jane Doe · Aug 27, 2026" — omits the pieces that aren't available.
 export const formatCreatedMeta = (createdBy, createdAt) => {
   const who = createdBy?.name || createdBy?.email;

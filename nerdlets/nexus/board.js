@@ -38,6 +38,7 @@ import BoardNotFound from './board-not-found';
 const Board = ({
   boardId,
   onBack,
+  onDeleteBoard,
   defaultBoardId = null,
   defaultBoardTitle = null,
   onSetDefaultBoard,
@@ -67,9 +68,6 @@ const Board = ({
   });
   const [docWrite] = useAccountStorageMutation({
     actionType: useAccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-  });
-  const [docDelete] = useAccountStorageMutation({
-    actionType: useAccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
   });
   const workloadGuids = useMemo(
     () => docData?.start?.map(({ guid }) => guid) || [],
@@ -337,19 +335,13 @@ const Board = ({
     [writeBoard]
   );
 
-  const deleteBoard = useCallback(async () => {
-    const { error } = await docDelete({
-      accountId,
-      ...BOARDS_STORE,
-      documentId: boardId,
-    });
-    if (error) {
-      console.error('Unable to delete board', error);
-      return { error };
-    }
-    onBack?.(); // board is gone — return to the listing
-    return {};
-  }, [accountId, boardId, docDelete, onBack]);
+  // Deletion is owned by the parent (NexusNerdlet): it redirects to the listing
+  // immediately, soft-deletes the board, and shows an undoable toast. We just
+  // hand over the current board document so it can be archived/restored.
+  const deleteBoard = useCallback(
+    () => onDeleteBoard?.({ ...(docData || {}), id: boardId }),
+    [onDeleteBoard, docData, boardId]
+  );
 
   const isDefaultBoard = defaultBoardId === boardId;
 
@@ -472,6 +464,7 @@ const Board = ({
 Board.propTypes = {
   boardId: PropTypes.string,
   onBack: PropTypes.func,
+  onDeleteBoard: PropTypes.func,
   defaultBoardId: PropTypes.string,
   defaultBoardTitle: PropTypes.string,
   onSetDefaultBoard: PropTypes.func,
