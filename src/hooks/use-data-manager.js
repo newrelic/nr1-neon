@@ -623,7 +623,19 @@ const useDataManager = (topLevelGuids) => {
     }
   }, [queryError]);
 
-  return { ...result, refresh };
+  // Bridge the gap between "we know there are guids to fetch" and "the start
+  // effect above has actually flipped result.loading to true". Without this,
+  // there's a render right after topLevelGuids becomes non-empty (or changes)
+  // where result.loading is still false, which lets consumers briefly render an
+  // empty/"no data" state before the fetch even kicks off. Once the fetch has
+  // been started for the current guids (startedSigRef matches), loading follows
+  // result.loading, so a genuinely-empty result still settles to loading:false.
+  const wantsData = (topLevelGuids?.length ?? 0) > 0;
+  const currentSig = `${(topLevelGuids || []).join('|')}#${refreshKey}`;
+  const notYetStarted = startedSigRef.current !== currentSig;
+  const loading = result.loading || (wantsData && notYetStarted);
+
+  return { ...result, loading, refresh };
 };
 
 export default useDataManager;
