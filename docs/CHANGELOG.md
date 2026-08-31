@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/newrelic/nr1-neon/compare/v1.2.2...v1.2.3) (2026-08-31)
+
+
+### Bug Fixes
+
+* flash while board loading ([d8af8f9](https://github.com/newrelic/nr1-neon/commit/d8af8f928806750351bd4c9b9d95f892dfeefc2f))
+
 ## [1.2.2](https://github.com/newrelic/nr1-neon/compare/v1.2.1...v1.2.2) (2026-08-31)
 
 
