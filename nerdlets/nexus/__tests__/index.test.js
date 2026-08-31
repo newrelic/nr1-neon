@@ -20,10 +20,18 @@ const renderWithPlatform = (ui, { accountId = 42 } = {}) =>
     </nr1.PlatformStateContext.Provider>
   );
 
-// Route account-storage queries by their args: the legacy `settings` doc, the
-// boards collection (no documentId), or a single board by documentId.
-const setStorage = ({ legacy = null, boards = null, board = null } = {}) => {
+// Route account-storage queries by their args: the deleted-boards collection,
+// the legacy `settings` doc, the boards collection (no documentId), or a single
+// board by documentId.
+const setStorage = ({
+  legacy = null,
+  boards = null,
+  board = null,
+  deleted = null,
+} = {}) => {
   nr1.useAccountStorageQuery.mockImplementation((opts) => {
+    if (opts?.collection === 'nexus-deleted-boards')
+      return { data: deleted, loading: false, error: null };
     if (opts?.documentId === 'settings')
       return { data: legacy, loading: false, error: null };
     if (!opts?.documentId) return { data: boards, loading: false, error: null };
@@ -176,6 +184,112 @@ describe('NexusNerdlet (router)', () => {
     );
   });
 
+  it('redirects to the default board when no boardId is in urlState', () => {
+    setDefaults({ userPrefs: { defaultBoardId: 'board-42' } });
+    setStorage({
+      boards: [{ id: 'board-42', document: { title: 'Default' } }],
+    });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
+      boardId: 'board-42',
+    });
+  });
+
+  it('does not redirect to the default board when it belongs to a different account (falls back to the listing instead of "Board not found")', () => {
+    setDefaults({ userPrefs: { defaultBoardId: 'board-from-other-acct' } });
+    setStorage({
+      boards: [
+        { id: 'board-a', document: { title: 'A' } },
+        { id: 'board-b', document: { title: 'B' } },
+      ],
+    });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
+  it('falls back to the only board when the default board belongs to a different account', () => {
+    setDefaults({ userPrefs: { defaultBoardId: 'board-from-other-acct' } });
+    setStorage({ boards: [{ id: 'only-board', document: { title: 'Only' } }] });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
+      boardId: 'only-board',
+    });
+  });
+
+  it('does not redirect when a boardId is already present in urlState', () => {
+    setDefaults({
+      userPrefs: { defaultBoardId: 'board-42' },
+      nerdletState: { boardId: 'board-123' },
+    });
+    setStorage({ board: { id: 'board-123', title: 'My board' } });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
+  it('does not redirect when there is no default board set', () => {
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
+  it('redirects into the only board when there is no default and exactly one board exists', () => {
+    setStorage({ boards: [{ id: 'only-board', document: { title: 'Only' } }] });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
+      boardId: 'only-board',
+    });
+  });
+
+  it('does not redirect into a board when multiple boards exist and there is no default', () => {
+    setStorage({
+      boards: [
+        { id: 'board-a', document: { title: 'A' } },
+        { id: 'board-b', document: { title: 'B' } },
+      ],
+    });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
+  it('prefers the default board over the only-board fallback when both apply', () => {
+    setDefaults({ userPrefs: { defaultBoardId: 'board-42' } });
+    setStorage({
+      boards: [{ id: 'board-42', document: { title: 'Default' } }],
+    });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
+      boardId: 'board-42',
+    });
+  });
+
+  it('switches to the listing when the account changes while a board is open', () => {
+    setDefaults({ nerdletState: { boardId: 'board-123' } });
+    setStorage({ board: { id: 'board-123', title: 'My board' } });
+    const { rerender } = renderWithPlatform(<NexusNerdlet />, {
+      accountId: 42,
+    });
+    expect(screen.getByTestId('mock-board')).toBeInTheDocument();
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+
+    rerender(
+      <nr1.PlatformStateContext.Provider value={{ accountId: 99 }}>
+        <NexusNerdlet />
+      </nr1.PlatformStateContext.Provider>
+    );
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({ boardId: null });
+  });
+
+  it('does not touch urlState when the account changes while on the listing', () => {
+    const { rerender } = renderWithPlatform(<NexusNerdlet />, {
+      accountId: 42,
+    });
+    rerender(
+      <nr1.PlatformStateContext.Provider value={{ accountId: 99 }}>
+        <NexusNerdlet />
+      </nr1.PlatformStateContext.Provider>
+    );
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
   it('does nothing when there is no legacy settings doc', async () => {
     setStorage({ legacy: null, boards: [] });
     await act(async () => {
@@ -183,5 +297,129 @@ describe('NexusNerdlet (router)', () => {
     });
     expect(nr1.__docWriteFn).not.toHaveBeenCalled();
     expect(nr1.__docDeleteFn).not.toHaveBeenCalled();
+  });
+
+  // Grab the onDeleteBoard prop the router hands to the (mocked) Board.
+  const renderBoardView = ({ board } = {}) => {
+    setDefaults({ nerdletState: { boardId: board.id } });
+    setStorage({
+      board,
+      boards: [{ id: board.id, document: board }],
+    });
+    const boardModule = require('../board');
+    renderWithPlatform(<NexusNerdlet />);
+    const calls = boardModule.default.mock.calls;
+    return calls[calls.length - 1][0].onDeleteBoard;
+  };
+
+  it('soft-deletes a board: redirects, archives it first, removes the original, and offers undo', async () => {
+    const board = { id: 'b-9', title: 'Doomed' };
+    const onDeleteBoard = renderBoardView({ board });
+    await act(async () => {
+      await onDeleteBoard(board);
+    });
+
+    // Redirect to the listing happens immediately.
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({ boardId: null });
+    // Archived to the deleted collection with deletion metadata...
+    expect(nr1.__docWriteFn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: 'nexus-deleted-boards',
+        documentId: 'b-9',
+        document: expect.objectContaining({
+          board: expect.objectContaining({ id: 'b-9', title: 'Doomed' }),
+          deletedBy: expect.objectContaining({ email: 'test@example.com' }),
+          deletedAt: expect.any(String),
+        }),
+      })
+    );
+    // ...then the original is deleted from the boards collection.
+    expect(nr1.__docDeleteFn).toHaveBeenCalledWith(
+      expect.objectContaining({ collection: 'nexus', documentId: 'b-9' })
+    );
+    // Undoable toast.
+    const toast = nr1.Toast.showToast.mock.calls.slice(-1)[0][0];
+    expect(toast.title).toBe('Board deleted');
+    expect(toast.type).toBe('NORMAL');
+    expect(toast.actions[0].label).toBe('Undo');
+  });
+
+  it('undo restores the board and removes the archive', async () => {
+    const board = { id: 'b-9', title: 'Doomed' };
+    const onDeleteBoard = renderBoardView({ board });
+    await act(async () => {
+      await onDeleteBoard(board);
+    });
+    const toast = nr1.Toast.showToast.mock.calls.slice(-1)[0][0];
+
+    nr1.__docWriteFn.mockClear();
+    nr1.__docDeleteFn.mockClear();
+    await act(async () => {
+      await toast.actions[0].onClick();
+    });
+
+    // Written back to the boards collection...
+    expect(nr1.__docWriteFn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: 'nexus',
+        documentId: 'b-9',
+        document: expect.objectContaining({ id: 'b-9', title: 'Doomed' }),
+      })
+    );
+    // ...and the archive copy removed.
+    expect(nr1.__docDeleteFn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: 'nexus-deleted-boards',
+        documentId: 'b-9',
+      })
+    );
+  });
+
+  it('shows a retryable critical toast and keeps the board when the archive write fails', async () => {
+    const board = { id: 'b-9', title: 'Doomed' };
+    const onDeleteBoard = renderBoardView({ board });
+    nr1.__docWriteFn.mockResolvedValueOnce({ error: { message: 'nope' } });
+    await act(async () => {
+      await onDeleteBoard(board);
+    });
+
+    const toast = nr1.Toast.showToast.mock.calls.slice(-1)[0][0];
+    expect(toast.type).toBe('CRITICAL');
+    expect(toast.actions[0].label).toBe('Retry');
+    // The original board is never deleted when archiving failed.
+    expect(nr1.__docDeleteFn).not.toHaveBeenCalledWith(
+      expect.objectContaining({ collection: 'nexus', documentId: 'b-9' })
+    );
+  });
+
+  it('purges deleted boards older than the retention window on load', async () => {
+    const dayMs = 24 * 60 * 60 * 1000;
+    const stale = new Date(Date.now() - 31 * dayMs).toISOString();
+    const recent = new Date(Date.now() - dayMs).toISOString();
+    setStorage({
+      boards: [],
+      deleted: [
+        { id: 'old-1', document: { board: { id: 'old-1' }, deletedAt: stale } },
+        {
+          id: 'fresh-1',
+          document: { board: { id: 'fresh-1' }, deletedAt: recent },
+        },
+      ],
+    });
+    await act(async () => {
+      renderWithPlatform(<NexusNerdlet />);
+    });
+    expect(nr1.__docDeleteFn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: 'nexus-deleted-boards',
+        documentId: 'old-1',
+      })
+    );
+    expect(nr1.__docDeleteFn).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: 'nexus-deleted-boards',
+        documentId: 'fresh-1',
+      })
+    );
   });
 });

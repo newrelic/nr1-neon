@@ -35,7 +35,14 @@ import BoardNotFound from './board-not-found';
 
 // Single board experience: the drill-down grid, entities, issues and settings.
 // Reads/writes its own NerdStorage document keyed by `boardId`.
-const Board = ({ boardId, onBack }) => {
+const Board = ({
+  boardId,
+  onBack,
+  onDeleteBoard,
+  defaultBoardId = null,
+  defaultBoardTitle = null,
+  onSetDefaultBoard,
+}) => {
   const [gridData, setGridData] = useState([]);
   const [entities, setEntities] = useState([]);
   const [navigationStack, setNavigationStack] = useState([]);
@@ -67,9 +74,6 @@ const Board = ({ boardId, onBack }) => {
   });
   const [docWrite] = useAccountStorageMutation({
     actionType: useAccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-  });
-  const [docDelete] = useAccountStorageMutation({
-    actionType: useAccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
   });
   const workloadGuids = useMemo(
     () => docData?.start?.map(({ guid }) => guid) || [],
@@ -345,19 +349,20 @@ const Board = ({ boardId, onBack }) => {
     [writeBoard]
   );
 
-  const deleteBoard = useCallback(async () => {
-    const { error } = await docDelete({
-      accountId,
-      ...BOARDS_STORE,
-      documentId: boardId,
-    });
-    if (error) {
-      console.error('Unable to delete board', error);
-      return { error };
-    }
-    onBack?.(); // board is gone — return to the listing
-    return {};
-  }, [accountId, boardId, docDelete, onBack]);
+  // Deletion is owned by the parent (NexusNerdlet): it redirects to the listing
+  // immediately, soft-deletes the board, and shows an undoable toast. We just
+  // hand over the current board document so it can be archived/restored.
+  const deleteBoard = useCallback(
+    () => onDeleteBoard?.({ ...(docData || {}), id: boardId }),
+    [onDeleteBoard, docData, boardId]
+  );
+
+  const isDefaultBoard = defaultBoardId === boardId;
+
+  const handleSetDefault = useCallback(
+    (makeDefault) => onSetDefaultBoard?.(makeDefault ? boardId : null),
+    [boardId, onSetDefaultBoard]
+  );
 
   const openIssuesModal = useCallback((w) => setIssuesWorkload(w), []);
 
@@ -440,11 +445,14 @@ const Board = ({ boardId, onBack }) => {
       <SettingsModal
         onSave={saveBoardMeta}
         onDelete={deleteBoard}
+        onSetDefault={handleSetDefault}
         isSettingsModalOpen={isSettingsModalOpen}
         setIsSettingsModalOpen={setIsSettingsModalOpen}
         savedTitle={docData?.title ?? ''}
         savedDescription={docData?.description ?? ''}
         savedHideUnacknowledged={!!docData?.hideUnacknowledged}
+        savedIsDefault={isDefaultBoard}
+        otherDefaultBoardTitle={isDefaultBoard ? null : defaultBoardTitle}
       />
       <WorkloadsModal
         onSave={saveWorkloads}
@@ -477,6 +485,10 @@ const Board = ({ boardId, onBack }) => {
 Board.propTypes = {
   boardId: PropTypes.string,
   onBack: PropTypes.func,
+  onDeleteBoard: PropTypes.func,
+  defaultBoardId: PropTypes.string,
+  defaultBoardTitle: PropTypes.string,
+  onSetDefaultBoard: PropTypes.func,
 };
 
 export default Board;

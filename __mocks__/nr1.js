@@ -166,7 +166,7 @@ const MultilineTextField = ({ label, value, placeholder, onChange, name }) =>
   });
 MultilineTextField.displayName = 'MultilineTextField';
 
-const Switch = ({ label, checked, onChange }) =>
+const Switch = ({ label, description, checked, onChange }) =>
   React.createElement(
     'label',
     { 'data-testid': 'nr1-Switch' },
@@ -176,7 +176,13 @@ const Switch = ({ label, checked, onChange }) =>
       checked: !!checked,
       onChange,
     }),
-    label
+    label,
+    description &&
+      React.createElement(
+        'span',
+        { 'data-testid': 'nr1-Switch-description' },
+        description
+      )
   );
 Switch.displayName = 'Switch';
 
@@ -349,6 +355,11 @@ const nerdlet = {
   ACCOUNT_PICKER_DEFAULT_VALUES: [],
 };
 
+const Toast = {
+  showToast: jest.fn(),
+  TYPE: { NORMAL: 'NORMAL', CRITICAL: 'CRITICAL' },
+};
+
 // Reset helper for tests (kept for backwards-compat; mutation dispatch is now by
 // actionType so there are no counters to reset).
 const __resetMutationCounters = () => {};
@@ -376,6 +387,7 @@ module.exports = {
   Tabs,
   TabsItem,
   TextField,
+  Toast,
   Tooltip,
   useAccountsQuery,
   useAccountStorageMutation,

@@ -20,6 +20,7 @@ import { formatCreatedMeta, normalizeBoards } from '../../utils';
 const BoardsList = ({
   accountId,
   favorites,
+  hiddenBoardIds,
   onToggleFavorite,
   onOpenBoard,
 }) => {
@@ -31,7 +32,13 @@ const BoardsList = ({
     skip: !accountId,
   });
 
-  const boards = useMemo(() => normalizeBoards(data), [data]);
+  // Boards mid-delete are hidden optimistically by the parent so they vanish the
+  // instant the user confirms, rather than lingering until the query refetches.
+  const boards = useMemo(() => {
+    const all = normalizeBoards(data);
+    if (!hiddenBoardIds || hiddenBoardIds.size === 0) return all;
+    return all.filter((b) => !hiddenBoardIds.has(b.id));
+  }, [data, hiddenBoardIds]);
 
   const isFavorite = useCallback((id) => !!favorites?.[id], [favorites]);
 
@@ -189,6 +196,7 @@ const BoardsList = ({
 BoardsList.propTypes = {
   accountId: PropTypes.number,
   favorites: PropTypes.object,
+  hiddenBoardIds: PropTypes.instanceOf(Set),
   onToggleFavorite: PropTypes.func,
   onOpenBoard: PropTypes.func,
 };
