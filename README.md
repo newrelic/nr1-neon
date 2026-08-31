@@ -12,17 +12,18 @@ Nexus is an **executive dashboard** for New Relic that rolls up the health of yo
 
 ## Usage
 
-Nexus is driven by [New Relic Workloads](https://docs.newrelic.com/docs/new-relic-solutions/new-relic-one/workloads/workloads-isolate-resolve-alert-events-faster/). Before you set up a board, make sure the Workloads you want to monitor already exist in your account.
+Nexus organizes your estate into **boards**, each built from a set of [New Relic Workloads](https://docs.newrelic.com/docs/new-relic-solutions/new-relic-one/workloads/workloads-isolate-resolve-alert-events-faster/). Before creating a board, make sure the Workloads you want to monitor already exist in your account.
 
-To set up your dashboard:
+To create a board:
 
-1. Launch **Nexus** from the [New Relic Apps page](https://one.newrelic.com/catalog/app-directory).
-2. Click the **Settings** button in the toolbar (on first launch, an empty-state prompt will point you at it directly).
-3. In the Settings panel, filter or search the list of Workloads in your account and select the ones you want on the board.
-4. (Optional) Toggle **Hide unacknowledged count** if you'd rather not surface unacknowledged issue counts on the board.
-5. Click **Save**. Your selected Workloads appear on the board with their current alert severity and open-issue counts.
+1. Launch **Nexus** from the [New Relic Apps page](https://one.newrelic.com/catalog/app-directory). You'll land on the boards list.
+2. Click **New board** and give it a title and (optional) description.
+3. On the new board, click the **Workloads** button in the toolbar and select the Workloads you want to track.
+4. Click **Save**. Your selected Workloads appear on the board with their current alert severity and open-issue counts.
 
-To add or remove Workloads later, reopen the Settings panel from the toolbar at any time.
+To add or remove Workloads later, reopen the **Workloads** button from the toolbar at any time. Click **Settings** to rename the board, toggle **Hide unacknowledged count**, mark it as your default board (so it opens automatically next time you launch Nexus), or delete it.
+
+When viewing a board, click the **Nexus** link at the front of the breadcrumb (next to the board name) to return to your list of boards.
 
 ## Dependencies
 

@@ -22,5 +22,5 @@
       "url": "https://discuss.newrelic.com/t/neon-alerting-nerdpack/83272"
     }
   },
-  "whatsNew": "\n- Neon is now Nexus: rebuilt around New Relic Workloads with a new executive-dashboard experience\n- Fix: Edit state when edit modal is closed\n- Feature: Edit cells capability\n- Feature: User feedback via Toast added when saving edits\n"
+  "whatsNew": "\n- Neon is now Nexus: rebuilt around New Relic Workloads with a new executive-dashboard experience\n- Feature: Create and manage multiple boards, each with its own set of Workloads\n- Feature: Mark a board as your default so it opens automatically\n"
 }
