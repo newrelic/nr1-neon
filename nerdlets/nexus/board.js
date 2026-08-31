@@ -35,7 +35,13 @@ import BoardNotFound from './board-not-found';
 
 // Single board experience: the drill-down grid, entities, issues and settings.
 // Reads/writes its own NerdStorage document keyed by `boardId`.
-const Board = ({ boardId, onBack }) => {
+const Board = ({
+  boardId,
+  onBack,
+  defaultBoardId = null,
+  defaultBoardTitle = null,
+  onSetDefaultBoard,
+}) => {
   const [gridData, setGridData] = useState([]);
   const [entities, setEntities] = useState([]);
   const [navigationStack, setNavigationStack] = useState([]);
@@ -345,6 +351,13 @@ const Board = ({ boardId, onBack }) => {
     return {};
   }, [accountId, boardId, docDelete, onBack]);
 
+  const isDefaultBoard = defaultBoardId === boardId;
+
+  const handleSetDefault = useCallback(
+    (makeDefault) => onSetDefaultBoard?.(makeDefault ? boardId : null),
+    [boardId, onSetDefaultBoard]
+  );
+
   const openIssuesModal = useCallback((w) => setIssuesWorkload(w), []);
 
   const currentView = useMemo(() => {
@@ -419,11 +432,14 @@ const Board = ({ boardId, onBack }) => {
       <SettingsModal
         onSave={saveBoardMeta}
         onDelete={deleteBoard}
+        onSetDefault={handleSetDefault}
         isSettingsModalOpen={isSettingsModalOpen}
         setIsSettingsModalOpen={setIsSettingsModalOpen}
         savedTitle={docData?.title ?? ''}
         savedDescription={docData?.description ?? ''}
         savedHideUnacknowledged={!!docData?.hideUnacknowledged}
+        savedIsDefault={isDefaultBoard}
+        otherDefaultBoardTitle={isDefaultBoard ? null : defaultBoardTitle}
       />
       <WorkloadsModal
         onSave={saveWorkloads}
@@ -456,6 +472,9 @@ const Board = ({ boardId, onBack }) => {
 Board.propTypes = {
   boardId: PropTypes.string,
   onBack: PropTypes.func,
+  defaultBoardId: PropTypes.string,
+  defaultBoardTitle: PropTypes.string,
+  onSetDefaultBoard: PropTypes.func,
 };
 
 export default Board;

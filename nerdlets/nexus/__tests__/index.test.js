@@ -176,6 +176,112 @@ describe('NexusNerdlet (router)', () => {
     );
   });
 
+  it('redirects to the default board when no boardId is in urlState', () => {
+    setDefaults({ userPrefs: { defaultBoardId: 'board-42' } });
+    setStorage({
+      boards: [{ id: 'board-42', document: { title: 'Default' } }],
+    });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
+      boardId: 'board-42',
+    });
+  });
+
+  it('does not redirect to the default board when it belongs to a different account (falls back to the listing instead of "Board not found")', () => {
+    setDefaults({ userPrefs: { defaultBoardId: 'board-from-other-acct' } });
+    setStorage({
+      boards: [
+        { id: 'board-a', document: { title: 'A' } },
+        { id: 'board-b', document: { title: 'B' } },
+      ],
+    });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
+  it('falls back to the only board when the default board belongs to a different account', () => {
+    setDefaults({ userPrefs: { defaultBoardId: 'board-from-other-acct' } });
+    setStorage({ boards: [{ id: 'only-board', document: { title: 'Only' } }] });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
+      boardId: 'only-board',
+    });
+  });
+
+  it('does not redirect when a boardId is already present in urlState', () => {
+    setDefaults({
+      userPrefs: { defaultBoardId: 'board-42' },
+      nerdletState: { boardId: 'board-123' },
+    });
+    setStorage({ board: { id: 'board-123', title: 'My board' } });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
+  it('does not redirect when there is no default board set', () => {
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
+  it('redirects into the only board when there is no default and exactly one board exists', () => {
+    setStorage({ boards: [{ id: 'only-board', document: { title: 'Only' } }] });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
+      boardId: 'only-board',
+    });
+  });
+
+  it('does not redirect into a board when multiple boards exist and there is no default', () => {
+    setStorage({
+      boards: [
+        { id: 'board-a', document: { title: 'A' } },
+        { id: 'board-b', document: { title: 'B' } },
+      ],
+    });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
+  it('prefers the default board over the only-board fallback when both apply', () => {
+    setDefaults({ userPrefs: { defaultBoardId: 'board-42' } });
+    setStorage({
+      boards: [{ id: 'board-42', document: { title: 'Default' } }],
+    });
+    renderWithPlatform(<NexusNerdlet />);
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({
+      boardId: 'board-42',
+    });
+  });
+
+  it('switches to the listing when the account changes while a board is open', () => {
+    setDefaults({ nerdletState: { boardId: 'board-123' } });
+    setStorage({ board: { id: 'board-123', title: 'My board' } });
+    const { rerender } = renderWithPlatform(<NexusNerdlet />, {
+      accountId: 42,
+    });
+    expect(screen.getByTestId('mock-board')).toBeInTheDocument();
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+
+    rerender(
+      <nr1.PlatformStateContext.Provider value={{ accountId: 99 }}>
+        <NexusNerdlet />
+      </nr1.PlatformStateContext.Provider>
+    );
+    expect(nr1.__setNerdletStateFn).toHaveBeenCalledWith({ boardId: null });
+  });
+
+  it('does not touch urlState when the account changes while on the listing', () => {
+    const { rerender } = renderWithPlatform(<NexusNerdlet />, {
+      accountId: 42,
+    });
+    rerender(
+      <nr1.PlatformStateContext.Provider value={{ accountId: 99 }}>
+        <NexusNerdlet />
+      </nr1.PlatformStateContext.Provider>
+    );
+    expect(nr1.__setNerdletStateFn).not.toHaveBeenCalled();
+  });
+
   it('does nothing when there is no legacy settings doc', async () => {
     setStorage({ legacy: null, boards: [] });
     await act(async () => {
