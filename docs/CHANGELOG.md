@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/newrelic/nr1-neon/compare/v1.2.0...v1.2.1) (2026-08-31)
+
+
+### Bug Fixes
+
+* additional fixes for default board ([b248c74](https://github.com/newrelic/nr1-neon/commit/b248c74908e8f1a5fa333e30f6cd01765d7104e4))
+* allow selection of default board ([52e307d](https://github.com/newrelic/nr1-neon/commit/52e307dc6e3bf91e184943335257ca22593aae65))
+
 # [1.2.0](https://github.com/newrelic/nr1-neon/compare/v1.1.3...v1.2.0) (2026-08-28)
 
 

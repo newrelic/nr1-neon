@@ -166,7 +166,7 @@ const MultilineTextField = ({ label, value, placeholder, onChange, name }) =>
   });
 MultilineTextField.displayName = 'MultilineTextField';
 
-const Switch = ({ label, checked, onChange }) =>
+const Switch = ({ label, description, checked, onChange }) =>
   React.createElement(
     'label',
     { 'data-testid': 'nr1-Switch' },
@@ -176,7 +176,13 @@ const Switch = ({ label, checked, onChange }) =>
       checked: !!checked,
       onChange,
     }),
-    label
+    label,
+    description &&
+      React.createElement(
+        'span',
+        { 'data-testid': 'nr1-Switch-description' },
+        description
+      )
   );
 Switch.displayName = 'Switch';
 

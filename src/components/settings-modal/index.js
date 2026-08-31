@@ -19,17 +19,21 @@ import Modal from '../modal';
 const SettingsModal = ({
   onSave,
   onDelete,
+  onSetDefault,
   isSettingsModalOpen,
   setIsSettingsModalOpen,
   savedTitle = '',
   savedDescription = '',
   savedHideUnacknowledged = false,
+  savedIsDefault = false,
+  otherDefaultBoardTitle = null,
 }) => {
   const [title, setTitle] = useState(savedTitle);
   const [description, setDescription] = useState(savedDescription);
   const [hideUnacknowledged, setHideUnacknowledged] = useState(
     savedHideUnacknowledged
   );
+  const [isDefault, setIsDefault] = useState(savedIsDefault);
   const [editingTitle, setEditingTitle] = useState(false);
   const [editingDescription, setEditingDescription] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -44,6 +48,7 @@ const SettingsModal = ({
       setTitle(savedTitle);
       setDescription(savedDescription);
       setHideUnacknowledged(savedHideUnacknowledged);
+      setIsDefault(savedIsDefault);
       setEditingTitle(false);
       setEditingDescription(false);
       setShowDeleteConfirm(false);
@@ -55,11 +60,12 @@ const SettingsModal = ({
   const trimmedTitle = title.trim();
   const canSave = trimmedTitle.length > 0 && !isSaving;
 
-  // Any edit to title/description/toggle means there are unsaved changes.
+  // Any edit to title/description/toggles means there are unsaved changes.
   const isDirty =
     trimmedTitle !== savedTitle.trim() ||
     description.trim() !== savedDescription.trim() ||
-    hideUnacknowledged !== savedHideUnacknowledged;
+    hideUnacknowledged !== savedHideUnacknowledged ||
+    isDefault !== savedIsDefault;
 
   const closeHandler = useCallback(() => {
     setIsSettingsModalOpen?.(false);
@@ -79,6 +85,13 @@ const SettingsModal = ({
         setSaveError(result.error);
         return;
       }
+      if (isDefault !== savedIsDefault) {
+        const defaultResult = await onSetDefault?.(isDefault);
+        if (defaultResult?.error) {
+          setSaveError(defaultResult.error);
+          return;
+        }
+      }
       setIsSettingsModalOpen?.(false);
     } finally {
       setIsSaving(false);
@@ -87,7 +100,10 @@ const SettingsModal = ({
     trimmedTitle,
     description,
     hideUnacknowledged,
+    isDefault,
+    savedIsDefault,
     onSave,
+    onSetDefault,
     setIsSettingsModalOpen,
   ]);
 
@@ -200,6 +216,20 @@ const SettingsModal = ({
                 />
               </div>
 
+              <div className="settings-section">
+                <span className="section-label">User settings</span>
+                <Switch
+                  label="Set as default board"
+                  description={
+                    otherDefaultBoardTitle
+                      ? `Opens automatically when you launch the app. Only one board can be your default at a time. Current default board: ${otherDefaultBoardTitle}`
+                      : 'Opens automatically when you launch the app. Only one board can be your default at a time.'
+                  }
+                  checked={isDefault}
+                  onChange={(e) => setIsDefault(e.target.checked)}
+                />
+              </div>
+
               {saveError && (
                 <div className="save-error" role="alert">
                   Couldn&apos;t save settings:{' '}
@@ -283,11 +313,14 @@ const SettingsModal = ({
 SettingsModal.propTypes = {
   onSave: PropTypes.func,
   onDelete: PropTypes.func,
+  onSetDefault: PropTypes.func,
   isSettingsModalOpen: PropTypes.bool,
   setIsSettingsModalOpen: PropTypes.func,
   savedTitle: PropTypes.string,
   savedDescription: PropTypes.string,
   savedHideUnacknowledged: PropTypes.bool,
+  savedIsDefault: PropTypes.bool,
+  otherDefaultBoardTitle: PropTypes.string,
 };
 
 export default SettingsModal;

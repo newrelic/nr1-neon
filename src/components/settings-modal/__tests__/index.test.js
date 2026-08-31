@@ -149,4 +149,66 @@ describe('SettingsModal', () => {
     });
     expect(screen.getByRole('alert').textContent).toMatch(/nope/);
   });
+
+  it('names the current default board in the description when it is not this board', () => {
+    renderModal({ otherDefaultBoardTitle: 'Payments' });
+    const description = screen
+      .getByLabelText('Set as default board')
+      .closest('label')
+      .querySelector('[data-testid="nr1-Switch-description"]');
+    expect(description.textContent).toMatch(/Current default board: Payments/);
+  });
+
+  it('omits the current-default callout when this board is already the default', () => {
+    renderModal({ savedIsDefault: true, otherDefaultBoardTitle: null });
+    const description = screen
+      .getByLabelText('Set as default board')
+      .closest('label')
+      .querySelector('[data-testid="nr1-Switch-description"]');
+    expect(description.textContent).not.toMatch(/Current default board/);
+  });
+
+  it('toggling default marks unsaved changes and Save calls onSetDefault', async () => {
+    const onSave = jest.fn(async () => ({}));
+    const onSetDefault = jest.fn(async () => ({}));
+    renderModal({ onSave, onSetDefault });
+
+    fireEvent.click(screen.getByLabelText('Set as default board'));
+    expect(screen.getByTestId('nr1-InlineMessage').textContent).toMatch(
+      /unsaved changes/i
+    );
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Save'));
+    });
+
+    expect(onSetDefault).toHaveBeenCalledWith(true);
+  });
+
+  it('does not call onSetDefault when the default toggle is untouched', async () => {
+    const onSave = jest.fn(async () => ({}));
+    const onSetDefault = jest.fn(async () => ({}));
+    renderModal({ onSave, onSetDefault });
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Save'));
+    });
+
+    expect(onSetDefault).not.toHaveBeenCalled();
+  });
+
+  it('does not close and surfaces an error when onSetDefault fails', async () => {
+    const onSave = jest.fn(async () => ({}));
+    const onSetDefault = jest.fn(async () => ({ error: new Error('taken') }));
+    const setIsSettingsModalOpen = jest.fn();
+    renderModal({ onSave, onSetDefault, setIsSettingsModalOpen });
+
+    fireEvent.click(screen.getByLabelText('Set as default board'));
+    await act(async () => {
+      fireEvent.click(screen.getByText('Save'));
+    });
+
+    expect(setIsSettingsModalOpen).not.toHaveBeenCalledWith(false);
+    expect(screen.getByRole('alert').textContent).toMatch(/taken/);
+  });
 });
