@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/newrelic/nr1-neon/compare/v1.2.1...v1.2.2) (2026-08-31)
+
+
+### Bug Fixes
+
+* more seamless delete board ([ddc3b08](https://github.com/newrelic/nr1-neon/commit/ddc3b08fe70fc043505d9bf7e6fbbf069a1eb816))
+
 ## [1.2.1](https://github.com/newrelic/nr1-neon/compare/v1.2.0...v1.2.1) (2026-08-31)
 
 
