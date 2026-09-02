@@ -1,17 +1,19 @@
 import React from 'react';
 import { render, screen, fireEvent, act, within } from '@testing-library/react';
 
-// Mock the internal hooks module — we don't want to test the data manager
-// or issues fetching from board tests.
-jest.mock('../../../src/hooks', () => ({
-  useDataManager: jest.fn(),
-  useAlertingEntitiesIssues: jest.fn(),
-}));
+// Mock only the leaf data hooks — the board-level hooks (useBoardData,
+// useBoardNavigation, useBoardChrome) run for real so we exercise navigation
+// and URL sync end-to-end.
+jest.mock('../../../src/hooks/use-data-manager');
+jest.mock('../../../src/hooks/use-alerting-entities-issues');
 
-import * as hooksModule from '../../../src/hooks';
+import useDataManager from '../../../src/hooks/use-data-manager';
+import useAlertingEntitiesIssues from '../../../src/hooks/use-alerting-entities-issues';
 import * as nr1 from 'nr1';
 import Board from '../board';
 import { AppContext } from '../../../src/contexts';
+
+const hooksModule = { useDataManager, useAlertingEntitiesIssues };
 
 const stableRefresh = jest.fn();
 const stableDataManagerReturn = {
@@ -50,6 +52,14 @@ beforeEach(() => {
   jest.clearAllMocks();
   nr1.__resetMutationCounters?.();
   setHookDefaults();
+  // clearAllMocks() only clears call records, not return-value overrides, so
+  // restore the URL-state and entity-hydration mocks to their defaults here to
+  // keep per-test overrides from leaking into later tests.
+  nr1.useNerdletState.mockReturnValue([{}, nr1.__setNerdletStateFn]);
+  nr1.useEntitiesByGuidsQuery.mockReturnValue({
+    loading: false,
+    data: { entities: [] },
+  });
   setBoardDoc({
     id: 'b-1',
     title: 'My Board',
@@ -369,5 +379,197 @@ describe('Board', () => {
     } finally {
       jest.useRealTimers();
     }
+  });
+
+  describe('URL state sync (back/forward)', () => {
+    const workloadsWithChild = [
+      {
+        guid: 'root',
+        name: 'Root WL',
+        status: 'OPERATIONAL',
+        children: [
+          {
+            guid: 'child-wl',
+            name: 'Child WL',
+            domain: 'NR1',
+            type: 'WORKLOAD',
+            status: 'OPERATIONAL',
+            children: [],
+          },
+        ],
+      },
+    ];
+
+    it('records the drill-down path in urlState, preserving boardId', () => {
+      jest.useFakeTimers();
+      try {
+        const setUrl = jest.fn();
+        nr1.useNerdletState.mockReturnValue([{ boardId: 'b-1' }, setUrl]);
+        setHookDefaults({ useDataManager: { data: workloadsWithChild } });
+        renderBoard();
+        const rootCard = screen.getByText('Root WL').closest('.workload-card');
+        act(() => fireEvent.click(rootCard));
+
+        // patchUrlState uses the functional updater form; invoke each with a prior
+        // state to assert one patch keeps boardId and records the drill-down path.
+        const patches = setUrl.mock.calls.map(([u]) => u({ boardId: 'b-1' }));
+        expect(patches).toContainEqual({
+          boardId: 'b-1',
+          path: ['root'],
+          tab: null,
+        });
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('records the selected entity in urlState when an entity row is clicked', () => {
+      jest.useFakeTimers();
+      try {
+        const setUrl = jest.fn();
+        nr1.useNerdletState.mockReturnValue([{ boardId: 'b-1' }, setUrl]);
+        const workloads = [
+          {
+            guid: 'root',
+            name: 'Root WL',
+            status: 'OPERATIONAL',
+            children: [
+              {
+                guid: 'ent-1',
+                name: 'My Entity',
+                domain: 'APM',
+                type: 'APPLICATION',
+                accountId: 1,
+                alertSeverity: 'CRITICAL',
+              },
+            ],
+          },
+        ];
+        setHookDefaults({ useDataManager: { data: workloads } });
+        nr1.useEntitiesByGuidsQuery.mockReturnValue({
+          loading: false,
+          data: {
+            entities: [
+              {
+                guid: 'ent-1',
+                name: 'My Entity',
+                domain: 'APM',
+                type: 'APPLICATION',
+                accountId: 1,
+                alertSeverity: 'CRITICAL',
+                tags: [],
+                goldenMetrics: { metrics: [] },
+                goldenTags: { tags: [] },
+              },
+            ],
+          },
+        });
+        renderBoard();
+        act(() =>
+          fireEvent.click(screen.getByText('Root WL').closest('.workload-card'))
+        );
+        act(() => jest.advanceTimersByTime(200));
+        fireEvent.click(screen.getByText('My Entity').closest('.entity-row'));
+
+        const patches = setUrl.mock.calls.map(([u]) =>
+          u({ boardId: 'b-1', path: ['root'] })
+        );
+        expect(patches).toContainEqual(
+          expect.objectContaining({ issuesEntityGuid: 'ent-1' })
+        );
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('deep-links straight to a drilled level from urlState.path', () => {
+      jest.useFakeTimers();
+      try {
+        nr1.useNerdletState.mockReturnValue([
+          { boardId: 'b-1', path: ['root'] },
+          jest.fn(),
+        ]);
+        setHookDefaults({ useDataManager: { data: workloadsWithChild } });
+        renderBoard();
+        act(() => jest.advanceTimersByTime(200));
+        // The child level is shown without any click.
+        expect(screen.getByText('Child WL')).toBeInTheDocument();
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('opens the entity issues modal from urlState.issuesEntityGuid', () => {
+      jest.useFakeTimers();
+      try {
+        nr1.useNerdletState.mockReturnValue([
+          { boardId: 'b-1', path: ['root'], issuesEntityGuid: 'ent-1' },
+          jest.fn(),
+        ]);
+        const workloads = [
+          {
+            guid: 'root',
+            name: 'Root WL',
+            status: 'OPERATIONAL',
+            children: [
+              {
+                guid: 'ent-1',
+                name: 'My Entity',
+                domain: 'APM',
+                type: 'APPLICATION',
+                accountId: 1,
+                alertSeverity: 'CRITICAL',
+              },
+            ],
+          },
+        ];
+        const issuesTree = [
+          {
+            issues: [],
+            children: [
+              {
+                issues: [
+                  {
+                    issueId: 'i-1',
+                    issueLink: 'https://example.com/i-1',
+                    priority: 'CRITICAL',
+                    title: ['Something broke'],
+                    activatedAt: 1,
+                  },
+                ],
+              },
+            ],
+          },
+        ];
+        setHookDefaults({
+          useDataManager: { data: workloads },
+          useAlertingEntitiesIssues: { data: issuesTree },
+        });
+        nr1.useEntitiesByGuidsQuery.mockReturnValue({
+          loading: false,
+          data: {
+            entities: [
+              {
+                guid: 'ent-1',
+                name: 'My Entity',
+                domain: 'APM',
+                type: 'APPLICATION',
+                accountId: 1,
+                alertSeverity: 'CRITICAL',
+                tags: [],
+                goldenMetrics: { metrics: [] },
+                goldenTags: { tags: [] },
+              },
+            ],
+          },
+        });
+        renderBoard();
+        act(() => jest.advanceTimersByTime(200));
+        expect(screen.getByText('Entity issues')).toBeInTheDocument();
+        expect(screen.getByText('Something broke')).toBeInTheDocument();
+      } finally {
+        jest.useRealTimers();
+      }
+    });
   });
 });

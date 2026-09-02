@@ -94,7 +94,7 @@ const EntitiesView = ({
   entities,
   loading,
   onEntityClick,
-  defaultType,
+  activeType,
   onTabChange,
 }) => {
   const groups = useMemo(() => groupByType(entities ?? []), [entities]);
@@ -112,14 +112,16 @@ const EntitiesView = ({
     return null;
   }
 
-  const initialType =
-    defaultType && groups.has(defaultType) ? defaultType : types[0];
+  // Controlled tab: `activeType` comes from the URL so browser Back/Forward can
+  // move it. Fall back to the highest-severity type when the URL has no (or a
+  // no-longer-present) selection.
+  const selected = activeType && groups.has(activeType) ? activeType : types[0];
 
   return (
     <div className="entities-view">
       <Tabs
         ariaLabel="Entities by type"
-        defaultValue={initialType}
+        value={selected}
         onChange={onTabChange}
       >
         {types.map((type) => (
@@ -153,7 +155,7 @@ EntitiesView.propTypes = {
   entities: PropTypes.array,
   loading: PropTypes.bool,
   onEntityClick: PropTypes.func,
-  defaultType: PropTypes.string,
+  activeType: PropTypes.string,
   onTabChange: PropTypes.func,
 };
 
