@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/newrelic/nr1-neon/compare/v1.2.3...v1.2.4) (2026-09-02)
+
+
+### Bug Fixes
+
+* add support for browser back/forward; refactored board ([a5fd877](https://github.com/newrelic/nr1-neon/commit/a5fd8777cacf8fc15d7ed91211edde39e6f813ab))
+
 ## [1.2.3](https://github.com/newrelic/nr1-neon/compare/v1.2.2...v1.2.3) (2026-08-31)
 
 
