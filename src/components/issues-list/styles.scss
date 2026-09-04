@@ -79,6 +79,30 @@ $priority-medium-bg: #FCE8C8;
     word-break: break-word;
   }
 
+  // Tighten the gap between the breadcrumb and title so they read as one
+  // unit, without affecting the eyebrow-to-title gap when there's no crumb.
+  .hierarchy-breadcrumb + .title {
+    margin-top: -4px;
+  }
+
+  .hierarchy-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin: 2px 0;
+    font-size: 11px;
+    color: #6B7682;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .crumb-sep {
+    color: #C9CDD3;
+
+    &:last-child { display: none; }
+  }
+
   .subtitle {
     font-size: 11.5px;
     color: #6B7682;

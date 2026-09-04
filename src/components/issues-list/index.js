@@ -32,7 +32,13 @@ const priorityRank = (priority) => {
   return { CRITICAL: 4, HIGH: 3, MEDIUM: 2, LOW: 1 }[priority] ?? 0;
 };
 
-const IssuesList = ({ workload, subjectLabel = 'Workload', onOpenEntity }) => {
+const IssuesList = ({
+  workload,
+  subjectLabel = 'Workload',
+  onOpenEntity,
+  entityNameByGuid,
+  ancestorNames,
+}) => {
   const [unackOnly, setUnackOnly] = useState(false);
 
   const status = mapStatus(workload?.status);
@@ -57,6 +63,16 @@ const IssuesList = ({ workload, subjectLabel = 'Workload', onOpenEntity }) => {
           </span>
           <span>{subjectLabel} issues</span>
         </div>
+        {ancestorNames?.length > 0 && (
+          <div className="hierarchy-breadcrumb">
+            {ancestorNames.map((name, i) => (
+              <React.Fragment key={i}>
+                <span className="crumb">{name}</span>
+                <span className="crumb-sep">›</span>
+              </React.Fragment>
+            ))}
+          </div>
+        )}
         <h2 className="title">{workload?.name ?? subjectLabel}</h2>
         <div className="subtitle">
           {allIssues.length === 0
@@ -104,7 +120,7 @@ const IssuesList = ({ workload, subjectLabel = 'Workload', onOpenEntity }) => {
               rel="noopener noreferrer"
               className="u-unstyledLink issue-row-link"
             >
-              <IssueRow issue={issue} />
+              <IssueRow issue={issue} entityNameByGuid={entityNameByGuid} />
             </a>
           ))
         )}
@@ -117,6 +133,8 @@ IssuesList.propTypes = {
   workload: PropTypes.object,
   subjectLabel: PropTypes.string,
   onOpenEntity: PropTypes.func,
+  entityNameByGuid: PropTypes.instanceOf(Map),
+  ancestorNames: PropTypes.array,
 };
 
 const EmptyState = ({ hasAnyIssues, subjectLabel, status }) => {
