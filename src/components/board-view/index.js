@@ -31,6 +31,8 @@ const BoardView = ({
   onTabChange,
   onOpenWorkloads,
   issuesWorkload,
+  entityNameByGuid,
+  workloadAncestorNames,
   onCloseWorkloadIssues,
   issuesEntity,
   onCloseEntityIssues,
@@ -104,7 +106,11 @@ const BoardView = ({
         onClose={onCloseWorkloadIssues}
         style={{ '--modal-width': '480px', '--modal-padding': '0' }}
       >
-        <IssuesList workload={issuesWorkload} />
+        <IssuesList
+          workload={issuesWorkload}
+          entityNameByGuid={entityNameByGuid}
+          ancestorNames={workloadAncestorNames}
+        />
       </Modal>
       <Modal
         hidden={!issuesEntity}
@@ -139,6 +145,8 @@ BoardView.propTypes = {
   onTabChange: PropTypes.func,
   onOpenWorkloads: PropTypes.func,
   issuesWorkload: PropTypes.object,
+  entityNameByGuid: PropTypes.instanceOf(Map),
+  workloadAncestorNames: PropTypes.array,
   onCloseWorkloadIssues: PropTypes.func,
   issuesEntity: PropTypes.object,
   onCloseEntityIssues: PropTypes.func,

@@ -130,6 +130,41 @@
     white-space: nowrap;
   }
 
+  .entities-pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .entity-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #F4F5F6;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: #475059;
+    flex-shrink: 0;
+  }
+
+  .entities-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    color: #f5554b;
+
+    svg {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
   .chevron {
     flex-shrink: 0;
     color: #C9CDD3;

@@ -14,6 +14,20 @@ export const mergeData = (workloadsTree, issuesTree) => {
   });
 };
 
+// Walks a node (or array of nodes) and its `children` recursively, returning
+// a guid -> name map for every node that has both.
+export const buildEntityNameMap = (nodes) => {
+  const map = new Map();
+  const walk = (list) => {
+    (list || []).forEach((node) => {
+      if (node?.guid && node?.name) map.set(node.guid, node.name);
+      if (node?.children?.length) walk(node.children);
+    });
+  };
+  walk(nodes);
+  return map;
+};
+
 export const countEntities = (workload) => {
   return Array.isArray(workload?.children) ? workload.children.length : 0;
 };

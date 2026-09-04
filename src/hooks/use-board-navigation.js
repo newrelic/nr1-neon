@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { navigation, useEntitiesByGuidsQuery } from 'nr1';
 
 import { ENTITY_FRAGMENT_EXTENSION } from '../constants';
+import { buildEntityNameMap } from '../utils/workloads';
 
 // Split a workload's children into sub-workloads (NR1:WORKLOAD) and leaf entities.
 const splitChildren = (w) =>
@@ -168,6 +169,23 @@ export const useBoardNavigation = ({
     );
   }, [issuesEntityGuid, hydratedEntities]);
 
+  // Only available on the workload path — the entity path has just the single
+  // clicked entity in scope, no sibling/tree data to resolve names from.
+  const entityNameByGuid = useMemo(
+    () => (issuesWorkload ? buildEntityNameMap([issuesWorkload]) : null),
+    [issuesWorkload]
+  );
+
+  // Ancestor workload names (root-first, excluding issuesWorkload itself) —
+  // navigationStack already records, at each depth, which workload's
+  // children are being viewed, so the drilldown path IS the ancestor chain.
+  const workloadAncestorNames = useMemo(() => {
+    if (!issuesWorkload) return [];
+    return navigationStack
+      .map((level) => level.items.find((n) => n.guid === level.activeId)?.name)
+      .filter(Boolean);
+  }, [navigationStack, issuesWorkload]);
+
   // --- Handlers (instant local update + URL patch) --------------------------
   const onCardClick = useCallback(
     (w) => {
@@ -287,6 +305,8 @@ export const useBoardNavigation = ({
     activeTab: tab,
     issuesWorkload,
     issuesEntity,
+    entityNameByGuid,
+    workloadAncestorNames,
     onCardClick,
     onHomeClick,
     onChipClick,
