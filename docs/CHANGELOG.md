@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/newrelic/nr1-neon/compare/v1.2.4...v1.2.5) (2026-09-04)
+
+
+### Bug Fixes
+
+* add entity name in issues list when clicked from workload card; also breadcrumb displaying path for the workload ([496df1d](https://github.com/newrelic/nr1-neon/commit/496df1d7a7ab86db04349529459f3d32a57252e4))
+
 ## [1.2.4](https://github.com/newrelic/nr1-neon/compare/v1.2.3...v1.2.4) (2026-09-02)
 
 
