@@ -1,5 +1,9 @@
 export { default as Modal } from './modal';
 export { default as SettingsModal } from './settings-modal';
+export { default as WorkloadsModal } from './workloads-modal';
+export { default as CreateBoardModal } from './create-board-modal';
+export { default as BoardsList } from './boards-list';
+export { default as BoardView } from './board-view';
 export { default as StatusDot } from './status-dot';
 export { default as IssuesButton } from './issues-button';
 export { default as WorkloadCard } from './workload-card';

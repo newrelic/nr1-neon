@@ -50,10 +50,7 @@ const WorkloadCard = ({
           issuesCount={issuesCount}
           unacknowledgedCount={unacknowledgedCount}
           hideUnacknowledged={hideUnacknowledged}
-          onClick={(e) => {
-            e.stopPropagation(); // prevent the card's drill-in click from firing when the issues button is clicked
-            if (onIssuesClick) onIssuesClick();
-          }}
+          onClick={onIssuesClick}
         />
       );
     return <span className="no-issues">No active issues</span>;

@@ -9,52 +9,50 @@ import React, {
 
 import {
   EmptyState,
-  Icon,
-  navigation,
   nerdlet,
   PlatformStateContext,
   SectionMessage,
+  Toast,
   useAccountsQuery,
   useAccountStorageMutation,
   useAccountStorageQuery,
-  useEntitiesByGuidsQuery,
+  useNerdletState,
+  useUserQuery,
   useUserStorageMutation,
   useUserStorageQuery,
+  navigation,
 } from 'nr1';
 
-import {
-  Breadcrumb,
-  EntitiesView,
-  IssuesList,
-  Modal,
-  SettingsModal,
-  WorkloadGrid,
-} from '../../src/components';
-import {
-  useAlertingEntitiesIssues,
-  useDataManager,
-  useWorkloadTags,
-} from '../../src/hooks';
+import { BoardsList } from '../../src/components';
 import { AppContext } from '../../src/contexts';
-import { mergeData } from '../../src/utils';
 import {
+  generateId,
+  normalizeBoards,
+  normalizeDeletedBoards,
+} from '../../src/utils';
+import {
+  BOARDS_STORE,
+  DELETED_BOARDS_STORE,
+  DELETED_BOARDS_TTL_MS,
   DOC_STORE,
-  ENTITY_FRAGMENT_EXTENSION,
   USER_PREFS_STORE,
 } from '../../src/constants';
+import Board from './board';
 
+const boardLabel = (board) => `"${board?.title || 'Untitled board'}"`;
+
+// Top-level router for Nexus. Decides between the boards listing and a single
+// board based on `boardId` in urlState, owns cross-view concerns (accounts,
+// user prefs/favorites, the Neon banner), and runs the one-time legacy migration.
 const NexusNerdlet = () => {
-  const [gridData, setGridData] = useState([]);
-  const [entities, setEntities] = useState([]);
-  const [navigationStack, setNavigationStack] = useState([]);
   const [app, setApp] = useState({});
-  // Refs mirror state so callbacks can read current values without listing them in dep arrays.
-  const gridDataRef = useRef([]);
-  gridDataRef.current = gridData;
-  const navStackRef = useRef([]);
-  navStackRef.current = navigationStack;
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [issuesWorkload, setIssuesWorkload] = useState(null);
+  const [nerdletState, setNerdletState] = useNerdletState();
+  const boardId = nerdletState?.boardId || null;
+
+  const { accountId } = useContext(PlatformStateContext);
+  const { data: accts = [], loading: isAcctsLoading } = useAccountsQuery();
+  const { data: user } = useUserQuery();
+
   const { data: userPrefs, loading: userPrefsLoading } =
     useUserStorageQuery(USER_PREFS_STORE);
   const [writeUserPrefs] = useUserStorageMutation({
@@ -63,82 +61,105 @@ const NexusNerdlet = () => {
   const [deleteUserPrefs] = useUserStorageMutation({
     actionType: useUserStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
   });
-  const { accountId } = useContext(PlatformStateContext);
-  const {
-    loading: docLoading,
-    error: docError,
-    data: docData,
-  } = useAccountStorageQuery({
+
+  // Legacy single-board doc + the boards collection, used only for migration.
+  const { data: legacyDoc, loading: legacyLoading } = useAccountStorageQuery({
     accountId,
     ...DOC_STORE,
     skip: !accountId,
   });
-  const [docWrite] = useAccountStorageMutation({
+  const { data: boardsData, loading: boardsLoading } = useAccountStorageQuery({
+    accountId,
+    ...BOARDS_STORE,
+    skip: !accountId,
+  });
+  // Soft-deleted boards live in their own collection; read it so we can purge
+  // documents older than the retention window once the app has settled.
+  const { data: deletedBoardsData, loading: deletedBoardsLoading } =
+    useAccountStorageQuery({
+      accountId,
+      ...DELETED_BOARDS_STORE,
+      skip: !accountId,
+    });
+  const [boardsWrite] = useAccountStorageMutation({
     actionType: useAccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
   });
-  const [docDelete] = useAccountStorageMutation({
+  const [boardsDelete] = useAccountStorageMutation({
     actionType: useAccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
   });
-  const { data: accts = [], loading: isAcctsLoading } = useAccountsQuery();
-  const workloadGuids = useMemo(
-    () => docData?.start?.map(({ guid }) => guid) || [],
-    [docData]
-  );
-  const {
-    loading: dataLoading,
-    error: dataError,
-    data,
-    refresh: refreshData,
-  } = useDataManager(workloadGuids);
-  const {
-    data: issuesData,
-    loading: issuesLoading,
-    error: issuesError,
-  } = useAlertingEntitiesIssues({
-    data,
-    skip: dataLoading || !data || data.length === 0,
-  });
-  const entityGuids = useMemo(
-    () => (entities || []).map((e) => e?.guid).filter(Boolean),
-    [entities]
-  );
-  const { loading: entitiesHydrating, data: hydratedEntitiesData } =
-    useEntitiesByGuidsQuery({
-      entityGuids,
-      skip: entityGuids.length === 0,
-      entityFragmentExtension: ENTITY_FRAGMENT_EXTENSION,
+  const migratedAccounts = useRef(new Set());
+  const purgedAccounts = useRef(new Set());
+
+  // Boards optimistically hidden from the listing while their soft-delete is in
+  // flight. Keyed by board id; reconciled away once the boards query stops
+  // returning them (success) or restored immediately on failure. Keeping this
+  // means the board vanishes the instant the user confirms, with no flash of
+  // the just-deleted board lingering on the listing.
+  const [hiddenBoardIds, setHiddenBoardIds] = useState(() => new Set());
+
+  const unhideBoard = useCallback((id) => {
+    setHiddenBoardIds((prev) => {
+      if (!prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
     });
+  }, []);
 
-  const workloadGuidsInView = useMemo(
-    () => (gridData || []).map((w) => w?.guid).filter(Boolean),
-    [gridData]
-  );
-  const { data: tagsByGuid } = useWorkloadTags(workloadGuidsInView);
+  const favorites = useMemo(() => userPrefs?.favoriteBoards || {}, [userPrefs]);
+  const defaultBoardId = userPrefs?.defaultBoardId || null;
+  const defaultBoardTitle = useMemo(() => {
+    if (!defaultBoardId) return null;
+    const match = normalizeBoards(boardsData).find(
+      (b) => b.id === defaultBoardId
+    );
+    return match?.title || null;
+  }, [defaultBoardId, boardsData]);
 
-  const hydratedEntities = useMemo(
-    () =>
-      (hydratedEntitiesData?.entities ?? []).map((entity) => ({
-        alertSeverity: entity?.alertSeverity,
-        domain: entity?.domain,
-        guid: entity?.guid,
-        name: entity?.name,
-        type: entity?.type,
-        accountId: entity?.accountId,
-        status: 'UNKNOWN',
-        tags: (entity?.tags || []).map((tag) => ({
-          key: tag.key,
-          values: tag.values,
-        })),
-        goldenMetrics: (entity?.goldenMetrics?.metrics || []).map((gm) => ({
-          name: gm.name,
-          query: gm.query,
-          title: gm.title,
-          unit: gm.unit,
-        })),
-        goldenTags: (entity?.goldenTags?.tags || []).map((gt) => gt?.key),
-      })),
-    [hydratedEntitiesData]
-  );
+  // On first load, if the URL didn't specify a board, jump straight to the
+  // user's default board — or, absent a default, into the only board that
+  // exists. The default board is a per-user pref, not scoped to an account, so
+  // it's only honored when it actually exists among this account's boards;
+  // otherwise it'd send the user straight to a "Board not found" page after an
+  // account switch. Only applies once per mount so navigating back to the
+  // listing (or picking a different board) later doesn't keep re-redirecting.
+  const appliedDefaultBoard = useRef(false);
+  useEffect(() => {
+    if (appliedDefaultBoard.current) return;
+    if (!accountId || userPrefsLoading || boardsLoading) return;
+    appliedDefaultBoard.current = true;
+    if (boardId) return;
+    const boards = normalizeBoards(boardsData);
+    if (defaultBoardId && boards.some((b) => b.id === defaultBoardId)) {
+      setNerdletState({ boardId: defaultBoardId });
+      return;
+    }
+    if (boards.length === 1) {
+      setNerdletState({ boardId: boards[0].id });
+    }
+  }, [
+    accountId,
+    userPrefsLoading,
+    boardsLoading,
+    defaultBoardId,
+    boardId,
+    boardsData,
+    setNerdletState,
+  ]);
+
+  // Boards are scoped to an account, so a board open under one account almost
+  // certainly doesn't exist under another. If the platform account picker
+  // switches accounts while a board is open, bail out to that account's
+  // listing rather than showing "Board not found". `undefined` on the first
+  // run just means accountId hasn't resolved yet — not a real switch.
+  const prevAccountId = useRef(undefined);
+  useEffect(() => {
+    const prev = prevAccountId.current;
+    prevAccountId.current = accountId;
+    if (prev !== undefined && prev !== accountId && boardId) {
+      setNerdletState({ boardId: null });
+    }
+  }, [accountId, boardId, setNerdletState]);
 
   useEffect(() => {
     if (!isAcctsLoading) {
@@ -162,59 +183,135 @@ const NexusNerdlet = () => {
     }
   }, [accountId, accts, isAcctsLoading]);
 
-  const openSettingsModal = useCallback(() => setIsSettingsModalOpen(true), []);
-
+  // Listing shell config (no Settings button — settings are per-board). The Board
+  // component overrides this with its own header + action buttons while mounted;
+  // setConfig merges, so we explicitly clear the board-specific header fields here
+  // to revert the platform title back to the nerdlet default on the way back.
   useEffect(() => {
+    if (boardId) return;
     nerdlet.setConfig({
       accountPicker: true,
       accountPickerValues: [...nerdlet.ACCOUNT_PICKER_DEFAULT_VALUES],
-      actionControls: true,
-      actionControlButtons: [
-        {
-          label: 'Refresh',
-          hint: 'Reload all workload data',
-          iconType: Icon.TYPE.INTERFACE__OPERATIONS__REDO,
-          onClick: refreshData,
-        },
-        {
-          label: 'Settings',
-          hint: 'Edit settings for the board',
-          iconType: Icon.TYPE.INTERFACE__OPERATIONS__CONFIGURE,
-          onClick: openSettingsModal,
-        },
-      ],
       timePicker: false,
+      actionControls: false,
+      actionControlButtons: [],
+      headerTitle: 'Nexus',
+      headerParentTitle: undefined,
+      headerParentLocation: undefined,
     });
-  }, [openSettingsModal, refreshData]);
+  }, [boardId]);
 
+  // One-time-per-account legacy migration: convert a populated `settings` doc into
+  // a uuid board (when no boards exist yet), then always delete the `settings` doc.
   useEffect(() => {
-    setGridData(() => mergeData(data, issuesData));
-    setNavigationStack([]); // clear drill-down on every data refresh so stale nav state doesn't survive account switches
-    setEntities([]);
-  }, [data, issuesData]);
+    if (!accountId || legacyLoading || boardsLoading) return;
+    if (migratedAccounts.current.has(accountId)) return;
+    if (!legacyDoc) return; // no legacy doc → nothing to migrate or clean up
+    migratedAccounts.current.add(accountId);
+    (async () => {
+      try {
+        const existingBoards = normalizeBoards(boardsData);
+        const hasWorkloads =
+          Array.isArray(legacyDoc.start) && legacyDoc.start.length > 0;
+        if (hasWorkloads && existingBoards.length === 0) {
+          const id = generateId();
+          await boardsWrite({
+            accountId,
+            ...BOARDS_STORE,
+            documentId: id,
+            document: {
+              id,
+              title: 'Migrated board',
+              description: '',
+              createdBy: null,
+              createdAt: new Date().toISOString(),
+              start: legacyDoc.start,
+              hideUnacknowledged: !!legacyDoc.hideUnacknowledged,
+            },
+          });
+        }
+        await boardsDelete({ accountId, ...DOC_STORE });
+      } catch (err) {
+        console.error('[nexus] legacy board migration failed', err);
+        migratedAccounts.current.delete(accountId); // allow a retry next render
+      }
+    })();
+  }, [
+    accountId,
+    legacyLoading,
+    boardsLoading,
+    legacyDoc,
+    boardsData,
+    boardsWrite,
+    boardsDelete,
+  ]);
 
+  // Hand off optimistic hiding to real state: once the boards query no longer
+  // returns a hidden board (its delete has propagated), stop hiding it. This is
+  // what prevents the deleted card from flashing back before the query updates.
   useEffect(() => {
-    if (docError) console.log('Error fetching settings', docError);
-    if (dataError) console.log('Error fetching statuses', dataError);
-    if (issuesError) console.log('Error fetching issues', issuesError);
-  }, [docError, dataError, issuesError]);
+    if (hiddenBoardIds.size === 0) return;
+    const present = new Set(normalizeBoards(boardsData).map((b) => b.id));
+    let changed = false;
+    const next = new Set(hiddenBoardIds);
+    hiddenBoardIds.forEach((id) => {
+      if (!present.has(id)) {
+        next.delete(id);
+        changed = true;
+      }
+    });
+    if (changed) setHiddenBoardIds(next);
+  }, [boardsData, hiddenBoardIds]);
 
+  // Once-per-account, after the app has fully loaded and settled: purge boards
+  // that have been in the deleted collection longer than the retention window.
   useEffect(() => {
     if (!accountId) return;
-    // Dev escape-hatch: call window.__neonResetSettings() from the browser console to wipe saved board settings.
-    window.__neonResetSettings = async () => {
-      const { error } = await docDelete({ accountId, ...DOC_STORE });
-      if (error) {
-        console.error('[neon] failed to reset settings', error);
-        return error;
+    if (
+      isAcctsLoading ||
+      legacyLoading ||
+      boardsLoading ||
+      deletedBoardsLoading ||
+      userPrefsLoading
+    )
+      return; // wait until everything has settled and the app is idle
+    if (purgedAccounts.current.has(accountId)) return;
+    purgedAccounts.current.add(accountId);
+
+    const cutoff = Date.now() - DELETED_BOARDS_TTL_MS;
+    const stale = normalizeDeletedBoards(deletedBoardsData).filter((entry) => {
+      const when = Date.parse(entry.deletedAt);
+      return Number.isFinite(when) && when < cutoff;
+    });
+    if (stale.length === 0) return;
+
+    (async () => {
+      for (const entry of stale) {
+        const { error } = await boardsDelete({
+          accountId,
+          ...DELETED_BOARDS_STORE,
+          documentId: entry.id,
+        });
+        if (error) {
+          console.error(
+            '[nexus] failed to purge deleted board',
+            entry.id,
+            error
+          );
+          purgedAccounts.current.delete(accountId); // allow a retry next render
+        }
       }
-      console.log('[neon] settings document deleted; reload to take effect');
-      return null;
-    };
-    return () => {
-      delete window.__neonResetSettings;
-    };
-  }, [accountId, docDelete]);
+    })();
+  }, [
+    accountId,
+    isAcctsLoading,
+    legacyLoading,
+    boardsLoading,
+    deletedBoardsLoading,
+    userPrefsLoading,
+    deletedBoardsData,
+    boardsDelete,
+  ]);
 
   useEffect(() => {
     // Dev escape-hatch: call window.__neonResetUserPrefs() from the browser console to reset per-user preferences.
@@ -232,105 +329,164 @@ const NexusNerdlet = () => {
     };
   }, [deleteUserPrefs]);
 
-  const gridClickHandler = useCallback(
-    (w) => {
-      const { workloadChilds, entityChilds } = (w?.children || []).reduce(
-        (acc, cur) =>
-          cur.domain === 'NR1' && cur.type === 'WORKLOAD'
-            ? {
-                ...acc,
-                workloadChilds: [...acc.workloadChilds, cur],
-              }
-            : {
-                ...acc,
-                entityChilds: [...acc.entityChilds, cur],
-              },
-        { workloadChilds: [], entityChilds: [] }
-      );
-      // if (!workloadChilds.length) return;
-      setNavigationStack((prev) => [
-        ...prev,
-        { items: gridDataRef.current, activeId: w.guid },
-      ]);
-      setGridData(workloadChilds);
-      setEntities(entityChilds);
-    },
-    [issuesData]
+  const openBoard = useCallback(
+    (id) => setNerdletState({ boardId: id }),
+    [setNerdletState]
   );
 
-  const breadcrumbHomeClickHandler = useCallback(() => {
-    const items = navStackRef.current[0]?.items ?? [];
-    setNavigationStack([]);
-    setGridData(items);
-    setEntities([]);
-  }, []);
+  const backToList = useCallback(
+    () => setNerdletState({ boardId: null }),
+    [setNerdletState]
+  );
 
-  const breadcrumbClickHandler = useCallback((depth, w) => {
-    const { workloadChilds, entityChilds } = (w?.children || []).reduce(
-      (acc, cur) =>
-        cur.domain === 'NR1' && cur.type === 'WORKLOAD'
-          ? { ...acc, workloadChilds: [...acc.workloadChilds, cur] }
-          : { ...acc, entityChilds: [...acc.entityChilds, cur] },
-      { workloadChilds: [], entityChilds: [] }
-    );
-    const isLastRow = depth === navStackRef.current.length - 1;
-    if (isLastRow) {
-      setNavigationStack((prev) => [
-        ...prev.slice(0, depth),
-        { items: prev[depth].items, activeId: w.guid },
-      ]);
-      setGridData(workloadChilds);
-      setEntities(entityChilds);
-      return;
-    }
-    if (workloadChilds.length) {
-      setNavigationStack((prev) => [
-        ...prev.slice(0, depth),
-        { items: prev[depth].items, activeId: w.guid },
-      ]);
-      setGridData(workloadChilds);
-      setEntities([]);
-    } else {
-      const items = navStackRef.current[depth]?.items ?? [];
-      setNavigationStack((prev) => prev.slice(0, depth));
-      setGridData(items);
-      setEntities([]);
-    }
-  }, []);
+  // Refs let a Toast's Undo/Retry action call the latest handler without
+  // creating a dependency cycle between the two useCallbacks below.
+  const deleteBoardRef = useRef();
+  const undoDeleteRef = useRef();
 
-  const entityClickHandler = useCallback((entity) => {
-    const link = navigation.getOpenEntityLocation(entity?.guid, {
-      platformState: { accountId: entity?.accountId },
-    });
-    // The nerdlet runs inside an NR1 iframe; ancestorOrigins provides the host origin needed to build an absolute URL.
-    const ancestors = window.location.ancestorOrigins;
-    const origin = ancestors[ancestors.length - 1];
-    const url = `${origin}${link.pathname}${link.search || ''}`;
-    window.open(url, '_blank');
-  }, []);
-
-  const saveSettings = useCallback(
-    async ({ workloads, hideUnacknowledged }) => {
-      const { error } = await docWrite({
+  // Restore a soft-deleted board: write it back to the boards collection first
+  // (so a partial failure can't lose it), then drop the archive copy.
+  const undoDelete = useCallback(
+    async (board) => {
+      if (!board?.id) return;
+      const id = board.id;
+      const { error: restoreError } = await boardsWrite({
         accountId,
-        ...DOC_STORE,
-        document: {
-          start: workloads?.map(({ accountId, guid, name }) => ({
-            accountId,
-            guid,
-            name,
-          })),
-          hideUnacknowledged: !!hideUnacknowledged,
-        },
+        ...BOARDS_STORE,
+        documentId: id,
+        document: board,
       });
+      if (restoreError) {
+        console.error('[nexus] failed to restore board', id, restoreError);
+        Toast.showToast({
+          title: 'Couldn’t restore board',
+          description: restoreError.message || 'Please try again.',
+          actions: [
+            { label: 'Retry', onClick: () => undoDeleteRef.current?.(board) },
+          ],
+          type: Toast.TYPE.CRITICAL,
+        });
+        return;
+      }
+      // Best-effort cleanup of the archive; the board is already back, and the
+      // 30-day purge would remove a leftover anyway.
+      await boardsDelete({
+        accountId,
+        ...DELETED_BOARDS_STORE,
+        documentId: id,
+      });
+      unhideBoard(id);
+      Toast.showToast({
+        title: 'Board restored',
+        description: `${boardLabel(board)} is back.`,
+        type: Toast.TYPE.NORMAL,
+      });
+    },
+    [accountId, boardsWrite, boardsDelete, unhideBoard]
+  );
+  undoDeleteRef.current = undoDelete;
 
-      if (error) console.error('Unable to save settings', error);
+  // Soft-delete: hide the board and return to the listing immediately (no flash
+  // of "Board not found", no lingering card), then archive + remove it. On
+  // failure, un-hide the board and surface a retryable critical toast.
+  const deleteBoard = useCallback(
+    async (board) => {
+      if (!board?.id) return {};
+      const id = board.id;
+      setHiddenBoardIds((prev) => new Set(prev).add(id));
+      backToList();
+
+      const deletedBy = user
+        ? {
+            id: user.id ?? null,
+            name: user.name ?? null,
+            email: user.email ?? null,
+          }
+        : null;
+      const archive = {
+        board,
+        deletedAt: new Date().toISOString(),
+        deletedBy,
+      };
+
+      const fail = (error) => {
+        console.error('[nexus] failed to delete board', id, error);
+        unhideBoard(id);
+        Toast.showToast({
+          title: 'Couldn’t delete board',
+          description: error?.message || 'Please try again.',
+          actions: [
+            { label: 'Retry', onClick: () => deleteBoardRef.current?.(board) },
+          ],
+          type: Toast.TYPE.CRITICAL,
+        });
+        return { error };
+      };
+
+      // Archive first so a partial failure never loses the board.
+      const { error: writeError } = await boardsWrite({
+        accountId,
+        ...DELETED_BOARDS_STORE,
+        documentId: id,
+        document: archive,
+      });
+      if (writeError) return fail(writeError);
+
+      const { error: deleteError } = await boardsDelete({
+        accountId,
+        ...BOARDS_STORE,
+        documentId: id,
+      });
+      if (deleteError) {
+        // Roll back the archive so the board isn't left in both collections.
+        await boardsDelete({
+          accountId,
+          ...DELETED_BOARDS_STORE,
+          documentId: id,
+        });
+        return fail(deleteError);
+      }
+
+      // Success: the reconcile effect drops the id from hiddenBoardIds once the
+      // boards query stops returning the board, so there's no flash-back.
+      Toast.showToast({
+        title: 'Board deleted',
+        description: `${boardLabel(board)} was deleted.`,
+        actions: [
+          { label: 'Undo', onClick: () => undoDeleteRef.current?.(board) },
+        ],
+        type: Toast.TYPE.NORMAL,
+      });
+      return {};
+    },
+    [accountId, user, backToList, boardsWrite, boardsDelete, unhideBoard]
+  );
+  deleteBoardRef.current = deleteBoard;
+
+  const toggleFavorite = useCallback(
+    (id) => {
+      const current = userPrefs?.favoriteBoards || {};
+      const next = { ...current };
+      if (next[id]) delete next[id];
+      else next[id] = true;
+      writeUserPrefs({
+        ...USER_PREFS_STORE,
+        document: { ...(userPrefs || {}), favoriteBoards: next },
+      });
+    },
+    [userPrefs, writeUserPrefs]
+  );
+
+  const setDefaultBoardId = useCallback(
+    async (id) => {
+      const { error } = await writeUserPrefs({
+        ...USER_PREFS_STORE,
+        document: { ...(userPrefs || {}), defaultBoardId: id },
+      });
       return { error };
     },
-    [accountId, docWrite]
+    [userPrefs, writeUserPrefs]
   );
-
-  const openIssuesModal = useCallback((w) => setIssuesWorkload(w), []);
 
   const switchToNeon = useCallback(
     () => navigation.openNerdlet({ id: 'neon-nerdlet' }),
@@ -346,62 +502,6 @@ const NexusNerdlet = () => {
     [userPrefs, writeUserPrefs]
   );
 
-  const currentView = useMemo(() => {
-    if (gridData?.length || entities?.length || navigationStack.length > 0)
-      return (
-        <div className="container">
-          <div className="main">
-            <Breadcrumb
-              levels={navigationStack}
-              onChipClick={breadcrumbClickHandler}
-              onHomeClick={breadcrumbHomeClickHandler}
-            />
-            <WorkloadGrid
-              workloads={gridData}
-              issuesLoading={dataLoading || issuesLoading}
-              hideUnacknowledged={!!docData?.hideUnacknowledged}
-              tagsByGuid={tagsByGuid}
-              onCardClick={gridClickHandler}
-              onIssuesClick={openIssuesModal}
-            />
-            <EntitiesView
-              entities={hydratedEntities}
-              loading={entitiesHydrating}
-              onEntityClick={entityClickHandler}
-            />
-          </div>
-        </div>
-      );
-
-    return (
-      <EmptyState
-        fullHeight
-        fullWidth
-        type={EmptyState.TYPE.USER_CLEARED}
-        illustrationType={EmptyState.ILLUSTRATION_TYPE.ILLUSTRATION_03}
-        title="Nothing brewing. Yet."
-        description="No Workloads. To get started, click the Settings button."
-        action={{ label: 'Settings', onClick: openSettingsModal }}
-      />
-    );
-  }, [
-    gridData,
-    entities,
-    hydratedEntities,
-    entitiesHydrating,
-    navigationStack,
-    dataLoading,
-    issuesLoading,
-    docData?.hideUnacknowledged,
-    tagsByGuid,
-    gridClickHandler,
-    breadcrumbClickHandler,
-    breadcrumbHomeClickHandler,
-    entityClickHandler,
-    openSettingsModal,
-    openIssuesModal,
-  ]);
-
   const nexusBanner = !userPrefsLoading && !userPrefs?.nexusBannerDismissed && (
     <SectionMessage
       title="Welcome to Nexus."
@@ -414,7 +514,7 @@ const NexusNerdlet = () => {
     />
   );
 
-  if (isAcctsLoading || docLoading || dataLoading)
+  if (isAcctsLoading)
     return (
       <>
         {nexusBanner}
@@ -430,21 +530,24 @@ const NexusNerdlet = () => {
   return (
     <AppContext.Provider value={app}>
       {nexusBanner}
-      {currentView}
-      <SettingsModal
-        onSave={saveSettings}
-        isSettingsModalOpen={isSettingsModalOpen}
-        setIsSettingsModalOpen={setIsSettingsModalOpen}
-        savedWorkloads={docData?.start ?? []}
-        savedHideUnacknowledged={!!docData?.hideUnacknowledged}
-      />
-      <Modal
-        hidden={!issuesWorkload}
-        onClose={() => setIssuesWorkload(null)}
-        style={{ '--modal-width': '480px', '--modal-padding': '0' }}
-      >
-        <IssuesList workload={issuesWorkload} />
-      </Modal>
+      {boardId ? (
+        <Board
+          boardId={boardId}
+          onBack={backToList}
+          onDeleteBoard={deleteBoard}
+          defaultBoardId={defaultBoardId}
+          defaultBoardTitle={defaultBoardTitle}
+          onSetDefaultBoard={setDefaultBoardId}
+        />
+      ) : (
+        <BoardsList
+          accountId={accountId}
+          favorites={favorites}
+          hiddenBoardIds={hiddenBoardIds}
+          onToggleFavorite={toggleFavorite}
+          onOpenBoard={openBoard}
+        />
+      )}
     </AppContext.Provider>
   );
 };

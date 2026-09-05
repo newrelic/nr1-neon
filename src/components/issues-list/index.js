@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Switch } from 'nr1';
+import { Button, InlineMessage, Switch } from 'nr1';
 
 import IssueRow from '../issue-row';
 
-// Workload status comes in two forms: the generic alert form (CRITICAL/WARNING) and the operational
-// form (DISRUPTED/DEGRADED/OPERATIONAL). Both need to be mapped to CSS classes.
+// Status comes in a few forms depending on the subject: the generic alert form (CRITICAL/WARNING),
+// the workload operational form (DISRUPTED/DEGRADED/OPERATIONAL), and the entity alerting form
+// (NOT_ALERTING/NOT_CONFIGURED). All need to be mapped to the same set of CSS classes.
 const mapStatus = (status) => {
   const s = (status ?? '').toUpperCase();
   if (s === 'CRITICAL' || s === 'DISRUPTED') return 'critical';
   if (s === 'WARNING' || s === 'DEGRADED') return 'warning';
-  if (s === 'OPERATIONAL' || s === 'SUCCESS') return 'success';
+  if (s === 'OPERATIONAL' || s === 'SUCCESS' || s === 'NOT_ALERTING')
+    return 'success';
   return 'unknown';
 };
 
-const workloadStatusLabel = (status) => {
+const statusLabel = (status) => {
   const s = (status ?? '').toUpperCase();
   if (s === 'CRITICAL') return 'CRITICAL';
   if (s === 'DISRUPTED') return 'DISRUPTED';
   if (s === 'DEGRADED' || s === 'WARNING') return 'DEGRADED';
   if (s === 'OPERATIONAL') return 'OPERATIONAL';
+  if (s === 'NOT_ALERTING') return 'NOT ALERTING';
+  if (s === 'NOT_CONFIGURED') return 'NOT CONFIGURED';
   return 'UNKNOWN';
 };
 
@@ -28,7 +32,13 @@ const priorityRank = (priority) => {
   return { CRITICAL: 4, HIGH: 3, MEDIUM: 2, LOW: 1 }[priority] ?? 0;
 };
 
-const IssuesList = ({ workload }) => {
+const IssuesList = ({
+  workload,
+  subjectLabel = 'Workload',
+  onOpenEntity,
+  entityNameByGuid,
+  ancestorNames,
+}) => {
   const [unackOnly, setUnackOnly] = useState(false);
 
   const status = mapStatus(workload?.status);
@@ -49,11 +59,21 @@ const IssuesList = ({ workload }) => {
       <header className="header">
         <div className="eyebrow">
           <span className={`status-pill ${status}`}>
-            {workloadStatusLabel(workload?.status)}
+            {statusLabel(workload?.status)}
           </span>
-          <span>Workload issues</span>
+          <span>{subjectLabel} issues</span>
         </div>
-        <h2 className="title">{workload?.name ?? 'Workload'}</h2>
+        {ancestorNames?.length > 0 && (
+          <div className="hierarchy-breadcrumb">
+            {ancestorNames.map((name, i) => (
+              <React.Fragment key={i}>
+                <span className="crumb">{name}</span>
+                <span className="crumb-sep">›</span>
+              </React.Fragment>
+            ))}
+          </div>
+        )}
+        <h2 className="title">{workload?.name ?? subjectLabel}</h2>
         <div className="subtitle">
           {allIssues.length === 0
             ? 'No active issues'
@@ -61,6 +81,17 @@ const IssuesList = ({ workload }) => {
                 allIssues.length === 1 ? 'issue' : 'issues'
               }` + (unackCount > 0 ? ` · ${unackCount} unacknowledged` : '')}
         </div>
+        {onOpenEntity && (
+          <div className="header-actions">
+            <Button
+              sizeType={Button.SIZE_TYPE.SMALL}
+              iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__EXTERNAL_LINK}
+              onClick={onOpenEntity}
+            >
+              Open Entity
+            </Button>
+          </div>
+        )}
       </header>
 
       {allIssues.length > 0 && (
@@ -75,7 +106,11 @@ const IssuesList = ({ workload }) => {
 
       <div className="issues">
         {visibleIssues.length === 0 ? (
-          <EmptyState hasAnyIssues={allIssues.length > 0} />
+          <EmptyState
+            hasAnyIssues={allIssues.length > 0}
+            subjectLabel={subjectLabel}
+            status={workload?.status}
+          />
         ) : (
           visibleIssues.map((issue) => (
             <a
@@ -85,7 +120,7 @@ const IssuesList = ({ workload }) => {
               rel="noopener noreferrer"
               className="u-unstyledLink issue-row-link"
             >
-              <IssueRow issue={issue} />
+              <IssueRow issue={issue} entityNameByGuid={entityNameByGuid} />
             </a>
           ))
         )}
@@ -96,19 +131,38 @@ const IssuesList = ({ workload }) => {
 
 IssuesList.propTypes = {
   workload: PropTypes.object,
+  subjectLabel: PropTypes.string,
+  onOpenEntity: PropTypes.func,
+  entityNameByGuid: PropTypes.instanceOf(Map),
+  ancestorNames: PropTypes.array,
 };
 
-const EmptyState = ({ hasAnyIssues }) => {
+const EmptyState = ({ hasAnyIssues, subjectLabel, status }) => {
+  if (!hasAnyIssues) {
+    // This empty state is only ever reached for entities (workloads only open the modal once they
+    // have issues), so status here is an alertSeverity value: NOT_ALERTING or NOT_CONFIGURED.
+    const isNotConfigured = (status ?? '').toUpperCase() === 'NOT_CONFIGURED';
+    return (
+      <div className="empty-message">
+        <InlineMessage
+          type={isNotConfigured ? undefined : InlineMessage.TYPE.SUCCESS}
+          label={
+            isNotConfigured
+              ? `This ${subjectLabel.toLowerCase()} is not configured for alerting.`
+              : `This ${subjectLabel.toLowerCase()} has no active issues.`
+          }
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="nx-issues-list__empty">
-      <div className="nx-issues-list__empty-icon">✓</div>
       <div className="nx-issues-list__empty-title">
-        {hasAnyIssues ? 'Nothing matches this filter' : 'All clear'}
+        Nothing matches this filter
       </div>
       <div className="nx-issues-list__empty-hint">
-        {hasAnyIssues
-          ? 'Turn off "Unacknowledged only" to see all issues.'
-          : 'This workload has no active issues.'}
+        Turn off &quot;Unacknowledged only&quot; to see all issues.
       </div>
     </div>
   );
@@ -116,6 +170,8 @@ const EmptyState = ({ hasAnyIssues }) => {
 
 EmptyState.propTypes = {
   hasAnyIssues: PropTypes.bool,
+  subjectLabel: PropTypes.string,
+  status: PropTypes.string,
 };
 
 export default IssuesList;

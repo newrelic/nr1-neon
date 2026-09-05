@@ -29,6 +29,34 @@ describe('IssuesList', () => {
     expect(screen.queryByLabelText('Unacknowledged only')).toBeNull();
   });
 
+  it('shows a success InlineMessage when the entity is not alerting', () => {
+    render(
+      <IssuesList
+        workload={{ name: 'API', status: 'NOT_ALERTING' }}
+        subjectLabel="Entity"
+      />
+    );
+    const message = screen.getByTestId('nr1-InlineMessage');
+    expect(message).toHaveAttribute('data-type', 'InlineMessage.TYPE.SUCCESS');
+    expect(
+      screen.getByText('This entity has no active issues.')
+    ).toBeInTheDocument();
+  });
+
+  it('shows a plain (typeless) InlineMessage when the entity is not configured for alerting', () => {
+    render(
+      <IssuesList
+        workload={{ name: 'API', status: 'NOT_CONFIGURED' }}
+        subjectLabel="Entity"
+      />
+    );
+    const message = screen.getByTestId('nr1-InlineMessage');
+    expect(message).not.toHaveAttribute('data-type');
+    expect(
+      screen.getByText('This entity is not configured for alerting.')
+    ).toBeInTheDocument();
+  });
+
   it('shows an issue count and an unacknowledged suffix in the subtitle', () => {
     render(
       <IssuesList
@@ -164,5 +192,37 @@ describe('IssuesList', () => {
     render(<IssuesList workload={undefined} />);
     expect(screen.getByText('UNKNOWN')).toBeInTheDocument();
     expect(screen.getByText('Workload')).toBeInTheDocument(); // default title
+  });
+
+  it('uses subjectLabel for the eyebrow, default title, and empty-state hint', () => {
+    render(
+      <IssuesList
+        workload={{ status: 'NOT_ALERTING', issues: [] }}
+        subjectLabel="Entity"
+      />
+    );
+    expect(screen.getByText('Entity issues')).toBeInTheDocument();
+    expect(screen.getByText('NOT ALERTING')).toBeInTheDocument();
+    expect(screen.getByText('Entity')).toBeInTheDocument(); // default title
+    expect(
+      screen.getByText('This entity has no active issues.')
+    ).toBeInTheDocument();
+  });
+
+  it('renders an "Open Entity" button only when onOpenEntity is provided, and calls it on click', () => {
+    const onOpenEntity = jest.fn();
+    const { rerender } = render(
+      <IssuesList workload={{ name: 'API', status: 'CRITICAL' }} />
+    );
+    expect(screen.queryByText('Open Entity')).toBeNull();
+
+    rerender(
+      <IssuesList
+        workload={{ name: 'API', status: 'CRITICAL' }}
+        onOpenEntity={onOpenEntity}
+      />
+    );
+    fireEvent.click(screen.getByText('Open Entity'));
+    expect(onOpenEntity).toHaveBeenCalledTimes(1);
   });
 });

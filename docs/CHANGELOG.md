@@ -1,3 +1,67 @@
+## [1.2.5](https://github.com/newrelic/nr1-neon/compare/v1.2.4...v1.2.5) (2026-09-04)
+
+
+### Bug Fixes
+
+* add entity name in issues list when clicked from workload card; also breadcrumb displaying path for the workload ([496df1d](https://github.com/newrelic/nr1-neon/commit/496df1d7a7ab86db04349529459f3d32a57252e4))
+
+## [1.2.4](https://github.com/newrelic/nr1-neon/compare/v1.2.3...v1.2.4) (2026-09-02)
+
+
+### Bug Fixes
+
+* add support for browser back/forward; refactored board ([a5fd877](https://github.com/newrelic/nr1-neon/commit/a5fd8777cacf8fc15d7ed91211edde39e6f813ab))
+
+## [1.2.3](https://github.com/newrelic/nr1-neon/compare/v1.2.2...v1.2.3) (2026-08-31)
+
+
+### Bug Fixes
+
+* flash while board loading ([d8af8f9](https://github.com/newrelic/nr1-neon/commit/d8af8f928806750351bd4c9b9d95f892dfeefc2f))
+
+## [1.2.2](https://github.com/newrelic/nr1-neon/compare/v1.2.1...v1.2.2) (2026-08-31)
+
+
+### Bug Fixes
+
+* more seamless delete board ([ddc3b08](https://github.com/newrelic/nr1-neon/commit/ddc3b08fe70fc043505d9bf7e6fbbf069a1eb816))
+
+## [1.2.1](https://github.com/newrelic/nr1-neon/compare/v1.2.0...v1.2.1) (2026-08-31)
+
+
+### Bug Fixes
+
+* additional fixes for default board ([b248c74](https://github.com/newrelic/nr1-neon/commit/b248c74908e8f1a5fa333e30f6cd01765d7104e4))
+* allow selection of default board ([52e307d](https://github.com/newrelic/nr1-neon/commit/52e307dc6e3bf91e184943335257ca22593aae65))
+
+# [1.2.0](https://github.com/newrelic/nr1-neon/compare/v1.1.3...v1.2.0) (2026-08-28)
+
+
+### Features
+
+* support multiple boards ([a9be51b](https://github.com/newrelic/nr1-neon/commit/a9be51b895650b2d4c42a8949d5dcf3f9f125538))
+
+## [1.1.3](https://github.com/newrelic/nr1-neon/compare/v1.1.2...v1.1.3) (2026-08-27)
+
+
+### Bug Fixes
+
+* issue button that stands out from the workload card ([90e778f](https://github.com/newrelic/nr1-neon/commit/90e778fed4c1c384ce7671863641fc3595ba3d9b))
+
+## [1.1.2](https://github.com/newrelic/nr1-neon/compare/v1.1.1...v1.1.2) (2026-08-27)
+
+
+### Bug Fixes
+
+* display issues list for entities on click ([500ca5f](https://github.com/newrelic/nr1-neon/commit/500ca5f59f98b69ee47026d011533ac7b6a35ba0))
+
+## [1.1.1](https://github.com/newrelic/nr1-neon/compare/v1.1.0...v1.1.1) (2026-08-26)
+
+
+### Bug Fixes
+
+* disable home button when displaying the top level workloads ([a95c4a9](https://github.com/newrelic/nr1-neon/commit/a95c4a95b8728ed6749425959b04b97e85b64200))
+
 # [1.1.0](https://github.com/newrelic/nr1-neon/compare/v1.0.4...v1.1.0) (2026-08-26)
 
 
