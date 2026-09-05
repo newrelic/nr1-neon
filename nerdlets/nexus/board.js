@@ -14,6 +14,7 @@ import {
   useBoardChrome,
   useBoardData,
   useBoardNavigation,
+  useTeamEntities,
   useWorkloadTags,
 } from '../../src/hooks';
 import BoardNotFound from './board-not-found';
@@ -64,6 +65,24 @@ const Board = ({
     [nav.gridData]
   );
   const { data: tagsByGuid } = useWorkloadTags(workloadGuidsInView);
+
+  // NR's Entity Ownership discovery stamps the owning Team entity's guid onto
+  // each entity as an `nr.teamGuid` tag (multi-valued). Collect those guids —
+  // from both the workloads in view and the hydrated child entities — and
+  // hydrate them into real Team entities so the badge can show the team name
+  // and link through to the entity.
+  const teamGuids = useMemo(() => {
+    const guids = new Set();
+    const collect = (tags) =>
+      (tags || [])
+        .find((t) => t?.key === 'nr.teamGuid')
+        ?.values?.filter(Boolean)
+        .forEach((g) => guids.add(g));
+    Object.values(tagsByGuid || {}).forEach(collect);
+    (nav.hydratedEntities || []).forEach((e) => collect(e?.tags));
+    return [...guids];
+  }, [tagsByGuid, nav.hydratedEntities]);
+  const { data: teamEntitiesByGuid } = useTeamEntities(teamGuids);
 
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isWorkloadsModalOpen, setIsWorkloadsModalOpen] = useState(false);
@@ -155,6 +174,8 @@ const Board = ({
       navigationStack={nav.navigationStack}
       gridData={nav.gridData}
       tagsByGuid={tagsByGuid}
+      teamEntitiesByGuid={teamEntitiesByGuid}
+      onTeamClick={nav.openEntityInNewTab}
       entities={nav.entities}
       hydratedEntities={nav.hydratedEntities}
       entitiesHydrating={nav.entitiesHydrating}

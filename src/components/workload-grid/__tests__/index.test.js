@@ -112,8 +112,79 @@ describe('WorkloadGrid', () => {
       screen
         .getByText('Alpha')
         .closest('.workload-card')
-        .querySelector('.badge.team')
+        .querySelector('.team-pill')
     ).toBeNull();
+  });
+
+  it('resolves the real Team name from nr.teamGuid and renders a clickable badge', () => {
+    render(
+      <WorkloadGrid
+        workloads={[workload({ guid: 'a', name: 'Alpha' })]}
+        tagsByGuid={{ a: [{ key: 'nr.teamGuid', values: ['team-guid-1'] }] }}
+        teamEntitiesByGuid={{
+          'team-guid-1': {
+            guid: 'team-guid-1',
+            name: 'Payments Team',
+            accountId: 42,
+          },
+        }}
+      />
+    );
+    const badge = screen.getByText('Payments Team').closest('.team-pill');
+    expect(badge).not.toBeNull();
+    expect(badge.tagName).toBe('BUTTON');
+  });
+
+  it('opens the team entity (and does not drill in) when a resolved team badge is clicked', () => {
+    const onTeamClick = jest.fn();
+    const onCardClick = jest.fn();
+    render(
+      <WorkloadGrid
+        workloads={[
+          workload({
+            guid: 'a',
+            name: 'Alpha',
+            children: [{ guid: 'c', name: 'C' }],
+          }),
+        ]}
+        tagsByGuid={{ a: [{ key: 'nr.teamGuid', values: ['team-guid-1'] }] }}
+        teamEntitiesByGuid={{
+          'team-guid-1': {
+            guid: 'team-guid-1',
+            name: 'Payments Team',
+            accountId: 42,
+          },
+        }}
+        onCardClick={onCardClick}
+        onTeamClick={onTeamClick}
+      />
+    );
+    fireEvent.click(screen.getByText('Payments Team'));
+    expect(onTeamClick).toHaveBeenCalledWith({
+      guid: 'team-guid-1',
+      accountId: 42,
+    });
+    expect(onCardClick).not.toHaveBeenCalled();
+  });
+
+  it('falls back to a non-clickable name badge when nr.teamGuid is unresolved', () => {
+    render(
+      <WorkloadGrid
+        workloads={[workload({ guid: 'a', name: 'Alpha' })]}
+        tagsByGuid={{
+          a: [
+            { key: 'nr.teamGuid', values: ['team-guid-1'] },
+            { key: 'team', values: ['payments'] },
+          ],
+        }}
+        teamEntitiesByGuid={{}}
+      />
+    );
+    const card = screen.getByText('Alpha').closest('.workload-card');
+    // Shows the human-readable team name, but not as a clickable button.
+    expect(screen.getByText('payments')).toBeInTheDocument();
+    expect(card.querySelector('button.team-pill')).toBeNull();
+    expect(card.querySelector('span.team-pill')).not.toBeNull();
   });
 
   it('does not animate when the id set is unchanged (only object identity changes)', () => {

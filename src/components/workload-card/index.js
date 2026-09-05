@@ -5,6 +5,7 @@ import { Icon, Spinner } from 'nr1';
 
 import IssuesButton from '../issues-button';
 import KpiRow from '../kpi-row';
+import TeamBadges from '../team-badges';
 import { WORKLOAD_STATUSES } from '../../constants';
 
 const WorkloadCard = ({
@@ -18,9 +19,11 @@ const WorkloadCard = ({
   kpis,
   kpisDefaultExpanded = true,
   tags,
+  teamEntitiesByGuid = {},
   isUnclickable = false,
   onClick,
   onIssuesClick,
+  onTeamClick,
 }) => {
   const isStatusKnown = !!status && status !== WORKLOAD_STATUSES.UNKNOWN;
   // Card is "no data" if it can't be drilled into AND we don't have a status
@@ -29,10 +32,6 @@ const WorkloadCard = ({
   const showNoDataBadge = isUnclickable && !isStatusKnown;
   const [kpisExpanded, setKpisExpanded] = useState(kpisDefaultExpanded);
   const hasKpis = useMemo(() => Array.isArray(kpis) && kpis.length > 0, [kpis]);
-  const owningTeams = useMemo(() => {
-    const teamTag = (tags || []).find((t) => t?.key === 'team');
-    return teamTag?.values?.filter(Boolean) ?? [];
-  }, [tags]);
 
   const statusClass = useMemo(() => {
     if (status === WORKLOAD_STATUSES.OPERATIONAL) return 'success';
@@ -100,15 +99,11 @@ const WorkloadCard = ({
             {entityCount} {entityCount === 1 ? 'entity' : 'entities'}
           </span>
         )}
-        {owningTeams.length > 0 && (
-          <span
-            className="badge team"
-            title={`Owning team: ${owningTeams.join(', ')}`}
-          >
-            <TeamIcon />
-            {owningTeams.join(', ')}
-          </span>
-        )}
+        <TeamBadges
+          tags={tags}
+          teamEntitiesByGuid={teamEntitiesByGuid}
+          onTeamClick={onTeamClick}
+        />
       </div>
 
       <div className="issues">{issuesBlock}</div>
@@ -158,30 +153,11 @@ WorkloadCard.propTypes = {
       values: PropTypes.arrayOf(PropTypes.string),
     })
   ),
+  teamEntitiesByGuid: PropTypes.object,
   isUnclickable: PropTypes.bool,
   onClick: PropTypes.func,
   onIssuesClick: PropTypes.func,
+  onTeamClick: PropTypes.func,
 };
 
 export default WorkloadCard;
-
-// Same icon used by New Relic's Teams nerdlet, so a workload's owning-team
-// badge is visually consistent with the Teams UI elsewhere in New Relic.
-function TeamIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 16 16"
-      fill="currentColor"
-      focusable="false"
-    >
-      <path d="M6.499 10c2.21 0 3.61.708 4.45 1.672.826.947 1.051 2.075 1.051 2.828a.5.5 0 01-1 0c0-.58-.178-1.453-.805-2.172C9.583 11.625 8.482 11 6.5 11c-1.982 0-3.082.625-3.694 1.328C2.179 13.048 2 13.92 2 14.5a.5.5 0 01-1 0c0-.752.225-1.88 1.05-2.828C2.89 10.708 4.29 10 6.499 10zM12.626 9.255c1.433.373 2.295 1.12 2.788 1.958.483.823.586 1.69.586 2.287a.5.5 0 01-1 0c0-.495-.086-1.167-.447-1.781-.352-.599-.99-1.188-2.179-1.497a.5.5 0 01.252-.967z" />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M6.5 1C8.433 1 10 2.679 10 4.75 10 6.821 8.433 8.5 6.5 8.5S3 6.821 3 4.75C3 2.679 4.567 1 6.5 1zm0 1C5.183 2 4 3.165 4 4.75S5.183 7.5 6.5 7.5 9 6.335 9 4.75 7.817 2 6.5 2z"
-      />
-      <path d="M11.05 2.512a.5.5 0 01.667-.234c1.067.513 1.783 1.665 1.783 2.972s-.716 2.459-1.783 2.972a.5.5 0 01-.434-.902c.699-.335 1.217-1.122 1.217-2.07 0-.948-.518-1.736-1.217-2.071a.5.5 0 01-.233-.667z" />
-    </svg>
-  );
-}
