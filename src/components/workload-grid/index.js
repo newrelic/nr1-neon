@@ -21,8 +21,11 @@ const WorkloadGrid = ({
   workloads,
   issuesLoading = false,
   hideUnacknowledged = false,
+  tagsByGuid = {},
+  teamEntitiesByGuid = {},
   onCardClick,
   onIssuesClick,
+  onTeamClick,
 }) => {
   const [displayedWorkloads, setDisplayedWorkloads] = useState(workloads);
   const [fadePhase, setFadePhase] = useState(FADE_PHASES.IDLE);
@@ -102,9 +105,12 @@ const WorkloadGrid = ({
                 issues={issues}
                 issuesLoading={issuesLoading}
                 kpis={[]}
+                tags={tagsByGuid?.[workload.guid]}
+                teamEntitiesByGuid={teamEntitiesByGuid}
                 isUnclickable={isUnclickable}
                 onClick={clickable ? () => onCardClick(workload) : undefined}
                 onIssuesClick={() => onIssuesClick?.(workload)}
+                onTeamClick={onTeamClick}
               />
             </div>
           );
@@ -118,8 +124,11 @@ WorkloadGrid.propTypes = {
   workloads: PropTypes.array,
   issuesLoading: PropTypes.bool,
   hideUnacknowledged: PropTypes.bool,
+  tagsByGuid: PropTypes.object,
+  teamEntitiesByGuid: PropTypes.object,
   onCardClick: PropTypes.func,
   onIssuesClick: PropTypes.func,
+  onTeamClick: PropTypes.func,
 };
 
 export default WorkloadGrid;

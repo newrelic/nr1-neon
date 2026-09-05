@@ -66,6 +66,14 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    // Owning-team pill(s) + the golden-tags icon, on one line under the name.
+    .entity-tags {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
   }
 
   .metric {

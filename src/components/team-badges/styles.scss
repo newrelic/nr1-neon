@@ -1,0 +1,50 @@
+// Owning-team pill, shared by the workload card and the entity row. Styled to
+// match the issue-row `.entity-pill` (rounded pill) so ownership reads
+// consistently across the app — but the icon inherits the text color rather
+// than the entity-pill's red.
+.team-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #F4F5F6;
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #475059;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  // The nr1 Icon renders taller than the text baseline; constrain it to a fixed
+  // box and center it so the glyph aligns with the label.
+  .team-pill-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    color: inherit;
+
+    svg {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  // The clickable variant is a <button> that opens the Team entity. Reset the
+  // UA button chrome so it matches the span pill, then add a hover affordance.
+  &.clickable {
+    border: none;
+    margin: 0;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 120ms ease-out, color 120ms ease-out;
+
+    &:hover {
+      background: #E8EAEC;
+      color: #2A3135;
+    }
+  }
+}
