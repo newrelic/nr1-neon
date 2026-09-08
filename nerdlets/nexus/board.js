@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import { EmptyState, PlatformStateContext, useNerdletState } from 'nr1';
@@ -8,6 +14,8 @@ import {
   useBoardChrome,
   useBoardData,
   useBoardNavigation,
+  useTeamEntities,
+  useWorkloadTags,
 } from '../../src/hooks';
 import BoardNotFound from './board-not-found';
 
@@ -49,6 +57,32 @@ const Board = ({
     urlState,
     setUrlState,
   });
+
+  // Fetch the `team` ownership tag for whichever workloads are currently shown
+  // in the grid, so their cards can surface an owning-team badge.
+  const workloadGuidsInView = useMemo(
+    () => (nav.gridData || []).map((w) => w?.guid).filter(Boolean),
+    [nav.gridData]
+  );
+  const { data: tagsByGuid } = useWorkloadTags(workloadGuidsInView);
+
+  // NR's Entity Ownership discovery stamps the owning Team entity's guid onto
+  // each entity as an `nr.teamGuid` tag (multi-valued). Collect those guids —
+  // from both the workloads in view and the hydrated child entities — and
+  // hydrate them into real Team entities so the badge can show the team name
+  // and link through to the entity.
+  const teamGuids = useMemo(() => {
+    const guids = new Set();
+    const collect = (tags) =>
+      (tags || [])
+        .find((t) => t?.key === 'nr.teamGuid')
+        ?.values?.filter(Boolean)
+        .forEach((g) => guids.add(g));
+    Object.values(tagsByGuid || {}).forEach(collect);
+    (nav.hydratedEntities || []).forEach((e) => collect(e?.tags));
+    return [...guids];
+  }, [tagsByGuid, nav.hydratedEntities]);
+  const { data: teamEntitiesByGuid } = useTeamEntities(teamGuids);
 
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isWorkloadsModalOpen, setIsWorkloadsModalOpen] = useState(false);
@@ -139,6 +173,9 @@ const Board = ({
     <BoardView
       navigationStack={nav.navigationStack}
       gridData={nav.gridData}
+      tagsByGuid={tagsByGuid}
+      teamEntitiesByGuid={teamEntitiesByGuid}
+      onTeamClick={nav.openEntityInNewTab}
       entities={nav.entities}
       hydratedEntities={nav.hydratedEntities}
       entitiesHydrating={nav.entitiesHydrating}

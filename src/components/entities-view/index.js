@@ -93,7 +93,9 @@ TabLabel.propTypes = {
 const EntitiesView = ({
   entities,
   loading,
+  teamEntitiesByGuid,
   onEntityClick,
+  onTeamClick,
   activeType,
   onTabChange,
 }) => {
@@ -141,7 +143,9 @@ const EntitiesView = ({
                   (e) => `${e.domain}:${e.type}` === type
                 )}
                 entities={groups.get(type)}
+                teamEntitiesByGuid={teamEntitiesByGuid}
                 onEntityClick={onEntityClick}
+                onTeamClick={onTeamClick}
               />
             </div>
           </TabsItem>
@@ -154,7 +158,9 @@ const EntitiesView = ({
 EntitiesView.propTypes = {
   entities: PropTypes.array,
   loading: PropTypes.bool,
+  teamEntitiesByGuid: PropTypes.object,
   onEntityClick: PropTypes.func,
+  onTeamClick: PropTypes.func,
   activeType: PropTypes.string,
   onTabChange: PropTypes.func,
 };

@@ -7,7 +7,13 @@ import EntityRow from '../entity-row';
 
 const iconType = (icon) => Icon.TYPE[icon?.replace(/-/g, '_').toUpperCase()];
 
-const EntitiesTable = ({ entityType, entities, onEntityClick }) => {
+const EntitiesTable = ({
+  entityType,
+  entities,
+  teamEntitiesByGuid,
+  onEntityClick,
+  onTeamClick,
+}) => {
   if (!entities || entities.length === 0) {
     return (
       <section className="entities-table">
@@ -61,7 +67,9 @@ const EntitiesTable = ({ entityType, entities, onEntityClick }) => {
             entity={entity}
             gridTemplate={gridTemplate}
             metricCount={metricCount}
+            teamEntitiesByGuid={teamEntitiesByGuid}
             onClick={onEntityClick}
+            onTeamClick={onTeamClick}
           />
         ))}
       </div>
@@ -72,7 +80,9 @@ const EntitiesTable = ({ entityType, entities, onEntityClick }) => {
 EntitiesTable.propTypes = {
   entityType: PropTypes.object,
   entities: PropTypes.array,
+  teamEntitiesByGuid: PropTypes.object,
   onEntityClick: PropTypes.func,
+  onTeamClick: PropTypes.func,
 };
 
 export default EntitiesTable;

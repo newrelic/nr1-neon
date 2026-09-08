@@ -41,6 +41,29 @@ export const ENTITY_FRAGMENT = `
   }
 `;
 
+// Fetches workload-scoped tags for a batch of workload guids in one request.
+// `tagsWithMetadata` (rather than the generic `tags`) returns the smaller
+// set of tags actually applied to the workload entity, e.g. its `team`
+// ownership tag.
+export const queryWorkloadTags = (guids) => {
+  const guidList = guids.map((g) => `"${g}"`).join(', ');
+  return `{
+    actor {
+      entities(guids: [${guidList}]) {
+        guid
+        ... on WorkloadEntity {
+          tagsWithMetadata {
+            key
+            values {
+              value
+            }
+          }
+        }
+      }
+    }
+  }`;
+};
+
 export const ENTITIES_BATCH_ALIAS_PREFIX = (idx) => `idx_${idx}_b`;
 export const COLLECTION_BATCH_ALIAS_PREFIX = 'wc_';
 export const SEARCH_BATCH_ALIAS_PREFIX = 'es_';

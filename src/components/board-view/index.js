@@ -16,6 +16,9 @@ import WorkloadsModal from '../workloads-modal';
 const BoardView = ({
   navigationStack,
   gridData,
+  tagsByGuid,
+  teamEntitiesByGuid,
+  onTeamClick,
   entities,
   hydratedEntities,
   entitiesHydrating,
@@ -57,15 +60,20 @@ const BoardView = ({
             />
             <WorkloadGrid
               workloads={gridData}
+              tagsByGuid={tagsByGuid}
+              teamEntitiesByGuid={teamEntitiesByGuid}
               issuesLoading={dataLoading || issuesLoading}
               hideUnacknowledged={hideUnacknowledged}
               onCardClick={onCardClick}
               onIssuesClick={onIssuesClick}
+              onTeamClick={onTeamClick}
             />
             <EntitiesView
               entities={hydratedEntities}
               loading={entitiesHydrating}
+              teamEntitiesByGuid={teamEntitiesByGuid}
               onEntityClick={onEntityClick}
+              onTeamClick={onTeamClick}
               activeType={activeTab}
               onTabChange={onTabChange}
             />
@@ -130,6 +138,9 @@ const BoardView = ({
 BoardView.propTypes = {
   navigationStack: PropTypes.array,
   gridData: PropTypes.array,
+  tagsByGuid: PropTypes.object,
+  teamEntitiesByGuid: PropTypes.object,
+  onTeamClick: PropTypes.func,
   entities: PropTypes.array,
   hydratedEntities: PropTypes.array,
   entitiesHydrating: PropTypes.bool,

@@ -5,6 +5,7 @@ import { Icon, Spinner } from 'nr1';
 
 import IssuesButton from '../issues-button';
 import KpiRow from '../kpi-row';
+import TeamBadges from '../team-badges';
 import { WORKLOAD_STATUSES } from '../../constants';
 
 const WorkloadCard = ({
@@ -17,9 +18,12 @@ const WorkloadCard = ({
   issuesLoading,
   kpis,
   kpisDefaultExpanded = true,
+  tags,
+  teamEntitiesByGuid = {},
   isUnclickable = false,
   onClick,
   onIssuesClick,
+  onTeamClick,
 }) => {
   const isStatusKnown = !!status && status !== WORKLOAD_STATUSES.UNKNOWN;
   // Card is "no data" if it can't be drilled into AND we don't have a status
@@ -95,6 +99,11 @@ const WorkloadCard = ({
             {entityCount} {entityCount === 1 ? 'entity' : 'entities'}
           </span>
         )}
+        <TeamBadges
+          tags={tags}
+          teamEntitiesByGuid={teamEntitiesByGuid}
+          onTeamClick={onTeamClick}
+        />
       </div>
 
       <div className="issues">{issuesBlock}</div>
@@ -138,9 +147,17 @@ WorkloadCard.propTypes = {
   issuesLoading: PropTypes.bool,
   kpis: PropTypes.array,
   kpisDefaultExpanded: PropTypes.bool,
+  tags: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      values: PropTypes.arrayOf(PropTypes.string),
+    })
+  ),
+  teamEntitiesByGuid: PropTypes.object,
   isUnclickable: PropTypes.bool,
   onClick: PropTypes.func,
   onIssuesClick: PropTypes.func,
+  onTeamClick: PropTypes.func,
 };
 
 export default WorkloadCard;

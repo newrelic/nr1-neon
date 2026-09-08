@@ -6,9 +6,11 @@ import { render, screen, fireEvent, act, within } from '@testing-library/react';
 // and URL sync end-to-end.
 jest.mock('../../../src/hooks/use-data-manager');
 jest.mock('../../../src/hooks/use-alerting-entities-issues');
+jest.mock('../../../src/hooks/use-workload-tags');
 
 import useDataManager from '../../../src/hooks/use-data-manager';
 import useAlertingEntitiesIssues from '../../../src/hooks/use-alerting-entities-issues';
+import useWorkloadTags from '../../../src/hooks/use-workload-tags';
 import * as nr1 from 'nr1';
 import Board from '../board';
 import { AppContext } from '../../../src/contexts';
@@ -33,6 +35,7 @@ const setHookDefaults = (overrides = {}) => {
     ...stableIssuesReturn,
     ...(overrides.useAlertingEntitiesIssues || {}),
   });
+  useWorkloadTags.mockReturnValue({ data: {}, loading: false, error: null });
 };
 
 const setBoardDoc = (doc, { loading = false, error = null } = {}) => {

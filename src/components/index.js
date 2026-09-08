@@ -13,6 +13,7 @@ export { default as BreadcrumbRow } from './breadcrumb-row';
 export { default as Breadcrumb } from './breadcrumb';
 export { default as Sparkline } from './sparkline';
 export { default as GoldenTags } from './golden-tags';
+export { default as TeamBadges } from './team-badges';
 export { default as EntityRow } from './entity-row';
 export { default as EntitiesTable } from './entities-table';
 export { default as EntitiesView } from './entities-view';

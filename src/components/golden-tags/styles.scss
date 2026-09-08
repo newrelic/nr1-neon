@@ -1,51 +1,29 @@
-.golden-tags {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 4px;
+// A small tag icon that reveals all golden tags in a popover on hover.
+.golden-tags-trigger {
+  display: inline-flex;
   align-items: center;
-  overflow: hidden;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: #F4F5F6;
+  color: #6B7682;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 120ms ease-out, color 120ms ease-out;
 
-  .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    padding: 1px 5px;
-    background: #F4F5F6;
-    border-radius: 3px;
-    font-size: 10.5px;
-    line-height: 1.4;
-    font-variant-numeric: tabular-nums;
-    max-width: 140px;
-    flex-shrink: 0;
-
-    .key {
-      color: #8E99A4;
-      font-weight: 500;
-    }
-
-    .value {
-      color: #1D252C;
-      font-weight: 500;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width: 0;
-    }
+  svg {
+    width: 12px;
+    height: 12px;
   }
 
-  .overflow {
-    display: inline-flex;
-    align-items: center;
-    padding: 1px 5px;
-    background: transparent;
-    border: 1px dashed #D1D6DA;
-    border-radius: 3px;
-    font-size: 10.5px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: #6B7682;
-    cursor: help;
-    flex-shrink: 0;
+  &:hover,
+  &:focus-visible {
+    background: #E8EAEC;
+    color: #475059;
+    outline: none;
   }
 }
 
