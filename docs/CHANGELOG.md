@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/newrelic/nr1-neon/compare/v1.2.5...v1.3.0) (2026-09-08)
+
+
+### Features
+
+* add team tag on workload cards ([1740772](https://github.com/newrelic/nr1-neon/commit/17407724b85973913151eb4aa1b67299938d49e3))
+* support for team tags ([64dc7c5](https://github.com/newrelic/nr1-neon/commit/64dc7c5521642e81909239b6e1e3e17f6143fb61))
+
 ## [1.2.5](https://github.com/newrelic/nr1-neon/compare/v1.2.4...v1.2.5) (2026-09-04)
 
 
