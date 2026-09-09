@@ -130,6 +130,14 @@
     white-space: nowrap;
   }
 
+  // Holds the entity pills and the owning-team pill(s) on one wrapping line.
+  .pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+  }
+
   .entities-pills {
     display: flex;
     flex-wrap: wrap;
