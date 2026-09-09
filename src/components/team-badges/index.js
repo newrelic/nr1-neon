@@ -47,8 +47,11 @@ const TeamBadges = ({ tags, teamEntitiesByGuid = {}, onTeamClick }) => {
   if (teams.length === 0) return null;
 
   const handleClick = (e, team) => {
-    // Stop the row/card drill-in click from firing when the pill is clicked.
+    // Stop the row/card drill-in click from firing when the pill is clicked,
+    // and prevent the default action so a surrounding link (e.g. the IssueRow's
+    // anchor) doesn't navigate instead of opening the team.
     e.stopPropagation();
+    e.preventDefault();
     onTeamClick?.({ guid: team.guid, accountId: team.accountId });
   };
 

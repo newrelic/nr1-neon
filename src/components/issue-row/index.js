@@ -3,8 +3,29 @@ import PropTypes from 'prop-types';
 
 import { Icon } from 'nr1';
 
+import TeamBadges from '../team-badges';
+
 const ENTITY_ICON_TYPE =
   Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__ENTITY__WEIGHT_BOLD__SIZE_8;
+
+const uniq = (arr) => [...new Set(arr.filter(Boolean))];
+
+// Merges the owning-team tags across all of an issue's entities into a single
+// deduped tag set, so the issue shows one pill per distinct owning team.
+const mergeIssueTeamTags = (entityGuids, entityTagsByGuid) => {
+  const guidValues = [];
+  const nameValues = [];
+  (entityGuids || []).forEach((guid) => {
+    (entityTagsByGuid?.[guid] || []).forEach((tag) => {
+      if (tag?.key === 'nr.teamGuid') guidValues.push(...(tag.values || []));
+      else if (tag?.key === 'team') nameValues.push(...(tag.values || []));
+    });
+  });
+  return [
+    { key: 'nr.teamGuid', values: uniq(guidValues) },
+    { key: 'team', values: uniq(nameValues) },
+  ];
+};
 
 const formatDuration = (activatedAt) => {
   if (!activatedAt) return '—';
@@ -20,7 +41,13 @@ const formatDuration = (activatedAt) => {
   return 'just now';
 };
 
-const IssueRow = ({ issue, entityNameByGuid }) => {
+const IssueRow = ({
+  issue,
+  entityNameByGuid,
+  entityTagsByGuid,
+  teamEntitiesByGuid,
+  onTeamClick,
+}) => {
   const priority = (issue.priority ?? 'low').toLowerCase();
   const isAcked = !!issue.acknowledgedAt;
   // The NR1 issues API returns title as an array when multiple conditions contributed to the issue.
@@ -38,18 +65,31 @@ const IssueRow = ({ issue, entityNameByGuid }) => {
         .filter(Boolean)
     : [];
 
+  // Owning team(s) of the issue's entities, deduped across all of them.
+  const teamTags = mergeIssueTeamTags(issue.entityGuids, entityTagsByGuid);
+  const hasTeams = teamTags.some((t) => t.values.length > 0);
+
   return (
     <div className={`issue-row ${priority}`}>
       <div className="details">
         <div className="title">{title}</div>
-        {entityNames.length > 0 && (
-          <div className="entities-pills" title={entityNames.join(', ')}>
-            {entityNames.map((name) => (
-              <span className="entity-pill" key={name}>
-                <Icon className="entities-icon" type={ENTITY_ICON_TYPE} />
-                {name}
-              </span>
-            ))}
+        {(entityNames.length > 0 || hasTeams) && (
+          <div className="pills-row">
+            {entityNames.length > 0 && (
+              <div className="entities-pills" title={entityNames.join(', ')}>
+                {entityNames.map((name) => (
+                  <span className="entity-pill" key={name}>
+                    <Icon className="entities-icon" type={ENTITY_ICON_TYPE} />
+                    {name}
+                  </span>
+                ))}
+              </div>
+            )}
+            <TeamBadges
+              tags={teamTags}
+              teamEntitiesByGuid={teamEntitiesByGuid}
+              onTeamClick={onTeamClick}
+            />
           </div>
         )}
         <div className="meta">
@@ -104,6 +144,9 @@ const IssueRow = ({ issue, entityNameByGuid }) => {
 IssueRow.propTypes = {
   issue: PropTypes.object,
   entityNameByGuid: PropTypes.instanceOf(Map),
+  entityTagsByGuid: PropTypes.object,
+  teamEntitiesByGuid: PropTypes.object,
+  onTeamClick: PropTypes.func,
 };
 
 export default IssueRow;

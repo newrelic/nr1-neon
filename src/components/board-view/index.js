@@ -18,6 +18,7 @@ const BoardView = ({
   gridData,
   tagsByGuid,
   teamEntitiesByGuid,
+  issueEntityTagsByGuid,
   onTeamClick,
   entities,
   hydratedEntities,
@@ -118,6 +119,9 @@ const BoardView = ({
           workload={issuesWorkload}
           entityNameByGuid={entityNameByGuid}
           ancestorNames={workloadAncestorNames}
+          entityTagsByGuid={issueEntityTagsByGuid}
+          teamEntitiesByGuid={teamEntitiesByGuid}
+          onTeamClick={onTeamClick}
         />
       </Modal>
       <Modal
@@ -129,6 +133,9 @@ const BoardView = ({
           workload={{ ...issuesEntity, status: issuesEntity?.alertSeverity }}
           subjectLabel="Entity"
           onOpenEntity={() => onOpenEntity(issuesEntity)}
+          entityTagsByGuid={issueEntityTagsByGuid}
+          teamEntitiesByGuid={teamEntitiesByGuid}
+          onTeamClick={onTeamClick}
         />
       </Modal>
     </>
@@ -140,6 +147,7 @@ BoardView.propTypes = {
   gridData: PropTypes.array,
   tagsByGuid: PropTypes.object,
   teamEntitiesByGuid: PropTypes.object,
+  issueEntityTagsByGuid: PropTypes.object,
   onTeamClick: PropTypes.func,
   entities: PropTypes.array,
   hydratedEntities: PropTypes.array,

@@ -38,6 +38,9 @@ const IssuesList = ({
   onOpenEntity,
   entityNameByGuid,
   ancestorNames,
+  entityTagsByGuid,
+  teamEntitiesByGuid,
+  onTeamClick,
 }) => {
   const [unackOnly, setUnackOnly] = useState(false);
 
@@ -120,7 +123,13 @@ const IssuesList = ({
               rel="noopener noreferrer"
               className="u-unstyledLink issue-row-link"
             >
-              <IssueRow issue={issue} entityNameByGuid={entityNameByGuid} />
+              <IssueRow
+                issue={issue}
+                entityNameByGuid={entityNameByGuid}
+                entityTagsByGuid={entityTagsByGuid}
+                teamEntitiesByGuid={teamEntitiesByGuid}
+                onTeamClick={onTeamClick}
+              />
             </a>
           ))
         )}
@@ -135,6 +144,9 @@ IssuesList.propTypes = {
   onOpenEntity: PropTypes.func,
   entityNameByGuid: PropTypes.instanceOf(Map),
   ancestorNames: PropTypes.array,
+  entityTagsByGuid: PropTypes.object,
+  teamEntitiesByGuid: PropTypes.object,
+  onTeamClick: PropTypes.func,
 };
 
 const EmptyState = ({ hasAnyIssues, subjectLabel, status }) => {

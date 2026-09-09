@@ -14,6 +14,7 @@ import {
   useBoardChrome,
   useBoardData,
   useBoardNavigation,
+  useEntityTags,
   useTeamEntities,
   useWorkloadTags,
 } from '../../src/hooks';
@@ -66,11 +67,28 @@ const Board = ({
   );
   const { data: tagsByGuid } = useWorkloadTags(workloadGuidsInView);
 
+  // The entities that generate an open issues modal's issues are usually deep
+  // descendants that aren't hydrated, so their tags aren't otherwise in scope.
+  // Fetch tags for the union of every issue's `entityGuids` so each IssueRow
+  // can show its owning-team pill.
+  const issueEntityGuids = useMemo(() => {
+    const guids = new Set();
+    const issues = [
+      ...(nav.issuesWorkload?.issues || []),
+      ...(nav.issuesEntity?.issues || []),
+    ];
+    issues.forEach((issue) =>
+      (issue?.entityGuids || []).filter(Boolean).forEach((g) => guids.add(g))
+    );
+    return [...guids];
+  }, [nav.issuesWorkload, nav.issuesEntity]);
+  const { data: issueEntityTagsByGuid } = useEntityTags(issueEntityGuids);
+
   // NR's Entity Ownership discovery stamps the owning Team entity's guid onto
   // each entity as an `nr.teamGuid` tag (multi-valued). Collect those guids —
-  // from both the workloads in view and the hydrated child entities — and
-  // hydrate them into real Team entities so the badge can show the team name
-  // and link through to the entity.
+  // from the workloads in view, the hydrated child entities, and the entities
+  // behind the open issues modal — and hydrate them into real Team entities so
+  // the badge can show the team name and link through to the entity.
   const teamGuids = useMemo(() => {
     const guids = new Set();
     const collect = (tags) =>
@@ -80,8 +98,9 @@ const Board = ({
         .forEach((g) => guids.add(g));
     Object.values(tagsByGuid || {}).forEach(collect);
     (nav.hydratedEntities || []).forEach((e) => collect(e?.tags));
+    Object.values(issueEntityTagsByGuid || {}).forEach(collect);
     return [...guids];
-  }, [tagsByGuid, nav.hydratedEntities]);
+  }, [tagsByGuid, nav.hydratedEntities, issueEntityTagsByGuid]);
   const { data: teamEntitiesByGuid } = useTeamEntities(teamGuids);
 
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
@@ -175,6 +194,7 @@ const Board = ({
       gridData={nav.gridData}
       tagsByGuid={tagsByGuid}
       teamEntitiesByGuid={teamEntitiesByGuid}
+      issueEntityTagsByGuid={issueEntityTagsByGuid}
       onTeamClick={nav.openEntityInNewTab}
       entities={nav.entities}
       hydratedEntities={nav.hydratedEntities}
