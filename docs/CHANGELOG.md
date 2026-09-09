@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/newrelic/nr1-neon/compare/v1.3.0...v1.3.1) (2026-09-09)
+
+
+### Bug Fixes
+
+* add team badge on issue list sidebar ([638d28a](https://github.com/newrelic/nr1-neon/commit/638d28a504787a62671396c2a13650578eaaf2ba))
+
 # [1.3.0](https://github.com/newrelic/nr1-neon/compare/v1.2.5...v1.3.0) (2026-09-08)
 
 
