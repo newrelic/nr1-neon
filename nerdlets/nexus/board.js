@@ -111,6 +111,113 @@ const Board = ({
     []
   );
 
+  // Per-card KPI editing. KPI definitions are stored normalized on the board doc
+  // (`kpis` keyed by id) and referenced per card by `cardKpis` (workload guid ->
+  // ordered ids), so a definition can be shared across cards. Resolve that back
+  // into a guid -> [def,...] map for rendering.
+  const [editingCardGuid, setEditingCardGuid] = useState(null);
+  const kpisByGuid = useMemo(() => {
+    const defs = docData?.kpis || {};
+    const byCard = docData?.cardKpis || {};
+    const out = {};
+    Object.entries(byCard).forEach(([guid, ids]) => {
+      out[guid] = (ids || []).map((id) => defs[id]).filter(Boolean);
+    });
+    return out;
+  }, [docData]);
+
+  // Per-card hero KPI (workload guid -> kpiId), featured as a big-number chart.
+  const kpiHeroByGuid = useMemo(() => docData?.cardHeroKpis || {}, [docData]);
+
+  // Per-card pinned KPIs (workload guid -> [kpiId]); pinned KPIs stay visible
+  // even when a card is collapsed.
+  const kpiPinnedByGuid = useMemo(
+    () => docData?.cardPinnedKpis || {},
+    [docData]
+  );
+
+  // Board-level "Expand all" / "Collapse all". `expandToken` is bumped on each
+  // action to broadcast the new target state to every card without clobbering
+  // per-card toggles in between.
+  const [allExpanded, setAllExpanded] = useState(false);
+  const [expandToken, setExpandToken] = useState(0);
+  const toggleExpandAll = useCallback(() => {
+    setAllExpanded((prev) => !prev);
+    setExpandToken((t) => t + 1);
+  }, []);
+
+  const openCardSettings = useCallback(
+    (workload) => setEditingCardGuid(workload?.guid || null),
+    []
+  );
+  const setCardSettingsOpen = useCallback((open) => {
+    if (!open) setEditingCardGuid(null);
+  }, []);
+
+  const editingCardName = useMemo(() => {
+    if (!editingCardGuid) return '';
+    const match = (nav.gridData || []).find((w) => w?.guid === editingCardGuid);
+    return match?.name || '';
+  }, [editingCardGuid, nav.gridData]);
+
+  // Persist the working KPI list (ordered) plus the card's hero and pinned
+  // selections: upsert its defs into the shared `kpis` map, set this card's
+  // ordered id list / hero / pinned ids, then prune anything the card no longer
+  // references.
+  const saveCardKpis = useCallback(
+    async ({ kpis: workingKpis = [], heroId, pinnedIds = [] } = {}) => {
+      const guid = editingCardGuid;
+      if (!guid) return {};
+
+      const nextDefs = { ...(docData?.kpis || {}) };
+      workingKpis.forEach((k) => {
+        nextDefs[k.id] = {
+          id: k.id,
+          label: k.label,
+          accountId: k.accountId,
+          query: k.query,
+        };
+      });
+
+      const onCard = new Set(workingKpis.map((k) => k.id));
+      const nextCardKpis = { ...(docData?.cardKpis || {}) };
+      const nextCardHeroKpis = { ...(docData?.cardHeroKpis || {}) };
+      const nextCardPinnedKpis = { ...(docData?.cardPinnedKpis || {}) };
+      const heroOnCard = heroId && onCard.has(heroId) ? heroId : null;
+      const pinnedOnCard = (pinnedIds || []).filter((id) => onCard.has(id));
+      if (workingKpis.length > 0) {
+        nextCardKpis[guid] = workingKpis.map((k) => k.id);
+        if (heroOnCard) nextCardHeroKpis[guid] = heroOnCard;
+        else delete nextCardHeroKpis[guid];
+        if (pinnedOnCard.length > 0) nextCardPinnedKpis[guid] = pinnedOnCard;
+        else delete nextCardPinnedKpis[guid];
+      } else {
+        // No KPIs left on the card — drop its ordering, hero and pins entirely.
+        delete nextCardKpis[guid];
+        delete nextCardHeroKpis[guid];
+        delete nextCardPinnedKpis[guid];
+      }
+
+      const referenced = new Set();
+      Object.values(nextCardKpis).forEach((ids) =>
+        (ids || []).forEach((id) => referenced.add(id))
+      );
+      Object.keys(nextDefs).forEach((id) => {
+        if (!referenced.has(id)) delete nextDefs[id];
+      });
+
+      const { error } = await writeBoard({
+        kpis: nextDefs,
+        cardKpis: nextCardKpis,
+        cardHeroKpis: nextCardHeroKpis,
+        cardPinnedKpis: nextCardPinnedKpis,
+      });
+      if (error) console.error('Unable to save KPIs', error);
+      return { error };
+    },
+    [editingCardGuid, docData, writeBoard]
+  );
+
   useBoardChrome({
     boardMissing,
     docLoading,
@@ -118,6 +225,8 @@ const Board = ({
     onRefresh: refreshData,
     onOpenWorkloads: openWorkloadsModal,
     onOpenSettings: openSettingsModal,
+    allExpanded,
+    onToggleExpandAll: toggleExpandAll,
   });
 
   useEffect(() => {
@@ -195,7 +304,13 @@ const Board = ({
       tagsByGuid={tagsByGuid}
       teamEntitiesByGuid={teamEntitiesByGuid}
       issueEntityTagsByGuid={issueEntityTagsByGuid}
+      kpisByGuid={kpisByGuid}
+      kpiHeroByGuid={kpiHeroByGuid}
+      kpiPinnedByGuid={kpiPinnedByGuid}
+      allExpanded={allExpanded}
+      expandToken={expandToken}
       onTeamClick={nav.openEntityInNewTab}
+      onEditCard={openCardSettings}
       entities={nav.entities}
       hydratedEntities={nav.hydratedEntities}
       entitiesHydrating={nav.entitiesHydrating}
@@ -234,6 +349,20 @@ const Board = ({
         isOpen: isWorkloadsModalOpen,
         setIsOpen: setIsWorkloadsModalOpen,
         savedWorkloads: docData?.start ?? [],
+      }}
+      cardSettingsModal={{
+        onSave: saveCardKpis,
+        isOpen: !!editingCardGuid,
+        setIsOpen: setCardSettingsOpen,
+        workloadName: editingCardName,
+        savedKpis: editingCardGuid ? kpisByGuid[editingCardGuid] ?? [] : [],
+        savedHeroId: editingCardGuid
+          ? kpiHeroByGuid[editingCardGuid]
+          : undefined,
+        savedPinnedIds: editingCardGuid
+          ? kpiPinnedByGuid[editingCardGuid]
+          : undefined,
+        defaultAccountId: accountId,
       }}
     />
   );

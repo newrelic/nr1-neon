@@ -8,7 +8,10 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  overflow: hidden;
+  // Visible so the KPI bar can float over the bottom border. The status stripe
+  // rounds its own left corners (below) to stay within the card's radius since
+  // it's no longer clipped.
+  overflow: visible;
   font-family: "Inter", "Segoe UI", Tahoma, sans-serif;
   font-size: 12px;
 
@@ -46,6 +49,8 @@
     bottom: 0;
     width: 4px;
     background: $status-unknown;
+    // Match the card's rounded corners now that overflow no longer clips it.
+    border-radius: 6px 0 0 6px;
   }
 
   &.critical {
@@ -89,6 +94,15 @@
       text-overflow: ellipsis;
       min-width: 0;
       flex: 1;
+    }
+
+    .card-actions {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      // Pull the icon button tight to the card's right edge so it aligns with
+      // the header baseline without adding height.
+      margin: -4px -6px -4px 0;
     }
   }
 
@@ -159,80 +173,101 @@
   .kpis {
     display: flex;
     flex-direction: column;
+    gap: 10px;
+  }
 
-    .toggle-btn {
-      display: flex;
+  .kpi-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  // Pill toggles floating over the card's bottom border, revealed on hover. The
+  // card's overflow:visible lets them straddle the border. Each pill mirrors the
+  // team-pill.clickable style so controls read consistently across the app.
+  .kpi-bar {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+
+    opacity: 0;
+    pointer-events: none;
+    // Straddle the bottom border, plus a few px lower at rest for a slide-up.
+    transform: translate(-50%, calc(50% + 4px));
+    transition: opacity 120ms ease-out, transform 120ms ease-out;
+
+    .kpi-bar-btn {
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-top: 1px solid #EBEEF0;
-      padding: 8px 0;
+      padding: 2px 8px;
       margin: 0;
-      cursor: pointer;
-      font: inherit;
+      border: none;
+      border-radius: 999px;
+      background: #f4f5f6;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+      font-family: inherit;
+      font-size: 10.5px;
+      font-weight: 500;
+      line-height: 1.4;
       color: #475059;
-      text-align: left;
-      transition: color 120ms ease-out;
-
-      .label {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 10.5px;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-
-        .count {
-          font-size: 10.5px;
-          font-weight: 500;
-          letter-spacing: 0;
-          text-transform: none;
-          color: #8E99A4;
-          font-variant-numeric: tabular-nums;
-        }
-      }
-
-      .chevron {
-        display: inline-flex;
-        color: #8E99A4;
-        transition: transform 180ms ease-out, color 120ms ease-out;
-      }
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background 120ms ease-out, color 120ms ease-out;
 
       &:hover {
-        color: #0F7AE5;
-        .chevron { color: #0F7AE5; }
+        background: #e8eaec;
+        color: #2a3135;
       }
       &:focus-visible {
         outline: none;
-        color: #0F7AE5;
-        .chevron { color: #0F7AE5; }
+        box-shadow: 0 0 0 2px rgba(15, 122, 229, 0.25);
       }
     }
+  }
 
-    .content {
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      transition: max-height 220ms ease-out, opacity 160ms ease-out;
+  &:hover .kpi-bar,
+  &:focus-within .kpi-bar,
+  // When KPIs are hidden, keep the "Show KPIs" pill visible at all times.
+  .kpi-bar.persistent {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 50%);
+  }
+}
 
-      .kpi-list {
-        display: flex;
-        flex-direction: column;
-      }
+// Card actions menu. Rendered inside PopoverBody, which portals out of the
+// card, so this lives at the top level rather than nested under .workload-card.
+.card-menu {
+  min-width: 140px;
+  padding: 4px 0;
+  background: #ffffff;
+
+  .card-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 6px 10px;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 12px;
+    color: #1d252c;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      background: #f3f4f6;
     }
 
-    &.expanded {
-      .content {
-        max-height: 600px;
-        opacity: 1;
-      }
-      .chevron {
-        transform: rotate(180deg);
-      }
+    &:focus-visible {
+      outline: none;
+      background: #f3f4f6;
+      box-shadow: 0 0 0 2px rgba(15, 122, 229, 0.25);
     }
   }
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Icon } from 'nr1';
 
-import { formatValue } from '../../utils';
+import { computeDelta, formatValue } from '../../utils';
 
 const KpiRow = ({ kpi = {} }) => {
   const { label, value, unit, compareValue, compareLabel } = useMemo(
@@ -11,30 +11,7 @@ const KpiRow = ({ kpi = {} }) => {
     [kpi]
   );
 
-  const delta = useMemo(() => {
-    const { value, compareValue } = kpi;
-    if (
-      typeof compareValue !== 'number' ||
-      typeof value !== 'number' ||
-      compareValue === 0 // guard against division by zero in the percentage calculation below
-    ) {
-      return null;
-    }
-
-    const diff = value - compareValue;
-    const pctChange = (diff / Math.abs(compareValue)) * 100;
-    const direction = diff >= 0 ? 'up' : 'down';
-
-    const absPct = Math.abs(pctChange);
-    const display =
-      absPct >= 100
-        ? `${absPct.toFixed(0)}%`
-        : absPct >= 10
-        ? `${absPct.toFixed(0)}%`
-        : `${absPct.toFixed(1)}%`;
-
-    return { direction, display };
-  }, [kpi]);
+  const delta = useMemo(() => computeDelta(kpi.value, kpi.compareValue), [kpi]);
 
   return (
     <div className="kpi-row">
