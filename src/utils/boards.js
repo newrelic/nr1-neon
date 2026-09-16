@@ -3,8 +3,9 @@
 // `settings` doc that hasn't been migrated/deleted yet).
 const NON_BOARD_DOC_IDS = new Set(['settings', 'preferences', 'userPrefs']);
 
-// Generate a uuid for a new board. Prefer the platform crypto API; fall back to
-// an RFC4122-ish v4 string for environments where it's unavailable.
+// Generate a uuid for a new board/KPI. Prefer crypto.randomUUID; otherwise build
+// an RFC4122 v4 string from crypto.getRandomValues. Both are cryptographically
+// secure — we never use Math.random(), which CodeQL (rightly) flags as insecure.
 export const generateId = () => {
   if (
     typeof crypto !== 'undefined' &&
@@ -13,7 +14,8 @@ export const generateId = () => {
     return crypto.randomUUID();
   }
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = Math.floor(Math.random() * 16);
+    // 256 is divisible by 16, so `% 16` stays uniform (no modulo bias).
+    const r = crypto.getRandomValues(new Uint8Array(1))[0] % 16;
     const v = c === 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
