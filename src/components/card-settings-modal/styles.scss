@@ -1,0 +1,197 @@
+@import '../variables.scss';
+
+// Per-card settings modal: a two-panel horizontal slider (KPI list ⇄ KPI editor),
+// modeled on the board settings slider in settings-modal. The track is 200% wide
+// and each panel is half; the active view is chosen by an inline translateX.
+.card-settings-modal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+
+  .card-settings-slider {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    width: 200%;
+    min-height: 0;
+    transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .slide-panel {
+    width: 50%;
+    flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 0;
+  }
+
+  .panel-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-shrink: 0;
+    min-width: 0;
+
+    // Workload name is the primary heading; let it take the row and truncate.
+    .workload-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    // "Card settings" is now the secondary, muted label.
+    .panel-subtitle {
+      flex-shrink: 0;
+      font-size: 12px;
+      color: #6b7682;
+    }
+  }
+
+  // ---- Shared by the list and editor panels ----
+  .panel-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  // Unsaved-changes hint, right-aligned just above the buttons bar (negative
+  // margin cancels the panel's 16px gap so it hugs the buttons).
+  .unsaved-hint {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: -16px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .kpis-empty {
+    padding: 16px 0;
+    font-size: 12px;
+    color: #8e99a4;
+    font-style: italic;
+
+    // Emphasize the "Add KPI" affordance without the surrounding italic.
+    strong {
+      font-weight: 600;
+      font-style: normal;
+      color: #475059;
+    }
+  }
+
+  .kpi-defs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .kpi-def-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    // Drag handle: grab to reorder the row.
+    .kpi-def-reorder {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #8e99a4;
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    // Let the live KPI preview take the row width; the KpiRow inside carries
+    // its own separators, matching how it looks on the card.
+    .kpi-def-preview {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .kpi-def-actions {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+
+      // Active hero (thunder) and pinned toggles stand out in the accent color.
+      .hero-toggle.is-hero,
+      .pin-toggle.is-pinned {
+        color: #0f7ae5;
+      }
+    }
+
+    &.dragging {
+      opacity: 0.4;
+    }
+
+    // Insertion cue: highlight the top edge of the row being dragged over.
+    &.drag-over {
+      box-shadow: inset 0 2px 0 0 #0f7ae5;
+    }
+  }
+
+  // ---- Editor panel ----
+  .kpi-editor-panel {
+    .editor-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #6b7682;
+    }
+
+    .preview {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    // Mimic the card's surface so the preview reads exactly like it will on the
+    // card's KPI list.
+    .preview-card {
+      background: #ffffff;
+      border: 1px solid #e3e6e8;
+      border-radius: 6px;
+      padding: 0 14px;
+    }
+
+    .preview-empty {
+      padding: 12px 0;
+      font-size: 12px;
+      color: #8e99a4;
+      font-style: italic;
+    }
+  }
+}

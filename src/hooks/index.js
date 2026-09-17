@@ -6,3 +6,4 @@ export { default as useEntityTags } from './use-entity-tags';
 export { default as useBoardData } from './use-board-data';
 export { default as useBoardNavigation } from './use-board-navigation';
 export { default as useBoardChrome } from './use-board-chrome';
+export { default as useKpiValue } from './use-kpi-value';

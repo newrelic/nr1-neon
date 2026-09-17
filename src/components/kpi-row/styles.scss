@@ -6,6 +6,10 @@
   padding: 9px 0;
   border-bottom: 1px solid #EBEEF0;
   min-width: 0;
+  // Uniform, tight line-height for every text bit in the row so each sits in a
+  // box equal to its font-size — align-items:center then centers them cleanly
+  // despite the differing font sizes (label 12, value 14, unit/delta 11).
+  line-height: 1;
 
   &:first-child {
     border-top: 1px solid #EBEEF0;
@@ -27,7 +31,7 @@
 
   .metrics {
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
     gap: 8px;
     flex-shrink: 0;
 
@@ -38,7 +42,6 @@
       letter-spacing: -0.02em;
       color: #1D252C;
       font-variant-numeric: tabular-nums;
-      line-height: 1.1;
 
       .unit {
         font-size: 11px;

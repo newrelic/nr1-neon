@@ -23,9 +23,15 @@ const WorkloadGrid = ({
   hideUnacknowledged = false,
   tagsByGuid = {},
   teamEntitiesByGuid = {},
+  kpisByGuid = {},
+  kpiHeroByGuid = {},
+  kpiPinnedByGuid = {},
+  allExpanded = false,
+  expandToken = 0,
   onCardClick,
   onIssuesClick,
   onTeamClick,
+  onEditCard,
 }) => {
   const [displayedWorkloads, setDisplayedWorkloads] = useState(workloads);
   const [fadePhase, setFadePhase] = useState(FADE_PHASES.IDLE);
@@ -85,6 +91,9 @@ const WorkloadGrid = ({
           // tooltip change.
           const isUnclickable = !issuesLoading && !hasChildren;
           const clickable = onCardClick && hasChildren;
+          // KPIs and the edit toolbar are keyed by workload guid; a card
+          // without a guid can't be targeted, so it gets neither.
+          const canEdit = !!onEditCard && !!workload.guid;
 
           return (
             <div
@@ -104,13 +113,18 @@ const WorkloadGrid = ({
                 hideUnacknowledged={hideUnacknowledged}
                 issues={issues}
                 issuesLoading={issuesLoading}
-                kpis={[]}
+                kpis={kpisByGuid?.[workload.guid] ?? []}
+                heroKpiId={kpiHeroByGuid?.[workload.guid]}
+                pinnedKpiIds={kpiPinnedByGuid?.[workload.guid]}
+                allExpanded={allExpanded}
+                expandToken={expandToken}
                 tags={tagsByGuid?.[workload.guid]}
                 teamEntitiesByGuid={teamEntitiesByGuid}
                 isUnclickable={isUnclickable}
                 onClick={clickable ? () => onCardClick(workload) : undefined}
                 onIssuesClick={() => onIssuesClick?.(workload)}
                 onTeamClick={onTeamClick}
+                onEdit={canEdit ? () => onEditCard(workload) : undefined}
               />
             </div>
           );
@@ -126,9 +140,21 @@ WorkloadGrid.propTypes = {
   hideUnacknowledged: PropTypes.bool,
   tagsByGuid: PropTypes.object,
   teamEntitiesByGuid: PropTypes.object,
+  // Map of workload guid -> array of KPI definitions to render on that card.
+  kpisByGuid: PropTypes.object,
+  // Map of workload guid -> hero KPI id (featured as a big-number chart).
+  kpiHeroByGuid: PropTypes.object,
+  // Map of workload guid -> pinned KPI ids (always shown, even when collapsed).
+  kpiPinnedByGuid: PropTypes.object,
+  // Board-level expand/collapse broadcast: target state + a bumped token.
+  allExpanded: PropTypes.bool,
+  expandToken: PropTypes.number,
   onCardClick: PropTypes.func,
   onIssuesClick: PropTypes.func,
   onTeamClick: PropTypes.func,
+  // When provided, each card with a guid shows a hover toolbar whose Edit
+  // action calls onEditCard(workload).
+  onEditCard: PropTypes.func,
 };
 
 export default WorkloadGrid;

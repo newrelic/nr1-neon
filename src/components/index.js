@@ -1,6 +1,7 @@
 export { default as Modal } from './modal';
 export { default as SettingsModal } from './settings-modal';
 export { default as WorkloadsModal } from './workloads-modal';
+export { default as CardSettingsModal } from './card-settings-modal';
 export { default as CreateBoardModal } from './create-board-modal';
 export { default as BoardsList } from './boards-list';
 export { default as BoardView } from './board-view';
@@ -8,6 +9,8 @@ export { default as StatusDot } from './status-dot';
 export { default as IssuesButton } from './issues-button';
 export { default as WorkloadCard } from './workload-card';
 export { default as WorkloadGrid } from './workload-grid';
+export { default as LiveKpiRow } from './live-kpi-row';
+export { default as KpiChart } from './kpi-chart';
 export { default as BreadcrumbChip } from './breadcrumb-chip';
 export { default as BreadcrumbRow } from './breadcrumb-row';
 export { default as Breadcrumb } from './breadcrumb';

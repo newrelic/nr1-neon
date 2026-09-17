@@ -1,0 +1,80 @@
+@import '../variables.scss';
+
+// Hero KPI, styled after New Relic's Metric component: a muted label above a
+// large value, with an optional comparison delta (arrow + tinted pill).
+.kpi-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+
+  .label {
+    font-size: 12px;
+    color: #6b7682;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .value-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+
+    .value {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: #1d252c;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+
+      // Unit reads lighter and smaller, trailing the number.
+      .unit {
+        font-size: 18px;
+        font-weight: 500;
+        color: #6b7682;
+        margin-left: 4px;
+      }
+    }
+
+    // Arrow inherits the direction color; the percentage sits in a tinted pill.
+    .delta {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      color: #8e99a4;
+
+      .arrow {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .pill {
+        padding: 1px 7px;
+        border-radius: 999px;
+        background: #f4f5f6;
+        line-height: 1.5;
+      }
+
+      &.up {
+        color: $status-success;
+        .pill {
+          background: $status-success-bg;
+        }
+      }
+      &.down {
+        color: $status-critical;
+        .pill {
+          background: $status-critical-bg;
+        }
+      }
+    }
+  }
+}

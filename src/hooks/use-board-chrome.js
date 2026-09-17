@@ -12,6 +12,8 @@ export const useBoardChrome = ({
   onRefresh,
   onOpenWorkloads,
   onOpenSettings,
+  allExpanded,
+  onToggleExpandAll,
 }) => {
   useEffect(() => {
     if (docLoading) return; // wait until we know whether the board exists
@@ -40,6 +42,16 @@ export const useBoardChrome = ({
           hint: 'Reload all workload data',
           iconType: Icon.TYPE.INTERFACE__OPERATIONS__REDO,
           onClick: onRefresh,
+        },
+        {
+          label: allExpanded ? 'Collapse all' : 'Expand all',
+          hint: allExpanded
+            ? 'Collapse KPIs on every card'
+            : 'Expand KPIs on every card',
+          iconType: allExpanded
+            ? Icon.TYPE.INTERFACE__OPERATIONS__HIDE
+            : Icon.TYPE.INTERFACE__OPERATIONS__SHOW,
+          onClick: onToggleExpandAll,
         },
         {
           label: 'Workloads',
@@ -71,6 +83,8 @@ export const useBoardChrome = ({
     title,
     boardMissing,
     docLoading,
+    allExpanded,
+    onToggleExpandAll,
   ]);
 };
 

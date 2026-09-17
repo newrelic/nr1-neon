@@ -10,6 +10,7 @@ import IssuesList from '../issues-list';
 import Modal from '../modal';
 import SettingsModal from '../settings-modal';
 import WorkloadsModal from '../workloads-modal';
+import CardSettingsModal from '../card-settings-modal';
 
 // Presentational shell for a loaded board: the drill-down grid + entities, plus
 // the four board modals. All state and handlers are supplied by the container.
@@ -19,7 +20,13 @@ const BoardView = ({
   tagsByGuid,
   teamEntitiesByGuid,
   issueEntityTagsByGuid,
+  kpisByGuid,
+  kpiHeroByGuid,
+  kpiPinnedByGuid,
+  allExpanded,
+  expandToken,
   onTeamClick,
+  onEditCard,
   entities,
   hydratedEntities,
   entitiesHydrating,
@@ -43,6 +50,7 @@ const BoardView = ({
   onOpenEntity,
   settingsModal,
   workloadsModal,
+  cardSettingsModal,
 }) => {
   // Key the content gate off the pre-hydration entities so the grid only mounts
   // once there's genuinely something to show (hydratedEntities can lag behind).
@@ -63,11 +71,17 @@ const BoardView = ({
               workloads={gridData}
               tagsByGuid={tagsByGuid}
               teamEntitiesByGuid={teamEntitiesByGuid}
+              kpisByGuid={kpisByGuid}
+              kpiHeroByGuid={kpiHeroByGuid}
+              kpiPinnedByGuid={kpiPinnedByGuid}
+              allExpanded={allExpanded}
+              expandToken={expandToken}
               issuesLoading={dataLoading || issuesLoading}
               hideUnacknowledged={hideUnacknowledged}
               onCardClick={onCardClick}
               onIssuesClick={onIssuesClick}
               onTeamClick={onTeamClick}
+              onEditCard={onEditCard}
             />
             <EntitiesView
               entities={hydratedEntities}
@@ -110,6 +124,18 @@ const BoardView = ({
         setIsWorkloadsModalOpen={workloadsModal.setIsOpen}
         savedWorkloads={workloadsModal.savedWorkloads}
       />
+      {cardSettingsModal && (
+        <CardSettingsModal
+          isOpen={cardSettingsModal.isOpen}
+          setIsOpen={cardSettingsModal.setIsOpen}
+          workloadName={cardSettingsModal.workloadName}
+          savedKpis={cardSettingsModal.savedKpis}
+          savedHeroId={cardSettingsModal.savedHeroId}
+          savedPinnedIds={cardSettingsModal.savedPinnedIds}
+          defaultAccountId={cardSettingsModal.defaultAccountId}
+          onSave={cardSettingsModal.onSave}
+        />
+      )}
       <Modal
         hidden={!issuesWorkload}
         onClose={onCloseWorkloadIssues}
@@ -148,7 +174,13 @@ BoardView.propTypes = {
   tagsByGuid: PropTypes.object,
   teamEntitiesByGuid: PropTypes.object,
   issueEntityTagsByGuid: PropTypes.object,
+  kpisByGuid: PropTypes.object,
+  kpiHeroByGuid: PropTypes.object,
+  kpiPinnedByGuid: PropTypes.object,
+  allExpanded: PropTypes.bool,
+  expandToken: PropTypes.number,
   onTeamClick: PropTypes.func,
+  onEditCard: PropTypes.func,
   entities: PropTypes.array,
   hydratedEntities: PropTypes.array,
   entitiesHydrating: PropTypes.bool,
@@ -174,6 +206,7 @@ BoardView.propTypes = {
   // through to SettingsModal / WorkloadsModal.
   settingsModal: PropTypes.object,
   workloadsModal: PropTypes.object,
+  cardSettingsModal: PropTypes.object,
 };
 
 export default BoardView;

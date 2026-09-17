@@ -109,13 +109,14 @@ describe('Board', () => {
     expect(screen.getByText('Web')).toBeInTheDocument();
   });
 
-  it('configures the header title, Nexus parent and Refresh/Workloads/Settings buttons', () => {
+  it('configures the header title, Nexus parent and Refresh/Expand/Workloads/Settings buttons', () => {
     renderBoard();
     const cfg = nr1.nerdlet.setConfig.mock.calls.slice(-1)[0][0];
     expect(cfg.headerTitle).toBe('My Board');
     expect(cfg.headerParentTitle).toBe('Nexus');
     expect(cfg.actionControlButtons.map((b) => b.label)).toEqual([
       'Refresh',
+      'Expand all',
       'Workloads',
       'Settings',
     ]);

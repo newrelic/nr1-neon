@@ -166,6 +166,20 @@ const Tooltip = ({ text, opened, children }) =>
   );
 Tooltip.displayName = 'Tooltip';
 
+// Popover/Menu family: render children inline (no portal) so tests can find the
+// trigger and menu items directly.
+const Popover = ({ children }) =>
+  React.createElement('div', { 'data-testid': 'nr1-Popover' }, children);
+Popover.displayName = 'Popover';
+
+const PopoverTrigger = ({ children }) =>
+  React.createElement('div', { 'data-testid': 'nr1-PopoverTrigger' }, children);
+PopoverTrigger.displayName = 'PopoverTrigger';
+
+const PopoverBody = ({ children }) =>
+  React.createElement('div', { 'data-testid': 'nr1-PopoverBody' }, children);
+PopoverBody.displayName = 'PopoverBody';
+
 const TextField = ({ label, value, placeholder, onChange, name, type }) =>
   React.createElement('input', {
     'data-testid': 'nr1-TextField',
@@ -405,6 +419,9 @@ module.exports = {
   navigation,
   nerdlet,
   PlatformStateContext,
+  Popover,
+  PopoverBody,
+  PopoverTrigger,
   SectionMessage,
   Spinner,
   Switch,
