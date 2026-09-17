@@ -111,11 +111,35 @@ const SectionMessage = ({ title, description, actions }) =>
 SectionMessage.displayName = 'SectionMessage';
 attachEnums(SectionMessage, ['TYPE']);
 
-const InlineMessage = ({ label, type }) =>
+const InlineMessage = ({ label, type, action, onDismiss }) =>
   React.createElement(
     'div',
     { 'data-testid': 'nr1-InlineMessage', 'data-type': type },
-    label
+    React.createElement(
+      'div',
+      { 'data-testid': 'nr1-InlineMessage-label' },
+      label
+    ),
+    action &&
+      React.createElement(
+        'button',
+        {
+          type: 'button',
+          'data-testid': 'nr1-InlineMessage-action',
+          onClick: action.onClick,
+        },
+        action.label
+      ),
+    onDismiss &&
+      React.createElement(
+        'button',
+        {
+          type: 'button',
+          'data-testid': 'nr1-InlineMessage-dismiss',
+          onClick: onDismiss,
+        },
+        'Dismiss'
+      )
   );
 InlineMessage.displayName = 'InlineMessage';
 attachEnums(InlineMessage, ['TYPE']);

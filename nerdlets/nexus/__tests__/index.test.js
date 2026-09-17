@@ -101,28 +101,28 @@ describe('NexusNerdlet (router)', () => {
 
   it('shows the nexus banner when not dismissed', () => {
     renderWithPlatform(<NexusNerdlet />);
-    expect(screen.getByTestId('nr1-SectionMessage-title').textContent).toBe(
-      'Welcome to Nexus.'
+    expect(screen.getByTestId('nr1-InlineMessage-label').textContent).toBe(
+      'Neon is now Nexus. Prefer the original experience?'
     );
   });
 
   it('hides the nexus banner when dismissed', () => {
     setDefaults({ userPrefs: { nexusBannerDismissed: true } });
     renderWithPlatform(<NexusNerdlet />);
-    expect(screen.queryByTestId('nr1-SectionMessage')).toBeNull();
+    expect(screen.queryByTestId('nr1-InlineMessage')).toBeNull();
   });
 
   it('banner "Switch to Neon" opens the neon nerdlet', () => {
     renderWithPlatform(<NexusNerdlet />);
-    fireEvent.click(screen.getByTestId('nr1-SectionMessage-action-0'));
+    fireEvent.click(screen.getByTestId('nr1-InlineMessage-action'));
     expect(nr1.navigation.openNerdlet).toHaveBeenCalledWith({
       id: 'neon-nerdlet',
     });
   });
 
-  it('banner "Do not show again" writes dismissal to the preferences doc', () => {
+  it('banner dismissal writes dismissal to the preferences doc', () => {
     renderWithPlatform(<NexusNerdlet />);
-    fireEvent.click(screen.getByTestId('nr1-SectionMessage-action-1'));
+    fireEvent.click(screen.getByText('Do not show again'));
     expect(nr1.__writePrefsFn).toHaveBeenCalledWith(
       expect.objectContaining({
         collection: 'nexus',
