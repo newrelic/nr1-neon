@@ -12,6 +12,39 @@
   flex-shrink: 0;
 }
 
+.nexus-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0 0 0;
+  background: #fff;
+  border-top: 1px solid #e3e6e8;
+}
+
+.nexus-banner-dismiss {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  appearance: none;
+  background: none;
+  border: 0;
+  color: #0b6fd5;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .main {
   min-width: 0;
   flex-grow: 1;

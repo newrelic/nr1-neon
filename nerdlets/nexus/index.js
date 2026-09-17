@@ -9,9 +9,9 @@ import React, {
 
 import {
   EmptyState,
+  InlineMessage,
   nerdlet,
   PlatformStateContext,
-  SectionMessage,
   Toast,
   useAccountsQuery,
   useAccountStorageMutation,
@@ -503,15 +503,21 @@ const NexusNerdlet = () => {
   );
 
   const nexusBanner = !userPrefsLoading && !userPrefs?.nexusBannerDismissed && (
-    <SectionMessage
-      title="Welcome to Nexus."
-      description="Prefer the original Neon experience? You can switch back at any time."
-      type={SectionMessage.TYPE.INFO}
-      actions={[
-        { label: 'Switch to Neon', onClick: switchToNeon },
-        { label: 'Do not show again', onClick: dismissNexusBanner },
-      ]}
-    />
+    <div className="nexus-banner">
+      <InlineMessage
+        type={InlineMessage.TYPE.INFO}
+        label="Neon is now Nexus. Prefer the original experience?"
+        action={{ label: 'Switch to Neon', onClick: switchToNeon }}
+      />
+      <a
+        className="nexus-banner-dismiss"
+        role="button"
+        tabIndex={0}
+        onClick={dismissNexusBanner}
+      >
+        Do not show again
+      </a>
+    </div>
   );
 
   if (isAcctsLoading)
