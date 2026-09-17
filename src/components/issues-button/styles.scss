@@ -1,34 +1,31 @@
 .issues-row {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
-  width: 100%;
-  padding: 5px 6px 5px 10px;
-  background: #F6F7F8;
-  border: 1px solid #E9EBED;
-  border-radius: 5px;
   cursor: pointer;
-  transition: background 120ms ease-out, border-color 120ms ease-out;
-
-  &:hover {
-    background: #F4F8FD;
-    border-color: #0F7AE5;
-  }
 
   .summary {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     min-width: 0;
     font-size: 11px;
     font-variant-numeric: tabular-nums;
+  }
+
+  .issues-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    fill: $status-unknown;
   }
 
   .issues-count {
     color: #475059;
     font-weight: 600;
     white-space: nowrap;
+    transition: color 120ms ease-out;
   }
 
   .sep {
@@ -45,15 +42,23 @@
     white-space: nowrap;
   }
 
-  .view-button {
-    flex-shrink: 0;
+  // Icon takes the card's status color; text picks it up on hover.
+  &.critical .issues-icon { fill: $status-critical; }
+  &.warning .issues-icon { fill: $status-warning; }
+  &.success .issues-icon { fill: $status-success; }
+  &.unknown .issues-icon { fill: $status-unknown; }
 
-    // The row itself already has a hover treatment — suppress the Button's
-    // own hover background so we don't get a double effect. NR1's platform
-    // CSS sets this, so !important is needed to reliably win here.
-    &:hover {
-      background-color: transparent !important;
-      box-shadow: none !important;
-    }
+  &:hover,
+  &:focus-visible {
+    outline: none;
   }
+
+  &.critical:hover .issues-count,
+  &.critical:focus-visible .issues-count { color: $status-critical; }
+  &.warning:hover .issues-count,
+  &.warning:focus-visible .issues-count { color: $status-warning; }
+  &.success:hover .issues-count,
+  &.success:focus-visible .issues-count { color: $status-success; }
+  &.unknown:hover .issues-count,
+  &.unknown:focus-visible .issues-count { color: $status-unknown; }
 }

@@ -49,6 +49,7 @@ const WorkloadCard = ({
           issuesCount={issuesCount}
           unacknowledgedCount={unacknowledgedCount}
           hideUnacknowledged={hideUnacknowledged}
+          statusClass={statusClass}
           onClick={onIssuesClick}
         />
       );
@@ -58,6 +59,7 @@ const WorkloadCard = ({
     issuesCount,
     unacknowledgedCount,
     hideUnacknowledged,
+    statusClass,
     onIssuesClick,
   ]);
 
