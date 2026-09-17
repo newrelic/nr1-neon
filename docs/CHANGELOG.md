@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/newrelic/nr1-neon/compare/v1.3.1...v1.3.2) (2026-09-17)
+
+
+### Bug Fixes
+
+* move the neon switcher banner to the bottom ([4097638](https://github.com/newrelic/nr1-neon/commit/40976385fa1bd1de9487e0196f036e5e636b6913))
+
 ## [1.3.1](https://github.com/newrelic/nr1-neon/compare/v1.3.0...v1.3.1) (2026-09-09)
 
 
