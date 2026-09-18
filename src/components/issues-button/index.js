@@ -6,6 +6,8 @@ const IssuesButton = ({
   unacknowledgedCount,
   hideUnacknowledged,
   statusClass = 'unknown',
+  variant,
+  preview = false,
   onClick,
 }) => {
   const showUnack = !hideUnacknowledged && unacknowledgedCount > 0;
@@ -19,20 +21,30 @@ const IssuesButton = ({
     }
   };
 
+  // In preview mode (e.g. the settings picker) the row is purely illustrative:
+  // strip the interactive/focusable behavior and hide it from the a11y tree.
+  const interactiveProps = preview
+    ? { 'aria-hidden': true }
+    : {
+        role: 'button',
+        tabIndex: 0,
+        'aria-label': `View ${issuesCount} ${issuesLabel}`,
+        onClick: (e) => {
+          e.stopPropagation();
+          if (onClick) onClick(e);
+        },
+        onKeyDown: handleKeyDown,
+      };
+
   return (
     // The whole row is the click target — stopPropagation keeps it from also
     // triggering the card's own onClick. role/tabIndex/onKeyDown make the row
     // itself the single focusable control for keyboard users.
     <div
-      className={`issues-row ${statusClass}`}
-      role="button"
-      tabIndex={0}
-      aria-label={`View ${issuesCount} ${issuesLabel}`}
-      onClick={(e) => {
-        e.stopPropagation();
-        if (onClick) onClick(e);
-      }}
-      onKeyDown={handleKeyDown}
+      className={`issues-row ${statusClass}${
+        variant === 'solid' ? ' solid' : ''
+      }${preview ? ' preview' : ''}`}
+      {...interactiveProps}
     >
       <span className="summary">
         <svg
@@ -62,6 +74,11 @@ const IssuesButton = ({
           </>
         )}
       </span>
+      {/* A demarcated segment that reads like the action side of a split
+          button (aria-hidden — the row itself already labels the action). */}
+      <span className="view-tag" aria-hidden="true">
+        View
+      </span>
     </div>
   );
 };
@@ -71,6 +88,11 @@ IssuesButton.propTypes = {
   unacknowledgedCount: PropTypes.number,
   hideUnacknowledged: PropTypes.bool,
   statusClass: PropTypes.string,
+  // Visual treatment: default is the light secondary tile; 'solid' is the
+  // alternate status-filled bar (see styles.scss).
+  variant: PropTypes.oneOf(['solid']),
+  // Non-interactive rendering for style previews (no click/focus/aria-label).
+  preview: PropTypes.bool,
   onClick: PropTypes.func,
 };
 

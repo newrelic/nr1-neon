@@ -11,6 +11,14 @@ import {
 } from 'nr1';
 
 import Modal from '../modal';
+import IssuesButton from '../issues-button';
+
+// Issues row style options shown in the User settings picker. `variant` maps to
+// IssuesButton's prop (undefined = the default light tile).
+const ISSUES_STYLE_OPTIONS = [
+  { value: 'default', label: 'Default', variant: undefined },
+  { value: 'solid', label: 'Solid', variant: 'solid' },
+];
 
 // Board settings: edit the board's title/description, toggle the unacknowledged
 // count, and delete the board. The workloads picker lives in WorkloadsModal.
@@ -20,12 +28,14 @@ const SettingsModal = ({
   onSave,
   onDelete,
   onSetDefault,
+  onSetIssuesStyle,
   isSettingsModalOpen,
   setIsSettingsModalOpen,
   savedTitle = '',
   savedDescription = '',
   savedHideUnacknowledged = false,
   savedIsDefault = false,
+  savedIssuesStyle = 'default',
   otherDefaultBoardTitle = null,
 }) => {
   const [title, setTitle] = useState(savedTitle);
@@ -34,6 +44,7 @@ const SettingsModal = ({
     savedHideUnacknowledged
   );
   const [isDefault, setIsDefault] = useState(savedIsDefault);
+  const [issuesStyle, setIssuesStyle] = useState(savedIssuesStyle);
   const [editingTitle, setEditingTitle] = useState(false);
   const [editingDescription, setEditingDescription] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -49,6 +60,7 @@ const SettingsModal = ({
       setDescription(savedDescription);
       setHideUnacknowledged(savedHideUnacknowledged);
       setIsDefault(savedIsDefault);
+      setIssuesStyle(savedIssuesStyle);
       setEditingTitle(false);
       setEditingDescription(false);
       setShowDeleteConfirm(false);
@@ -65,7 +77,8 @@ const SettingsModal = ({
     trimmedTitle !== savedTitle.trim() ||
     description.trim() !== savedDescription.trim() ||
     hideUnacknowledged !== savedHideUnacknowledged ||
-    isDefault !== savedIsDefault;
+    isDefault !== savedIsDefault ||
+    issuesStyle !== savedIssuesStyle;
 
   const closeHandler = useCallback(() => {
     setIsSettingsModalOpen?.(false);
@@ -92,6 +105,13 @@ const SettingsModal = ({
           return;
         }
       }
+      if (issuesStyle !== savedIssuesStyle) {
+        const styleResult = await onSetIssuesStyle?.(issuesStyle);
+        if (styleResult?.error) {
+          setSaveError(styleResult.error);
+          return;
+        }
+      }
       setIsSettingsModalOpen?.(false);
     } finally {
       setIsSaving(false);
@@ -102,8 +122,11 @@ const SettingsModal = ({
     hideUnacknowledged,
     isDefault,
     savedIsDefault,
+    issuesStyle,
+    savedIssuesStyle,
     onSave,
     onSetDefault,
+    onSetIssuesStyle,
     setIsSettingsModalOpen,
   ]);
 
@@ -228,6 +251,43 @@ const SettingsModal = ({
                   checked={isDefault}
                   onChange={(e) => setIsDefault(e.target.checked)}
                 />
+
+                <div className="issues-style-field">
+                  <span className="field-label">Issues row style</span>
+                  <span className="field-description">
+                    Choose how the issues row appears on each card.
+                  </span>
+                  <div
+                    className="issues-style-options"
+                    role="radiogroup"
+                    aria-label="Issues row style"
+                  >
+                    {ISSUES_STYLE_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        role="radio"
+                        aria-checked={issuesStyle === opt.value}
+                        className={`u-unstyledButton issues-style-option ${
+                          issuesStyle === opt.value ? 'selected' : ''
+                        }`}
+                        onClick={() => setIssuesStyle(opt.value)}
+                      >
+                        <span className="issues-style-preview">
+                          <IssuesButton
+                            preview
+                            statusClass="critical"
+                            issuesCount={2}
+                            unacknowledgedCount={2}
+                            hideUnacknowledged={hideUnacknowledged}
+                            variant={opt.variant}
+                          />
+                        </span>
+                        <span className="issues-style-name">{opt.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
 
               {saveError && (
@@ -314,12 +374,14 @@ SettingsModal.propTypes = {
   onSave: PropTypes.func,
   onDelete: PropTypes.func,
   onSetDefault: PropTypes.func,
+  onSetIssuesStyle: PropTypes.func,
   isSettingsModalOpen: PropTypes.bool,
   setIsSettingsModalOpen: PropTypes.func,
   savedTitle: PropTypes.string,
   savedDescription: PropTypes.string,
   savedHideUnacknowledged: PropTypes.bool,
   savedIsDefault: PropTypes.bool,
+  savedIssuesStyle: PropTypes.oneOf(['default', 'solid']),
   otherDefaultBoardTitle: PropTypes.string,
 };
 
