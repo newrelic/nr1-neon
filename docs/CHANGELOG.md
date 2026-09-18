@@ -1,3 +1,11 @@
+## [1.3.3](https://github.com/newrelic/nr1-neon/compare/v1.3.2...v1.3.3) (2026-09-18)
+
+
+### Bug Fixes
+
+* further styling fixes; additional settings included selectable from settings modal ([b56e11b](https://github.com/newrelic/nr1-neon/commit/b56e11b572900abcde4bc59191ca2f319b2e83ec))
+* update to the issues button on the cards ([73fef92](https://github.com/newrelic/nr1-neon/commit/73fef92436909bc44bca9df2324ad4d260c0ab95))
+
 ## [1.3.2](https://github.com/newrelic/nr1-neon/compare/v1.3.1...v1.3.2) (2026-09-17)
 
 
