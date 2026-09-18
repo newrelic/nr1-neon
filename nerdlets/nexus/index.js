@@ -108,6 +108,7 @@ const NexusNerdlet = () => {
 
   const favorites = useMemo(() => userPrefs?.favoriteBoards || {}, [userPrefs]);
   const defaultBoardId = userPrefs?.defaultBoardId || null;
+  const issuesRowStyle = userPrefs?.issuesRowStyle || 'default';
   const defaultBoardTitle = useMemo(() => {
     if (!defaultBoardId) return null;
     const match = normalizeBoards(boardsData).find(
@@ -488,6 +489,17 @@ const NexusNerdlet = () => {
     [userPrefs, writeUserPrefs]
   );
 
+  const setIssuesRowStyle = useCallback(
+    async (style) => {
+      const { error } = await writeUserPrefs({
+        ...USER_PREFS_STORE,
+        document: { ...(userPrefs || {}), issuesRowStyle: style },
+      });
+      return { error };
+    },
+    [userPrefs, writeUserPrefs]
+  );
+
   const switchToNeon = useCallback(
     () => navigation.openNerdlet({ id: 'neon-nerdlet' }),
     []
@@ -544,6 +556,8 @@ const NexusNerdlet = () => {
           defaultBoardId={defaultBoardId}
           defaultBoardTitle={defaultBoardTitle}
           onSetDefaultBoard={setDefaultBoardId}
+          issuesRowStyle={issuesRowStyle}
+          onSetIssuesRowStyle={setIssuesRowStyle}
         />
       ) : (
         <BoardsList

@@ -27,6 +27,7 @@ const BoardView = ({
   dataLoading,
   issuesLoading,
   hideUnacknowledged,
+  issuesVariant,
   onCardClick,
   onIssuesClick,
   onChipClick,
@@ -65,6 +66,7 @@ const BoardView = ({
               teamEntitiesByGuid={teamEntitiesByGuid}
               issuesLoading={dataLoading || issuesLoading}
               hideUnacknowledged={hideUnacknowledged}
+              issuesVariant={issuesVariant}
               onCardClick={onCardClick}
               onIssuesClick={onIssuesClick}
               onTeamClick={onTeamClick}
@@ -96,12 +98,14 @@ const BoardView = ({
         onSave={settingsModal.onSave}
         onDelete={settingsModal.onDelete}
         onSetDefault={settingsModal.onSetDefault}
+        onSetIssuesStyle={settingsModal.onSetIssuesStyle}
         isSettingsModalOpen={settingsModal.isOpen}
         setIsSettingsModalOpen={settingsModal.setIsOpen}
         savedTitle={settingsModal.savedTitle}
         savedDescription={settingsModal.savedDescription}
         savedHideUnacknowledged={settingsModal.savedHideUnacknowledged}
         savedIsDefault={settingsModal.savedIsDefault}
+        savedIssuesStyle={settingsModal.savedIssuesStyle}
         otherDefaultBoardTitle={settingsModal.otherDefaultBoardTitle}
       />
       <WorkloadsModal
@@ -156,6 +160,7 @@ BoardView.propTypes = {
   dataLoading: PropTypes.bool,
   issuesLoading: PropTypes.bool,
   hideUnacknowledged: PropTypes.bool,
+  issuesVariant: PropTypes.oneOf(['solid']),
   onCardClick: PropTypes.func,
   onIssuesClick: PropTypes.func,
   onChipClick: PropTypes.func,

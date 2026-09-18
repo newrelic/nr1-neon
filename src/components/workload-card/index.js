@@ -16,6 +16,7 @@ const WorkloadCard = ({
   unacknowledgedCount = 0,
   hideUnacknowledged = false,
   issuesLoading,
+  issuesVariant,
   kpis,
   kpisDefaultExpanded = true,
   tags,
@@ -49,6 +50,8 @@ const WorkloadCard = ({
           issuesCount={issuesCount}
           unacknowledgedCount={unacknowledgedCount}
           hideUnacknowledged={hideUnacknowledged}
+          statusClass={statusClass}
+          variant={issuesVariant}
           onClick={onIssuesClick}
         />
       );
@@ -58,6 +61,8 @@ const WorkloadCard = ({
     issuesCount,
     unacknowledgedCount,
     hideUnacknowledged,
+    statusClass,
+    issuesVariant,
     onIssuesClick,
   ]);
 
@@ -145,6 +150,8 @@ WorkloadCard.propTypes = {
   unacknowledgedCount: PropTypes.number,
   hideUnacknowledged: PropTypes.bool,
   issuesLoading: PropTypes.bool,
+  // Issues row treatment: default light tile, or 'solid' status-filled bar.
+  issuesVariant: PropTypes.oneOf(['solid']),
   kpis: PropTypes.array,
   kpisDefaultExpanded: PropTypes.bool,
   tags: PropTypes.arrayOf(

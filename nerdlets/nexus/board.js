@@ -30,6 +30,8 @@ const Board = ({
   defaultBoardId = null,
   defaultBoardTitle = null,
   onSetDefaultBoard,
+  issuesRowStyle = 'default',
+  onSetIssuesRowStyle,
 }) => {
   const { accountId } = useContext(PlatformStateContext);
   const [urlState, setUrlState] = useNerdletState();
@@ -168,6 +170,10 @@ const Board = ({
     [boardId, onSetDefaultBoard]
   );
 
+  // The issues row style is a per-user pref (like the default board), not scoped
+  // to a board — it applies to every card the user views.
+  const issuesVariant = issuesRowStyle === 'solid' ? 'solid' : undefined;
+
   // Show the loading state until the board is genuinely ready: the doc is
   // loading, data is loading, or the board has workloads whose grid hasn't been
   // built yet. That last case covers the render between `data` resolving and the
@@ -203,6 +209,7 @@ const Board = ({
       dataLoading={dataLoading}
       issuesLoading={issuesLoading}
       hideUnacknowledged={!!docData?.hideUnacknowledged}
+      issuesVariant={issuesVariant}
       onCardClick={nav.onCardClick}
       onIssuesClick={nav.onIssuesClick}
       onChipClick={nav.onChipClick}
@@ -221,12 +228,14 @@ const Board = ({
         onSave: saveBoardMeta,
         onDelete: deleteBoard,
         onSetDefault: handleSetDefault,
+        onSetIssuesStyle: onSetIssuesRowStyle,
         isOpen: isSettingsModalOpen,
         setIsOpen: setIsSettingsModalOpen,
         savedTitle: docData?.title ?? '',
         savedDescription: docData?.description ?? '',
         savedHideUnacknowledged: !!docData?.hideUnacknowledged,
         savedIsDefault: isDefaultBoard,
+        savedIssuesStyle: issuesRowStyle,
         otherDefaultBoardTitle: isDefaultBoard ? null : defaultBoardTitle,
       }}
       workloadsModal={{
@@ -246,6 +255,8 @@ Board.propTypes = {
   defaultBoardId: PropTypes.string,
   defaultBoardTitle: PropTypes.string,
   onSetDefaultBoard: PropTypes.func,
+  issuesRowStyle: PropTypes.oneOf(['default', 'solid']),
+  onSetIssuesRowStyle: PropTypes.func,
 };
 
 export default Board;

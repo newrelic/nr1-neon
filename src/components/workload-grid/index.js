@@ -21,6 +21,7 @@ const WorkloadGrid = ({
   workloads,
   issuesLoading = false,
   hideUnacknowledged = false,
+  issuesVariant,
   tagsByGuid = {},
   teamEntitiesByGuid = {},
   onCardClick,
@@ -102,6 +103,7 @@ const WorkloadGrid = ({
                 issuesCount={issuesCount}
                 unacknowledgedCount={unacknowledgedCount}
                 hideUnacknowledged={hideUnacknowledged}
+                issuesVariant={issuesVariant}
                 issues={issues}
                 issuesLoading={issuesLoading}
                 kpis={[]}
@@ -124,6 +126,7 @@ WorkloadGrid.propTypes = {
   workloads: PropTypes.array,
   issuesLoading: PropTypes.bool,
   hideUnacknowledged: PropTypes.bool,
+  issuesVariant: PropTypes.oneOf(['solid']),
   tagsByGuid: PropTypes.object,
   teamEntitiesByGuid: PropTypes.object,
   onCardClick: PropTypes.func,

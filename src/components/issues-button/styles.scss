@@ -1,32 +1,54 @@
-.issues-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  width: 100%;
-  padding: 5px 6px 5px 10px;
-  background: #F6F7F8;
-  border: 1px solid #E9EBED;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 120ms ease-out, border-color 120ms ease-out;
+// Dark ink used for text/icon on the light warning-yellow bar.
+$issues-warning-ink: #4A3B00;
 
-  &:hover {
-    background: #F4F8FD;
-    border-color: #0F7AE5;
-  }
+// Alternate (.solid) variant: full status fill, dimmed on interaction by
+// dropping the background alpha (-0.2 on hover, -0.1 on active).
+@mixin issues-solid-status($c) {
+  background: $c;
+  &:hover,
+  &:focus-visible { background: rgba($c, 0.8); }
+  &:active { background: rgba($c, 0.9); }
+}
+
+// The issues row renders as a small status-colored bar that sits just off the
+// card's left edge, with a "View" segment split off on the right by a crease.
+// Default is the light "secondary button" tile with status-colored text; add
+// `.solid` for the alternate status-filled bar.
+.issues-row {
+  position: relative;
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: stretch; // segments fill full height for the split look
+  left: -12px;
+  height: 24px;
+  gap: 0;
+  padding: 0;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  // nr1 secondary button fill (tokens unavailable, so colors are inlined).
+  background: rgba(55, 79, 87, 0.1);
+  transition: background-color 140ms ease-out;
 
   .summary {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     min-width: 0;
+    padding: 0 12px;
     font-size: 11px;
     font-variant-numeric: tabular-nums;
   }
 
-  .issues-count {
-    color: #475059;
+  .issues-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+
+  .issues-count,
+  .unack {
     font-weight: 600;
     white-space: nowrap;
   }
@@ -34,26 +56,59 @@
   .sep {
     width: 2px;
     height: 2px;
-    background: #C9CDD3;
     border-radius: 50%;
     flex-shrink: 0;
+    background: currentColor;
+    opacity: 0.5;
   }
 
-  .unack {
-    color: $status-critical;
-    font-weight: 600;
-    white-space: nowrap;
+  // A 1px white crease splits off the View segment, for a split-button feel.
+  .view-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 14px;
+    box-shadow: inset 1px 0 0 #fff;
+    color: #293338; // default only; the solid variant reverts to its foreground
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
-  .view-button {
-    flex-shrink: 0;
+  &:hover,
+  &:focus-visible {
+    outline: none;
+    background: rgba(55, 79, 87, 0.2);
+  }
 
-    // The row itself already has a hover treatment — suppress the Button's
-    // own hover background so we don't get a double effect. NR1's platform
-    // CSS sets this, so !important is needed to reliably win here.
-    &:hover {
-      background-color: transparent !important;
-      box-shadow: none !important;
+  // Preview (settings picker): sits inline, not clickable, no edge offset.
+  &.preview {
+    left: 0;
+    cursor: default;
+  }
+
+  // Default: status-colored text/icon on the light tile.
+  &.critical { color: $status-critical; }
+  &.warning { color: #8A6D00; } // yellow is illegible on light; use amber ink
+  &.success { color: $status-success; }
+  &.unknown { color: $status-unknown; }
+
+  // Alternate: solid status-filled bar with white text.
+  &.solid {
+    color: #fff;
+
+    // Crease and text follow the (white) foreground on the filled bar.
+    .view-tag {
+      box-shadow: inset 1px 0 0 currentColor;
+      color: inherit;
     }
+
+    &.critical { @include issues-solid-status($status-critical); }
+    &.warning {
+      color: $issues-warning-ink; // yellow needs dark text
+      @include issues-solid-status($status-warning);
+    }
+    &.success { @include issues-solid-status($status-success); }
+    &.unknown { @include issues-solid-status($status-unknown); }
   }
 }
