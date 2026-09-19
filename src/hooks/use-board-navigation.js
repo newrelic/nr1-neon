@@ -160,7 +160,9 @@ export const useBoardNavigation = ({
   useEffect(() => {
     setIssuesEntity((prev) => {
       const next = issuesEntityGuid
-        ? hydratedEntitiesRef.current.find((e) => e.guid === issuesEntityGuid) ??
+        ? hydratedEntitiesRef.current.find(
+            (e) => e.guid === issuesEntityGuid
+          ) ??
           entitiesRef.current.find((e) => e.guid === issuesEntityGuid) ??
           null
         : null;
@@ -172,7 +174,12 @@ export const useBoardNavigation = ({
       // same issues — the issues array is stable across rebuilds (it comes from
       // the `entities` state), so a genuine change (e.g. issues arriving after a
       // deep link) still flows through.
-      if (prev && next && prev.guid === next.guid && prev.issues === next.issues)
+      if (
+        prev &&
+        next &&
+        prev.guid === next.guid &&
+        prev.issues === next.issues
+      )
         return prev;
       return next;
     });
