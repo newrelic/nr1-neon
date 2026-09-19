@@ -158,15 +158,31 @@ export const useBoardNavigation = ({
   }, [issuesWorkloadGuid, gridData]);
 
   useEffect(() => {
-    setIssuesEntity(
-      issuesEntityGuid
+    setIssuesEntity((prev) => {
+      const next = issuesEntityGuid
         ? hydratedEntitiesRef.current.find(
             (e) => e.guid === issuesEntityGuid
           ) ??
-            entitiesRef.current.find((e) => e.guid === issuesEntityGuid) ??
-            null
-        : null
-    );
+          entitiesRef.current.find((e) => e.guid === issuesEntityGuid) ??
+          null
+        : null;
+      // hydratedEntities is rebuilt into fresh objects on every data refresh, so
+      // `next` is a new reference each run even when nothing the modal shows has
+      // changed. Returning a new reference here would re-render, rebuild
+      // hydratedEntities, and re-fire this effect in an unbounded loop (React
+      // error #185). Keep the existing object when it's the same entity with the
+      // same issues — the issues array is stable across rebuilds (it comes from
+      // the `entities` state), so a genuine change (e.g. issues arriving after a
+      // deep link) still flows through.
+      if (
+        prev &&
+        next &&
+        prev.guid === next.guid &&
+        prev.issues === next.issues
+      )
+        return prev;
+      return next;
+    });
   }, [issuesEntityGuid, hydratedEntities]);
 
   // Only available on the workload path — the entity path has just the single
