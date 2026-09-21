@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/newrelic/nr1-neon/compare/v1.3.3...v1.3.4) (2026-09-21)
+
+
+### Bug Fixes
+
+* issue with warning entity causing a crash ([38160d7](https://github.com/newrelic/nr1-neon/commit/38160d757374a297bc88ba961611827a0f4ff25f))
+
 ## [1.3.3](https://github.com/newrelic/nr1-neon/compare/v1.3.2...v1.3.3) (2026-09-18)
 
 
