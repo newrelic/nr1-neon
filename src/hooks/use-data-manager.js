@@ -439,7 +439,11 @@ const useDataManager = (topLevelGuids) => {
     };
 
     if (treeLevel.current === 1) {
-      dataTree.current = currentEntities.map((parent, pIdx) => {
+      // Level 1 may span several chunks, so append rather than replace, and
+      // offset indices so guidLookup paths point at each parent's real slot.
+      const offset = dataTree.current.length;
+      const parents = currentEntities.map((parent, chunkIdx) => {
+        const pIdx = offset + chunkIdx;
         allWorkloadGuids.current.add(parent.guid);
         if (parent.accountId) allAccountIds.current.add(parent.accountId);
         noteRelatedEntitiesShape(parent);
@@ -465,10 +469,11 @@ const useDataManager = (topLevelGuids) => {
           children: children,
         };
       });
+      dataTree.current = [...dataTree.current, ...parents];
       // eslint-disable-next-line no-console
       console.log(
         `${LOG_PREFIX} top-level workloads (guid / name / accountId):`,
-        dataTree.current.map(({ guid, name, accountId }) => ({
+        parents.map(({ guid, name, accountId }) => ({
           guid,
           name,
           accountId,
@@ -483,7 +488,7 @@ const useDataManager = (topLevelGuids) => {
         const pathArray = Array.isArray(path) ? path : [path];
         pathArray.forEach((idx, i) => {
           if (i === 0) targetNode = targetNode[idx];
-          else targetNode = targetNode.children[idx];
+          else targetNode = targetNode?.children?.[idx];
         });
         if (!targetNode) return;
 

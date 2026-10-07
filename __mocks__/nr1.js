@@ -367,6 +367,9 @@ const useEntitySearchQuery = jest.fn(() => _entitySearchDefault);
 const _nrqlDefault = { data: null, loading: false, error: null };
 const useNrqlQuery = jest.fn(() => _nrqlDefault);
 
+const _nerdGraphDefault = { data: undefined, loading: false, error: null };
+const useNerdGraphQuery = jest.fn(() => _nerdGraphDefault);
+
 // --- Singletons ---
 const navigation = {
   openNerdlet: jest.fn(),
@@ -418,6 +421,7 @@ module.exports = {
   useAccountStorageQuery,
   useEntitiesByGuidsQuery,
   useEntitySearchQuery,
+  useNerdGraphQuery,
   useNerdletState,
   useNrqlQuery,
   useUserQuery,
