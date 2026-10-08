@@ -1,3 +1,11 @@
+## [1.3.5](https://github.com/newrelic/nr1-neon/compare/v1.3.4...v1.3.5) (2026-10-08)
+
+
+### Bug Fixes
+
+* keep all top-level workloads when level 1 spans multiple chunks ([69ad23b](https://github.com/newrelic/nr1-neon/commit/69ad23b5673f031707bbf0a6460b6fda6c9a2331))
+* load every workload member and add a triage view for large levels ([764cd73](https://github.com/newrelic/nr1-neon/commit/764cd737a5d523edba2ce3b51c6fb7c500c46e1d))
+
 ## [1.3.4](https://github.com/newrelic/nr1-neon/compare/v1.3.3...v1.3.4) (2026-09-21)
 
 
