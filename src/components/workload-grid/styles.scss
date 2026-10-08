@@ -18,6 +18,12 @@
     .grid-item {
       will-change: transform;
       transition: transform 340ms cubic-bezier(0.22, 0.61, 0.36, 1);
+
+      // Don't stretch a minimized card to a full card's height when the two
+      // share a row.
+      &.minimized {
+        align-self: start;
+      }
     }
   }
 

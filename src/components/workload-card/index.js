@@ -22,6 +22,7 @@ const WorkloadCard = ({
   tags,
   teamEntitiesByGuid = {},
   isUnclickable = false,
+  minimized = false,
   onClick,
   onIssuesClick,
   onTeamClick,
@@ -65,6 +66,23 @@ const WorkloadCard = ({
     issuesVariant,
     onIssuesClick,
   ]);
+
+  // Minimized: name only — the status stripe (::before) still carries status.
+  if (minimized) {
+    return (
+      <div
+        className={`workload-card minimized ${
+          onClick ? 'clickable' : ''
+        } ${statusClass}${isUnclickable ? ' no-data' : ''}`}
+        onClick={onClick}
+        title={`${name} · ${status ?? WORKLOAD_STATUSES.UNKNOWN}`}
+      >
+        <div className="header">
+          <h3 className="name">{name}</h3>
+        </div>
+      </div>
+    );
+  }
 
   const handleKpiToggleClick = (e) => {
     e.stopPropagation();
@@ -162,6 +180,9 @@ WorkloadCard.propTypes = {
   ),
   teamEntitiesByGuid: PropTypes.object,
   isUnclickable: PropTypes.bool,
+  // Name-only rendering, used by the triage view for workloads that don't
+  // need attention.
+  minimized: PropTypes.bool,
   onClick: PropTypes.func,
   onIssuesClick: PropTypes.func,
   onTeamClick: PropTypes.func,

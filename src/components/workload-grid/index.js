@@ -27,6 +27,8 @@ const WorkloadGrid = ({
   onCardClick,
   onIssuesClick,
   onTeamClick,
+  animate = true,
+  isMinimized,
 }) => {
   const [displayedWorkloads, setDisplayedWorkloads] = useState(workloads);
   const [fadePhase, setFadePhase] = useState(FADE_PHASES.IDLE);
@@ -47,8 +49,10 @@ const WorkloadGrid = ({
       prevIds.size === nextIds.size &&
       [...prevIds].every((id) => nextIds.has(id));
 
-    // Same workload IDs means a status/issues update only — swap data in-place with no fade animation.
-    if (sameSet) {
+    // Same workload IDs means a status/issues update only — swap data in-place
+    // with no fade animation. Callers that page/filter the grid themselves opt
+    // out of the fade entirely so "Show more" doesn't flash existing cards.
+    if (sameSet || !animate) {
       setDisplayedWorkloads(workloads);
       return;
     }
@@ -65,7 +69,7 @@ const WorkloadGrid = ({
     }, FADE_TIME_MS);
 
     return () => clearTimeout(timer);
-  }, [workloads]);
+  }, [workloads, animate]);
 
   if (displayedWorkloads.length === 0) return null;
 
@@ -86,11 +90,12 @@ const WorkloadGrid = ({
           // tooltip change.
           const isUnclickable = !issuesLoading && !hasChildren;
           const clickable = onCardClick && hasChildren;
+          const minimized = !!isMinimized?.(workload);
 
           return (
             <div
               key={getWorkloadId(workload, index)}
-              className="grid-item"
+              className={`grid-item${minimized ? ' minimized' : ''}`}
               ref={(el) => {
                 const id = getWorkloadId(workload, index);
                 if (el) itemRefs.current.set(id, el);
@@ -110,6 +115,7 @@ const WorkloadGrid = ({
                 tags={tagsByGuid?.[workload.guid]}
                 teamEntitiesByGuid={teamEntitiesByGuid}
                 isUnclickable={isUnclickable}
+                minimized={minimized}
                 onClick={clickable ? () => onCardClick(workload) : undefined}
                 onIssuesClick={() => onIssuesClick?.(workload)}
                 onTeamClick={onTeamClick}
@@ -132,6 +138,9 @@ WorkloadGrid.propTypes = {
   onCardClick: PropTypes.func,
   onIssuesClick: PropTypes.func,
   onTeamClick: PropTypes.func,
+  animate: PropTypes.bool,
+  // (workload) => bool — render that workload's card minimized (name only).
+  isMinimized: PropTypes.func,
 };
 
 export default WorkloadGrid;

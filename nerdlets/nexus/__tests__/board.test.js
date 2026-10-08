@@ -95,6 +95,44 @@ describe('Board', () => {
     );
   });
 
+  it('shows a load error, not "nothing brewing", when the board has workloads but none loaded', () => {
+    setBoardDoc({ id: 'b-1', title: 'My Board', start: [{ guid: 'wl-1' }] });
+    setHookDefaults({
+      useDataManager: { data: [], error: new Error('NerdGraph down') },
+    });
+    renderBoard();
+    expect(screen.getByTestId('nr1-EmptyState-title').textContent).toBe(
+      "Couldn't load workloads"
+    );
+    expect(screen.getByText(/NerdGraph down/)).toBeInTheDocument();
+  });
+
+  it('switches to the triage layout when a level has many workloads', () => {
+    const workloads = Array.from({ length: 30 }, (_, i) => ({
+      guid: `wl-${i}`,
+      name: `WL ${i}`,
+      status: i === 0 ? 'DISRUPTED' : 'OPERATIONAL',
+      children: [],
+    }));
+    setBoardDoc({
+      id: 'b-1',
+      title: 'My Board',
+      start: workloads.map(({ guid }) => ({ guid })),
+    });
+    setHookDefaults({ useDataManager: { data: workloads } });
+    const { container } = renderBoard();
+    expect(screen.getByLabelText('Minimize healthy')).toBeChecked();
+    // The disrupted workload leads as a full card; the 29 healthy ones are
+    // minimized.
+    const cardEls = container.querySelectorAll('.workload-card');
+    expect(cardEls).toHaveLength(30);
+    expect(cardEls[0]).toHaveTextContent('WL 0');
+    expect(cardEls[0]).not.toHaveClass('minimized');
+    expect(container.querySelectorAll('.workload-card.minimized')).toHaveLength(
+      29
+    );
+  });
+
   it('renders a workload grid with cards for each workload', () => {
     setHookDefaults({
       useDataManager: {
@@ -344,6 +382,43 @@ describe('Board', () => {
       expect(openSpy).toHaveBeenCalled();
       openSpy.mockRestore();
       delete window.location.ancestorOrigins;
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  it('hides alert conditions from the entities tabs', () => {
+    jest.useFakeTimers();
+    try {
+      const workloads = [
+        {
+          guid: 'root',
+          name: 'Root WL',
+          status: 'OPERATIONAL',
+          children: [
+            { guid: 'app-1', domain: 'APM', type: 'APPLICATION' },
+            { guid: 'cond-1', domain: 'AIOPS', type: 'CONDITION' },
+            {
+              guid: 'cond-2',
+              domain: 'AIOPS',
+              type: 'COMPOUND_ALERT_CONDITION',
+            },
+          ],
+        },
+      ];
+      setHookDefaults({ useDataManager: { data: workloads } });
+      renderBoard();
+      act(() =>
+        fireEvent.click(screen.getByText('Root WL').closest('.workload-card'))
+      );
+      act(() => jest.advanceTimersByTime(200));
+
+      const hydrateCalls = nr1.useEntitiesByGuidsQuery.mock.calls.map(
+        ([{ entityGuids }]) => entityGuids
+      );
+      expect(hydrateCalls).toContainEqual(['app-1']);
+      expect(hydrateCalls.flat()).not.toContain('cond-1');
+      expect(hydrateCalls.flat()).not.toContain('cond-2');
     } finally {
       jest.useRealTimers();
     }

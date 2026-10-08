@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { useEntitiesByGuidsQuery } from 'nr1';
+
+import useEntitiesByGuids from './use-entities-by-guids';
 
 // Fetches tags for an arbitrary set of entity guids and returns a
 // `{ [guid]: [{ key, values: [string] }] }` map. Unlike `useWorkloadTags`
@@ -9,7 +10,7 @@ import { useEntitiesByGuidsQuery } from 'nr1';
 const useEntityTags = (guids = []) => {
   const skip = guids.length === 0;
 
-  const { data, loading, error } = useEntitiesByGuidsQuery({
+  const { data, loading, error } = useEntitiesByGuids({
     entityGuids: guids,
     skip,
   });

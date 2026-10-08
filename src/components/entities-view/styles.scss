@@ -18,6 +18,13 @@ $min-height: 320px;
     }
   }
 
+  // .main only gaps its children by 8px; give the entities a little more room
+  // when they follow a workload grid (the breadcrumb has its own 20px margin).
+  .grid-wrapper + &,
+  .workload-triage + & {
+    margin-top: 12px;
+  }
+
   .panel {
     flex: 1 1 auto;
     min-height: 0;

@@ -5,11 +5,13 @@ import { EmptyState } from 'nr1';
 
 import Breadcrumb from '../breadcrumb';
 import WorkloadGrid from '../workload-grid';
+import WorkloadTriage from '../workload-triage';
 import EntitiesView from '../entities-view';
 import IssuesList from '../issues-list';
 import Modal from '../modal';
 import SettingsModal from '../settings-modal';
 import WorkloadsModal from '../workloads-modal';
+import { TRIAGE_THRESHOLD } from '../../constants';
 
 // Presentational shell for a loaded board: the drill-down grid + entities, plus
 // the four board modals. All state and handlers are supplied by the container.
@@ -35,6 +37,7 @@ const BoardView = ({
   onEntityClick,
   onTabChange,
   onOpenWorkloads,
+  emptyState,
   issuesWorkload,
   entityNameByGuid,
   workloadAncestorNames,
@@ -49,6 +52,8 @@ const BoardView = ({
   // once there's genuinely something to show (hydratedEntities can lag behind).
   const hasContent =
     gridData?.length || entities?.length || navigationStack.length > 0;
+  const LevelView =
+    (gridData?.length ?? 0) > TRIAGE_THRESHOLD ? WorkloadTriage : WorkloadGrid;
 
   return (
     <>
@@ -60,7 +65,14 @@ const BoardView = ({
               onChipClick={onChipClick}
               onHomeClick={onHomeClick}
             />
-            <WorkloadGrid
+            <LevelView
+              // Remount per level so search, filters and paging start fresh
+              // each time the user drills in or out.
+              key={
+                LevelView === WorkloadTriage
+                  ? navigationStack.map((l) => l.activeId).join('/') || 'root'
+                  : 'grid'
+              }
               workloads={gridData}
               tagsByGuid={tagsByGuid}
               teamEntitiesByGuid={teamEntitiesByGuid}
@@ -91,6 +103,7 @@ const BoardView = ({
           title="Nothing brewing. Yet."
           description="No Workloads. To get started, click the Workloads button."
           action={{ label: 'Workloads', onClick: onOpenWorkloads }}
+          {...(emptyState || {})}
         />
       )}
 
@@ -168,6 +181,9 @@ BoardView.propTypes = {
   onEntityClick: PropTypes.func,
   onTabChange: PropTypes.func,
   onOpenWorkloads: PropTypes.func,
+  // Overrides the default "no workloads yet" empty state (type, title,
+  // description, action), e.g. when the board's workloads failed to load.
+  emptyState: PropTypes.object,
   issuesWorkload: PropTypes.object,
   entityNameByGuid: PropTypes.instanceOf(Map),
   workloadAncestorNames: PropTypes.array,

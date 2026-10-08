@@ -75,6 +75,16 @@
     .header .name { color: #6B7682; }
   }
 
+  &.minimized {
+    padding: 8px 12px 8px 14px;
+    box-shadow: none;
+    gap: 0;
+
+    .header .name {
+      font-weight: 500;
+    }
+  }
+
   .header {
     display: flex;
     align-items: center;

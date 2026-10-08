@@ -28,10 +28,13 @@ const useWorkloadTags = (guids = []) => {
 
   const tagsByGuid = useMemo(() => {
     const map = {};
-    (data?.actor?.entities || []).forEach((entity) => {
-      if (entity?.guid)
-        map[entity.guid] = normalizeTags(entity.tagsWithMetadata);
-    });
+    // One `t<n>` alias per 25-guid batch (see queryWorkloadTags).
+    Object.values(data?.actor || {})
+      .flatMap((batch) => (Array.isArray(batch) ? batch : []))
+      .forEach((entity) => {
+        if (entity?.guid)
+          map[entity.guid] = normalizeTags(entity.tagsWithMetadata);
+      });
     return map;
   }, [data]);
 
