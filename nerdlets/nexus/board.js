@@ -194,6 +194,23 @@ const Board = ({
 
   if (boardMissing) return <BoardNotFound onBack={onBack} />;
 
+  // The board has workloads but none of them could be loaded — say so, rather
+  // than falling through to the "no workloads yet" empty state.
+  const loadFailedState =
+    workloadGuids.length > 0 && rootGrid.length === 0
+      ? {
+          type: EmptyState.TYPE.ERROR,
+          illustrationType: undefined,
+          title: "Couldn't load workloads",
+          description: dataError
+            ? `NerdGraph returned an error: ${dataError.message || dataError}`
+            : "None of this board's workloads were returned. They may have been deleted, or you may not have access to their accounts.",
+          action: dataError
+            ? { label: 'Retry', onClick: refreshData }
+            : { label: 'Workloads', onClick: openWorkloadsModal },
+        }
+      : null;
+
   return (
     <BoardView
       navigationStack={nav.navigationStack}
@@ -217,6 +234,7 @@ const Board = ({
       onEntityClick={nav.onEntityClick}
       onTabChange={nav.onTabChange}
       onOpenWorkloads={openWorkloadsModal}
+      emptyState={loadFailedState}
       issuesWorkload={nav.issuesWorkload}
       entityNameByGuid={nav.entityNameByGuid}
       workloadAncestorNames={nav.workloadAncestorNames}

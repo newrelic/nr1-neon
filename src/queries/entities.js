@@ -32,6 +32,7 @@ export const ENTITY_FRAGMENT = `
       members {
         count
         results {
+          nextCursor
           entities {
             ${ENTITY_OUTLINE_FRAGMENT}
           }
@@ -41,15 +42,29 @@ export const ENTITY_FRAGMENT = `
   }
 `;
 
+// NerdGraph's EntitySearch (which backs `collection.members`) returns at most
+// 200 entities per page, with a `nextCursor` when there are more.
+export const ENTITY_SEARCH_PAGE_SIZE = 200;
+
 // Fetches workload-scoped tags for a batch of workload guids in one request.
 // `tagsWithMetadata` (rather than the generic `tags`) returns the smaller
 // set of tags actually applied to the workload entity, e.g. its `team`
 // ownership tag.
+// `actor.entities` accepts at most 25 guids, so larger sets are split across
+// aliases (`t0`, `t1`, …) in the same request.
+export const ENTITIES_BY_GUIDS_LIMIT = 25;
+export const TAGS_BATCH_ALIAS_PREFIX = 't';
+
 export const queryWorkloadTags = (guids) => {
-  const guidList = guids.map((g) => `"${g}"`).join(', ');
-  return `{
-    actor {
-      entities(guids: [${guidList}]) {
+  const fragments = [];
+  for (let i = 0; i < guids.length; i += ENTITIES_BY_GUIDS_LIMIT) {
+    const guidList = guids
+      .slice(i, i + ENTITIES_BY_GUIDS_LIMIT)
+      .map((g) => `"${g}"`)
+      .join(', ');
+    fragments.push(`${TAGS_BATCH_ALIAS_PREFIX}${
+      i / ENTITIES_BY_GUIDS_LIMIT
+    }: entities(guids: [${guidList}]) {
         guid
         ... on WorkloadEntity {
           tagsWithMetadata {
@@ -59,27 +74,51 @@ export const queryWorkloadTags = (guids) => {
             }
           }
         }
-      }
-    }
-  }`;
+      }`);
+  }
+  return `{ actor { ${fragments.join('\n')} } }`;
 };
 
 export const ENTITIES_BATCH_ALIAS_PREFIX = (idx) => `idx_${idx}_b`;
 export const COLLECTION_BATCH_ALIAS_PREFIX = 'wc_';
 export const SEARCH_BATCH_ALIAS_PREFIX = 'es_';
+export const MEMBERS_PAGE_ALIAS_PREFIX = 'mp_';
 export const ACCOUNT_ALIAS_PREFIX = 'a_';
 
 // `actor.entity(guid:)` is single-entity, so each requested guid gets its
-// own sequential alias (`idx_<level>_b0`, `idx_<level>_b1`, …). Order matches
-// `lastQueriedGuids` so a missing alias in the response maps back to its
-// source guid. NerdGraph accepts many aliases in one query, so we don't
-// chunk — keeps response handling straightforward.
+// own sequential alias (`idx_<level>_b0`, `idx_<level>_b1`, …) in the same
+// order as `guids`, so a missing alias in the response maps back to its
+// source guid.
 export const queryFromGuids = (guids, idx) => {
   const fragments = guids.map(
     (g, i) =>
       `${ENTITIES_BATCH_ALIAS_PREFIX(
         idx
       )}${i}: entity(guid: "${g}") { ${ENTITY_FRAGMENT} }`
+  );
+  return `{ actor { ${fragments.join('\n')} } }`;
+};
+
+// Fetches the next page of members for workloads whose first page came back
+// with a `nextCursor`. `pages` is an ordered array of `{ guid, cursor }` — the
+// alias index in the response (`mp_0`, `mp_1`, …) lines up with the array.
+export const queryMemberPages = (pages) => {
+  const fragments = pages.map(
+    ({ guid, cursor }, i) =>
+      `${MEMBERS_PAGE_ALIAS_PREFIX}${i}: entity(guid: "${guid}") {
+        ... on CollectionEntity {
+          collection(name: "WORKLOAD") {
+            members {
+              results(cursor: ${JSON.stringify(cursor)}) {
+                nextCursor
+                entities {
+                  ${ENTITY_OUTLINE_FRAGMENT}
+                }
+              }
+            }
+          }
+        }
+      }`
   );
   return `{ actor { ${fragments.join('\n')} } }`;
 };
@@ -106,15 +145,17 @@ export const queryCollectionsByAccount = (workloadsByAccount) => {
 
 // Runs an entitySearch for each provided search-query string, one alias per
 // workload, and returns entity outlines for the resolved members.
-// `searches` is an ordered array of `{ guid, query }` — the alias index in
-// the response (`es_0`, `es_1`, …) lines up with the array index.
+// `searches` is an ordered array of `{ query, cursor? }` — the alias index in
+// the response (`es_0`, `es_1`, …) lines up with the array index. A `cursor`
+// fetches the page after it.
 export const queryEntitySearches = (searches) => {
   const fragments = searches.map(
-    ({ query }, i) =>
+    ({ query, cursor }, i) =>
       `${SEARCH_BATCH_ALIAS_PREFIX}${i}: entitySearch(query: ${JSON.stringify(
         query
       )}) {
-        results {
+        results${cursor ? `(cursor: ${JSON.stringify(cursor)})` : ''} {
+          nextCursor
           entities {
             ${ENTITY_OUTLINE_FRAGMENT}
           }

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { useEntitiesByGuidsQuery } from 'nr1';
+
+import useEntitiesByGuids from './use-entities-by-guids';
 
 // Hydrates a set of Team entity guids (domain=NGEP, type=TEAM) into a
 // `{ [guid]: { guid, name, accountId } }` map. These guids come from the
@@ -9,7 +10,7 @@ import { useEntitiesByGuidsQuery } from 'nr1';
 const useTeamEntities = (teamGuids = []) => {
   const skip = teamGuids.length === 0;
 
-  const { data, loading, error } = useEntitiesByGuidsQuery({
+  const { data, loading, error } = useEntitiesByGuids({
     entityGuids: teamGuids,
     skip,
   });

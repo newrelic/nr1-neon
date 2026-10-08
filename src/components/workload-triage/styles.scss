@@ -1,0 +1,150 @@
+@import '../variables.scss';
+
+.workload-triage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: "Inter", "Segoe UI", Tahoma, sans-serif;
+
+  .triage-filterbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 12px;
+    background: #FFFFFF;
+    border: 1px solid #E3E6E8;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+
+    .name-filter {
+      flex: 1 1 240px;
+      max-width: 440px;
+      min-width: 200px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-toggles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+  }
+
+  .triage-options {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+
+    .minimize-switch {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+  }
+
+  // Mirrors WorkloadCard's chrome: a status-coloured ::before stripe on the
+  // left edge carries the status.
+  .status-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 10px 0 13px;
+    background: #FFFFFF;
+    border: 1px solid #E3E6E8;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #1D252C;
+    cursor: pointer;
+    transition: background 120ms ease-out, border-color 120ms ease-out;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: $status-unknown;
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+    &.critical::before { background: $status-critical; }
+    &.warning::before { background: $status-warning; }
+    &.success::before { background: $status-success; opacity: 0.85; }
+    &.unknown::before { background: $status-unknown; }
+
+    .count {
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    &:hover:not(:disabled) {
+      background: #FAFBFB;
+      border-color: #D1D6DA;
+    }
+    &:focus-visible {
+      outline: none;
+      border-color: #0F7AE5;
+      box-shadow: 0 0 0 2px rgba(15, 122, 229, 0.25);
+    }
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    &.active {
+      &.critical { background: $status-critical-bg; border-color: $status-critical; }
+      &.warning { background: $status-warning-bg; border-color: $status-warning; }
+      &.success { background: $status-success-bg; border-color: $status-success; }
+      &.unknown { background: $status-unknown-bg; border-color: $status-unknown; }
+    }
+  }
+
+  .show-more {
+    align-self: center;
+    padding: 6px 14px;
+    border: 1px solid #E3E6E8;
+    border-radius: 6px;
+    background: #FFFFFF;
+    font-size: 12px;
+    color: #1D252C;
+    cursor: pointer;
+
+    &:hover {
+      background: #FAFBFB;
+      border-color: #D1D6DA;
+    }
+  }
+
+  .triage-empty {
+    text-align: center;
+    padding: 20px;
+    background: #FFFFFF;
+    border: 1px dashed #D1D6DA;
+    border-radius: 4px;
+    color: #6B7682;
+
+    .title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #475059;
+      margin-bottom: 4px;
+    }
+
+    .description {
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+  }
+}

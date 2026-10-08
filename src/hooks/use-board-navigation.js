@@ -1,19 +1,32 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { navigation, useEntitiesByGuidsQuery } from 'nr1';
+import { navigation } from 'nr1';
 
+import useEntitiesByGuids from './use-entities-by-guids';
 import { ENTITY_FRAGMENT_EXTENSION } from '../constants';
 import { buildEntityNameMap } from '../utils/workloads';
 
+// Alert conditions are workload members in NerdGraph, but they aren't
+// entities anyone triages from a board (NR's own Workloads view leaves them
+// out too), so they're dropped before hydration and never get a tab.
+const HIDDEN_ENTITY_TYPES = new Set([
+  'AIOPS:CONDITION',
+  'AIOPS:COMPOUND_ALERT_CONDITION',
+]);
+
 // Split a workload's children into sub-workloads (NR1:WORKLOAD) and leaf entities.
-const splitChildren = (w) =>
-  (w?.children || []).reduce(
-    (acc, cur) =>
-      cur.domain === 'NR1' && cur.type === 'WORKLOAD'
-        ? { ...acc, workloadChilds: [...acc.workloadChilds, cur] }
-        : { ...acc, entityChilds: [...acc.entityChilds, cur] },
-    { workloadChilds: [], entityChilds: [] }
-  );
+const splitChildren = (w) => {
+  const workloadChilds = [];
+  const entityChilds = [];
+  (w?.children || []).forEach((cur) => {
+    if (cur.domain === 'NR1' && cur.type === 'WORKLOAD') {
+      workloadChilds.push(cur);
+    } else if (!HIDDEN_ENTITY_TYPES.has(`${cur.domain}:${cur.type}`)) {
+      entityChilds.push(cur);
+    }
+  });
+  return { workloadChilds, entityChilds };
+};
 
 // Replay a drill-down `path` (ordered workload guids) from the root grid, so a
 // URL path can be turned back into { navigationStack, gridData, entities }.
@@ -107,7 +120,7 @@ export const useBoardNavigation = ({
     [entities]
   );
   const { loading: entitiesHydrating, data: hydratedEntitiesData } =
-    useEntitiesByGuidsQuery({
+    useEntitiesByGuids({
       entityGuids,
       skip: entityGuids.length === 0,
       entityFragmentExtension: ENTITY_FRAGMENT_EXTENSION,

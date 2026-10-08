@@ -367,6 +367,23 @@ const useEntitySearchQuery = jest.fn(() => _entitySearchDefault);
 const _nrqlDefault = { data: null, loading: false, error: null };
 const useNrqlQuery = jest.fn(() => _nrqlDefault);
 
+const _nerdGraphDefault = { data: undefined, loading: false, error: null };
+const useNerdGraphQuery = jest.fn(() => _nerdGraphDefault);
+
+// Imperative query APIs. Tests override `query` with mockImplementation /
+// mockResolvedValue to answer specific requests.
+const NerdGraphQuery = {
+  query: jest.fn(async () => ({ data: undefined, error: null })),
+  FETCH_POLICY_TYPE: {
+    CACHE_FIRST: 'cache-first',
+    NETWORK_ONLY: 'network-only',
+    NO_CACHE: 'no-cache',
+  },
+};
+const EntitiesByGuidsQuery = {
+  query: jest.fn(async () => ({ data: { entities: [] }, error: null })),
+};
+
 // --- Singletons ---
 const navigation = {
   openNerdlet: jest.fn(),
@@ -398,12 +415,14 @@ module.exports = {
   DataTableHeaderCell,
   DataTableRow,
   EmptyState,
+  EntitiesByGuidsQuery,
   HeadingText,
   Icon,
   InlineMessage,
   MultilineTextField,
   navigation,
   nerdlet,
+  NerdGraphQuery,
   PlatformStateContext,
   SectionMessage,
   Spinner,
@@ -418,6 +437,7 @@ module.exports = {
   useAccountStorageQuery,
   useEntitiesByGuidsQuery,
   useEntitySearchQuery,
+  useNerdGraphQuery,
   useNerdletState,
   useNrqlQuery,
   useUserQuery,
