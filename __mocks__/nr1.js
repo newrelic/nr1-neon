@@ -235,6 +235,19 @@ const TabsItem = ({ children }) =>
   React.createElement('div', { 'data-testid': 'nr1-TabsItem' }, children);
 TabsItem.displayName = 'TabsItem';
 
+// --- Popover (renders trigger + body inline so tests can read both) ---
+const Popover = ({ children }) =>
+  React.createElement('div', { 'data-testid': 'nr1-Popover' }, children);
+Popover.displayName = 'Popover';
+
+const PopoverTrigger = ({ children }) =>
+  React.createElement('div', { 'data-testid': 'nr1-PopoverTrigger' }, children);
+PopoverTrigger.displayName = 'PopoverTrigger';
+
+const PopoverBody = ({ children }) =>
+  React.createElement('div', { 'data-testid': 'nr1-PopoverBody' }, children);
+PopoverBody.displayName = 'PopoverBody';
+
 const DataTable = ({ items = [], children, selection, onSelectionChange }) => {
   const kids = React.Children.toArray(children);
   const body = kids.find((c) => c?.type?.displayName === 'DataTableBody');
@@ -424,6 +437,9 @@ module.exports = {
   nerdlet,
   NerdGraphQuery,
   PlatformStateContext,
+  Popover,
+  PopoverBody,
+  PopoverTrigger,
   SectionMessage,
   Spinner,
   Switch,
