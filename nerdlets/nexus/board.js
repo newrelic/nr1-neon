@@ -32,6 +32,8 @@ const Board = ({
   onSetDefaultBoard,
   issuesRowStyle = 'default',
   onSetIssuesRowStyle,
+  entitySort,
+  onSetEntitySort,
 }) => {
   const { accountId } = useContext(PlatformStateContext);
   const [urlState, setUrlState] = useNerdletState();
@@ -222,6 +224,8 @@ const Board = ({
       entities={nav.entities}
       hydratedEntities={nav.hydratedEntities}
       entitiesHydrating={nav.entitiesHydrating}
+      entitySort={entitySort}
+      onEntitySortChange={onSetEntitySort}
       activeTab={nav.activeTab}
       dataLoading={dataLoading}
       issuesLoading={issuesLoading}
@@ -275,6 +279,8 @@ Board.propTypes = {
   onSetDefaultBoard: PropTypes.func,
   issuesRowStyle: PropTypes.oneOf(['default', 'solid']),
   onSetIssuesRowStyle: PropTypes.func,
+  entitySort: PropTypes.string,
+  onSetEntitySort: PropTypes.func,
 };
 
 export default Board;

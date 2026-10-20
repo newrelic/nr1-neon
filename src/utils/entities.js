@@ -1,4 +1,9 @@
-import { ALERTING_SEVERITIES } from '../constants';
+import {
+  ALERTING_SEVERITIES,
+  DEFAULT_ENTITY_SORT,
+  ENTITY_SORTS,
+  SEVERITY_RANK,
+} from '../constants';
 
 const DEFAULT_COLLATOR = new Intl.Collator();
 
@@ -106,3 +111,22 @@ export const alertingEntitiesByAccount = (nodes) => {
   nodes.forEach(visit);
   return entitiesByAccount;
 };
+
+const severityRank = (e) => SEVERITY_RANK[e?.alertSeverity] ?? 0;
+const byName = (a, b) => DEFAULT_COLLATOR.compare(a?.name || '', b?.name || '');
+
+const ENTITY_COMPARATORS = {
+  [ENTITY_SORTS.STATUS_WORST]: (a, b) =>
+    severityRank(b) - severityRank(a) || byName(a, b),
+  [ENTITY_SORTS.STATUS_BEST]: (a, b) =>
+    severityRank(a) - severityRank(b) || byName(a, b),
+  [ENTITY_SORTS.NAME_ASC]: byName,
+  [ENTITY_SORTS.NAME_DESC]: (a, b) => byName(b, a),
+};
+
+// Returns a sorted copy. Status sorts break ties by name so rows keep a stable
+// order between refreshes. Unknown sort ids fall back to the default.
+export const sortEntities = (entities = [], sort = DEFAULT_ENTITY_SORT) =>
+  [...entities].sort(
+    ENTITY_COMPARATORS[sort] ?? ENTITY_COMPARATORS[DEFAULT_ENTITY_SORT]
+  );

@@ -25,6 +25,8 @@ const BoardView = ({
   entities,
   hydratedEntities,
   entitiesHydrating,
+  entitySort,
+  onEntitySortChange,
   activeTab,
   dataLoading,
   issuesLoading,
@@ -86,6 +88,8 @@ const BoardView = ({
             <EntitiesView
               entities={hydratedEntities}
               loading={entitiesHydrating}
+              entitySort={entitySort}
+              onEntitySortChange={onEntitySortChange}
               teamEntitiesByGuid={teamEntitiesByGuid}
               onEntityClick={onEntityClick}
               onTeamClick={onTeamClick}
@@ -169,6 +173,8 @@ BoardView.propTypes = {
   entities: PropTypes.array,
   hydratedEntities: PropTypes.array,
   entitiesHydrating: PropTypes.bool,
+  entitySort: PropTypes.string,
+  onEntitySortChange: PropTypes.func,
   activeTab: PropTypes.string,
   dataLoading: PropTypes.bool,
   issuesLoading: PropTypes.bool,

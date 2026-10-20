@@ -34,6 +34,7 @@ import {
   BOARDS_STORE,
   DELETED_BOARDS_STORE,
   DELETED_BOARDS_TTL_MS,
+  DEFAULT_ENTITY_SORT,
   DOC_STORE,
   USER_PREFS_STORE,
 } from '../../src/constants';
@@ -109,6 +110,11 @@ const NexusNerdlet = () => {
   const favorites = useMemo(() => userPrefs?.favoriteBoards || {}, [userPrefs]);
   const defaultBoardId = userPrefs?.defaultBoardId || null;
   const issuesRowStyle = userPrefs?.issuesRowStyle || 'default';
+  // Applied locally as soon as it's picked so the rows re-sort without waiting
+  // on the user-storage round trip.
+  const [entitySortOverride, setEntitySortOverride] = useState(null);
+  const entitySort =
+    entitySortOverride || userPrefs?.entitySort || DEFAULT_ENTITY_SORT;
   const defaultBoardTitle = useMemo(() => {
     if (!defaultBoardId) return null;
     const match = normalizeBoards(boardsData).find(
@@ -500,6 +506,19 @@ const NexusNerdlet = () => {
     [userPrefs, writeUserPrefs]
   );
 
+  const setEntitySort = useCallback(
+    async (sort) => {
+      setEntitySortOverride(sort);
+      const { error } = await writeUserPrefs({
+        ...USER_PREFS_STORE,
+        document: { ...(userPrefs || {}), entitySort: sort },
+      });
+      if (error) console.error('Unable to save entity sort', error);
+      return { error };
+    },
+    [userPrefs, writeUserPrefs]
+  );
+
   const switchToNeon = useCallback(
     () => navigation.openNerdlet({ id: 'neon-nerdlet' }),
     []
@@ -558,6 +577,8 @@ const NexusNerdlet = () => {
           onSetDefaultBoard={setDefaultBoardId}
           issuesRowStyle={issuesRowStyle}
           onSetIssuesRowStyle={setIssuesRowStyle}
+          entitySort={entitySort}
+          onSetEntitySort={setEntitySort}
         />
       ) : (
         <BoardsList

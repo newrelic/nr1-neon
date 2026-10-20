@@ -4,12 +4,16 @@ import PropTypes from 'prop-types';
 import { Icon } from 'nr1';
 
 import EntityRow from '../entity-row';
+import SortMenu from './sort-menu';
+import { sortEntities } from '../../utils';
 
 const iconType = (icon) => Icon.TYPE[icon?.replace(/-/g, '_').toUpperCase()];
 
 const EntitiesTable = ({
   entityType,
   entities,
+  sort,
+  onSortChange,
   teamEntitiesByGuid,
   onEntityClick,
   onTeamClick,
@@ -45,6 +49,7 @@ const EntitiesTable = ({
           <Icon className="icon" type={iconType(entityType?.icon)} />
           {entityType?.displayName}
         </h3>
+        <SortMenu value={sort} onChange={onSortChange} />
       </header>
 
       <div className="columns" style={{ '--grid-template': gridTemplate }}>
@@ -61,7 +66,7 @@ const EntitiesTable = ({
       </div>
 
       <div className="rows">
-        {entities.map((entity) => (
+        {sortEntities(entities, sort).map((entity) => (
           <EntityRow
             key={entity.guid}
             entity={entity}
@@ -80,6 +85,9 @@ const EntitiesTable = ({
 EntitiesTable.propTypes = {
   entityType: PropTypes.object,
   entities: PropTypes.array,
+  // Row order, one of ENTITY_SORTS; defaults to status, critical first.
+  sort: PropTypes.string,
+  onSortChange: PropTypes.func,
   teamEntitiesByGuid: PropTypes.object,
   onEntityClick: PropTypes.func,
   onTeamClick: PropTypes.func,

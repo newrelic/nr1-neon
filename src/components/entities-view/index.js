@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Spinner, Tabs, TabsItem } from 'nr1';
 
 import EntitiesTable from '../entities-table';
-import { ENTITIES_TYPES_ARRAY } from '../../constants';
+import { ENTITIES_TYPES_ARRAY, SEVERITY_RANK } from '../../constants';
 
 const groupByType = (entities) => {
   const out = new Map();
@@ -42,13 +42,6 @@ const entityTypeLabel = (domainType) => {
     ENTITIES_TYPES_ARRAY.find((e) => e.domain === domain && e.type === type)
       ?.displayName ?? type
   );
-};
-
-const SEVERITY_RANK = {
-  CRITICAL: 3,
-  WARNING: 2,
-  NOT_ALERTING: 1,
-  NOT_CONFIGURED: 0,
 };
 
 const summarizeSeverity = (entities) => {
@@ -93,6 +86,8 @@ TabLabel.propTypes = {
 const EntitiesView = ({
   entities,
   loading,
+  entitySort,
+  onEntitySortChange,
   teamEntitiesByGuid,
   onEntityClick,
   onTeamClick,
@@ -143,6 +138,8 @@ const EntitiesView = ({
                   (e) => `${e.domain}:${e.type}` === type
                 )}
                 entities={groups.get(type)}
+                sort={entitySort}
+                onSortChange={onEntitySortChange}
                 teamEntitiesByGuid={teamEntitiesByGuid}
                 onEntityClick={onEntityClick}
                 onTeamClick={onTeamClick}
@@ -158,6 +155,8 @@ const EntitiesView = ({
 EntitiesView.propTypes = {
   entities: PropTypes.array,
   loading: PropTypes.bool,
+  entitySort: PropTypes.string,
+  onEntitySortChange: PropTypes.func,
   teamEntitiesByGuid: PropTypes.object,
   onEntityClick: PropTypes.func,
   onTeamClick: PropTypes.func,
