@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/newrelic/nr1-neon/compare/v1.3.5...v1.4.0) (2026-10-20)
+
+
+### Features
+
+* sort entities in the entities table ([4d51b8c](https://github.com/newrelic/nr1-neon/commit/4d51b8cd0172b35610ec1194155c76ca843d5893))
+
 ## [1.3.5](https://github.com/newrelic/nr1-neon/compare/v1.3.4...v1.3.5) (2026-10-08)
 
 
